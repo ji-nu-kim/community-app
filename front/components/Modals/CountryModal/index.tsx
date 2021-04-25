@@ -2,18 +2,18 @@ import { Button } from 'antd';
 import React, { Dispatch, SetStateAction } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
-interface PostModalProps {
-  closePostModal: () => void;
-  setPost: Dispatch<SetStateAction<string>>;
+interface CountryModalProps {
+  closeCountryModal: () => void;
+  setCountry: Dispatch<SetStateAction<string>>;
 }
 
-function PostModal({ closePostModal, setPost }: PostModalProps) {
+function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
   const handleComplete = (data: any) => {
     console.log(data);
     let fullAddress = `${data.sido} ${data.sigungu} ${data.bname}`;
     console.log(fullAddress);
-    setPost(fullAddress);
-    closePostModal();
+    setCountry(fullAddress);
+    closeCountryModal();
   };
 
   const postCodeStyle = {
@@ -39,7 +39,7 @@ function PostModal({ closePostModal, setPost }: PostModalProps) {
       <Button
         style={{ marginTop: '1rem' }}
         type="primary"
-        onClick={closePostModal}
+        onClick={closeCountryModal}
       >
         닫기
       </Button>
@@ -47,4 +47,4 @@ function PostModal({ closePostModal, setPost }: PostModalProps) {
   );
 }
 
-export default PostModal;
+export default CountryModal;

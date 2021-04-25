@@ -1,40 +1,38 @@
 export interface IUserInfo {
   id: number;
   nickname: string;
-  post: string;
+  country: string;
+  categories?: string;
+  profilePhoto?: string;
 }
-
-export interface IUser {
-  id: number;
+export interface IUser extends IUserInfo {
   email: string;
-  nickname: string;
-  post: string;
   Posts: { id: number }[];
-  Followings: { id: number; nickname?: string }[];
-  Followers: { id: number; nickname?: string }[];
+  Communities: { id: number }[];
 }
-
+export interface IComment {
+  id: number;
+  content: string;
+  PostId: number;
+  User: IUserInfo;
+}
 export interface IPost {
   id: number;
   content: string;
   createdAt: Date;
   updatedAt: Date;
   User: IUserInfo;
-  Retweet?: any;
-  RetweetId?: number | null;
   Images: { src: string }[];
   Likers: { id: number }[];
   Comments: IComment[];
 }
-
-export interface ICommentProps {
-  comment: string;
-  postId: number;
-}
-
-export interface IComment {
+export interface ICommunity {
   id: number;
-  content: string;
-  PostId: number;
-  User: IUserInfo;
+  name: string;
+  description: string;
+  profilePhoto: string;
+  createdAt: Date;
+  updatedAt: Date;
+  ownerId: string;
+  Categories: string[];
 }

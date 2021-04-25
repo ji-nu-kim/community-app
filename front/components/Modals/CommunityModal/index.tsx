@@ -14,6 +14,7 @@ import { createCommunityValidation } from '../../../utils/yup';
 import Form from 'antd/lib/form/Form';
 import { Button } from 'antd';
 import FormErrorMessage from 'components/FormErrorMessage';
+import { addCommunityRequestAction } from 'actions/actionCommunity';
 
 type createCommunityType = {
   communityName: string;
@@ -38,8 +39,12 @@ function CommunityModal({ setCommunityModal }: CommunityModalProps) {
 
   const onSubmit = useCallback(
     handleSubmit((data: createCommunityType) => {
-      console.log(1);
-      console.log(data);
+      dispatch(
+        addCommunityRequestAction({
+          name: data.communityName,
+          description: data.description,
+        })
+      );
     }),
     []
   );
@@ -85,16 +90,7 @@ function CommunityModal({ setCommunityModal }: CommunityModalProps) {
             )}
           </TextAreaContainer>
           <div className="create-btn">
-            <Button
-              size="large"
-              type="primary"
-              htmlType="submit"
-              onClick={() => {
-                setTimeout(() => {
-                  setCommunityModal(false);
-                }, 1000);
-              }}
-            >
+            <Button size="large" type="primary" htmlType="submit">
               생성하기
             </Button>
           </div>

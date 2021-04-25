@@ -5,7 +5,6 @@ export interface PostState {
   mainPosts: IPost[];
   imagePaths: string[];
   hasMorePost: boolean;
-  postAdded: boolean;
 
   addPostLoading: boolean;
   addPostDone: boolean;
@@ -24,10 +23,6 @@ export interface PostState {
   uploadImagesLoading: boolean;
   uploadImagesDone: boolean;
   uploadImagesError: any;
-
-  retweetLoading: boolean;
-  retweetDone: boolean;
-  retweetError: any;
 
   likePostLoading: boolean;
   likePostDone: boolean;

@@ -1,12 +1,10 @@
 import { actionTypesPost, PostState, ActionsPost } from '../interfaces/index';
-import { HYDRATE } from 'next-redux-wrapper';
 
 import produce from 'immer';
 
 export const initialState: PostState = {
   mainPosts: [],
   imagePaths: [],
-  postAdded: false,
   singlePost: null,
   hasMorePost: true,
 
@@ -28,10 +26,6 @@ export const initialState: PostState = {
   uploadImagesDone: false,
   uploadImagesError: null,
 
-  retweetLoading: false,
-  retweetDone: false,
-  retweetError: null,
-
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -46,18 +40,10 @@ export const initialState: PostState = {
   loadPostsDone: false,
   loadPostsError: null,
 };
-interface HydratePayload {
-  reducer: PostState;
-}
 
-const reducer = (
-  state = initialState,
-  action: ActionsPost | { type: typeof HYDRATE; payload: HydratePayload }
-): PostState => {
+const reducer = (state = initialState, action: ActionsPost): PostState => {
   return produce(state, draft => {
     switch (action.type) {
-      // case HYDRATE:
-      //   return { ...state, ...action.payload.reducer };
       case actionTypesPost.ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
@@ -122,14 +108,12 @@ const reducer = (
         draft.loadPostLoading = false;
         draft.loadPostError = action.error;
         break;
-      case actionTypesPost.LOAD_HASHTAG_POSTS_REQUEST:
       case actionTypesPost.LOAD_USER_POSTS_REQUEST:
       case actionTypesPost.LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         break;
-      case actionTypesPost.LOAD_HASHTAG_POSTS_SUCCESS:
       case actionTypesPost.LOAD_USER_POSTS_SUCCESS:
       case actionTypesPost.LOAD_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
@@ -137,7 +121,6 @@ const reducer = (
         draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.hasMorePost = action.data.length === 10;
         break;
-      case actionTypesPost.LOAD_HASHTAG_POSTS_ERROR:
       case actionTypesPost.LOAD_USER_POSTS_ERROR:
       case actionTypesPost.LOAD_POSTS_ERROR:
         draft.loadPostsLoading = false;
@@ -213,22 +196,6 @@ const reducer = (
       case actionTypesPost.UPLOAD_IMAGES_ERROR:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
-        break;
-
-      case actionTypesPost.RETWEET_REQUEST:
-        draft.retweetLoading = true;
-        draft.retweetDone = false;
-        draft.retweetError = null;
-        break;
-      case actionTypesPost.RETWEET_SUCCESS: {
-        draft.retweetLoading = false;
-        draft.retweetDone = true;
-        draft.mainPosts.unshift(action.data);
-        break;
-      }
-      case actionTypesPost.RETWEET_ERROR:
-        draft.retweetLoading = false;
-        draft.retweetError = action.error;
         break;
 
       case actionTypesPost.REMOVE_IMAGE:

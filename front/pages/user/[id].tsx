@@ -81,16 +81,6 @@ const User = () => {
               <br />
               {userInfo.Posts}
             </div>,
-            <div key="following">
-              팔로잉
-              <br />
-              {userInfo.Followings}
-            </div>,
-            <div key="follower">
-              팔로워
-              <br />
-              {userInfo.Followers}
-            </div>,
           ]}
         >
           <Card.Meta

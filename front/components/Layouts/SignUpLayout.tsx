@@ -31,6 +31,7 @@ export const InputContainer = styled.div`
     height: 44px;
     border: none;
     border-bottom: 1px solid #000;
+    background: transparent;
   }
 
   & label {

@@ -14,7 +14,7 @@ import SignUpLayout, {
   InputContainer,
   ButtonContainer,
 } from 'components/Layouts/SignUpLayout';
-import PostModal from 'components/Modals/PostCodeModal';
+import CountryModal from 'components/Modals/CountryModal';
 
 type SignUpType = {
   email: string;
@@ -29,9 +29,9 @@ function Signup() {
   const { signUpLoading, signUpDone, signUpError, me } = useSelector(
     (state: RootStateInterface) => state.user
   );
-  const [postModal, setPostModal] = useState(false);
-  const [postError, setPostError] = useState(false);
-  const [post, setPost] = useState('');
+  const [countryModal, setCountryModal] = useState(false);
+  const [countryError, setCountryError] = useState(false);
+  const [country, setCountry] = useState('');
 
   useEffect(() => {
     if (me && me.id) {
@@ -56,18 +56,18 @@ function Signup() {
     mode: 'onBlur',
   });
 
-  const openPostModal = useCallback(() => {
-    setPostModal(true);
+  const openCountryModal = useCallback(() => {
+    setCountryModal(true);
   }, []);
 
-  const closePostModal = useCallback(() => {
-    setPostModal(false);
+  const closeCountryModal = useCallback(() => {
+    setCountryModal(false);
   }, []);
 
   const onSubmit = useCallback(
     handleSubmit((data: SignUpType) => {
-      if (post === '') {
-        return setPostError(true);
+      if (country === '') {
+        return setCountryError(true);
       }
 
       dispatch(
@@ -75,11 +75,11 @@ function Signup() {
           email: data.email,
           nickname: data.nickname,
           password: data.password,
-          post,
+          country,
         })
       );
     }),
-    [post]
+    [country]
   );
 
   return (
@@ -152,16 +152,18 @@ function Signup() {
             )}
           </InputContainer>
           <InputContainer>
-            <label htmlFor="post">주소</label>
+            <label htmlFor="country">주소</label>
             <br />
             <input
               style={{ cursor: 'pointer' }}
-              value={post}
+              value={country}
               readOnly
               placeholder="주소를 검색하세요"
-              onClick={openPostModal}
+              onClick={openCountryModal}
             />
-            {postError && <FormErrorMessage errorMessage="주소를 입력하세요" />}
+            {countryError && (
+              <FormErrorMessage errorMessage="주소를 입력하세요" />
+            )}
           </InputContainer>
 
           <div>
@@ -194,8 +196,11 @@ function Signup() {
             </Button>
           </ButtonContainer>
         </Form>
-        {postModal && (
-          <PostModal closePostModal={closePostModal} setPost={setPost} />
+        {countryModal && (
+          <CountryModal
+            closeCountryModal={closeCountryModal}
+            setCountry={setCountry}
+          />
         )}
       </SignUpLayout>
     </>

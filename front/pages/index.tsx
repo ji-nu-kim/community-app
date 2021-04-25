@@ -1,6 +1,4 @@
 import AppLayout from '../components/AppLayout';
-import PostCard from '../components/PostCard';
-import PostForm from '../components/PostForm';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
@@ -15,15 +13,13 @@ import { GetServerSideProps } from 'next';
 function Home() {
   const dispatch = useDispatch();
   const me = useSelector((state: RootStateInterface) => state.user.me);
-  const { mainPosts, hasMorePost, loadPostLoading, retweetError } = useSelector(
+  const { mainPosts, hasMorePost, loadPostLoading } = useSelector(
     (state: RootStateInterface) => state.post
   );
 
-  useEffect(() => {
-    if (retweetError) {
-      alert(retweetError);
-    }
-  }, [retweetError]);
+  const { mainCommunities } = useSelector(
+    (state: RootStateInterface) => state.community
+  );
 
   useEffect(() => {
     function onScroll() {
@@ -42,12 +38,22 @@ function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [hasMorePost, loadPostLoading, mainPosts]);
 
+  if (!mainCommunities) {
+    <AppLayout>
+      <div>정보가 없음</div>
+    </AppLayout>;
+  }
+
   return (
     <AppLayout>
-      {me && <PostForm />}
-      {mainPosts.map(post => (
-        <PostCard key={post.id} post={post} />
-      ))}
+      <div>community 목록보여주기</div>
+      {/* {mainCommunities &&
+        mainCommunities.map(community => {
+          <div>
+            <h1>{community.name}</h1>
+            <p>{community.description}</p>
+          </div>;
+        })} */}
     </AppLayout>
   );
 }

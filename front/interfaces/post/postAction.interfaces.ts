@@ -1,4 +1,4 @@
-import { IComment, ICommentProps, IPost } from '../db';
+import { IComment, IPost } from '../db';
 
 export const actionTypesPost = {
   ADD_POST_REQUEST: 'ADD_POST_REQUEST',
@@ -22,9 +22,6 @@ export const actionTypesPost = {
   LOAD_USER_POSTS_REQUEST: 'LOAD_USER_POSTS_REQUEST',
   LOAD_USER_POSTS_SUCCESS: 'LOAD_USER_POSTS_SUCCESS',
   LOAD_USER_POSTS_ERROR: 'LOAD_USER_POSTS_ERROR',
-  LOAD_HASHTAG_POSTS_REQUEST: 'LOAD_HASHTAG_POSTS_REQUEST',
-  LOAD_HASHTAG_POSTS_SUCCESS: 'LOAD_HASHTAG_POSTS_SUCCESS',
-  LOAD_HASHTAG_POSTS_ERROR: 'LOAD_HASHTAG_POSTS_ERROR',
   LIKE_POST_REQUEST: 'LIKE_POST_REQUEST',
   LIKE_POST_SUCCESS: 'LIKE_POST_SUCCESS',
   LIKE_POST_ERROR: 'LIKE_POST_ERROR',
@@ -34,9 +31,6 @@ export const actionTypesPost = {
   UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
   UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
   UPLOAD_IMAGES_ERROR: 'UPLOAD_IMAGES_ERROR',
-  RETWEET_REQUEST: 'RETWEET_REQUEST',
-  RETWEET_SUCCESS: 'RETWEET_SUCCESS',
-  RETWEET_ERROR: 'RETWEET_ERROR',
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
@@ -113,22 +107,14 @@ export interface ILoadUserPostsError {
   type: typeof actionTypesPost.LOAD_USER_POSTS_ERROR;
   error: Error;
 }
-export interface ILoadHashtagPostsReqeust {
-  type: typeof actionTypesPost.LOAD_HASHTAG_POSTS_REQUEST;
-  data: { postId: number; hashtag: string };
-}
-export interface ILoadHashtagPostsSuccess {
-  type: typeof actionTypesPost.LOAD_HASHTAG_POSTS_SUCCESS;
-  data: IPost[];
-}
-export interface ILoadHashtagPostsError {
-  type: typeof actionTypesPost.LOAD_HASHTAG_POSTS_ERROR;
-  error: Error;
-}
 
+export interface CommentData {
+  content: string;
+  postId: number;
+}
 export interface IAddCommentReqeust {
   type: typeof actionTypesPost.ADD_COMMENT_REQUEST;
-  data: ICommentProps;
+  data: CommentData;
 }
 export interface IAddCommentSuccess {
   type: typeof actionTypesPost.ADD_COMMENT_SUCCESS;
@@ -175,20 +161,6 @@ export interface IUploadImagesError {
   type: typeof actionTypesPost.UPLOAD_IMAGES_ERROR;
   error: Error;
 }
-
-export interface IRetweetReqeust {
-  type: typeof actionTypesPost.RETWEET_REQUEST;
-  data: { postId: number };
-}
-export interface IRetweetSuccess {
-  type: typeof actionTypesPost.RETWEET_SUCCESS;
-  data: IPost;
-}
-export interface IRetweetError {
-  type: typeof actionTypesPost.RETWEET_ERROR;
-  error: Error;
-}
-
 export interface IRemoveImage {
   type: typeof actionTypesPost.REMOVE_IMAGE;
   data: number;
@@ -213,9 +185,6 @@ export type ActionsPost =
   | ILoadUserPostsReqeust
   | ILoadUserPostsSuccess
   | ILoadUserPostsError
-  | ILoadHashtagPostsReqeust
-  | ILoadHashtagPostsSuccess
-  | ILoadHashtagPostsError
   | IAddCommentReqeust
   | IAddCommentSuccess
   | IAddCommentError
@@ -228,7 +197,4 @@ export type ActionsPost =
   | IUploadImagesReqeust
   | IUploadImagesSuccess
   | IUploadImagesError
-  | IRetweetReqeust
-  | IRetweetSuccess
-  | IRetweetError
   | IRemoveImage;

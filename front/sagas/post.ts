@@ -1,22 +1,21 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
   actionTypesPost,
+  CommentData,
   IAddCommentReqeust,
   IAddPostReqeust,
   ILikePostReqeust,
-  ILoadHashtagPostsReqeust,
   ILoadPostReqeust,
   ILoadPostsReqeust,
   ILoadUserPostsReqeust,
   IRemovePostReqeust,
-  IRetweetReqeust,
   IUnlikePostReqeust,
   IUpdatePostReqeust,
   IUploadImagesReqeust,
 } from '../interfaces/post/postAction.interfaces';
 import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
-import { IComment, ICommentProps, IPost } from 'interfaces/db';
+import { IComment, IPost } from 'interfaces/db';
 
 function postAPI(data: FormData) {
   return axios.post('/post', data);
@@ -144,31 +143,7 @@ function* loadUserPosts(action: ILoadUserPostsReqeust) {
   }
 }
 
-function loadHashtagPostsAPI(data: { postId: number; hashtag: string }) {
-  return axios.get(
-    `/hashtag/${encodeURIComponent(data.hashtag)}?lastId=${data.postId}`
-  );
-}
-
-function* loadHashtagPosts(action: ILoadHashtagPostsReqeust) {
-  try {
-    const result: { data: IPost[] } = yield call(
-      loadHashtagPostsAPI,
-      action.data
-    );
-    yield put({
-      type: actionTypesPost.LOAD_HASHTAG_POSTS_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.LOAD_HASHTAG_POSTS_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function addCommentAPI(data: ICommentProps) {
+function addCommentAPI(data: CommentData) {
   return axios.post(`/post/${data.postId}/comment`, data);
 }
 
@@ -250,25 +225,6 @@ function* uploadImages(action: IUploadImagesReqeust) {
   }
 }
 
-function retweetAPI(data: { postId: number }) {
-  return axios.post(`/post/${data.postId}/retweet`);
-}
-
-function* retweet(action: IRetweetReqeust) {
-  try {
-    const result: { data: IPost } = yield call(retweetAPI, action.data);
-    yield put({
-      type: actionTypesPost.RETWEET_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.RETWEET_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
 function* watchAddPost() {
   yield takeLatest(actionTypesPost.ADD_POST_REQUEST, addPost);
 }
@@ -293,13 +249,6 @@ function* watchLoadUserPosts() {
   yield takeLatest(actionTypesPost.LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
 
-function* watchLoadHashtagPosts() {
-  yield takeLatest(
-    actionTypesPost.LOAD_HASHTAG_POSTS_REQUEST,
-    loadHashtagPosts
-  );
-}
-
 function* watchAddComment() {
   yield takeLatest(actionTypesPost.ADD_COMMENT_REQUEST, addComment);
 }
@@ -316,10 +265,6 @@ function* watchUploadImages() {
   yield takeLatest(actionTypesPost.UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
-function* watchRetweet() {
-  yield takeLatest(actionTypesPost.RETWEET_REQUEST, retweet);
-}
-
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
@@ -328,11 +273,9 @@ export default function* postSaga() {
     fork(watchLoadPost),
     fork(watchLoadPosts),
     fork(watchLoadUserPosts),
-    fork(watchLoadHashtagPosts),
     fork(watchAddComment),
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchUploadImages),
-    fork(watchRetweet),
   ]);
 }

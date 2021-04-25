@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Post, User, Image, Comment, Hashtag } = require('../models');
+const { Post, User, Image, Comment } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -33,21 +33,11 @@ const upload = multer({
 
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   try {
-    const hashtags = req.body.content.match(/#[^\s#]+/g);
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     });
-    if (hashtags) {
-      const result = await Promise.all(
-        hashtags.map(hashtag =>
-          Hashtag.findOrCreate({
-            where: { name: hashtag.slice(1).toLowerCase() },
-          })
-        )
-      );
-      await post.addHashtags(result.map(v => v[0]));
-    }
+
     if (req.body.image) {
       if (Array.isArray(req.body.image)) {
         // Promise.all로 비동기 요청을 한 번에 처리
@@ -91,7 +81,6 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
-  console.log(req.files);
   res.json(req.files.map(v => v.filename));
 });
 

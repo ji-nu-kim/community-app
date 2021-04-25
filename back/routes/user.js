@@ -12,20 +12,17 @@ router.get('/', async (req, res, next) => {
     if (req.user) {
       const user = await User.findOne({
         where: { id: req.user.id },
-        attributes: ['id', 'nickname', 'email'],
+        attributes: [
+          'id',
+          'nickname',
+          'email',
+          'country',
+          'categories',
+          'profilePhoto',
+        ],
         include: [
           {
             model: Post,
-            attributes: ['id'],
-          },
-          {
-            model: User,
-            as: 'Followings',
-            attributes: ['id'],
-          },
-          {
-            model: User,
-            as: 'Followers',
             attributes: ['id'],
           },
         ],
@@ -56,20 +53,17 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       }
       const userInfo = await User.findOne({
         where: { id: user.id },
-        attributes: ['id', 'nickname', 'email'],
+        attributes: [
+          'id',
+          'nickname',
+          'email',
+          'country',
+          'categories',
+          'profilePhoto',
+        ],
         include: [
           {
             model: Post,
-            attributes: ['id'],
-          },
-          {
-            model: User,
-            as: 'Followings',
-            attributes: ['id'],
-          },
-          {
-            model: User,
-            as: 'Followers',
             attributes: ['id'],
           },
         ],
@@ -124,119 +118,21 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
-  try {
-    const searchUser = await User.findOne({
-      where: parseInt(req.params.userId, 10),
-    });
-    if (!searchUser) {
-      return res.status(403).send('유저를 찾을 수 없습니다');
-    }
-    // 상대방의 팔로워에 나를 추가
-    await searchUser.addFollowers(req.user.id);
-    return res.status(200).json({ userId: parseInt(req.params.userId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.delete('/:userId/follow', isLoggedIn, async (req, res, next) => {
-  try {
-    const searchUser = await User.findOne({
-      where: parseInt(req.params.userId, 10),
-    });
-    if (!searchUser) {
-      return res.status(403).send('유저를 찾을 수 없습니다');
-    }
-    await searchUser.removeFollowers(req.user.id);
-    return res.status(200).json({ userId: parseInt(req.params.userId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.get('/followers', isLoggedIn, async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: { id: parseInt(req.user.id, 10) },
-    });
-    if (!user) {
-      return res.status(403).send('존재하지 않는 유저입니다');
-    }
-    console.log(user);
-    const followers = await user.getFollowers({
-      limit: parseInt(req.query.limit, 10),
-    });
-    const followersInfo = followers.map(v => ({
-      id: v.id,
-      nickname: v.nickname,
-    }));
-    return res.status(200).json(followersInfo);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.get('/followings', isLoggedIn, async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: { id: parseInt(req.user.id, 10) },
-    });
-    if (!user) {
-      return res.status(403).send('존재하지 않는 유저입니다');
-    }
-    console.log(user);
-    const followings = await user.getFollowings({
-      limit: parseInt(req.query.limit, 10),
-    });
-    const followingsInfo = followings.map(v => ({
-      id: v.id,
-      nickname: v.nickname,
-    }));
-    return res.status(200).json(followingsInfo);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.delete('/follower/:userId', isLoggedIn, async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: parseInt(req.params.userId, 10),
-    });
-    if (!user) {
-      return res.status(403).send('존재하지 않는 유저입니다');
-    }
-    await user.removeFollowings(req.user.id);
-    return res.status(200).json({ userId: parseInt(req.params.userId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { id: parseInt(req.params.userId, 10) },
-      attributes: ['id', 'nickname', 'email'],
+      attributes: [
+        'id',
+        'nickname',
+        'email',
+        'country',
+        'categories',
+        'profilePhoto',
+      ],
       include: [
         {
           model: Post,
-          attributes: ['id'],
-        },
-        {
-          model: User,
-          as: 'Followings',
-          attributes: ['id'],
-        },
-        {
-          model: User,
-          as: 'Followers',
           attributes: ['id'],
         },
       ],
@@ -251,60 +147,6 @@ router.get('/:userId', async (req, res, next) => {
     } else {
       return res.status(404).json('존재하지 않는 사용자입니다');
     }
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.get('/:userId/posts', async (req, res, next) => {
-  try {
-    const where = { UserId: req.params.userId };
-    if (parseInt(req.query.lastId, 10)) {
-      where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
-    }
-    const posts = await Post.findAll({
-      where,
-      limit: 10,
-      order: [
-        ['createdAt', 'DESC'],
-        [Comment, 'createdAt', 'DESC'],
-      ],
-      attributes: ['id', 'content', 'createdAt', 'updatedAt', 'RetweetId'],
-      include: [
-        {
-          model: Post,
-          as: 'Retweet',
-          include: [
-            {
-              model: User,
-              attributes: ['id', 'nickname'],
-            },
-            { model: Image },
-          ],
-        },
-        {
-          model: User,
-          attributes: ['id', 'nickname'],
-        },
-        {
-          model: User,
-          as: 'Likers',
-          attributes: ['id'],
-        },
-        {
-          model: Comment,
-          include: [
-            {
-              model: User,
-              attributes: ['id', 'nickname'],
-            },
-          ],
-        },
-        { model: Image },
-      ],
-    });
-    return res.status(200).json(posts);
   } catch (error) {
     console.error(error);
     next(error);

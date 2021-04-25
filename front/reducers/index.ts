@@ -2,6 +2,7 @@ import { combineReducers, Reducer, AnyAction } from 'redux';
 
 import user from './user';
 import post from './post';
+import community from './community';
 import { RootStateInterface } from '../interfaces/RootState';
 import { HYDRATE } from 'next-redux-wrapper';
 
@@ -13,19 +14,12 @@ const rootReducer: Reducer<RootStateInterface, AnyAction> = (state, action) => {
       const combinedReducers = combineReducers({
         user,
         post,
+        community,
       });
       return combinedReducers(state, action);
     }
   }
 };
-
-// const rootReducer: Reducer<
-//   RootStateInterface,
-//   AnyAction
-// > = combineReducers<RootStateInterface>({
-//   user,
-//   post,
-// });
 
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

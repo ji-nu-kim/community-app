@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStateInterface } from '../interfaces/RootState';
@@ -14,8 +14,18 @@ interface AppLayoutProps {
 
 function AppLayout({ children }: AppLayoutProps) {
   const me = useSelector((state: RootStateInterface) => state.user.me);
+  const addCommunityDone = useSelector(
+    (state: RootStateInterface) => state.community.addCommunityDone
+  );
+
   const [communityModal, setCommunityModal] = useState(false);
   const [userInfoModal, setUserInfoModal] = useState(false);
+
+  useEffect(() => {
+    if (addCommunityDone) {
+      setCommunityModal(false);
+    }
+  }, [addCommunityDone]);
 
   return (
     <div>

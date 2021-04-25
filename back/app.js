@@ -8,6 +8,7 @@ const path = require('path');
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
 const userRouter = require('./routes/user');
+const communityRouter = require('./routes/community');
 const db = require('./models');
 const passportConfig = require('./passport');
 const passport = require('passport');
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 app.use('/user', userRouter);
+app.use('/community', communityRouter);
 
 app.get('/', (req, res) => {
   res.send('hello');

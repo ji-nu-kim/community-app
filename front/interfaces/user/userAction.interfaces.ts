@@ -1,4 +1,4 @@
-import { IUser } from '../db';
+import { ICommunity, IUser } from '../db';
 
 export const actionTypesUser = {
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
@@ -118,7 +118,7 @@ export interface IAddPostToMe {
 
 export interface IAddCommunityToMe {
   type: typeof actionTypesUser.ADD_COMMUNITY_TO_ME;
-  data: number;
+  data: ICommunity;
 }
 export interface IRemovePostOfMe {
   type: typeof actionTypesUser.REMOVE_POST_OF_ME;

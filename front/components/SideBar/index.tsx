@@ -8,6 +8,8 @@ import {
 } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { RootStateInterface } from 'interfaces/RootState';
+import { useSelector } from 'react-redux';
 
 interface SideBarProps {
   setCommunityModal: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +17,9 @@ interface SideBarProps {
 
 function SideBar({ setCommunityModal }: SideBarProps) {
   const router = useRouter();
+  const Owned = useSelector(
+    (state: RootStateInterface) => state.user.me?.Owned
+  );
 
   const openCommunityModal = useCallback(() => {
     setCommunityModal(prev => !prev);
@@ -72,6 +77,31 @@ function SideBar({ setCommunityModal }: SideBarProps) {
             </span>
             커뮤니티 만들기
           </div>
+          <ul>
+            {Owned &&
+              Owned.map(v => (
+                <li key={v.name}>
+                  <Link href={`/community/${v.id}`}>
+                    <a
+                      className={
+                        Number(router.query.name) === v.id ? 'active' : 'null'
+                      }
+                    >
+                      <span>
+                        {v.profilePhoto ? (
+                          <img src={v.profilePhoto} alt="profile image" />
+                        ) : (
+                          v.name[0]
+                        )}
+                      </span>
+                      {v.name.length > 10
+                        ? `${v.name.slice(0, 10)}...`
+                        : v.name}
+                    </a>
+                  </Link>
+                </li>
+              ))}
+          </ul>
         </div>
       </SideBarContainer>
     </>

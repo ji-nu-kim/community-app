@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Post, Image, Comment } = require('../models');
+const { User, Post, Image, Comment, Community } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -24,6 +24,10 @@ router.get('/', async (req, res, next) => {
           {
             model: Post,
             attributes: ['id'],
+          },
+          {
+            model: Community,
+            as: 'Owned',
           },
         ],
       });

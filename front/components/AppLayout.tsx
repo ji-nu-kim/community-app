@@ -13,7 +13,6 @@ interface AppLayoutProps {
 }
 
 function AppLayout({ children }: AppLayoutProps) {
-  const me = useSelector((state: RootStateInterface) => state.user.me);
   const addCommunityDone = useSelector(
     (state: RootStateInterface) => state.community.addCommunityDone
   );

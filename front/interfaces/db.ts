@@ -8,7 +8,14 @@ export interface IUserInfo {
 export interface IUser extends IUserInfo {
   email: string;
   Posts: { id: number }[];
-  Communities: { id: number }[];
+  Owned: {
+    id: number;
+    name: string;
+    description: string;
+    profilePhoto?: string;
+    createdAt: Date;
+    OwnerId: number;
+  }[];
 }
 export interface IComment {
   id: number;
@@ -35,4 +42,5 @@ export interface ICommunity {
   updatedAt: Date;
   ownerId: string;
   Categories: string[];
+  OwnerId: number;
 }

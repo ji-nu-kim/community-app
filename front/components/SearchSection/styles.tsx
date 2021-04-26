@@ -7,6 +7,7 @@ interface ITextColor {
 export const SectionContainer = styled.section`
   padding: 1rem 2rem;
   h1 {
+    margin-bottom: 0;
     font-family: 'Black Han Sans', sans-serif;
     font-size: 2.5rem;
     background: ${(props: ITextColor) =>

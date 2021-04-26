@@ -10,6 +10,7 @@ export const SideBarContainer = styled.div`
   height: calc(100vh - 44px);
   position: sticky;
   top: 44px;
+  overflow: auto;
 
   span {
     margin-right: 4px;
@@ -33,7 +34,6 @@ export const SideBarContainer = styled.div`
       display: grid;
       height: 120px;
       grid-template-rows: repeat(3, 1fr);
-
       margin: 0;
 
       li {
@@ -75,6 +75,44 @@ export const SideBarContainer = styled.div`
 
       :hover {
         background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: #fff;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+
+      li {
+        height: 40px;
+        a {
+          display: flex;
+          align-items: center;
+          padding-left: 1rem;
+          color: #b3b3b3;
+          height: 100%;
+          width: 100%;
+
+          span {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(to right, #40e0d0, #ff8c00, #ff0080);
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+          }
+
+          :hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+          }
+        }
+      }
+      .active {
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
         color: #fff;
       }

@@ -125,7 +125,7 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         break;
       case actionTypesUser.ADD_COMMUNITY_TO_ME:
         if (draft.me) {
-          draft.me.Communities.unshift({ id: action.data });
+          draft.me.Owned.unshift(action.data);
         }
         break;
 

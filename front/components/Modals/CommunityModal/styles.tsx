@@ -1,13 +1,5 @@
-import styled, { keyframes } from 'styled-components';
-
-const btnRotateAni = keyframes`
-  from {
-    filter: hue-rotate(0deg);
-  }
-  to {
-    filter: hue-rotate(360deg);
-  }
-`;
+import styled from 'styled-components';
+import { ColorAni } from '../../../utils/stylesUtil';
 
 export const ModalContainer = styled.div`
   position: absolute;
@@ -49,7 +41,7 @@ export const ModalHeader = styled.header`
 
     :hover {
       color: coral;
-      animation: ${btnRotateAni} 0.5s linear infinite;
+      animation: ${ColorAni} 0.5s linear infinite;
     }
   }
 `;

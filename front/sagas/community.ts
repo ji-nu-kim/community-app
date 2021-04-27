@@ -57,13 +57,42 @@ function* loadCommunity(action: ILoadCommunityReqeust) {
   }
 }
 
+function loadCategoriesAPI() {
+  return axios.get('/community/categories');
+}
+
+function* loadCategories() {
+  try {
+    const result: { data: ICommunity } = yield call(loadCategoriesAPI);
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORIES_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORIES_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchAddCommunity() {
   yield takeLatest(actionTypesCommunity.ADD_COMMUNITY_REQUEST, addCommunity);
 }
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
+function* watchLoadCategories() {
+  yield takeLatest(
+    actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
+    loadCategories
+  );
+}
 
 export default function* communitySaga() {
-  yield all([fork(watchAddCommunity), fork(watchLoadCommunity)]);
+  yield all([
+    fork(watchAddCommunity),
+    fork(watchLoadCommunity),
+    fork(watchLoadCategories),
+  ]);
 }

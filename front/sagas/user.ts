@@ -5,6 +5,7 @@ import {
   ILoadUserInfoRequest,
   ILogInRequest,
   ISignUpRequest,
+  IUploadImageReqeust,
   LoginData,
   SignUpData,
 } from '../interfaces/user/userAction.interfaces';
@@ -93,6 +94,25 @@ function* loadUserInfo(action: ILoadUserInfoRequest) {
   }
 }
 
+function uploadImageAPI(data: FormData) {
+  return axios.post('/user/image', data);
+}
+
+function* uploadImage(action: IUploadImageReqeust) {
+  try {
+    const result: { data: string } = yield call(uploadImageAPI, action.data);
+    yield put({
+      type: actionTypesUser.UPLOAD_IMAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesUser.UPLOAD_IMAGE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function signUpAPI(data: SignUpData) {
   return axios.post('/user/signup', data);
 }
@@ -145,6 +165,9 @@ function* watchLoadMyInfo() {
 function* watchLoadUserInfo() {
   yield takeLatest(actionTypesUser.LOAD_USER_INFO_REQUEST, loadUserInfo);
 }
+function* watchUploadImage() {
+  yield takeLatest(actionTypesUser.UPLOAD_IMAGE_REQUEST, uploadImage);
+}
 function* watchSignUp() {
   yield takeLatest(actionTypesUser.SIGN_UP_REQUEST, signUp);
 }
@@ -158,6 +181,7 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchLoadMyInfo),
     fork(watchLoadUserInfo),
+    fork(watchUploadImage),
     fork(watchSignUp),
     fork(watchChangeNickname),
   ]);

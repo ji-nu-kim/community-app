@@ -1,8 +1,15 @@
-import { signUpRequestAction } from '../actions/actionUser';
+import { removeImage, signUpRequestAction } from '../actions/actionUser';
 import { Form, Checkbox, Button } from 'antd';
+import { CameraOutlined } from '@ant-design/icons';
 import Head from 'next/head';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 import { useForm, Controller } from 'react-hook-form';
@@ -13,8 +20,16 @@ import SignUpLayout, {
   MainText,
   InputContainer,
   ButtonContainer,
+  ProfileImgContainer,
 } from 'components/Layouts/SignUpLayout';
 import CountryModal from 'components/Modals/CountryModal';
+import { uploadImageRequestAction } from 'actions/actionUser';
+import { GetServerSideProps } from 'next';
+import wrapper from 'store/configureStore';
+import axios from 'axios';
+import { END } from '@redux-saga/core';
+import { loadCategoriesReqeustAction } from 'actions/actionCommunity';
+import CategoryList from 'components/CategoryList';
 
 type SignUpType = {
   email: string;
@@ -26,12 +41,34 @@ type SignUpType = {
 
 function Signup() {
   const dispatch = useDispatch();
-  const { signUpLoading, signUpDone, signUpError, me } = useSelector(
+  const { signUpLoading, signUpDone, signUpError, me, imagePath } = useSelector(
     (state: RootStateInterface) => state.user
+  );
+  const mainCategories = useSelector(
+    (state: RootStateInterface) => state.community.mainCategories
   );
   const [countryModal, setCountryModal] = useState(false);
   const [countryError, setCountryError] = useState(false);
   const [country, setCountry] = useState('');
+  const [categories, setCategories] = useState<string[]>([]);
+
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const onClickImageUpload = useCallback(() => {
+    imageInputRef.current?.click();
+  }, [imageInputRef.current]);
+
+  const onChangeImages = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const imageFormData = new FormData();
+    // obj타입은 배열메소드를 사용못하기때문에 call을 사용해 빌려온다
+    [].forEach.call(e.target.files, f => {
+      imageFormData.append('image', f);
+    });
+    dispatch(uploadImageRequestAction(imageFormData));
+  }, []);
+
+  const onRemoveImage = useCallback(() => {
+    dispatch(removeImage());
+  }, []);
 
   useEffect(() => {
     if (me && me.id) {
@@ -81,6 +118,7 @@ function Signup() {
     }),
     [country]
   );
+  console.log(categories);
 
   return (
     <>
@@ -89,7 +127,42 @@ function Signup() {
       </Head>
       <SignUpLayout>
         <MainText>회원가입</MainText>
-        <Form onFinish={onSubmit}>
+        <ProfileImgContainer>
+          <div>
+            <label htmlFor="profile-image">프로필 사진</label>
+            {imagePath.length > 0 && (
+              <button onClick={onRemoveImage} className="img-delete-btn">
+                제거
+              </button>
+            )}
+          </div>
+          <div>
+            <input
+              type="file"
+              name="image"
+              hidden
+              ref={imageInputRef}
+              onChange={onChangeImages}
+            />
+            <Button
+              onClick={onClickImageUpload}
+              shape="circle"
+              className="img-input-btn"
+            >
+              {imagePath.length > 0 ? (
+                <img
+                  width="50px"
+                  height="50px"
+                  src={`http://localhost:3065/${imagePath}`}
+                  alt="profileimage"
+                />
+              ) : (
+                <CameraOutlined />
+              )}
+            </Button>
+          </div>
+        </ProfileImgContainer>
+        <Form onFinish={onSubmit} className="form-grid">
           <InputContainer>
             <label htmlFor="email">이메일</label>
             <br />
@@ -165,6 +238,12 @@ function Signup() {
               <FormErrorMessage errorMessage="주소를 입력하세요" />
             )}
           </InputContainer>
+          <label htmlFor="category">카테고리</label>
+          <CategoryList
+            mainCategories={mainCategories}
+            categories={categories}
+            setCategories={setCategories}
+          />
 
           <div>
             <Controller
@@ -206,5 +285,18 @@ function Signup() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async context => {
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch(loadCategoriesReqeustAction());
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+  }
+);
 
 export default Signup;

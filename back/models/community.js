@@ -18,6 +18,10 @@ module.exports = class Community extends Model {
           type: DataTypes.STRING(200),
           allowNull: true,
         },
+        country: {
+          type: DataTypes.STRING(50),
+          allowNull: false,
+        },
       },
       {
         modelName: 'Community',
@@ -31,11 +35,15 @@ module.exports = class Community extends Model {
 
   static associate(db) {
     db.Community.belongsTo(db.User, { as: 'Owner', foreignKey: 'OwnerId' });
-    db.Community.hasMany(db.Category);
     db.Community.hasMany(db.Post);
+    db.Community.hasMany(db.Caution);
+    db.Community.hasMany(db.Requirement);
+    db.Community.hasMany(db.AgeLimit);
     db.Community.belongsToMany(db.User, {
-      through: db.CommunityMember,
-      as: 'Members',
+      through: 'COMMUNITY_USER',
+    });
+    db.Community.belongsToMany(db.Category, {
+      through: 'COMMUNITY_CATEGORY',
     });
   }
 };

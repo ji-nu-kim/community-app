@@ -13,6 +13,9 @@ export const actionTypesUser = {
   LOAD_USER_INFO_REQUEST: 'LOAD_USER_INFO_REQUEST',
   LOAD_USER_INFO_SUCCESS: 'LOAD_USER_INFO_SUCCESS',
   LOAD_USER_INFO_ERROR: 'LOAD_USER_INFO_ERROR',
+  UPLOAD_IMAGE_REQUEST: 'UPLOAD_IMAGE_REQUEST',
+  UPLOAD_IMAGE_SUCCESS: 'UPLOAD_IMAGE_SUCCESS',
+  UPLOAD_IMAGE_ERROR: 'UPLOAD_IMAGE_ERROR',
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_ERROR: 'SIGN_UP_ERROR',
@@ -22,6 +25,7 @@ export const actionTypesUser = {
   ADD_POST_TO_ME: 'ADD_POST_TO_ME',
   ADD_COMMUNITY_TO_ME: 'ADD_COMMUNITY_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
+  REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 export interface LoginData {
   email: string;
@@ -73,8 +77,25 @@ export interface ILoadUserInfoSuccess {
     Posts: number;
   };
 }
+
+export interface IRemoveImage {
+  type: typeof actionTypesUser.REMOVE_IMAGE;
+}
 export interface ILoadUserInfoError {
   type: typeof actionTypesUser.LOAD_USER_INFO_ERROR;
+  error: Error;
+}
+
+export interface IUploadImageReqeust {
+  type: typeof actionTypesUser.UPLOAD_IMAGE_REQUEST;
+  data: FormData;
+}
+export interface IUploadImageSuccess {
+  type: typeof actionTypesUser.UPLOAD_IMAGE_SUCCESS;
+  data: string;
+}
+export interface IUploadImageError {
+  type: typeof actionTypesUser.UPLOAD_IMAGE_ERROR;
   error: Error;
 }
 
@@ -110,16 +131,16 @@ export interface IChangeNicknameError {
   type: typeof actionTypesUser.CHANGE_NICKNAME_ERROR;
   error: Error;
 }
+export interface IAddCommunityToMe {
+  type: typeof actionTypesUser.ADD_COMMUNITY_TO_ME;
+  data: ICommunity;
+}
 
 export interface IAddPostToMe {
   type: typeof actionTypesUser.ADD_POST_TO_ME;
   data: number;
 }
 
-export interface IAddCommunityToMe {
-  type: typeof actionTypesUser.ADD_COMMUNITY_TO_ME;
-  data: ICommunity;
-}
 export interface IRemovePostOfMe {
   type: typeof actionTypesUser.REMOVE_POST_OF_ME;
   data: { postId: number };
@@ -138,6 +159,9 @@ export type ActionsUser =
   | ILoadUserInfoRequest
   | ILoadUserInfoSuccess
   | ILoadUserInfoError
+  | IUploadImageReqeust
+  | IUploadImageSuccess
+  | IUploadImageError
   | ISignUpRequest
   | ISignUpSuccess
   | ISignUpError
@@ -146,4 +170,5 @@ export type ActionsUser =
   | IChangeNicknameError
   | IAddPostToMe
   | IAddCommunityToMe
-  | IRemovePostOfMe;
+  | IRemovePostOfMe
+  | IRemoveImage;

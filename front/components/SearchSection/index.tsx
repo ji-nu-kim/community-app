@@ -1,11 +1,11 @@
 import CategoryCard from 'components/CategoryCard';
+import { ICategory } from 'interfaces/db';
 import React from 'react';
-import { CategoryTypes } from '../../utils/categories';
 import { SectionContainer } from './styles';
 
 interface SearchSectionProps {
   title: string;
-  categories: CategoryTypes;
+  categories: ICategory[];
 }
 
 function SearchSection({ title, categories }: SearchSectionProps) {
@@ -14,7 +14,11 @@ function SearchSection({ title, categories }: SearchSectionProps) {
       <h1>{title}</h1>
       <div className="cards">
         {categories.map(v => (
-          <CategoryCard key={v.name} name={v.name} img={v.img} />
+          <CategoryCard
+            key={v.name}
+            name={v.name}
+            img={`http://localhost:3065/${v.profilePhoto}`}
+          />
         ))}
       </div>
     </SectionContainer>

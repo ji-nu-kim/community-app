@@ -9,6 +9,7 @@ import produce from 'immer';
 export const initialState: CommunityState = {
   singleCommunity: null,
   mainCommunities: [],
+  mainCategories: [],
   hasMoreCommunity: true,
 
   addCommunityLoading: false,
@@ -24,9 +25,13 @@ export const initialState: CommunityState = {
   loadCommunityLoading: false,
   loadCommunityDone: false,
   loadCommunityError: null,
-  loadCommunitysLoading: false,
-  loadCommunitysDone: false,
-  loadCommunitysError: null,
+  loadCommunitiesLoading: false,
+  loadCommunitiesDone: false,
+  loadCommunitiesError: null,
+
+  loadCategoriesLoading: false,
+  loadCategoriesDone: false,
+  loadCategoriesError: null,
 };
 
 const reducer = (
@@ -100,21 +105,38 @@ const reducer = (
         draft.loadCommunityLoading = false;
         draft.loadCommunityError = action.error;
         break;
+
       case actionTypesCommunity.LOAD_COMMUNITYS_REQUEST:
-        draft.loadCommunitysLoading = true;
-        draft.loadCommunitysDone = false;
-        draft.loadCommunitysError = null;
+        draft.loadCommunitiesLoading = true;
+        draft.loadCommunitiesDone = false;
+        draft.loadCommunitiesError = null;
         break;
       case actionTypesCommunity.LOAD_COMMUNITYS_SUCCESS:
-        draft.loadCommunitysLoading = false;
-        draft.loadCommunitysDone = true;
+        draft.loadCommunitiesLoading = false;
+        draft.loadCommunitiesDone = true;
         draft.mainCommunities = draft.mainCommunities.concat(action.data);
         draft.hasMoreCommunity = action.data.length === 10;
         break;
       case actionTypesCommunity.LOAD_COMMUNITYS_ERROR:
-        draft.loadCommunitysLoading = false;
-        draft.loadCommunitysError = action.error;
+        draft.loadCommunitiesLoading = false;
+        draft.loadCommunitiesError = action.error;
         break;
+
+      case actionTypesCommunity.LOAD_CATEGORIES_REQUEST:
+        draft.loadCategoriesLoading = true;
+        draft.loadCategoriesDone = false;
+        draft.loadCategoriesError = null;
+        break;
+      case actionTypesCommunity.LOAD_CATEGORIES_SUCCESS:
+        draft.loadCategoriesLoading = false;
+        draft.loadCategoriesDone = true;
+        draft.mainCategories = draft.mainCategories.concat(action.data);
+        break;
+      case actionTypesCommunity.LOAD_CATEGORIES_ERROR:
+        draft.loadCategoriesLoading = false;
+        draft.loadCategoriesError = action.error;
+        break;
+
       default:
         break;
     }

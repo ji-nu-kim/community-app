@@ -1,16 +1,19 @@
+import { ICommunity } from 'interfaces/db';
 import {
   actionTypesUser,
   ILogInRequest,
   ILogOutRequest,
   ILoadMyInfoRequest,
   ILoadUserInfoRequest,
+  IUploadImageReqeust,
   ISignUpRequest,
   IChangeNicknameRequest,
-  IAddPostToMe,
-  IRemovePostOfMe,
   SignUpData,
   LoginData,
   IAddCommunityToMe,
+  IAddPostToMe,
+  IRemovePostOfMe,
+  IRemoveImage,
 } from '../interfaces/user/userAction.interfaces';
 
 export const loginRequestAction = (data: LoginData): ILogInRequest => {
@@ -37,6 +40,22 @@ export const loadUserInfoRequestAction = (data: {
     data,
   };
 };
+
+export const removeImage = (): IRemoveImage => {
+  return {
+    type: actionTypesUser.REMOVE_IMAGE,
+  };
+};
+
+export const uploadImageRequestAction = (
+  data: FormData
+): IUploadImageReqeust => {
+  return {
+    type: actionTypesUser.UPLOAD_IMAGE_REQUEST,
+    data,
+  };
+};
+
 export const signUpRequestAction = (data: SignUpData): ISignUpRequest => {
   return {
     type: actionTypesUser.SIGN_UP_REQUEST,
@@ -57,7 +76,7 @@ export const addPostToMe = (data: number): IAddPostToMe => {
     data,
   };
 };
-export const addCommunityToMe = (data: number): IAddCommunityToMe => {
+export const addCommunityToMe = (data: ICommunity): IAddCommunityToMe => {
   return {
     type: actionTypesUser.ADD_COMMUNITY_TO_ME,
     data,

@@ -6,6 +6,7 @@ const {
   Comment,
   Community,
   sequelize,
+  Category,
 } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
@@ -38,6 +39,19 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     return res.status(201).json(fullCommunity);
   } catch (error) {
     await t.rollback();
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/categories', async (req, res, next) => {
+  try {
+    const categories = await Category.findAll();
+    if (!categories) {
+      return res.status(404).send('카테고리가 존재하지 않습니다');
+    }
+    return res.status(200).json(categories);
+  } catch (error) {
     console.error(error);
     next(error);
   }

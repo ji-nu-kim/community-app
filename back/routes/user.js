@@ -1,4 +1,7 @@
 const express = require('express');
+const fs = require('fs');
+const multer = require('multer');
+const path = require('path');
 const { User, Post, Image, Comment, Community } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -6,6 +9,27 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Op } = require('sequelize');
 
 const router = express.Router();
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads폴더를 생성합니다');
+  fs.mkdirSync('uploads');
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext);
+      done(null, basename + '_' + new Date().getTime() + ext);
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
 
 router.get('/', async (req, res, next) => {
   try {
@@ -105,6 +129,12 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error);
   }
+});
+
+// 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
+router.post('/image', upload.array('image'), (req, res, next) => {
+  console.log(req.files);
+  res.json(req.files.map(v => v.filename));
 });
 
 router.patch('/nickname', isLoggedIn, async (req, res, next) => {

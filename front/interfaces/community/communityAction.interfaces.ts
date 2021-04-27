@@ -1,4 +1,4 @@
-import { ICommunity } from '../db';
+import { ICategory, ICommunity } from '../db';
 
 export const actionTypesCommunity = {
   ADD_COMMUNITY_REQUEST: 'ADD_COMMUNITY_REQUEST',
@@ -16,6 +16,9 @@ export const actionTypesCommunity = {
   LOAD_COMMUNITYS_REQUEST: 'LOAD_COMMUNITYS_REQUEST',
   LOAD_COMMUNITYS_SUCCESS: 'LOAD_COMMUNITYS_SUCCESS',
   LOAD_COMMUNITYS_ERROR: 'LOAD_COMMUNITYS_ERROR',
+  LOAD_CATEGORIES_REQUEST: 'LOAD_CATEGORIES_REQUEST',
+  LOAD_CATEGORIES_SUCCESS: 'LOAD_CATEGORIES_SUCCESS',
+  LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
 } as const;
 
 export interface CommunityData {
@@ -85,6 +88,18 @@ export interface ILoadCommunitysError {
   error: Error;
 }
 
+export interface ILoadCategoriesReqeust {
+  type: typeof actionTypesCommunity.LOAD_CATEGORIES_REQUEST;
+}
+export interface ILoadCategoriesSuccess {
+  type: typeof actionTypesCommunity.LOAD_CATEGORIES_SUCCESS;
+  data: ICategory[];
+}
+export interface ILoadCategoriesError {
+  type: typeof actionTypesCommunity.LOAD_CATEGORIES_ERROR;
+  error: Error;
+}
+
 export type ActionsCommunity =
   | IAddCommunityReqeust
   | IAddCommunitySuccess
@@ -100,4 +115,7 @@ export type ActionsCommunity =
   | ILoadCommunityError
   | ILoadCommunitysReqeust
   | ILoadCommunitysSuccess
-  | ILoadCommunitysError;
+  | ILoadCommunitysError
+  | ILoadCategoriesReqeust
+  | ILoadCategoriesSuccess
+  | ILoadCategoriesError;

@@ -2,12 +2,16 @@ import { UserState, ActionsUser, actionTypesUser } from '../interfaces/index';
 import produce from 'immer';
 
 export const initialState: UserState = {
+  imagePath: '',
   logInLoading: false,
   logInDone: false,
   logInError: null,
   logOutLoading: false,
   logOutDone: false,
   logOutError: null,
+  uploadImageLoading: false,
+  uploadImageDone: false,
+  uploadImageError: null,
   signUpLoading: false,
   signUpDone: false,
   signUpError: null,
@@ -85,6 +89,26 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.LOAD_USER_INFO_ERROR:
         draft.loadUserInfoLoading = false;
         draft.loadUserInfoError = action.error;
+        break;
+
+      case actionTypesUser.UPLOAD_IMAGE_REQUEST:
+        draft.uploadImageLoading = true;
+        draft.uploadImageDone = false;
+        draft.uploadImageError = null;
+        break;
+      case actionTypesUser.UPLOAD_IMAGE_SUCCESS: {
+        draft.imagePath = action.data;
+        draft.uploadImageLoading = false;
+        draft.uploadImageDone = true;
+        break;
+      }
+      case actionTypesUser.UPLOAD_IMAGE_ERROR:
+        draft.uploadImageLoading = false;
+        draft.uploadImageError = action.error;
+        break;
+
+      case actionTypesUser.REMOVE_IMAGE:
+        draft.imagePath = '';
         break;
 
       case actionTypesUser.SIGN_UP_REQUEST:

@@ -23,10 +23,6 @@ module.exports = class User extends Model {
           type: DataTypes.STRING(50),
           allowNull: false,
         },
-        categories: {
-          type: DataTypes.STRING(50),
-          allowNull: true,
-        },
         profilePhoto: {
           type: DataTypes.STRING(200),
           allowNull: true,
@@ -49,8 +45,10 @@ module.exports = class User extends Model {
     db.User.hasMany(db.Community, { as: 'Owned', foreignKey: 'OwnerId' });
     // 다른 커뮤니티
     db.User.belongsToMany(db.Community, {
-      through: db.CommunityMember,
-      as: 'Communities',
+      through: 'COMMUNITY_USER',
+    });
+    db.User.belongsToMany(db.Category, {
+      through: 'CATEGORY_USER',
     });
     db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
   }

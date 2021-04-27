@@ -10,6 +10,10 @@ module.exports = class Category extends Model {
           allowNull: false,
           unique: true,
         },
+        profilePhoto: {
+          type: DataTypes.STRING(100),
+          allowNull: false,
+        },
       },
       {
         modelName: 'Category',
@@ -22,6 +26,11 @@ module.exports = class Category extends Model {
   }
 
   static associate(db) {
-    db.Category.belongsTo(db.Community);
+    db.Category.belongsToMany(db.Community, {
+      through: 'COMMUNITY_CATEGORY',
+    });
+    db.Category.belongsToMany(db.User, {
+      through: 'CATEGORY_USER',
+    });
   }
 };

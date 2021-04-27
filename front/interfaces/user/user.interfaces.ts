@@ -1,12 +1,16 @@
 import { IUser } from '../db';
 
 export interface UserState {
+  imagePath: string;
   logInLoading: boolean;
   logInDone: boolean;
   logInError: any;
   logOutLoading: boolean;
   logOutDone: boolean;
   logOutError: any;
+  uploadImageLoading: boolean;
+  uploadImageDone: boolean;
+  uploadImageError: any;
   signUpLoading: boolean;
   signUpDone: boolean;
   signUpError: any;

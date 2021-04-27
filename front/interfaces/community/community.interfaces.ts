@@ -1,8 +1,9 @@
-import { ICommunity } from '../db';
+import { ICategory, ICommunity } from '../db';
 
 export interface CommunityState {
   singleCommunity: ICommunity | null;
   mainCommunities: ICommunity[];
+  mainCategories: ICategory[];
   hasMoreCommunity: boolean;
 
   addCommunityLoading: boolean;
@@ -18,7 +19,11 @@ export interface CommunityState {
   loadCommunityLoading: boolean;
   loadCommunityDone: boolean;
   loadCommunityError: any;
-  loadCommunitysLoading: boolean;
-  loadCommunitysDone: boolean;
-  loadCommunitysError: any;
+  loadCommunitiesLoading: boolean;
+  loadCommunitiesDone: boolean;
+  loadCommunitiesError: any;
+
+  loadCategoriesLoading: boolean;
+  loadCategoriesDone: boolean;
+  loadCategoriesError: any;
 }

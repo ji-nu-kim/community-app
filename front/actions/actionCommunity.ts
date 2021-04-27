@@ -5,6 +5,7 @@ import {
   IUpdateCommunityReqeust,
   ILoadCommunityReqeust,
   ILoadCommunitysReqeust,
+  ILoadCategoriesReqeust,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
 
@@ -51,5 +52,11 @@ export const loadCommunitysRequestAction = (data: {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITYS_REQUEST,
     data,
+  };
+};
+
+export const loadCategoriesReqeustAction = (): ILoadCategoriesReqeust => {
+  return {
+    type: actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
   };
 };

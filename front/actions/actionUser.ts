@@ -7,13 +7,14 @@ import {
   ILoadUserInfoRequest,
   IUploadImageReqeust,
   ISignUpRequest,
-  IChangeNicknameRequest,
+  IChangeProfileRequest,
   SignUpData,
   LoginData,
   IAddCommunityToMe,
   IAddPostToMe,
   IRemovePostOfMe,
   IRemoveImage,
+  ChangeProfileData,
 } from '../interfaces/user/userAction.interfaces';
 
 export const loginRequestAction = (data: LoginData): ILogInRequest => {
@@ -62,11 +63,11 @@ export const signUpRequestAction = (data: SignUpData): ISignUpRequest => {
     data,
   };
 };
-export const changeNicknameRequestAction = (data: {
-  nickname: string;
-}): IChangeNicknameRequest => {
+export const changeProfileRequestAction = (
+  data: ChangeProfileData
+): IChangeProfileRequest => {
   return {
-    type: actionTypesUser.CHANGE_NICKNAME_REQUEST,
+    type: actionTypesUser.CHANGE_PROFILE_REQUEST,
     data,
   };
 };

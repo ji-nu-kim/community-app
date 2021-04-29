@@ -1,7 +1,8 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
   actionTypesUser,
-  IChangeNicknameRequest,
+  ChangeProfileData,
+  IChangeProfileRequest,
   ILoadUserInfoRequest,
   ILogInRequest,
   ISignUpRequest,
@@ -100,7 +101,7 @@ function uploadImageAPI(data: FormData) {
 
 function* uploadImage(action: IUploadImageReqeust) {
   try {
-    const result: { data: string } = yield call(uploadImageAPI, action.data);
+    const result: { data: string[] } = yield call(uploadImageAPI, action.data);
     yield put({
       type: actionTypesUser.UPLOAD_IMAGE_SUCCESS,
       data: result.data,
@@ -131,23 +132,23 @@ function* signUp(action: ISignUpRequest) {
   }
 }
 
-function changeNicknameAPI(data: { nickname: string }) {
-  return axios.patch('/user/nickname', data);
+function changeProfileAPI(data: ChangeProfileData) {
+  return axios.post('/user/profile', data);
 }
 
-function* changeNickname(action: IChangeNicknameRequest) {
+function* changeProfile(action: IChangeProfileRequest) {
   try {
-    const result: { data: { nickname: string } } = yield call(
-      changeNicknameAPI,
+    const result: { data: ChangeProfileData } = yield call(
+      changeProfileAPI,
       action.data
     );
     yield put({
-      type: actionTypesUser.CHANGE_NICKNAME_SUCCESS,
+      type: actionTypesUser.CHANGE_PROFILE_SUCCESS,
       data: result.data,
     });
   } catch (error) {
     yield put({
-      type: actionTypesUser.CHANGE_NICKNAME_ERROR,
+      type: actionTypesUser.CHANGE_PROFILE_ERROR,
       error: error.response.data,
     });
   }
@@ -171,8 +172,8 @@ function* watchUploadImage() {
 function* watchSignUp() {
   yield takeLatest(actionTypesUser.SIGN_UP_REQUEST, signUp);
 }
-function* watchChangeNickname() {
-  yield takeLatest(actionTypesUser.CHANGE_NICKNAME_REQUEST, changeNickname);
+function* watchChangeProfile() {
+  yield takeLatest(actionTypesUser.CHANGE_PROFILE_REQUEST, changeProfile);
 }
 
 export default function* userSaga() {
@@ -183,6 +184,6 @@ export default function* userSaga() {
     fork(watchLoadUserInfo),
     fork(watchUploadImage),
     fork(watchSignUp),
-    fork(watchChangeNickname),
+    fork(watchChangeProfile),
   ]);
 }

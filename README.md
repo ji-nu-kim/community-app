@@ -16,3 +16,12 @@
 ## 커뮤니티 이름에 ?,& 같은 기호 불가능하게 막기
 
 - 라우팅할 때 문제생김, 아니면 해쉬로 바꿔서 사용할수도
+
+## 선택한 카테고리 체크표시 하기
+
+- DB에서 받아온 카테고리들로 체크박스를 만들고 선택한 카테고리에 해당하는 체크박스를 checked한다
+- 선택한 카테고리들을 useState의 기본 값으로 저장해두었다([선택한 카테고리] : []);
+- [선택한 카테고리].includes(카테고리)로 ture인 input에 checked옵션을 넣었다
+- !에러발생
+- A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component
+- 비제어 컴포넌트의 경우 defaultChecked를 사용

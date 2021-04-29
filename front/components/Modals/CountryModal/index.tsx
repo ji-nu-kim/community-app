@@ -9,9 +9,7 @@ interface CountryModalProps {
 
 function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
   const handleComplete = (data: any) => {
-    console.log(data);
     let fullAddress = `${data.sido} ${data.sigungu} ${data.bname}`;
-    console.log(fullAddress);
     setCountry(fullAddress);
     closeCountryModal();
   };

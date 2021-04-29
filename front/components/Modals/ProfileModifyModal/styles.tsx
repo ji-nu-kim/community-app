@@ -6,9 +6,9 @@ export const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
-  width: 400px;
-  height: 400px;
+  z-index: 100;
+  width: 500px;
+  height: 500px;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   backdrop-filter: saturate(180%) blur(12px);
@@ -47,33 +47,45 @@ export const ModalHeader = styled.header`
 
 export const ModalFormContainer = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  .form {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+
+    .form-profile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 1rem;
+      justify-items: center;
+
+      .profile-nickname {
+        #nickname {
+          background: rgba(0, 0, 0, 0.1);
+          padding-left: 4px;
+          color: #fff;
+          margin-top: 0.5rem;
+          height: 33px;
+          border: none;
+
+          :hover {
+            background: rgba(0, 0, 0, 0.2);
+          }
+        }
+      }
+    }
+
+    .form-category {
+      margin-bottom: 1rem;
+      span {
+        font-size: 0.75rem;
+        color: #fff;
+      }
+    }
+  }
 
   .create-btn {
     display: flex;
     justify-content: center;
-  }
-`;
-
-export const InputContainer = styled.div`
-  margin-bottom: 1rem;
-  input {
-    margin-top: 0.5rem;
-    width: 300px;
-    height: 44px;
-    border: none;
-  }
-`;
-
-export const TextAreaContainer = styled.div`
-  margin-bottom: 1rem;
-  textarea {
-    margin-top: 0.5rem;
-    width: 300px;
-    height: 100px;
-    border: none;
-    resize: none;
   }
 `;

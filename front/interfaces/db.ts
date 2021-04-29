@@ -7,7 +7,7 @@ export interface IUserInfo {
   id: number;
   nickname: string;
   country: string;
-  categories?: string[];
+  Categories?: { name: string; profilePhoto: string }[];
   profilePhoto?: string;
 }
 export interface IUser extends IUserInfo {

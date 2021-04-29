@@ -1,7 +1,7 @@
 import { IUser } from '../db';
 
 export interface UserState {
-  imagePath: string;
+  imagePath: string[];
   logInLoading: boolean;
   logInDone: boolean;
   logInError: any;
@@ -20,9 +20,9 @@ export interface UserState {
   loadUserInfoLoading: boolean;
   loadUserInfoDone: boolean;
   loadUserInfoError: any;
-  changeNicknameLoading: boolean;
-  changeNicknameDone: boolean;
-  changeNicknameError: any;
+  changeProfileLoading: boolean;
+  changeProfileDone: boolean;
+  changeProfileError: any;
 
   me: IUser | null;
   userInfo: any;

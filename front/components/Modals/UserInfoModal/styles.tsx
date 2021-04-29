@@ -17,9 +17,9 @@ export const ModalContainer = styled.div`
   width: 150px;
   height: 150px;
   background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-radius: 10px;
   cursor: pointer;
 

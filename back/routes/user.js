@@ -2,7 +2,15 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-const { User, Post, Image, Comment, Community } = require('../models');
+const {
+  User,
+  Post,
+  Image,
+  Comment,
+  Community,
+  Category,
+  sequelize,
+} = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -36,14 +44,7 @@ router.get('/', async (req, res, next) => {
     if (req.user) {
       const user = await User.findOne({
         where: { id: req.user.id },
-        attributes: [
-          'id',
-          'nickname',
-          'email',
-          'country',
-          'categories',
-          'profilePhoto',
-        ],
+        attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
         include: [
           {
             model: Post,
@@ -52,6 +53,11 @@ router.get('/', async (req, res, next) => {
           {
             model: Community,
             as: 'Owned',
+          },
+          {
+            model: Category,
+            through: 'CATEGORY_USER',
+            attributes: ['name', 'profilePhoto'],
           },
         ],
       });
@@ -81,18 +87,15 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       }
       const userInfo = await User.findOne({
         where: { id: user.id },
-        attributes: [
-          'id',
-          'nickname',
-          'email',
-          'country',
-          'categories',
-          'profilePhoto',
-        ],
+        attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
         include: [
           {
             model: Post,
             attributes: ['id'],
+          },
+          {
+            model: Community,
+            as: 'Owned',
           },
         ],
       });
@@ -122,7 +125,7 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
       email: req.body.email,
       nickname: req.body.nickname,
       password: hashedPassword,
-      country: req.body.post,
+      country: req.body.country,
     });
     return res.status(201).send('회원가입이 되었습니다');
   } catch (error) {
@@ -131,25 +134,41 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-// 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
-router.post('/image', upload.array('image'), (req, res, next) => {
-  console.log(req.files);
-  res.json(req.files.map(v => v.filename));
-});
-
-router.patch('/nickname', isLoggedIn, async (req, res, next) => {
+router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
       {
         nickname: req.body.nickname,
+        profilePhoto: req.body.profilePhoto[0],
       },
       { where: { id: req.user.id } }
     );
-    return res.status(200).json({ nickname: req.body.nickname });
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+    const result = await Promise.all(
+      req.body.category.map(v =>
+        Category.findOne({
+          where: { name: v },
+        })
+      )
+    );
+
+    await user.addCategories(result.map(v => v.id));
+    return res.status(200).json({
+      nickname: req.body.nickname,
+      profilePhoto: req.body.profilePhoto,
+      category: req.body.category,
+    });
   } catch (error) {
     console.error(error);
     next(error);
   }
+});
+
+// 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
+router.post('/image', upload.array('image'), (req, res, next) => {
+  res.json(req.files.map(v => v.filename));
 });
 
 router.get('/:userId', async (req, res, next) => {

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const SideBarContainer = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
-  background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 2px 4px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   padding: 4px;
   height: calc(100vh - 44px);
   position: sticky;

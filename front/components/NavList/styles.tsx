@@ -9,8 +9,8 @@ export const NavWrapper = styled.div`
   align-items: center;
   height: 44px;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
 
   .logo-section {
     margin-left: 1rem;
@@ -44,10 +44,7 @@ export const NavWrapper = styled.div`
     justify-content: center;
     width: 100px;
     height: 26px;
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 2px 4px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
   }
 
@@ -68,16 +65,13 @@ export const StyleSearch = styled.div`
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     padding-left: 4px;
-    background: rgba(125, 125, 125, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(125, 125, 125, 0.2);
     color: #b3b3b3;
   }
 
   button {
     color: #b3b3b3;
-    background: rgba(125, 125, 125, 0.2);
+    background: rgba(125, 125, 125, 0.3);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     cursor: pointer;

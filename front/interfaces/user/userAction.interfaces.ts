@@ -19,9 +19,9 @@ export const actionTypesUser = {
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_ERROR: 'SIGN_UP_ERROR',
-  CHANGE_NICKNAME_REQUEST: 'CHANGE_NICKNAME_REQUEST',
-  CHANGE_NICKNAME_SUCCESS: 'CHANGE_NICKNAME_SUCCESS',
-  CHANGE_NICKNAME_ERROR: 'CHANGE_NICKNAME_ERROR',
+  CHANGE_PROFILE_REQUEST: 'CHANGE_PROFILE_REQUEST',
+  CHANGE_PROFILE_SUCCESS: 'CHANGE_PROFILE_SUCCESS',
+  CHANGE_PROFILE_ERROR: 'CHANGE_PROFILE_ERROR',
   ADD_POST_TO_ME: 'ADD_POST_TO_ME',
   ADD_COMMUNITY_TO_ME: 'ADD_COMMUNITY_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
@@ -92,7 +92,7 @@ export interface IUploadImageReqeust {
 }
 export interface IUploadImageSuccess {
   type: typeof actionTypesUser.UPLOAD_IMAGE_SUCCESS;
-  data: string;
+  data: string[];
 }
 export interface IUploadImageError {
   type: typeof actionTypesUser.UPLOAD_IMAGE_ERROR;
@@ -119,16 +119,23 @@ export interface ISignUpError {
   type: typeof actionTypesUser.SIGN_UP_ERROR;
   error: Error;
 }
-export interface IChangeNicknameRequest {
-  type: typeof actionTypesUser.CHANGE_NICKNAME_REQUEST;
-  data: { nickname: string };
+
+export interface ChangeProfileData {
+  nickname: string;
+  profilePhoto: string[];
+  category: string[];
 }
-export interface IChangeNicknameSuccess {
-  type: typeof actionTypesUser.CHANGE_NICKNAME_SUCCESS;
-  data: { nickname: string };
+
+export interface IChangeProfileRequest {
+  type: typeof actionTypesUser.CHANGE_PROFILE_REQUEST;
+  data: ChangeProfileData;
 }
-export interface IChangeNicknameError {
-  type: typeof actionTypesUser.CHANGE_NICKNAME_ERROR;
+export interface IChangeProfileSuccess {
+  type: typeof actionTypesUser.CHANGE_PROFILE_SUCCESS;
+  data: ChangeProfileData;
+}
+export interface IChangeProfileError {
+  type: typeof actionTypesUser.CHANGE_PROFILE_ERROR;
   error: Error;
 }
 export interface IAddCommunityToMe {
@@ -165,9 +172,9 @@ export type ActionsUser =
   | ISignUpRequest
   | ISignUpSuccess
   | ISignUpError
-  | IChangeNicknameRequest
-  | IChangeNicknameSuccess
-  | IChangeNicknameError
+  | IChangeProfileRequest
+  | IChangeProfileSuccess
+  | IChangeProfileError
   | IAddPostToMe
   | IAddCommunityToMe
   | IRemovePostOfMe

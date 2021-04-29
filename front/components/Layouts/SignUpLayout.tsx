@@ -12,6 +12,7 @@ export const FormContainer = styled.div`
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 
   label {
@@ -27,38 +28,6 @@ export const MainText = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
-`;
-
-export const ProfileImgContainer = styled.div`
-  width: 300px;
-  margin-bottom: 1rem;
-
-  .img-delete-btn {
-    vertical-align: top;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #6495ed;
-    :hover {
-      color: #82aeff;
-    }
-  }
-
-  .img-input-btn {
-    margin-top: 0.5rem;
-    position: relative;
-    width: 50px;
-    height: 50px;
-
-    img {
-      position: absolute;
-      top: -1px;
-      left: -1px;
-      border-radius: 50%;
-    }
-  }
 `;
 
 export const InputContainer = styled.div`

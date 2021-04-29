@@ -2,7 +2,7 @@ import { UserState, ActionsUser, actionTypesUser } from '../interfaces/index';
 import produce from 'immer';
 
 export const initialState: UserState = {
-  imagePath: '',
+  imagePath: [],
   logInLoading: false,
   logInDone: false,
   logInError: null,
@@ -21,9 +21,9 @@ export const initialState: UserState = {
   loadUserInfoLoading: false,
   loadUserInfoDone: false,
   loadUserInfoError: null,
-  changeNicknameLoading: false,
-  changeNicknameDone: false,
-  changeNicknameError: null,
+  changeProfileLoading: false,
+  changeProfileDone: false,
+  changeProfileError: null,
 
   me: null,
   userInfo: null,
@@ -96,19 +96,19 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.uploadImageDone = false;
         draft.uploadImageError = null;
         break;
-      case actionTypesUser.UPLOAD_IMAGE_SUCCESS: {
+      case actionTypesUser.UPLOAD_IMAGE_SUCCESS:
         draft.imagePath = action.data;
         draft.uploadImageLoading = false;
         draft.uploadImageDone = true;
         break;
-      }
       case actionTypesUser.UPLOAD_IMAGE_ERROR:
         draft.uploadImageLoading = false;
         draft.uploadImageError = action.error;
         break;
 
       case actionTypesUser.REMOVE_IMAGE:
-        draft.imagePath = '';
+        draft.imagePath = [];
+        draft.uploadImageDone = false;
         break;
 
       case actionTypesUser.SIGN_UP_REQUEST:
@@ -125,21 +125,23 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.signUpError = action.error;
         break;
 
-      case actionTypesUser.CHANGE_NICKNAME_REQUEST:
-        draft.changeNicknameLoading = true;
-        draft.changeNicknameDone = false;
-        draft.changeNicknameError = null;
+      case actionTypesUser.CHANGE_PROFILE_REQUEST:
+        draft.changeProfileLoading = true;
+        draft.changeProfileDone = false;
+        draft.changeProfileError = null;
         break;
-      case actionTypesUser.CHANGE_NICKNAME_SUCCESS:
-        draft.changeNicknameLoading = false;
-        draft.changeNicknameDone = true;
+      case actionTypesUser.CHANGE_PROFILE_SUCCESS:
+        draft.changeProfileLoading = false;
+        draft.changeProfileDone = true;
         if (draft.me) {
           draft.me.nickname = action.data.nickname;
+          draft.me.profilePhoto = action.data.profilePhoto[0];
+          draft.me.categories = action.data.category;
         }
         break;
-      case actionTypesUser.CHANGE_NICKNAME_ERROR:
-        draft.changeNicknameLoading = false;
-        draft.changeNicknameError = action.error;
+      case actionTypesUser.CHANGE_PROFILE_ERROR:
+        draft.changeProfileLoading = false;
+        draft.changeProfileError = action.error;
         break;
 
       case actionTypesUser.ADD_POST_TO_ME:

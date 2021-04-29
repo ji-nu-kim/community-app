@@ -33,18 +33,26 @@ function CategoryList({
     [categories]
   );
 
+  console.log(categories);
   return (
     <CheckBoxContainer>
       {mainCategories &&
         mainCategories.map(v => (
           <div key={v.name}>
-            <input
-              type="checkbox"
-              id={v.name}
-              name={v.name}
-              value={v.name}
-              onChange={onChangeCheckBox(v.name)}
-            />
+            {categories.includes(v.name) ? (
+              <input
+                type="checkbox"
+                id={v.name}
+                onChange={onChangeCheckBox(v.name)}
+                defaultChecked
+              />
+            ) : (
+              <input
+                type="checkbox"
+                id={v.name}
+                onChange={onChangeCheckBox(v.name)}
+              />
+            )}
             <label htmlFor={v.name}>{v.name}</label>
           </div>
         ))}

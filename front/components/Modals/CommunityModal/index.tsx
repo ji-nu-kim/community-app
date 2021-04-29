@@ -4,7 +4,7 @@ import {
   ModalHeader,
   InputContainer,
   TextAreaContainer,
-  ModalForm,
+  ModalFormContainer,
 } from './styles';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
@@ -57,7 +57,7 @@ function CommunityModal({ setCommunityModal }: CommunityModalProps) {
           <CloseCircleOutlined />
         </div>
       </ModalHeader>
-      <ModalForm>
+      <ModalFormContainer>
         <Form onFinish={onSubmit} className="form">
           <InputContainer>
             <label htmlFor="communityName">커뮤니티이름</label>
@@ -90,12 +90,12 @@ function CommunityModal({ setCommunityModal }: CommunityModalProps) {
             )}
           </TextAreaContainer>
           <div className="create-btn">
-            <Button size="large" type="primary" htmlType="submit">
+            <Button ghost htmlType="submit">
               생성하기
             </Button>
           </div>
         </Form>
-      </ModalForm>
+      </ModalFormContainer>
     </ModalContainer>
   );
 }

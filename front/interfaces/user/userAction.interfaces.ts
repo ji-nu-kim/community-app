@@ -77,15 +77,14 @@ export interface ILoadUserInfoSuccess {
     Posts: number;
   };
 }
-
-export interface IRemoveImage {
-  type: typeof actionTypesUser.REMOVE_IMAGE;
-}
 export interface ILoadUserInfoError {
   type: typeof actionTypesUser.LOAD_USER_INFO_ERROR;
   error: Error;
 }
 
+export interface IRemoveImage {
+  type: typeof actionTypesUser.REMOVE_IMAGE;
+}
 export interface IUploadImageReqeust {
   type: typeof actionTypesUser.UPLOAD_IMAGE_REQUEST;
   data: FormData;
@@ -132,7 +131,7 @@ export interface IChangeProfileRequest {
 }
 export interface IChangeProfileSuccess {
   type: typeof actionTypesUser.CHANGE_PROFILE_SUCCESS;
-  data: ChangeProfileData;
+  data: string;
 }
 export interface IChangeProfileError {
   type: typeof actionTypesUser.CHANGE_PROFILE_ERROR;

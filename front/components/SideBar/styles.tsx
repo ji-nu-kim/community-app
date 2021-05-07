@@ -65,7 +65,7 @@ export const SideBarContainer = styled.div`
     margin-top: 1rem;
     padding: 4px;
 
-    .create-community {
+    .make-community {
       display: flex;
       align-items: center;
       height: 40px;
@@ -96,12 +96,22 @@ export const SideBarContainer = styled.div`
           width: 100%;
 
           span {
+            position: relative;
             width: 24px;
             height: 24px;
             background: linear-gradient(to right, #40e0d0, #ff8c00, #ff0080);
             border-radius: 50%;
             color: #fff;
             text-align: center;
+
+            img {
+              position: absolute;
+              z-index: 10;
+              top: 0;
+              left: 0;
+              border-radius: 50%;
+              object-fit: cover;
+            }
           }
 
           :hover {

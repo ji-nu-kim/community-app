@@ -87,7 +87,7 @@ function login() {
             </Button>
             <Link href="/signup">
               <a>
-                <Button size="large" htmlType="submit" loading={logInLoading}>
+                <Button size="large" htmlType="submit">
                   회원가입하기
                 </Button>
               </a>

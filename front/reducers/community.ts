@@ -7,11 +7,18 @@ import {
 import produce from 'immer';
 
 export const initialState: CommunityState = {
+  imagePath: [],
   singleCommunity: null,
   mainCommunities: [],
   mainCategories: [],
   hasMoreCommunity: true,
 
+  uploadCommunityImageLoading: false,
+  uploadCommunityImageDone: false,
+  uploadCommunityImageError: null,
+  changeCommunityInfoLoading: false,
+  changeCommunityInfoDone: false,
+  changeCommunityInfoError: null,
   addCommunityLoading: false,
   addCommunityDone: false,
   addCommunityError: null,
@@ -40,6 +47,37 @@ const reducer = (
 ): CommunityState => {
   return produce(state, draft => {
     switch (action.type) {
+      case actionTypesCommunity.REMOVE_COMMUNITY_IMAGE:
+        draft.imagePath = [];
+        draft.uploadCommunityImageDone = false;
+        break;
+      case actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST:
+        draft.uploadCommunityImageLoading = true;
+        draft.uploadCommunityImageDone = false;
+        draft.uploadCommunityImageError = null;
+        break;
+      case actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_SUCCESS:
+        draft.imagePath = action.data;
+        draft.uploadCommunityImageLoading = false;
+        draft.uploadCommunityImageDone = true;
+        break;
+      case actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR:
+        draft.uploadCommunityImageLoading = false;
+        draft.uploadCommunityImageError = action.error;
+        break;
+      case actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST:
+        draft.changeCommunityInfoLoading = true;
+        draft.changeCommunityInfoDone = false;
+        draft.changeCommunityInfoError = null;
+        break;
+      case actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS:
+        draft.changeCommunityInfoLoading = false;
+        draft.changeCommunityInfoDone = true;
+        break;
+      case actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR:
+        draft.changeCommunityInfoLoading = false;
+        draft.changeCommunityInfoError = action.error;
+        break;
       case actionTypesCommunity.ADD_COMMUNITY_REQUEST:
         draft.addCommunityLoading = true;
         draft.addCommunityDone = false;

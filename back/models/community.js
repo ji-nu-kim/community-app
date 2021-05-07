@@ -5,7 +5,7 @@ module.exports = class Community extends Model {
   static init(sequelize) {
     return super.init(
       {
-        name: {
+        communityName: {
           type: DataTypes.STRING(30),
           allowNull: false,
           unique: true,
@@ -22,6 +22,14 @@ module.exports = class Community extends Model {
           type: DataTypes.STRING(50),
           allowNull: false,
         },
+        caution: {
+          type: DataTypes.STRING(140),
+          allowNull: true,
+        },
+        requirement: {
+          type: DataTypes.STRING(140),
+          allowNull: true,
+        },
       },
       {
         modelName: 'Community',
@@ -36,8 +44,6 @@ module.exports = class Community extends Model {
   static associate(db) {
     db.Community.belongsTo(db.User, { as: 'Owner', foreignKey: 'OwnerId' });
     db.Community.hasMany(db.Post);
-    db.Community.hasMany(db.Caution);
-    db.Community.hasMany(db.Requirement);
     db.Community.hasMany(db.AgeLimit);
     db.Community.belongsToMany(db.User, {
       through: 'COMMUNITY_USER',

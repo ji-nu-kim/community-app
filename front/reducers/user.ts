@@ -133,11 +133,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.CHANGE_PROFILE_SUCCESS:
         draft.changeProfileLoading = false;
         draft.changeProfileDone = true;
-        if (draft.me) {
-          draft.me.nickname = action.data.nickname;
-          draft.me.profilePhoto = action.data.profilePhoto[0];
-          draft.me.categories = action.data.category;
-        }
         break;
       case actionTypesUser.CHANGE_PROFILE_ERROR:
         draft.changeProfileLoading = false;

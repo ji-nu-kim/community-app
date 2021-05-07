@@ -1,6 +1,13 @@
 import { ICategory, ICommunity } from '../db';
 
 export const actionTypesCommunity = {
+  REMOVE_COMMUNITY_IMAGE: 'REMOVE_COMMUNITY_IMAGE',
+  UPLOAD_COMMUNITY_IMAGE_REQUEST: 'UPLOAD_COMMUNITY_IMAGE_REQUEST',
+  UPLOAD_COMMUNITY_IMAGE_SUCCESS: 'UPLOAD_COMMUNITY_IMAGE_SUCCESS',
+  UPLOAD_COMMUNITY_IMAGE_ERROR: 'UPLOAD_COMMUNITY_IMAGE_ERROR',
+  CHANGE_COMMUNITY_INFO_REQUEST: 'CHANGE_COMMUNITY_INFO_REQUEST',
+  CHANGE_COMMUNITY_INFO_SUCCESS: 'CHANGE_COMMUNITY_INFO_SUCCESS',
+  CHANGE_COMMUNITY_INFO_ERROR: 'CHANGE_COMMUNITY_INFO_ERROR',
   ADD_COMMUNITY_REQUEST: 'ADD_COMMUNITY_REQUEST',
   ADD_COMMUNITY_SUCCESS: 'ADD_COMMUNITY_SUCCESS',
   ADD_COMMUNITY_ERROR: 'ADD_COMMUNITY_ERROR',
@@ -21,9 +28,46 @@ export const actionTypesCommunity = {
   LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
 } as const;
 
-export interface CommunityData {
-  name: string;
+export interface IRemoveCommunityImage {
+  type: typeof actionTypesCommunity.REMOVE_COMMUNITY_IMAGE;
+}
+export interface IUploadCommunityImageReqeust {
+  type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST;
+  data: FormData;
+}
+export interface IUploadCommunityImageSuccess {
+  type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_SUCCESS;
+  data: string[];
+}
+export interface IUploadCommunityImageError {
+  type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR;
+  error: Error;
+}
+
+export interface ChangeCommunityInfoData {
+  id: number;
+  profilePhoto: string[];
   description: string;
+  caution: string;
+  requirement: string;
+}
+export interface IChangeCommunityInfoRequest {
+  type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST;
+  data: ChangeCommunityInfoData;
+}
+export interface IChangeCommunityInfoSuccess {
+  type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS;
+  data: string;
+}
+export interface IChangeCommunityInfoError {
+  type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR;
+  error: Error;
+}
+export interface CommunityData {
+  communityName: string;
+  description: string;
+  country: string;
+  category: string;
 }
 
 export interface IAddCommunityReqeust {
@@ -101,6 +145,13 @@ export interface ILoadCategoriesError {
 }
 
 export type ActionsCommunity =
+  | IRemoveCommunityImage
+  | IUploadCommunityImageReqeust
+  | IUploadCommunityImageSuccess
+  | IUploadCommunityImageError
+  | IChangeCommunityInfoRequest
+  | IChangeCommunityInfoSuccess
+  | IChangeCommunityInfoError
   | IAddCommunityReqeust
   | IAddCommunitySuccess
   | IAddCommunityError

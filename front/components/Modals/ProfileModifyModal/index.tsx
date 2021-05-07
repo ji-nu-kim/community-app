@@ -59,7 +59,10 @@ function ProfileModifyModal({
           <div className="form-profile">
             <div className="profile-img">
               <label>프로필사진</label>
-              <ImageInsert />
+              <ImageInsert
+                imagePath={imagePath}
+                profilePhoto={me?.profilePhoto}
+              />
             </div>
             <div className="profile-nickname">
               <label htmlFor="nickname">닉네임</label>
@@ -84,7 +87,7 @@ function ProfileModifyModal({
           </div>
           <div className="create-btn">
             <Button ghost htmlType="submit">
-              생성하기
+              수정하기
             </Button>
           </div>
         </Form>

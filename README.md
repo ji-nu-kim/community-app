@@ -25,3 +25,8 @@
 - !에러발생
 - A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component
 - 비제어 컴포넌트의 경우 defaultChecked를 사용
+
+## 회원탈퇴 기능 구현
+
+- 회원탈퇴 여부를 확인하고 비밀번호를 입력받는다
+- 유저의 비밀번호와 입력한 비밀번호를 비교해 맞다면 연관테이블 카테고리, 커뮤니티를 제거하고 유저를 제거한다

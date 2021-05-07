@@ -1,4 +1,4 @@
-import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
+import React, { memo } from 'react';
 import { SideBarContainer } from './styles';
 import {
   HomeOutlined,
@@ -11,19 +11,9 @@ import { useRouter } from 'next/router';
 import { RootStateInterface } from 'interfaces/RootState';
 import { useSelector } from 'react-redux';
 
-interface SideBarProps {
-  setCommunityModal: Dispatch<SetStateAction<boolean>>;
-}
-
-function SideBar({ setCommunityModal }: SideBarProps) {
+function SideBar() {
   const router = useRouter();
-  const Owned = useSelector(
-    (state: RootStateInterface) => state.user.me?.Owned
-  );
-
-  const openCommunityModal = useCallback(() => {
-    setCommunityModal(prev => !prev);
-  }, []);
+  const { me } = useSelector((state: RootStateInterface) => state.user);
 
   return (
     <>
@@ -71,16 +61,20 @@ function SideBar({ setCommunityModal }: SideBarProps) {
         </div>
         <div className="community-section">
           <h2>커뮤니티메뉴</h2>
-          <div className="create-community" onClick={openCommunityModal}>
-            <span>
-              <PlusSquareOutlined />
-            </span>
-            커뮤니티 만들기
-          </div>
+          {me && (
+            <Link href="/makecommunity">
+              <a className="make-community">
+                <span>
+                  <PlusSquareOutlined />
+                </span>
+                커뮤니티 만들기
+              </a>
+            </Link>
+          )}
           <ul>
-            {Owned &&
-              Owned.map(v => (
-                <li key={v.name}>
+            {me?.Communities &&
+              me.Communities.map(v => (
+                <li key={v.communityName}>
                   <Link href={`/community/${v.id}`}>
                     <a
                       className={
@@ -89,14 +83,19 @@ function SideBar({ setCommunityModal }: SideBarProps) {
                     >
                       <span>
                         {v.profilePhoto ? (
-                          <img src={v.profilePhoto} alt="profile image" />
+                          <img
+                            width="24px"
+                            height="24px"
+                            src={`http://localhost:3065/${v.profilePhoto}`}
+                            alt="profile image"
+                          />
                         ) : (
-                          v.name[0]
+                          v.communityName[0]
                         )}
                       </span>
-                      {v.name.length > 10
-                        ? `${v.name.slice(0, 10)}...`
-                        : v.name}
+                      {v.communityName.length > 10
+                        ? `${v.communityName.slice(0, 10)}...`
+                        : v.communityName}
                     </a>
                   </Link>
                 </li>

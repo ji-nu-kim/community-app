@@ -14,7 +14,7 @@ const ProfileContainer = styled.div`
 
   .profile-grid {
     display: grid;
-    grid-template-rows: 20% 30% 50%;
+    grid-template-rows: 200px auto;
     gap: 0.25rem;
     width: 100%;
     height: 100%;
@@ -92,7 +92,33 @@ export const ProfileGridHeader = styled.div`
   }
 `;
 
-export const ProfileGridCategory = styled.div``;
+export const ProfileGridContents = styled.div`
+  display: grid;
+
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  padding: 1rem;
+  h1 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 2.5rem;
+    background: linear-gradient(#108dc7, #ef8e38);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contents-vertical {
+  }
+
+  .contents-container {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, 250px);
+  }
+  .content-container {
+    display: flex;
+  }
+`;
 
 function ProfileLayout({ children }: ProfileLayoutProps) {
   return <ProfileContainer>{children}</ProfileContainer>;

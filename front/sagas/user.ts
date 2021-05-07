@@ -138,10 +138,7 @@ function changeProfileAPI(data: ChangeProfileData) {
 
 function* changeProfile(action: IChangeProfileRequest) {
   try {
-    const result: { data: ChangeProfileData } = yield call(
-      changeProfileAPI,
-      action.data
-    );
+    const result: { data: string } = yield call(changeProfileAPI, action.data);
     yield put({
       type: actionTypesUser.CHANGE_PROFILE_SUCCESS,
       data: result.data,

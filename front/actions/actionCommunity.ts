@@ -1,5 +1,9 @@
 import {
   actionTypesCommunity,
+  IRemoveCommunityImage,
+  IUploadCommunityImageReqeust,
+  ChangeCommunityInfoData,
+  IChangeCommunityInfoRequest,
   IAddCommunityReqeust,
   IRemoveCommunityReqeust,
   IUpdateCommunityReqeust,
@@ -8,6 +12,30 @@ import {
   ILoadCategoriesReqeust,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
+
+export const removeCommunityImage = (): IRemoveCommunityImage => {
+  return {
+    type: actionTypesCommunity.REMOVE_COMMUNITY_IMAGE,
+  };
+};
+
+export const uploadCommunityImageRequestAction = (
+  data: FormData
+): IUploadCommunityImageReqeust => {
+  return {
+    type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST,
+    data,
+  };
+};
+
+export const changeCommunityInfoRequestAction = (
+  data: ChangeCommunityInfoData
+): IChangeCommunityInfoRequest => {
+  return {
+    type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST,
+    data,
+  };
+};
 
 export const addCommunityRequestAction = (
   data: CommunityData

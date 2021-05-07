@@ -57,7 +57,7 @@ export const ModalFormContainer = styled.div`
       display: grid;
       grid-template-columns: 1fr 1fr;
       margin-bottom: 1rem;
-      justify-items: center;
+      justify-items: flex-start;
 
       .profile-nickname {
         #nickname {

@@ -1,8 +1,23 @@
 export interface ICategory {
+  id: number;
   name: string;
   profilePhoto: string;
 }
 
+export interface ICommunity {
+  id: number;
+  communityName: string;
+  description: string;
+  caution?: string;
+  requirement?: string;
+  profilePhoto: string;
+  createdAt: Date;
+  updatedAt: Date;
+  country: string;
+  Users: [];
+  Categories: { name: string }[];
+  OwnerId: number;
+}
 export interface IUserInfo {
   id: number;
   nickname: string;
@@ -13,14 +28,8 @@ export interface IUserInfo {
 export interface IUser extends IUserInfo {
   email: string;
   Posts: { id: number }[];
-  Owned: {
-    id: number;
-    name: string;
-    description: string;
-    profilePhoto?: string;
-    createdAt: Date;
-    OwnerId: number;
-  }[];
+  Owned: ICommunity[];
+  Communities: ICommunity[];
 }
 export interface IComment {
   id: number;
@@ -37,15 +46,4 @@ export interface IPost {
   Images: { src: string }[];
   Likers: { id: number }[];
   Comments: IComment[];
-}
-export interface ICommunity {
-  id: number;
-  name: string;
-  description: string;
-  profilePhoto: string;
-  createdAt: Date;
-  updatedAt: Date;
-  country: string;
-  Categories: string[];
-  OwnerId: number;
 }

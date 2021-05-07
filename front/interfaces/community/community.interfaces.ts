@@ -1,10 +1,18 @@
 import { ICategory, ICommunity } from '../db';
 
 export interface CommunityState {
+  imagePath: string[];
   singleCommunity: ICommunity | null;
   mainCommunities: ICommunity[];
   mainCategories: ICategory[];
   hasMoreCommunity: boolean;
+
+  uploadCommunityImageLoading: boolean;
+  uploadCommunityImageDone: boolean;
+  uploadCommunityImageError: any;
+  changeCommunityInfoLoading: boolean;
+  changeCommunityInfoDone: boolean;
+  changeCommunityInfoError: any;
 
   addCommunityLoading: boolean;
   addCommunityDone: boolean;

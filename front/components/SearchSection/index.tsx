@@ -18,6 +18,8 @@ function SearchSection({ title, categories }: SearchSectionProps) {
             key={v.name}
             name={v.name}
             img={`http://localhost:3065/${v.profilePhoto}`}
+            width="340"
+            height="220"
           />
         ))}
       </div>

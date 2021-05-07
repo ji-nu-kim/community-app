@@ -1,7 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 
-interface IImg {
+interface ICategoryCard {
   img: string;
+  width: string;
+  height: string;
 }
 
 const btnRotateAni = keyframes`
@@ -15,12 +17,12 @@ const btnRotateAni = keyframes`
 
 export const CardContainer = styled.div`
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${(props: IImg) => props.img});
+    url(${(props: ICategoryCard) => props.img});
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  min-width: 340px;
-  min-height: 220px;
+  min-width: ${(props: ICategoryCard) => props.width}px;
+  min-height: ${(props: ICategoryCard) => props.height}px;
   border-radius: 10px;
   box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
   display: flex;
@@ -29,7 +31,7 @@ export const CardContainer = styled.div`
 
   :hover {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
-      url(${(props: IImg) => props.img});
+      url(${(props: ICategoryCard) => props.img});
 
     h2 {
       color: coral;

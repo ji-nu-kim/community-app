@@ -17,8 +17,11 @@ export const signUpValidation = yup.object({
   term: yup.boolean().oneOf([true], '약관에 동의해주세요'),
 });
 
-export const createCommunityValidation = yup.object({
-  communityName: yup.string().required('커뮤니티이름을 입력하세요'),
+export const addCommunityValidation = yup.object({
+  communityName: yup
+    .string()
+    .required('커뮤니티이름을 입력하세요')
+    .max(10, '커뮤니티 이름은 20글자 이하여야 합니다'),
   description: yup
     .string()
     .required('커뮤니티를 소개하세요')

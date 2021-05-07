@@ -59,6 +59,10 @@ router.get('/', async (req, res, next) => {
             through: 'CATEGORY_USER',
             attributes: ['name', 'profilePhoto'],
           },
+          {
+            model: Community,
+            through: 'COMMUNITY_USER',
+          },
         ],
       });
       return res.status(200).json(user);
@@ -146,6 +150,7 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
     const user = await User.findOne({
       where: { id: req.user.id },
     });
+
     const result = await Promise.all(
       req.body.category.map(v =>
         Category.findOne({
@@ -154,12 +159,8 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
       )
     );
 
-    await user.addCategories(result.map(v => v.id));
-    return res.status(200).json({
-      nickname: req.body.nickname,
-      profilePhoto: req.body.profilePhoto,
-      category: req.body.category,
-    });
+    await user.setCategories(result.map(v => v.id));
+    return res.status(200).send('프로필이 변경 되었습니다');
   } catch (error) {
     console.error(error);
     next(error);

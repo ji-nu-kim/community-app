@@ -19,21 +19,30 @@ function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
     dispatch(logOutRequestAction());
   }, []);
 
+  const onClickDeleteAccountBtun = useCallback(() => {
+    if (confirm('회원탈퇴하시겠습니까?')) {
+      const result = prompt('비밀번호를 입력하세요');
+      if (!result) {
+        return alert('올바른 비밀번호를 입력하세요');
+      } else {
+        // dispatch()
+      }
+    } else {
+      return null;
+    }
+  }, []);
+
   return (
     <ModalWrapper onClick={UserInfoModalTrigger}>
       <ModalContainer onClick={UserInfoModalTrigger}>
         <ul>
-          <li>
-            <Link href="/">
-              <a>홈</a>
-            </Link>
-          </li>
           <li>
             <Link href="/profile">
               <a>프로필</a>
             </Link>
           </li>
           <li onClick={onClickLogOutBtn}>로그아웃</li>
+          <li onClick={onClickDeleteAccountBtun}>회원탈퇴</li>
         </ul>
       </ModalContainer>
     </ModalWrapper>

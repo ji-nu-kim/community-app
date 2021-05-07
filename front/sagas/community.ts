@@ -4,10 +4,57 @@ import {
   actionTypesCommunity,
   CommunityData,
   ILoadCommunityReqeust,
+  IUploadCommunityImageReqeust,
+  IChangeCommunityInfoRequest,
+  ChangeCommunityInfoData,
 } from '../interfaces/community/communityAction.interfaces';
 import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
 import { ICommunity } from 'interfaces/db';
+
+function uploadCommunityImageAPI(data: FormData) {
+  return axios.post('/community/image', data);
+}
+
+function* uploadCommunityImage(action: IUploadCommunityImageReqeust) {
+  try {
+    const result: { data: string[] } = yield call(
+      uploadCommunityImageAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function changeCommunityInfoAPI(data: ChangeCommunityInfoData) {
+  return axios.post('/community/info', data);
+}
+
+function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
+  try {
+    const result: { data: string } = yield call(
+      changeCommunityInfoAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR,
+      error: error.response.data,
+    });
+  }
+}
 
 function addCommunityAPI(data: CommunityData) {
   return axios.post('/community', data);
@@ -76,6 +123,18 @@ function* loadCategories() {
   }
 }
 
+function* watchUploadCommunityImage() {
+  yield takeLatest(
+    actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST,
+    uploadCommunityImage
+  );
+}
+function* watchChangeCommunityInfo() {
+  yield takeLatest(
+    actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST,
+    changeCommunityInfo
+  );
+}
 function* watchAddCommunity() {
   yield takeLatest(actionTypesCommunity.ADD_COMMUNITY_REQUEST, addCommunity);
 }
@@ -91,6 +150,8 @@ function* watchLoadCategories() {
 
 export default function* communitySaga() {
   yield all([
+    fork(watchUploadCommunityImage),
+    fork(watchChangeCommunityInfo),
     fork(watchAddCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCategories),

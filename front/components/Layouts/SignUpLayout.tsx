@@ -19,6 +19,15 @@ export const FormContainer = styled.div`
     font-weight: bold;
     color: #777;
   }
+
+  .select-category {
+    margin-top: 0.5rem;
+    background: transparent;
+
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+  }
 `;
 
 export const MainText = styled.h1`
@@ -28,6 +37,7 @@ export const MainText = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
+  margin-bottom: 2rem;
 `;
 
 export const InputContainer = styled.div`
@@ -38,6 +48,18 @@ export const InputContainer = styled.div`
     border: none;
     border-bottom: 1px solid #000;
     background: transparent;
+  }
+`;
+
+export const TextAreaContainer = styled.div`
+  margin-bottom: 1rem;
+  textarea {
+    border: 1px solid #000;
+    background: transparent;
+    margin-top: 0.5rem;
+    width: 300px;
+    height: 100px;
+    resize: none;
   }
 `;
 

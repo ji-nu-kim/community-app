@@ -5,8 +5,6 @@ const comment = require('./comment');
 const image = require('./image');
 const community = require('./community');
 const category = require('./category');
-const caution = require('./caution');
-const requirement = require('./requirement');
 const agelimit = require('./agelimit');
 
 const env = process.env.NODE_ENV || 'development';
@@ -26,8 +24,6 @@ db.Comment = comment;
 db.Image = image;
 db.Category = category;
 db.Community = community;
-db.Caution = caution;
-db.Requirement = requirement;
 db.AgeLimit = agelimit;
 
 Object.keys(db).forEach(modelName => {

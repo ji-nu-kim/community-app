@@ -203,3 +203,38 @@ export const DetailMain = styled.div`
     }
   }
 `;
+
+export const DetailPost = styled.div`
+  width: 516px;
+  height: 632px;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: saturate(180%) blur(3px);
+  -webkit-backdrop-filter: saturate(180%) blur(3px);
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+
+  .post-form {
+    .form-style {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      textarea {
+        height: 100%;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.4);
+        border: none;
+        resize: none;
+
+        :hover {
+          background: rgba(0, 0, 0, 0.5);
+        }
+        ::placeholder {
+          color: #fff;
+        }
+      }
+    }
+  }
+`;

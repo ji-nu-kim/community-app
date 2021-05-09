@@ -35,10 +35,6 @@ function PostCard({ post }: postCardProps) {
   const [editMode, setEditMode] = useState(false);
   const liked = post.Likers.find(v => v.id === id);
 
-  // const onChangePost = useCallback(() => {
-  //   setEditMode(true);
-  // }, []);
-
   const onCancelUpdatePost = useCallback(() => {
     setEditMode(false);
   }, []);

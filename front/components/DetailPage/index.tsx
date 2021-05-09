@@ -1,8 +1,10 @@
 import { UserOutlined } from '@ant-design/icons';
 import { ICommunity } from 'interfaces/db';
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import { DetailBg, DetailHeader, DetailMain } from './styles';
+import { DetailBg, DetailHeader, DetailMain, DetailPost } from './styles';
 import ShowPeopleModal from 'components/Modals/ShowPeopleModal';
+import Form from 'antd/lib/form/Form';
+import { Button } from 'antd';
 
 interface DetailPageProps {
   singleCommunity: ICommunity;
@@ -112,11 +114,40 @@ function DetailPage({
             </>
           ) : (
             <>
-              <div
-                style={{ width: '516px', height: '500px', background: 'coral' }}
-              >
-                2
-              </div>
+              <DetailPost>
+                <div className="post-view" style={{ overflow: 'auto' }}>
+                  <div
+                    style={{
+                      background: 'coral',
+                      width: '100%',
+                      height: '350px',
+                      marginBottom: '10px',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      background: 'blue',
+                      width: '100%',
+                      height: '350px',
+                      marginBottom: '10px',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      background: 'black',
+                      width: '100%',
+                      height: '350px',
+                      marginBottom: '10px',
+                    }}
+                  ></div>
+                </div>
+                <div className="post-form">
+                  <Form className="form-style">
+                    <textarea placeholder="글을 입력하세요" />
+                    <Button type="primary">작성하기</Button>
+                  </Form>
+                </div>
+              </DetailPost>
             </>
           )}
         </DetailMain>

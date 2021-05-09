@@ -16,7 +16,6 @@ import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
 function Community() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const me = useSelector((state: RootStateInterface) => state.user.me);
   const { singleCommunity, loadCommunityError } = useSelector(
     (state: RootStateInterface) => state.community
   );

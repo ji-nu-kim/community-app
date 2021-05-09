@@ -1,21 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons';
-import React, { useCallback, useState } from 'react';
-import ImagesZoom from './ImagesZoom';
+import React from 'react';
 
 interface PostImagesProps {
   images: { src: string }[];
 }
 
 function PostImages({ images }: PostImagesProps) {
-  const [showImagesZoom, setShowImagesZoom] = useState(false);
-
-  const onZoom = useCallback(() => {
-    setShowImagesZoom(true);
-  }, []);
-  const onClose = useCallback(() => {
-    setShowImagesZoom(false);
-  }, []);
-
   if (images.length === 1) {
     return (
       <>
@@ -23,9 +13,7 @@ function PostImages({ images }: PostImagesProps) {
           role="presentation"
           src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
-          onClick={onZoom}
         />
-        {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
   }
@@ -38,16 +26,13 @@ function PostImages({ images }: PostImagesProps) {
           style={{ width: '50%', display: 'inline-block' }}
           src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
-          onClick={onZoom}
         />
         <img
           role="presentation"
           style={{ width: '50%', display: 'inline-block' }}
           src={`http://localhost:3065/${images[1].src}`}
           alt={images[1].src}
-          onClick={onZoom}
         />
-        {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
       </>
     );
   }
@@ -60,7 +45,6 @@ function PostImages({ images }: PostImagesProps) {
           width="50%"
           src={`http://localhost:3065/${images[0].src}`}
           alt={images[0].src}
-          onClick={onZoom}
         />
         <div
           role="presetation"
@@ -70,14 +54,12 @@ function PostImages({ images }: PostImagesProps) {
             textAlign: 'center',
             verticalAlign: 'middle',
           }}
-          onClick={onZoom}
         >
           <PlusOutlined />
           <br />
           {images.length - 1}개의 사진 더보기
         </div>
       </div>
-      {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
     </>
   );
 }

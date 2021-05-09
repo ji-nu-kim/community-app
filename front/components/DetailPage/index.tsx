@@ -1,30 +1,33 @@
 import { UserOutlined } from '@ant-design/icons';
 import { ICommunity } from 'interfaces/db';
-import { RootStateInterface } from 'interfaces/RootState';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { DetailBg, DetailHeader, DetailMain } from './styles';
-import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
+import ShowPeopleModal from 'components/Modals/ShowPeopleModal';
 
 interface DetailPageProps {
   singleCommunity: ICommunity;
+  setCommunityModifyModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function DetailPage({ singleCommunity }: DetailPageProps) {
-  const { me } = useSelector((state: RootStateInterface) => state.user);
-  const { changeCommunityInfoDone } = useSelector(
-    (state: RootStateInterface) => state.community
-  );
-  const [communityModifyModal, setCommunityModifyModal] = useState(false);
-
-  useEffect(() => {
-    if (changeCommunityInfoDone) {
-      setCommunityModifyModal(false);
-    }
-  }, [changeCommunityInfoDone]);
+function DetailPage({
+  singleCommunity,
+  setCommunityModifyModal,
+}: DetailPageProps) {
+  const [showPeopleModal, setShowPeopleModal] = useState(false);
+  const [currentNavValue, setCurrentNavValue] = useState('nav-info');
 
   const communityModifyModalTrigger = useCallback(() => {
     setCommunityModifyModal(prev => !prev);
+  }, [setCommunityModifyModal]);
+
+  const showPeopleModalTrigger = useCallback(() => {
+    setShowPeopleModal(prev => !prev);
+  }, []);
+
+  const onClickNav = useCallback(e => {
+    if (e.target.className.split('-')[0] === 'nav') {
+      setCurrentNavValue(e.target.className.split(' ')[0]);
+    }
   }, []);
 
   return (
@@ -55,30 +58,71 @@ function DetailPage({ singleCommunity }: DetailPageProps) {
           </div>
         </DetailHeader>
         <DetailMain>
-          <div className="detail-info">
-            <h1>커뮤니티 상세정보</h1>
-            <div>커뮤니티 리더</div>
-            <div>
-              {singleCommunity.Users.map(
-                v => v.id === singleCommunity.OwnerId && v.nickname
-              )}
+          <div className="detail-nav" onClick={onClickNav}>
+            <div
+              className={`nav-info${
+                currentNavValue === 'nav-info' ? ' active' : ''
+              }`}
+            >
+              정보
             </div>
-            <div>커뮤니티 설명</div>
-            {singleCommunity.description}
-            <div>카테고리</div>
-            <div>{singleCommunity.Categories[0].name}</div>
-            <div>주의사항</div>
-            <div>{singleCommunity.caution}</div>
-            <div>가입조건</div>
-            <div>{singleCommunity.requirement}</div>
+            <div
+              className={`nav-post${
+                currentNavValue === 'nav-post' ? ' active' : ''
+              }`}
+            >
+              게시글
+            </div>
           </div>
-          <div>2</div>
+          {currentNavValue === 'nav-info' ? (
+            <>
+              <div className="detail-info">
+                <div className="info-leader common odd">
+                  <p>커뮤니티 리더</p>
+                  <div>
+                    {singleCommunity.Users.map(
+                      v => v.id === singleCommunity.OwnerId && v.nickname
+                    )}
+                  </div>
+                </div>
+                <div className="info-description common">
+                  <p>커뮤니티 소개</p>
+                  <div>{singleCommunity.description}</div>
+                </div>
+                <div className="info-category common odd">
+                  <p>카테고리</p>
+                  <div>{singleCommunity.Categories[0].name}</div>
+                </div>
+                <div className="info-caution common">
+                  <p>주의사항</p>
+                  <div>{singleCommunity.caution}</div>
+                </div>
+                <div
+                  className="info-people common odd"
+                  onClick={showPeopleModalTrigger}
+                >
+                  <p>커뮤니티 회원</p>
+                  <div>{singleCommunity.Users.length}명</div>
+                </div>
+                <div className="info-requirement common">
+                  <p>가입조건</p>
+                  <div>{singleCommunity.requirement}</div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                style={{ width: '516px', height: '500px', background: 'coral' }}
+              >
+                2
+              </div>
+            </>
+          )}
         </DetailMain>
       </div>
-      {communityModifyModal && (
-        <CommunitymodifyModal
-          setCommunityModifyModal={setCommunityModifyModal}
-        />
+      {showPeopleModal && (
+        <ShowPeopleModal setShowPeopleModal={setShowPeopleModal} />
       )}
     </DetailBg>
   );

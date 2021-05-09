@@ -78,7 +78,7 @@ function SideBar() {
                   <Link href={`/community/${v.id}`}>
                     <a
                       className={
-                        Number(router.query.name) === v.id ? 'active' : 'null'
+                        Number(router.query.id) === v.id ? 'active' : 'null'
                       }
                     >
                       <span>

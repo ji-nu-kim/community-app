@@ -4,6 +4,14 @@ export interface ICategory {
   profilePhoto: string;
 }
 
+export interface IUserInfo {
+  id: number;
+  nickname: string;
+  country: string;
+  Categories?: { name: string; profilePhoto: string }[];
+  profilePhoto?: string;
+}
+
 export interface ICommunity {
   id: number;
   communityName: string;
@@ -14,17 +22,11 @@ export interface ICommunity {
   createdAt: Date;
   updatedAt: Date;
   country: string;
-  Users: [];
+  Users: IUserInfo[];
   Categories: { name: string }[];
   OwnerId: number;
 }
-export interface IUserInfo {
-  id: number;
-  nickname: string;
-  country: string;
-  Categories?: { name: string; profilePhoto: string }[];
-  profilePhoto?: string;
-}
+
 export interface IUser extends IUserInfo {
   email: string;
   Posts: { id: number }[];

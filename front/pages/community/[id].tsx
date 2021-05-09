@@ -7,35 +7,45 @@ import DetailPage from 'components/DetailPage';
 import { RootStateInterface } from 'interfaces/RootState';
 import { GetServerSideProps } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import wrapper from 'store/configureStore';
 
+import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
+
 function Community() {
+  const router = useRouter();
   const dispatch = useDispatch();
   const me = useSelector((state: RootStateInterface) => state.user.me);
   const { singleCommunity, loadCommunityError } = useSelector(
     (state: RootStateInterface) => state.community
   );
-  const router = useRouter();
+  const { changeCommunityInfoDone } = useSelector(
+    (state: RootStateInterface) => state.community
+  );
+
+  const [communityModifyModal, setCommunityModifyModal] = useState(false);
 
   useEffect(() => {
-    if (me) {
+    dispatch(
+      loadCommunityRequestAction({ communityId: Number(router.query.id) })
+    );
+  }, [router.query.id]);
+
+  useEffect(() => {
+    if (changeCommunityInfoDone) {
       dispatch(
         loadCommunityRequestAction({ communityId: Number(router.query.id) })
       );
+      setCommunityModifyModal(false);
     }
-  }, [me, router.query]);
+  }, [changeCommunityInfoDone, router.query.id]);
 
   useEffect(() => {
-    if (!me) {
-      Router.push('/');
-    }
-
     if (loadCommunityError) {
       Router.push('/');
     }
-  }, [me, loadCommunityError]);
+  }, [loadCommunityError]);
 
   if (!singleCommunity) {
     return <div>잠시 기다려주세요</div>;
@@ -43,7 +53,15 @@ function Community() {
 
   return (
     <AppLayout>
-      <DetailPage singleCommunity={singleCommunity} />
+      <DetailPage
+        singleCommunity={singleCommunity}
+        setCommunityModifyModal={setCommunityModifyModal}
+      />
+      {communityModifyModal && (
+        <CommunitymodifyModal
+          setCommunityModifyModal={setCommunityModifyModal}
+        />
+      )}
     </AppLayout>
   );
 }

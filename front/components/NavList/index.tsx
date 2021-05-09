@@ -19,7 +19,7 @@ interface NavListProps {
 function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
   const { me } = useSelector((state: RootStateInterface) => state.user);
   const { pathname } = useRouter();
-  const UserInfoModalTrigger = useCallback(() => {
+  const userInfoModalTrigger = useCallback(() => {
     setUserInfoModal(prev => !prev);
   }, [setUserInfoModal]);
 
@@ -50,7 +50,7 @@ function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
           <>
             <div
               className="btn-userinfo btn-glass-style btn"
-              onClick={UserInfoModalTrigger}
+              onClick={userInfoModalTrigger}
             >
               <div>{me?.nickname}</div>
               <div>

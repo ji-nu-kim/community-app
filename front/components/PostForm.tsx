@@ -9,8 +9,26 @@ import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStateInterface } from '../interfaces/RootState';
+import { CloseCircleOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
+
+const StyleButton = styled(Button)`
+  background: none;
+  border: none;
+  position: absolute;
+  margin-left: -35px;
+  color: #fff;
+  margin-top: -5px;
+
+  :hover {
+    background: none;
+    color: #039be5;
+  }
+`;
 
 function PostForm() {
+  const router = useRouter();
   const { imagePaths, addPostDone } = useSelector(
     (state: RootStateInterface) => state.post
   );
@@ -30,7 +48,9 @@ function PostForm() {
     const formData = new FormData();
     imagePaths.forEach(p => formData.append('image', p));
     formData.append('content', text);
-    return dispatch(addPostRequestAction(formData));
+    return dispatch(
+      addPostRequestAction({ formData, communityId: Number(router.query.id) })
+    );
   }, [text, imagePaths]);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -40,7 +60,6 @@ function PostForm() {
 
   const onChangeImages = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const imageFormData = new FormData();
-    // obj타입은 배열메소드를 사용못하기때문에 call을 사용해 빌려온다
     [].forEach.call(e.target.files, f => {
       imageFormData.append('image', f);
     });
@@ -56,7 +75,12 @@ function PostForm() {
 
   return (
     <Form
-      style={{ margin: '10px 0 20px' }}
+      style={{
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
       encType="multipart/form-data"
       onFinish={onSubmit}
     >
@@ -64,7 +88,14 @@ function PostForm() {
         value={text}
         onChange={onChangeText}
         maxLength={140}
-        placeholder="글을 써주세요"
+        placeholder="글을 작성하세요"
+        style={{
+          color: '#fff',
+          background: 'rgba(0, 0, 0, 0.4)',
+          border: 'none',
+          resize: 'none',
+          height: '70px',
+        }}
       />
       <div>
         <input
@@ -75,25 +106,44 @@ function PostForm() {
           ref={imageInputRef}
           onChange={onChangeImages}
         />
-        <Button onClick={onClickImageUpload}>업로드</Button>
-        <Button type="primary" style={{ float: 'right' }} htmlType="submit">
-          짹짹
-        </Button>
+        <div
+          style={{
+            textAlign: 'end',
+            padding: '0.5rem 0',
+          }}
+        >
+          <Button onClick={onClickImageUpload}>업로드</Button>
+          <Button
+            style={{ marginLeft: '0.5rem' }}
+            type="primary"
+            htmlType="submit"
+          >
+            올리기
+          </Button>
+        </div>
       </div>
-      <div>
-        {imagePaths.map((v, i) => (
-          <div key={v} style={{ display: 'inline-block' }}>
-            <img
-              src={`http://localhost:3065/${v}`}
-              style={{ width: '200px' }}
-              alt={v}
-            />
-            <div>
-              <Button onClick={onRemoveImage(i)}>제거</Button>
+      {imagePaths && (
+        <div
+          style={{
+            position: 'absolute',
+            marginBottom: '250px',
+            display: 'flex',
+          }}
+        >
+          {imagePaths.map((v, i) => (
+            <div key={v} style={{ marginRight: '1rem' }}>
+              <img
+                src={`http://localhost:3065/${v}`}
+                style={{ width: '100px' }}
+                alt={v}
+              />
+              <StyleButton onClick={onRemoveImage(i)}>
+                <CloseCircleOutlined />
+              </StyleButton>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </Form>
   );
 }

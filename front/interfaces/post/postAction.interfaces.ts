@@ -34,9 +34,13 @@ export const actionTypesPost = {
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 
+export interface AddPostData {
+  formData: FormData;
+  communityId: number;
+}
 export interface IAddPostReqeust {
   type: typeof actionTypesPost.ADD_POST_REQUEST;
-  data: FormData;
+  data: AddPostData;
 }
 export interface IAddPostSuccess {
   type: typeof actionTypesPost.ADD_POST_SUCCESS;
@@ -109,7 +113,7 @@ export interface ILoadUserPostsError {
 }
 
 export interface CommentData {
-  content: string;
+  comment: string;
   postId: number;
 }
 export interface IAddCommentReqeust {

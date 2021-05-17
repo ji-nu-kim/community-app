@@ -1,4 +1,3 @@
-import { IPost } from '../interfaces/db';
 import { Form, Input, Button } from 'antd';
 import React, { useCallback, useEffect } from 'react';
 import { addCommentRequestAction } from '../actions/actionPost';
@@ -7,22 +6,20 @@ import { RootStateInterface } from '../interfaces/RootState';
 import { useDispatch, useSelector } from 'react-redux';
 
 interface CommentFormProps {
-  post: IPost;
+  postId: number;
 }
 
-function CommentForm({ post }: CommentFormProps) {
+function CommentForm({ postId }: CommentFormProps) {
   const dispatch = useDispatch();
   const id = useSelector((state: RootStateInterface) => state.user.me?.id);
   const { addCommentDone } = useSelector(
     (state: RootStateInterface) => state.post
   );
-  const [commentText, onChangeCommentText, setCommentText] = useInput<string>(
-    ''
-  );
+  const [comment, onChangeComment, setComment] = useInput<string>('');
 
   useEffect(() => {
     if (addCommentDone) {
-      setCommentText('');
+      setComment('');
     }
   }, [addCommentDone]);
 
@@ -30,27 +27,35 @@ function CommentForm({ post }: CommentFormProps) {
     if (id) {
       dispatch(
         addCommentRequestAction({
-          comment: commentText,
-          postId: post.id,
+          comment,
+          postId,
         })
       );
     }
-  }, [commentText, post]);
+  }, [comment, postId]);
 
   return (
     <Form onFinish={onSubmitComment}>
-      <Form.Item style={{ position: 'relative', margin: 0 }}>
+      <Form.Item
+        style={{
+          marginTop: '0.5rem',
+        }}
+      >
         <Input.TextArea
-          value={commentText}
-          onChange={onChangeCommentText}
+          value={comment}
+          onChange={onChangeComment}
           rows={4}
+          placeholder="글을 작성하세요"
+          style={{
+            background: 'rgba(0, 0, 0, .5)',
+            border: 'none',
+            color: '#fff',
+            resize: 'none',
+            height: '70px',
+          }}
         />
-        <Button
-          type="primary"
-          htmlType="submit"
-          style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 10 }}
-        >
-          삐약
+        <Button type="primary" htmlType="submit" style={{ marginTop: '.5rem' }}>
+          등록
         </Button>
       </Form.Item>
     </Form>

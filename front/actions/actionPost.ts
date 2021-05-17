@@ -12,9 +12,10 @@ import {
   IUploadImagesReqeust,
   IRemoveImage,
   CommentData,
+  AddPostData,
 } from '../interfaces/post/postAction.interfaces';
 
-export const addPostRequestAction = (data: FormData): IAddPostReqeust => {
+export const addPostRequestAction = (data: AddPostData): IAddPostReqeust => {
   return {
     type: actionTypesPost.ADD_POST_REQUEST,
     data,

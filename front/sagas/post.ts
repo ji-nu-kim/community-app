@@ -1,6 +1,7 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
   actionTypesPost,
+  AddPostData,
   CommentData,
   IAddCommentReqeust,
   IAddPostReqeust,
@@ -17,8 +18,8 @@ import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
 import { IComment, IPost } from 'interfaces/db';
 
-function postAPI(data: FormData) {
-  return axios.post('/post', data);
+function postAPI(data: AddPostData) {
+  return axios.post(`/post/${data.communityId}`, data.formData);
 }
 
 function* addPost(action: IAddPostReqeust) {

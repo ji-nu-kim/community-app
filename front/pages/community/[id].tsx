@@ -16,20 +16,20 @@ import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
 function Community() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { singleCommunity, loadCommunityError } = useSelector(
-    (state: RootStateInterface) => state.community
-  );
-  const { changeCommunityInfoDone } = useSelector(
-    (state: RootStateInterface) => state.community
+  const { singleCommunity, loadCommunityError, changeCommunityInfoDone } =
+    useSelector((state: RootStateInterface) => state.community);
+  const { addPostDone, addCommentDone } = useSelector(
+    (state: RootStateInterface) => state.post
   );
 
   const [communityModifyModal, setCommunityModifyModal] = useState(false);
 
   useEffect(() => {
-    dispatch(
-      loadCommunityRequestAction({ communityId: Number(router.query.id) })
-    );
-  }, [router.query.id]);
+    if (addPostDone || addCommentDone)
+      dispatch(
+        loadCommunityRequestAction({ communityId: Number(router.query.id) })
+      );
+  }, [addPostDone, addCommentDone, router.query.id]);
 
   useEffect(() => {
     if (changeCommunityInfoDone) {
@@ -65,8 +65,8 @@ function Community() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async context => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     const communityId = Number(context.query.id);
     axios.defaults.headers.Cookie = '';
@@ -79,7 +79,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     );
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  }
-);
+  });
 
 export default Community;

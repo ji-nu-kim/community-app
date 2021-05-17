@@ -215,26 +215,13 @@ export const DetailPost = styled.div`
   display: grid;
   grid-template-rows: 4fr 1fr;
 
-  .post-form {
-    .form-style {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-
-      textarea {
-        height: 100%;
-        color: #fff;
-        background: rgba(0, 0, 0, 0.4);
-        border: none;
-        resize: none;
-
-        :hover {
-          background: rgba(0, 0, 0, 0.5);
-        }
-        ::placeholder {
-          color: #fff;
-        }
-      }
-    }
+  .comment-container {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background: linear-gradient(
+      120deg,
+      rgba(69, 104, 220, 0.7),
+      rgba(176, 106, 179, 0.7)
+    );
   }
 `;

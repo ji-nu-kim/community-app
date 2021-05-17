@@ -31,58 +31,65 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 },
 });
 
-router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
-  try {
-    const post = await Post.create({
-      content: req.body.content,
-      UserId: req.user.id,
-    });
-
-    if (req.body.image) {
-      if (Array.isArray(req.body.image)) {
-        // Promise.all로 비동기 요청을 한 번에 처리
-        const images = await Promise.all(
-          req.body.image.map(img => Image.create({ src: img }))
-        );
-        await post.addImages(images);
-      } else {
-        const image = await Image.create({ src: req.body.image });
-        await post.addImages(image);
-      }
-    }
-    const fullPost = await Post.findOne({
-      where: { id: post.id },
-      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
-      include: [
-        { model: Image },
-        { model: User, attributes: ['id', 'nickname'] },
-        {
-          model: User,
-          as: 'Likers',
-          attributes: ['id'],
-        },
-        {
-          model: Comment,
-          include: [
-            {
-              model: User,
-              attributes: ['id', 'nickname'],
-            },
-          ],
-        },
-      ],
-    });
-    return res.status(201).json(fullPost);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
 });
+
+router.post(
+  '/:communityId',
+  isLoggedIn,
+  upload.none(),
+  async (req, res, next) => {
+    try {
+      console.log('-----------', req.body);
+      const post = await Post.create({
+        content: req.body.content,
+        UserId: req.user.id,
+        CommunityId: req.params.communityId,
+      });
+
+      if (req.body.image) {
+        if (Array.isArray(req.body.image)) {
+          // Promise.all로 비동기 요청을 한 번에 처리
+          const images = await Promise.all(
+            req.body.image.map(img => Image.create({ src: img }))
+          );
+          await post.addImages(images);
+        } else {
+          const image = await Image.create({ src: req.body.image });
+          await post.addImages(image);
+        }
+      }
+      const fullPost = await Post.findOne({
+        where: { id: post.id },
+        attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+        include: [
+          { model: Image },
+          { model: User, attributes: ['id', 'nickname'] },
+          {
+            model: User,
+            as: 'Likers',
+            attributes: ['id'],
+          },
+          {
+            model: Comment,
+            include: [
+              {
+                model: User,
+                attributes: ['id', 'nickname'],
+              },
+            ],
+          },
+        ],
+      });
+      return res.status(201).json(fullPost);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
 
 router.get('/:postId', async (req, res, next) => {
   try {

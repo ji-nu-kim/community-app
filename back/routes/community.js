@@ -111,6 +111,28 @@ router.get('/:communityId', async (req, res, next) => {
           through: 'CATEGORY_USER',
           attributes: ['name', 'profilePhoto'],
         },
+        {
+          model: Post,
+          include: [
+            { model: Image },
+            { model: User, attributes: ['id', 'nickname', 'profilePhoto'] },
+            {
+              model: User,
+              as: 'Likers',
+              attributes: ['id'],
+            },
+            {
+              model: Comment,
+              attributes: ['id', 'content'],
+              include: [
+                {
+                  model: User,
+                  attributes: ['id', 'nickname', 'profilePhoto'],
+                },
+              ],
+            },
+          ],
+        },
       ],
     });
     return res.status(200).json(fullCommunity);

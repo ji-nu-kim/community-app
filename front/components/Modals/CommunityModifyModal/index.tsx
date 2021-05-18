@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
+import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import {
   ModalContainer,
   ModalHeader,
@@ -106,4 +106,4 @@ function CommunityModal({ setCommunityModifyModal }: CommunityModalProps) {
   );
 }
 
-export default CommunityModal;
+export default memo(CommunityModal);

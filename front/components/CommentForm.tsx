@@ -45,7 +45,7 @@ function CommentForm({ postId }: CommentFormProps) {
           value={comment}
           onChange={onChangeComment}
           rows={4}
-          placeholder="글을 작성하세요"
+          placeholder="댓글을 작성하세요"
           style={{
             background: 'rgba(0, 0, 0, .5)',
             border: 'none',

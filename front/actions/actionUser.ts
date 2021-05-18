@@ -13,7 +13,7 @@ import {
   IAddCommunityToMe,
   IAddPostToMe,
   IRemovePostOfMe,
-  IRemoveImage,
+  IRemoveUserImage,
   ChangeProfileData,
 } from '../interfaces/user/userAction.interfaces';
 
@@ -42,7 +42,7 @@ export const loadUserInfoRequestAction = (data: {
   };
 };
 
-export const removeImage = (): IRemoveImage => {
+export const removeImage = (): IRemoveUserImage => {
   return {
     type: actionTypesUser.REMOVE_IMAGE,
   };

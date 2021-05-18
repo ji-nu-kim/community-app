@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useRef } from 'react';
+import React, { ChangeEvent, memo, useCallback, useRef } from 'react';
 import { CameraOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
@@ -105,4 +105,4 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
   );
 }
 
-export default ImageInsert;
+export default memo(ImageInsert);

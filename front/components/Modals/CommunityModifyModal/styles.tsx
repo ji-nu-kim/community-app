@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorAni } from '../../../utils/stylesUtil';
+import { ColorAni } from 'utils/stylesUtil';
 
 export const ModalContainer = styled.div`
   position: absolute;
@@ -83,5 +83,9 @@ export const TextAreaContainer = styled.div`
     height: 120px;
     border: none;
     resize: none;
+
+    ::placeholder {
+      color: #fff;
+    }
   }
 `;

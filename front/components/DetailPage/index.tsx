@@ -29,8 +29,6 @@ function DetailPage({
     user => user.id === me?.id
   ).length;
 
-  console.log(communityUser);
-
   const communityModifyModalTrigger = useCallback(() => {
     setCommunityModifyModal(prev => !prev);
   }, [setCommunityModifyModal]);
@@ -54,7 +52,13 @@ function DetailPage({
   );
 
   return (
-    <DetailBg bg={`http://localhost:3065/${singleCommunity.profilePhoto}`}>
+    <DetailBg
+      bg={
+        singleCommunity.profilePhoto
+          ? `http://localhost:3065/${singleCommunity.profilePhoto}`
+          : null
+      }
+    >
       <div className="detail-grid">
         <DetailHeader>
           <div className="header-left">

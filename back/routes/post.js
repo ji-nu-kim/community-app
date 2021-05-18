@@ -42,7 +42,6 @@ router.post(
   upload.none(),
   async (req, res, next) => {
     try {
-      console.log('-----------', req.body);
       const post = await Post.create({
         content: req.body.content,
         UserId: req.user.id,

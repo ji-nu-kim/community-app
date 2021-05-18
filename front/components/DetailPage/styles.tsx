@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ColorAni } from 'utils/stylesUtil';
 
 interface IBackgroundImage {
-  bg: string;
+  bg: string | null;
 }
 
 export const DetailBg = styled.div`

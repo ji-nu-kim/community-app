@@ -82,7 +82,7 @@ export interface ILoadUserInfoError {
   error: Error;
 }
 
-export interface IRemoveImage {
+export interface IRemoveUserImage {
   type: typeof actionTypesUser.REMOVE_IMAGE;
 }
 export interface IUploadImageReqeust {
@@ -177,4 +177,4 @@ export type ActionsUser =
   | IAddPostToMe
   | IAddCommunityToMe
   | IRemovePostOfMe
-  | IRemoveImage;
+  | IRemoveUserImage;

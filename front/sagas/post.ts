@@ -24,14 +24,9 @@ function postAPI(data: AddPostData) {
 
 function* addPost(action: IAddPostReqeust) {
   try {
-    const result: { data: IPost } = yield call(postAPI, action.data);
+    yield call(postAPI, action.data);
     yield put({
       type: actionTypesPost.ADD_POST_SUCCESS,
-      data: result.data,
-    });
-    yield put({
-      type: actionTypesUser.ADD_POST_TO_ME,
-      data: result.data.id,
     });
   } catch (error) {
     yield put({

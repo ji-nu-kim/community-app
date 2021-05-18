@@ -1,27 +1,64 @@
 import styled from 'styled-components';
+import { ColorAni } from 'utils/stylesUtil';
+
+interface ICommunityCard {
+  img: string | null;
+}
 
 export const CommunityCardContainer = styled.div`
+  background: linear-gradient(#f0f2f0, #000c40);
+  padding: 1rem;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
   display: grid;
-  grid-template-rows: 200px auto;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr;
+  @media (min-width: 1440px) {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
 
-  .card-image {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+export const CardWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+    url(${(props: ICommunityCard) => props.img});
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 4px 4px 2px rgba(0, 0, 0, 0.5);
+
+  :hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url(${(props: ICommunityCard) => props.img});
   }
 
-  .card-main {
-    padding: 8px;
-    line-height: 1.2;
+  .card-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 3rem;
+    color: #fff;
+  }
 
-    h2 {
-      margin-top: 4px;
-      font-weight: bold;
-      color: #fff;
-      font-size: 1.5rem;
+  .card-info {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    animation: ${ColorAni} 1.5s linear infinite;
+
+    .info-country {
+      color: coral;
     }
-
-    p {
-      text-indent: 4px;
-      font-weight: bold;
+    .info-category {
+      color: cornflowerblue;
+    }
+    .info-users {
+      color: lime;
     }
   }
 `;

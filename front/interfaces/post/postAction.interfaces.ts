@@ -44,7 +44,6 @@ export interface IAddPostReqeust {
 }
 export interface IAddPostSuccess {
   type: typeof actionTypesPost.ADD_POST_SUCCESS;
-  data: IPost;
 }
 export interface IAddPostError {
   type: typeof actionTypesPost.ADD_POST_ERROR;

@@ -8,7 +8,7 @@ import {
   IRemoveCommunityReqeust,
   IUpdateCommunityReqeust,
   ILoadCommunityReqeust,
-  ILoadCommunitysReqeust,
+  ILoadCommunitiesReqeust,
   ILoadCategoriesReqeust,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
@@ -74,11 +74,11 @@ export const loadCommunityRequestAction = (data: {
   };
 };
 
-export const loadCommunitysRequestAction = (data: {
+export const loadCommunitiesRequestAction = (data: {
   communityId: number;
-}): ILoadCommunitysReqeust => {
+}): ILoadCommunitiesReqeust => {
   return {
-    type: actionTypesCommunity.LOAD_COMMUNITYS_REQUEST,
+    type: actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
     data,
   };
 };

@@ -20,9 +20,9 @@ export const actionTypesCommunity = {
   LOAD_COMMUNITY_REQUEST: 'LOAD_COMMUNITY_REQUEST',
   LOAD_COMMUNITY_SUCCESS: 'LOAD_COMMUNITY_SUCCESS',
   LOAD_COMMUNITY_ERROR: 'LOAD_COMMUNITY_ERROR',
-  LOAD_COMMUNITYS_REQUEST: 'LOAD_COMMUNITYS_REQUEST',
-  LOAD_COMMUNITYS_SUCCESS: 'LOAD_COMMUNITYS_SUCCESS',
-  LOAD_COMMUNITYS_ERROR: 'LOAD_COMMUNITYS_ERROR',
+  LOAD_COMMUNITIES_REQUEST: 'LOAD_COMMUNITIES_REQUEST',
+  LOAD_COMMUNITIES_SUCCESS: 'LOAD_COMMUNITIES_SUCCESS',
+  LOAD_COMMUNITIES_ERROR: 'LOAD_COMMUNITIES_ERROR',
   LOAD_CATEGORIES_REQUEST: 'LOAD_CATEGORIES_REQUEST',
   LOAD_CATEGORIES_SUCCESS: 'LOAD_CATEGORIES_SUCCESS',
   LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
@@ -119,16 +119,16 @@ export interface ILoadCommunityError {
   type: typeof actionTypesCommunity.LOAD_COMMUNITY_ERROR;
   error: Error;
 }
-export interface ILoadCommunitysReqeust {
-  type: typeof actionTypesCommunity.LOAD_COMMUNITYS_REQUEST;
+export interface ILoadCommunitiesReqeust {
+  type: typeof actionTypesCommunity.LOAD_COMMUNITIES_REQUEST;
   data: { communityId: number };
 }
-export interface ILoadCommunitysSuccess {
-  type: typeof actionTypesCommunity.LOAD_COMMUNITYS_SUCCESS;
+export interface ILoadCommunitiesSuccess {
+  type: typeof actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS;
   data: ICommunity[];
 }
-export interface ILoadCommunitysError {
-  type: typeof actionTypesCommunity.LOAD_COMMUNITYS_ERROR;
+export interface ILoadCommunitiesError {
+  type: typeof actionTypesCommunity.LOAD_COMMUNITIES_ERROR;
   error: Error;
 }
 
@@ -164,9 +164,9 @@ export type ActionsCommunity =
   | ILoadCommunityReqeust
   | ILoadCommunitySuccess
   | ILoadCommunityError
-  | ILoadCommunitysReqeust
-  | ILoadCommunitysSuccess
-  | ILoadCommunitysError
+  | ILoadCommunitiesReqeust
+  | ILoadCommunitiesSuccess
+  | ILoadCommunitiesError
   | ILoadCategoriesReqeust
   | ILoadCategoriesSuccess
   | ILoadCategoriesError;

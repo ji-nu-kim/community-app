@@ -36,6 +36,7 @@ function Community() {
       dispatch(
         loadCommunityRequestAction({ communityId: Number(router.query.id) })
       );
+      dispatch(loadMyInfoRequestAction());
       setCommunityModifyModal(false);
     }
   }, [changeCommunityInfoDone, router.query.id]);

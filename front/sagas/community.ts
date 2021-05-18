@@ -4,6 +4,7 @@ import {
   actionTypesCommunity,
   CommunityData,
   ILoadCommunityReqeust,
+  ILoadCommunitiesReqeust,
   IUploadCommunityImageReqeust,
   IChangeCommunityInfoRequest,
   ChangeCommunityInfoData,
@@ -104,6 +105,28 @@ function* loadCommunity(action: ILoadCommunityReqeust) {
   }
 }
 
+function loadCommunitiesAPI(data: { communityId: number }) {
+  return axios.get(`/communities?lastId=${data.communityId}`);
+}
+
+function* loadCommunities(action: ILoadCommunitiesReqeust) {
+  try {
+    const result: { data: ICommunity[] } = yield call(
+      loadCommunitiesAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.LOAD_COMMUNITY_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LOAD_COMMUNITY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function loadCategoriesAPI() {
   return axios.get('/community/categories');
 }
@@ -141,6 +164,12 @@ function* watchAddCommunity() {
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
+function* watchLoadCommunities() {
+  yield takeLatest(
+    actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
+    loadCommunities
+  );
+}
 function* watchLoadCategories() {
   yield takeLatest(
     actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
@@ -154,6 +183,7 @@ export default function* communitySaga() {
     fork(watchChangeCommunityInfo),
     fork(watchAddCommunity),
     fork(watchLoadCommunity),
+    fork(watchLoadCommunities),
     fork(watchLoadCategories),
   ]);
 }

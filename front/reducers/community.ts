@@ -144,18 +144,18 @@ const reducer = (
         draft.loadCommunityError = action.error;
         break;
 
-      case actionTypesCommunity.LOAD_COMMUNITYS_REQUEST:
+      case actionTypesCommunity.LOAD_COMMUNITIES_REQUEST:
         draft.loadCommunitiesLoading = true;
         draft.loadCommunitiesDone = false;
         draft.loadCommunitiesError = null;
         break;
-      case actionTypesCommunity.LOAD_COMMUNITYS_SUCCESS:
+      case actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS:
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesDone = true;
         draft.mainCommunities = draft.mainCommunities.concat(action.data);
         draft.hasMoreCommunity = action.data.length === 10;
         break;
-      case actionTypesCommunity.LOAD_COMMUNITYS_ERROR:
+      case actionTypesCommunity.LOAD_COMMUNITIES_ERROR:
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesError = action.error;
         break;

@@ -47,10 +47,6 @@ router.get('/', async (req, res, next) => {
         attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
         include: [
           {
-            model: Post,
-            attributes: ['id'],
-          },
-          {
             model: Community,
             as: 'Owned',
           },
@@ -62,6 +58,17 @@ router.get('/', async (req, res, next) => {
           {
             model: Community,
             through: 'COMMUNITY_USER',
+            include: [
+              {
+                model: User,
+                through: 'COMMUNITY_USER',
+              },
+              {
+                model: Category,
+                through: 'COMMUNITY_CATEGORY',
+                attributes: ['name', 'profilePhoto'],
+              },
+            ],
           },
         ],
       });

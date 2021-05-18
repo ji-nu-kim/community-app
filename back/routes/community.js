@@ -7,10 +7,9 @@ const {
   Image,
   Comment,
   Community,
-  sequelize,
   Category,
 } = require('../models');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
@@ -108,7 +107,7 @@ router.get('/:communityId', async (req, res, next) => {
         },
         {
           model: Category,
-          through: 'CATEGORY_USER',
+          through: 'COMMUNITY_CATEGORY',
           attributes: ['name', 'profilePhoto'],
         },
         {

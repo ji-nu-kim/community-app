@@ -53,7 +53,6 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.imagePaths = [];
-        draft.mainPosts.unshift(action.data);
         break;
       case actionTypesPost.ADD_POST_ERROR:
         draft.addPostLoading = false;

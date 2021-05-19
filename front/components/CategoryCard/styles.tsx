@@ -44,6 +44,5 @@ export const CardContainer = styled.div`
     color: #fff;
     font-weight: bold;
     font-size: 1.5rem;
-    z-index: 10;
   }
 `;

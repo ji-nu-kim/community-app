@@ -125,15 +125,18 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.signUpError = action.error;
         break;
 
+      case actionTypesUser.CHANGE_COUNTRY_REQUEST:
       case actionTypesUser.CHANGE_PROFILE_REQUEST:
         draft.changeProfileLoading = true;
         draft.changeProfileDone = false;
         draft.changeProfileError = null;
         break;
+      case actionTypesUser.CHANGE_COUNTRY_SUCCESS:
       case actionTypesUser.CHANGE_PROFILE_SUCCESS:
         draft.changeProfileLoading = false;
         draft.changeProfileDone = true;
         break;
+      case actionTypesUser.CHANGE_COUNTRY_ERROR:
       case actionTypesUser.CHANGE_PROFILE_ERROR:
         draft.changeProfileLoading = false;
         draft.changeProfileError = action.error;

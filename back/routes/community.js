@@ -44,10 +44,8 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     });
     await community.addUsers(req.user.id);
     await community.addCategories(parseInt(req.body.category, 10));
-    const fullCommunity = await Community.findOne({
-      where: { id: community.id },
-    });
-    return res.status(201).json(fullCommunity);
+
+    return res.status(200).send('커뮤니티를 생성했습니다');
   } catch (error) {
     console.error(error);
     next(error);

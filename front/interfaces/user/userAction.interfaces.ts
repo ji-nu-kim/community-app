@@ -1,4 +1,4 @@
-import { ICommunity, IUser } from '../db';
+import { IUser } from '../db';
 
 export const actionTypesUser = {
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
@@ -22,6 +22,9 @@ export const actionTypesUser = {
   CHANGE_PROFILE_REQUEST: 'CHANGE_PROFILE_REQUEST',
   CHANGE_PROFILE_SUCCESS: 'CHANGE_PROFILE_SUCCESS',
   CHANGE_PROFILE_ERROR: 'CHANGE_PROFILE_ERROR',
+  CHANGE_COUNTRY_REQUEST: 'CHANGE_COUNTRY_REQUEST',
+  CHANGE_COUNTRY_SUCCESS: 'CHANGE_COUNTRY_SUCCESS',
+  CHANGE_COUNTRY_ERROR: 'CHANGE_COUNTRY_ERROR',
   ADD_POST_TO_ME: 'ADD_POST_TO_ME',
   ADD_COMMUNITY_TO_ME: 'ADD_COMMUNITY_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
@@ -131,15 +134,22 @@ export interface IChangeProfileRequest {
 }
 export interface IChangeProfileSuccess {
   type: typeof actionTypesUser.CHANGE_PROFILE_SUCCESS;
-  data: string;
 }
 export interface IChangeProfileError {
   type: typeof actionTypesUser.CHANGE_PROFILE_ERROR;
   error: Error;
 }
-export interface IAddCommunityToMe {
-  type: typeof actionTypesUser.ADD_COMMUNITY_TO_ME;
-  data: ICommunity;
+
+export interface IChangeCountryRequest {
+  type: typeof actionTypesUser.CHANGE_COUNTRY_REQUEST;
+  data: { country: string };
+}
+export interface IChangeCountrySuccess {
+  type: typeof actionTypesUser.CHANGE_COUNTRY_SUCCESS;
+}
+export interface IChangeCountryError {
+  type: typeof actionTypesUser.CHANGE_COUNTRY_ERROR;
+  error: Error;
 }
 
 export interface IAddPostToMe {
@@ -174,7 +184,9 @@ export type ActionsUser =
   | IChangeProfileRequest
   | IChangeProfileSuccess
   | IChangeProfileError
+  | IChangeCountryRequest
+  | IChangeCountrySuccess
+  | IChangeCountryError
   | IAddPostToMe
-  | IAddCommunityToMe
   | IRemovePostOfMe
   | IRemoveUserImage;

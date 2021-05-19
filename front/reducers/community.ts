@@ -86,7 +86,6 @@ const reducer = (
       case actionTypesCommunity.ADD_COMMUNITY_SUCCESS:
         draft.addCommunityLoading = false;
         draft.addCommunityDone = true;
-        draft.mainCommunities.unshift(action.data);
         break;
       case actionTypesCommunity.ADD_COMMUNITY_ERROR:
         draft.addCommunityLoading = false;

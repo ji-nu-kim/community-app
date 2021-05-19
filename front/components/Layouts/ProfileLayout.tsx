@@ -61,8 +61,7 @@ export const ProfileGridHeader = styled.div`
         color: #039be5;
         font-weight: bold;
       }
-      h1,
-      h2 {
+      h1 {
         color: #fff;
         font-weight: bold;
       }
@@ -70,8 +69,16 @@ export const ProfileGridHeader = styled.div`
       h1 {
         font-size: 2rem;
       }
-      h2 {
-        font-size: 1rem;
+
+      .text-country {
+        cursor: pointer;
+        color: #cdcedf;
+        font-size: 0.8rem;
+        font-weight: bold;
+
+        :hover {
+          color: #e3e3ec;
+        }
       }
     }
   }

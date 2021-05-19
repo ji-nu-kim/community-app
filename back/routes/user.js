@@ -174,6 +174,20 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.patch('/country', isLoggedIn, async (req, res, next) => {
+  try {
+    console.log(req.body.country);
+    await User.update(
+      { country: req.body.country },
+      { where: { id: req.user.id } }
+    );
+    return res.status(200).send('주소가 변경 되었습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/image', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));

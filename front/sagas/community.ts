@@ -9,7 +9,6 @@ import {
   IChangeCommunityInfoRequest,
   ChangeCommunityInfoData,
 } from '../interfaces/community/communityAction.interfaces';
-import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
 import { ICommunity } from 'interfaces/db';
 
@@ -63,17 +62,9 @@ function addCommunityAPI(data: CommunityData) {
 
 function* addCommunity(action: IAddCommunityReqeust) {
   try {
-    const result: { data: ICommunity } = yield call(
-      addCommunityAPI,
-      action.data
-    );
+    yield call(addCommunityAPI, action.data);
     yield put({
       type: actionTypesCommunity.ADD_COMMUNITY_SUCCESS,
-      data: result.data,
-    });
-    yield put({
-      type: actionTypesUser.ADD_COMMUNITY_TO_ME,
-      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -116,12 +107,12 @@ function* loadCommunities(action: ILoadCommunitiesReqeust) {
       action.data
     );
     yield put({
-      type: actionTypesCommunity.LOAD_COMMUNITY_SUCCESS,
+      type: actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS,
       data: result.data,
     });
   } catch (error) {
     yield put({
-      type: actionTypesCommunity.LOAD_COMMUNITY_ERROR,
+      type: actionTypesCommunity.LOAD_COMMUNITIES_ERROR,
       error: error.response.data,
     });
   }

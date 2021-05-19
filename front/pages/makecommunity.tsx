@@ -88,7 +88,6 @@ function MakeCommunity() {
 
   const onSubmit = useCallback(
     handleSubmit((data: SignUpType) => {
-      console.log(category);
       if (country === '') {
         return setCountryError(true);
       }
@@ -200,8 +199,8 @@ function MakeCommunity() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async context => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
@@ -211,7 +210,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     context.store.dispatch(loadCategoriesReqeustAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  }
-);
+  });
 
 export default MakeCommunity;

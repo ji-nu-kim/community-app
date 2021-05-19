@@ -2,6 +2,7 @@ import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
   actionTypesUser,
   ChangeProfileData,
+  IChangeCountryRequest,
   IChangeProfileRequest,
   ILoadUserInfoRequest,
   ILogInRequest,
@@ -138,14 +139,31 @@ function changeProfileAPI(data: ChangeProfileData) {
 
 function* changeProfile(action: IChangeProfileRequest) {
   try {
-    const result: { data: string } = yield call(changeProfileAPI, action.data);
+    yield call(changeProfileAPI, action.data);
     yield put({
       type: actionTypesUser.CHANGE_PROFILE_SUCCESS,
-      data: result.data,
     });
   } catch (error) {
     yield put({
       type: actionTypesUser.CHANGE_PROFILE_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function changeCountryAPI(data: { country: string }) {
+  return axios.patch('/user/country', data);
+}
+
+function* changeCountry(action: IChangeCountryRequest) {
+  try {
+    yield call(changeCountryAPI, action.data);
+    yield put({
+      type: actionTypesUser.CHANGE_COUNTRY_SUCCESS,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesUser.CHANGE_COUNTRY_ERROR,
       error: error.response.data,
     });
   }
@@ -172,6 +190,9 @@ function* watchSignUp() {
 function* watchChangeProfile() {
   yield takeLatest(actionTypesUser.CHANGE_PROFILE_REQUEST, changeProfile);
 }
+function* watchChangeCountry() {
+  yield takeLatest(actionTypesUser.CHANGE_COUNTRY_REQUEST, changeCountry);
+}
 
 export default function* userSaga() {
   yield all([
@@ -182,5 +203,6 @@ export default function* userSaga() {
     fork(watchUploadImage),
     fork(watchSignUp),
     fork(watchChangeProfile),
+    fork(watchChangeCountry),
   ]);
 }

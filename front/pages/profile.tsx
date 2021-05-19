@@ -2,9 +2,12 @@ import AppLayout from '../components/AppLayout';
 import { RootStateInterface } from '../interfaces/RootState';
 import Head from 'next/head';
 import Router from 'next/router';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadMyInfoRequestAction } from 'actions/actionUser';
+import {
+  changeCountryRequestAction,
+  loadMyInfoRequestAction,
+} from 'actions/actionUser';
 import { GetServerSideProps } from 'next';
 import wrapper from 'store/configureStore';
 import axios from 'axios';
@@ -18,6 +21,7 @@ import ProfileLayout, {
 import ProfileModifyModal from 'components/Modals/ProfileModifyModal';
 import { loadCategoriesReqeustAction } from 'actions/actionCommunity';
 import CategoryCard from 'components/CategoryCard';
+import CountryModal from 'components/Modals/CountryModal';
 
 function Profile() {
   const dispatch = useDispatch();
@@ -25,6 +29,17 @@ function Profile() {
     (state: RootStateInterface) => state.user
   );
   const [profileModifyModal, setProfileModifyModal] = useState(false);
+  const [countryModal, setCountryModal] = useState(false);
+  const [modifyCountry, setModifyCountry] = useState('');
+
+  const openCountryModal = useCallback(() => {
+    setCountryModal(true);
+  }, []);
+
+  const closeCountryModal = useCallback(() => {
+    setCountryModal(false);
+    setModifyCountry('');
+  }, []);
 
   const profileModifyModalTrigger = useCallback(() => {
     setProfileModifyModal(prev => !prev);
@@ -35,7 +50,15 @@ function Profile() {
       setProfileModifyModal(false);
       dispatch(loadMyInfoRequestAction());
     }
-  }, [changeProfileDone]);
+
+    if (modifyCountry !== '') {
+      if (confirm(`주소를 ${modifyCountry}로 변경하시겠습니까?`)) {
+        dispatch(changeCountryRequestAction({ country: modifyCountry }));
+      } else {
+        alert('취소했습니다');
+      }
+    }
+  }, [changeProfileDone, modifyCountry]);
 
   useEffect(() => {
     if (!me) {
@@ -68,7 +91,9 @@ function Profile() {
                 <div className="header-text">
                   <p>프로필</p>
                   <h1>{me?.nickname}</h1>
-                  <h2>{me?.country}</h2>
+                  <p className="text-country" onClick={openCountryModal}>
+                    {me?.country}
+                  </p>
                 </div>
               </div>
               <div className="header-right">
@@ -95,12 +120,12 @@ function Profile() {
               <div className="contents-vertical">
                 <h1>나의 커뮤니티 리스트</h1>
                 <div className="contents-container">
-                  {me?.Categories?.map(v => (
-                    <div key={v.name} className="content-container">
+                  {me?.Communities?.map(community => (
+                    <div key={community.id} className="content-container">
+                      {/* 디자인 바꾸기 */}
                       <CategoryCard
-                        key={v.name}
-                        name={v.name}
-                        img={`http://localhost:3065/${v.profilePhoto}`}
+                        name={community.communityName}
+                        img={`http://localhost:3065/${community.profilePhoto}`}
                         width="250"
                         height="120"
                       />
@@ -115,13 +140,19 @@ function Profile() {
         {profileModifyModal && (
           <ProfileModifyModal setProfileModifyModal={setProfileModifyModal} />
         )}
+        {countryModal && (
+          <CountryModal
+            closeCountryModal={closeCountryModal}
+            setCountry={setModifyCountry}
+          />
+        )}
       </AppLayout>
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async context => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
@@ -131,7 +162,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     context.store.dispatch(loadCategoriesReqeustAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  }
-);
+  });
 
-export default Profile;
+export default memo(Profile);

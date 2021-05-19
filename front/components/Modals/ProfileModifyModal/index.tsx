@@ -2,7 +2,13 @@ import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, Form } from 'antd';
 import ImageInsert from 'components/ImageInsert';
 import { RootStateInterface } from 'interfaces/RootState';
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalContainer, ModalHeader, ModalFormContainer } from './styles';
 import useInput from 'hooks/useInput';
@@ -96,4 +102,4 @@ function ProfileModifyModal({
   );
 }
 
-export default ProfileModifyModal;
+export default memo(ProfileModifyModal);

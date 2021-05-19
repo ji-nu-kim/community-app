@@ -76,7 +76,6 @@ export interface IAddCommunityReqeust {
 }
 export interface IAddCommunitySuccess {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_SUCCESS;
-  data: ICommunity;
 }
 export interface IAddCommunityError {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_ERROR;

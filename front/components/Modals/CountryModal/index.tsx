@@ -1,6 +1,21 @@
 import { Button } from 'antd';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, memo, SetStateAction } from 'react';
 import DaumPostcode from 'react-daum-postcode';
+import styled from 'styled-components';
+
+const CountryModalContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: saturate(180%) blur(12px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 100;
+`;
 
 interface CountryModalProps {
   closeCountryModal: () => void;
@@ -21,18 +36,7 @@ function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
   } as const;
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        background: '#fff',
-        position: 'absolute',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <CountryModalContainer>
       <DaumPostcode style={postCodeStyle} onComplete={handleComplete} />
       <Button
         style={{ marginTop: '1rem' }}
@@ -41,8 +45,8 @@ function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
       >
         닫기
       </Button>
-    </div>
+    </CountryModalContainer>
   );
 }
 
-export default CountryModal;
+export default memo(CountryModal);

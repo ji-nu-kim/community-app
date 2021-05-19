@@ -1,4 +1,3 @@
-import { ICommunity } from 'interfaces/db';
 import {
   actionTypesUser,
   ILogInRequest,
@@ -8,9 +7,9 @@ import {
   IUploadImageReqeust,
   ISignUpRequest,
   IChangeProfileRequest,
+  IChangeCountryRequest,
   SignUpData,
   LoginData,
-  IAddCommunityToMe,
   IAddPostToMe,
   IRemovePostOfMe,
   IRemoveUserImage,
@@ -71,15 +70,17 @@ export const changeProfileRequestAction = (
     data,
   };
 };
-export const addPostToMe = (data: number): IAddPostToMe => {
+export const changeCountryRequestAction = (data: {
+  country: string;
+}): IChangeCountryRequest => {
   return {
-    type: actionTypesUser.ADD_POST_TO_ME,
+    type: actionTypesUser.CHANGE_COUNTRY_REQUEST,
     data,
   };
 };
-export const addCommunityToMe = (data: ICommunity): IAddCommunityToMe => {
+export const addPostToMe = (data: number): IAddPostToMe => {
   return {
-    type: actionTypesUser.ADD_COMMUNITY_TO_ME,
+    type: actionTypesUser.ADD_POST_TO_ME,
     data,
   };
 };

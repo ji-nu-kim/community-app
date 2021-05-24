@@ -54,9 +54,8 @@ function DetailPage({
   return (
     <DetailBg
       bg={
-        singleCommunity.profilePhoto
-          ? `http://localhost:3065/${singleCommunity.profilePhoto}`
-          : null
+        singleCommunity.profilePhoto &&
+        `http://localhost:3065/${singleCommunity.profilePhoto}`
       }
     >
       <div className="detail-grid">
@@ -150,13 +149,13 @@ function DetailPage({
                 {/* 게시글 디자인 */}
                 <div className="post-view" style={{ overflow: 'auto' }}>
                   {singleCommunity.Posts.length ? (
-                    singleCommunity.Posts.map(v => (
+                    singleCommunity.Posts.map(post => (
                       <div
                         style={{
                           background: 'rgba(255,255,255,.5)',
                           marginBottom: '1rem',
                         }}
-                        key={v.id}
+                        key={post.id}
                       >
                         <div
                           style={{
@@ -168,7 +167,7 @@ function DetailPage({
                         >
                           <div style={{ display: 'flex' }}>
                             <span>
-                              {v.User.profilePhoto ? (
+                              {post.User.profilePhoto ? (
                                 <img
                                   width="24px"
                                   height="24px"
@@ -176,23 +175,25 @@ function DetailPage({
                                     borderRadius: '50%',
                                     objectFit: 'cover',
                                   }}
-                                  src={`http://localhost:3065/${v.User.profilePhoto}`}
+                                  src={`http://localhost:3065/${post.User.profilePhoto}`}
                                   alt="profile image"
                                 />
                               ) : (
-                                v.communityName[0]
+                                post.User.nickname[0]
                               )}
                             </span>
                             <div style={{ marginLeft: '4px' }}>
-                              {v.User.nickname}
+                              {post.User.nickname}
                             </div>
                           </div>
-                          <div>{moment(v.createdAt, 'YYYYMMDD').fromNow()}</div>
+                          <div>
+                            {moment(post.createdAt, 'YYYYMMDD').fromNow()}
+                          </div>
                         </div>
-                        {v.Images.length ? (
+                        {post.Images.length ? (
                           <img
-                            src={`http://localhost:3065/${v.Images.map(
-                              y => y.src
+                            src={`http://localhost:3065/${post.Images.map(
+                              image => image.src
                             )}`}
                             alt="image"
                             width="100%"
@@ -202,7 +203,7 @@ function DetailPage({
                           />
                         ) : null}
                         <div style={{ padding: '1rem 0.5rem' }}>
-                          {v.content}
+                          {post.content}
                         </div>
                         <div
                           style={{
@@ -211,7 +212,7 @@ function DetailPage({
                           }}
                         >
                           <div
-                            onClick={onToggleComment(v.id)}
+                            onClick={onToggleComment(post.id)}
                             style={{
                               cursor: 'pointer',
                             }}
@@ -219,14 +220,15 @@ function DetailPage({
                             <span style={{ marginRight: '4px' }}>
                               <MessageOutlined />
                             </span>
-                            {v.Comments.length
-                              ? `댓글 ${v.Comments.length}개 모두보기`
+                            {post.Comments.length
+                              ? `댓글 ${post.Comments.length}개 모두보기`
                               : '댓글 작성하기'}
                           </div>
-                          {openComment && currentPost === v.id && (
+
+                          {openComment && currentPost === post.id && (
                             <>
-                              {v.Comments &&
-                                v.Comments.map(comment => (
+                              {post.Comments &&
+                                post.Comments.map(comment => (
                                   <div
                                     className="comment-container"
                                     key={comment.id}
@@ -241,11 +243,11 @@ function DetailPage({
                                               borderRadius: '50%',
                                               objectFit: 'cover',
                                             }}
-                                            src={`http://localhost:3065/${v.User.profilePhoto}`}
+                                            src={`http://localhost:3065/${comment.User.profilePhoto}`}
                                             alt="profile image"
                                           />
                                         ) : (
-                                          v.communityName[0]
+                                          comment.User.nickname[0]
                                         )}
                                       </span>
                                       <div style={{ marginLeft: '4px' }}>
@@ -267,7 +269,7 @@ function DetailPage({
                                   textAlign: 'end',
                                 }}
                               >
-                                <CommentForm postId={v.id} />
+                                <CommentForm postId={post.id} />
                               </div>
                             </>
                           )}

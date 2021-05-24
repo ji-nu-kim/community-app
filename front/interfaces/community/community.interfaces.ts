@@ -4,6 +4,7 @@ export interface CommunityState {
   imagePath: string[];
   singleCommunity: ICommunity | null;
   mainCommunities: ICommunity[];
+  changableCommunities: ICommunity[];
   mainCategories: ICategory[];
   hasMoreCommunity: boolean;
 

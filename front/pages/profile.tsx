@@ -20,7 +20,7 @@ import ProfileLayout, {
 } from 'components/Layouts/ProfileLayout';
 import ProfileModifyModal from 'components/Modals/ProfileModifyModal';
 import { loadCategoriesReqeustAction } from 'actions/actionCommunity';
-import CategoryCard from 'components/CategoryCard';
+import SearchSectionCard from 'components/SearchSectionCard';
 import CountryModal from 'components/Modals/CountryModal';
 
 function Profile() {
@@ -104,12 +104,13 @@ function Profile() {
               <div className="contents-vertical">
                 <h1>나의 카테고리 리스트</h1>
                 <div className="contents-container">
-                  {me?.Categories?.map(v => (
-                    <div key={v.name} className="content-container">
-                      <CategoryCard
-                        key={v.name}
-                        name={v.name}
-                        img={`http://localhost:3065/${v.profilePhoto}`}
+                  {me?.Categories?.map(category => (
+                    <div key={category.name} className="content-container">
+                      <SearchSectionCard
+                        id={category.id}
+                        key={category.name}
+                        name={category.name}
+                        img={`http://localhost:3065/${category.profilePhoto}`}
                         width="250"
                         height="120"
                       />
@@ -122,8 +123,8 @@ function Profile() {
                 <div className="contents-container">
                   {me?.Communities?.map(community => (
                     <div key={community.id} className="content-container">
-                      {/* 디자인 바꾸기 */}
-                      <CategoryCard
+                      <SearchSectionCard
+                        id={community.id}
                         name={community.communityName}
                         img={`http://localhost:3065/${community.profilePhoto}`}
                         width="250"

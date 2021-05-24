@@ -27,6 +27,7 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 },
 });
 
+// 커뮤니티 생성
 router.post('/', isLoggedIn, async (req, res, next) => {
   try {
     const exCommunity = await Community.findOne({
@@ -52,6 +53,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 카테고리 검색
 router.get('/categories', async (req, res, next) => {
   try {
     const categories = await Category.findAll();
@@ -65,6 +67,7 @@ router.get('/categories', async (req, res, next) => {
   }
 });
 
+// 커뮤니티 정보 수정
 router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
     await Community.update(
@@ -84,10 +87,12 @@ router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 커뮤니티 이미지
 router.post('/image', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
 });
 
+// 개별 커뮤니티 검색
 router.get('/:communityId', async (req, res, next) => {
   try {
     const community = await Community.findOne({

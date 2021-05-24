@@ -3,16 +3,17 @@ import React from 'react';
 import { CardContainer } from './styles';
 
 interface CategoryCardProps {
+  id: number;
   name: string;
   img: string;
   width: string;
   height: string;
 }
 
-function CategoryCard({ name, img, width, height }: CategoryCardProps) {
+function CategoryCard({ name, img, width, height, id }: CategoryCardProps) {
   return (
     <>
-      <Link href={`/category/${name}`}>
+      <Link href={`/category/${id}`}>
         <a>
           <CardContainer img={img} width={width} height={height}>
             <h2>{name}</h2>

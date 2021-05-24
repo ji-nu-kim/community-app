@@ -19,15 +19,15 @@ function search() {
     <AppLayout>
       <SearchSection
         title="가장 인기있는 취미"
-        categories={mainCategories.slice(0, 5)}
+        categories={mainCategories.slice(0, 6)}
       />
       <SearchSection title="모든 취미" categories={mainCategories} />
     </AppLayout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async context => {
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
@@ -37,7 +37,6 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     context.store.dispatch(loadCategoriesReqeustAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  }
-);
+  });
 
 export default search;

@@ -9,6 +9,8 @@ import {
   IUpdateCommunityReqeust,
   ILoadCommunityReqeust,
   ILoadCommunitiesReqeust,
+  ILoadCountryCommunitiesRequest,
+  ILoadCategoryCommunitiesRequest,
   ILoadCategoriesReqeust,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
@@ -74,11 +76,28 @@ export const loadCommunityRequestAction = (data: {
   };
 };
 
-export const loadCommunitiesRequestAction = (data: {
-  communityId: number;
-}): ILoadCommunitiesReqeust => {
+export const loadCommunitiesRequestAction = (): ILoadCommunitiesReqeust => {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
+  };
+};
+
+export const loadCountryCommunitiesRequestAction = (data: {
+  country: string;
+  communityId: number;
+}): ILoadCountryCommunitiesRequest => {
+  return {
+    type: actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST,
+    data,
+  };
+};
+
+export const loadCategoryCommunitiesRequestAction = (data: {
+  categoryId: number;
+  communityId: number;
+}): ILoadCategoryCommunitiesRequest => {
+  return {
+    type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST,
     data,
   };
 };

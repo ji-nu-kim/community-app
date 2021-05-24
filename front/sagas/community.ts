@@ -4,10 +4,11 @@ import {
   actionTypesCommunity,
   CommunityData,
   ILoadCommunityReqeust,
-  ILoadCommunitiesReqeust,
   IUploadCommunityImageReqeust,
   IChangeCommunityInfoRequest,
   ChangeCommunityInfoData,
+  ILoadCountryCommunitiesRequest,
+  ILoadCategoryCommunitiesRequest,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
 import { ICommunity } from 'interfaces/db';
@@ -96,16 +97,13 @@ function* loadCommunity(action: ILoadCommunityReqeust) {
   }
 }
 
-function loadCommunitiesAPI(data: { communityId: number }) {
-  return axios.get(`/communities?lastId=${data.communityId}`);
+function loadCommunitiesAPI() {
+  return axios.get('/communities');
 }
 
-function* loadCommunities(action: ILoadCommunitiesReqeust) {
+function* loadCommunities() {
   try {
-    const result: { data: ICommunity[] } = yield call(
-      loadCommunitiesAPI,
-      action.data
-    );
+    const result: { data: ICommunity[] } = yield call(loadCommunitiesAPI);
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS,
       data: result.data,
@@ -113,6 +111,62 @@ function* loadCommunities(action: ILoadCommunitiesReqeust) {
   } catch (error) {
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITIES_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadCountryCommunitiesAPI(data: {
+  country: string;
+  communityId: number;
+}) {
+  return axios.get(
+    `/communities/country/${data.country}?lastId=${data.communityId}`
+  );
+}
+
+function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
+  try {
+    const result: { data: ICommunity[] } = yield call(
+      loadCountryCommunitiesAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadCategoryCommunitiesAPI(data: {
+  categoryId: number;
+  communityId: number;
+}) {
+  console.log(data);
+  return axios.get(
+    `/communities/category/${data.categoryId}?lastId=${data.communityId}`
+  );
+}
+
+function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
+  try {
+    const result: { data: ICommunity[] } = yield call(
+      loadCategoryCommunitiesAPI,
+      action.data
+    );
+    console.log(result.data);
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR,
       error: error.response.data,
     });
   }
@@ -161,6 +215,18 @@ function* watchLoadCommunities() {
     loadCommunities
   );
 }
+function* watchLoadCountryCommunities() {
+  yield takeLatest(
+    actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST,
+    loadCountryCommunities
+  );
+}
+function* watchLoadCategoryCommunities() {
+  yield takeLatest(
+    actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST,
+    loadCategoryCommunities
+  );
+}
 function* watchLoadCategories() {
   yield takeLatest(
     actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
@@ -175,6 +241,8 @@ export default function* communitySaga() {
     fork(watchAddCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCommunities),
+    fork(watchLoadCountryCommunities),
+    fork(watchLoadCategoryCommunities),
     fork(watchLoadCategories),
   ]);
 }

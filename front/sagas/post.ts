@@ -60,7 +60,6 @@ function* removePost(action: IRemovePostReqeust) {
 }
 
 function updatePostAPI(data: { postId: number; content: string }) {
-  console.log(data.content);
   return axios.patch(`/post/${data.postId}`, data);
 }
 

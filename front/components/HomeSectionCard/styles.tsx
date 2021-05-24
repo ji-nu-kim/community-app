@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const HomeCardContainer = styled.div`
-  width: 250px;
+  width: 240px;
   height: 260px;
   cursor: pointer;
   margin-right: 2rem;

@@ -18,7 +18,8 @@ function HomeCard({
     <HomeCardContainer>
       {profilePhoto ? (
         <img
-          width="250"
+          width="240"
+          height="166"
           src={`http://localhost:3065/${profilePhoto}`}
           alt="사진"
         />

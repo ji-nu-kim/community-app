@@ -8,7 +8,7 @@ import wrapper from 'store/configureStore';
 import axios from 'axios';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import { END } from '@redux-saga/core';
-import CommunityCard from 'components/CommunityCard';
+import MyCommunityCard from 'components/MyCommunityCard';
 import Message from 'components/Message';
 
 function mycommunity() {
@@ -23,7 +23,7 @@ function mycommunity() {
   return (
     <AppLayout>
       {me?.Communities.length ? (
-        <CommunityCard communities={me.Communities} />
+        <MyCommunityCard communities={me.Communities} />
       ) : (
         <Message text="커뮤니티에 가입해보세요옹~" />
       )}

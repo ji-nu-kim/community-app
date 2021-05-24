@@ -23,6 +23,12 @@ export const actionTypesCommunity = {
   LOAD_COMMUNITIES_REQUEST: 'LOAD_COMMUNITIES_REQUEST',
   LOAD_COMMUNITIES_SUCCESS: 'LOAD_COMMUNITIES_SUCCESS',
   LOAD_COMMUNITIES_ERROR: 'LOAD_COMMUNITIES_ERROR',
+  LOAD_COUNTRY_COMMUNITIES_REQUEST: 'LOAD_COUNTRY_COMMUNITIES_REQUEST',
+  LOAD_COUNTRY_COMMUNITIES_SUCCESS: 'LOAD_COUNTRY_COMMUNITIES_SUCCESS',
+  LOAD_COUNTRY_COMMUNITIES_ERROR: 'LOAD_COUNTRY_COMMUNITIES_ERROR',
+  LOAD_CATEGORY_COMMUNITIES_REQUEST: 'LOAD_CATEGORY_COMMUNITIES_REQUEST',
+  LOAD_CATEGORY_COMMUNITIES_SUCCESS: 'LOAD_CATEGORY_COMMUNITIES_SUCCESS',
+  LOAD_CATEGORY_COMMUNITIES_ERROR: 'LOAD_CATEGORY_COMMUNITIES_ERROR',
   LOAD_CATEGORIES_REQUEST: 'LOAD_CATEGORIES_REQUEST',
   LOAD_CATEGORIES_SUCCESS: 'LOAD_CATEGORIES_SUCCESS',
   LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
@@ -120,7 +126,6 @@ export interface ILoadCommunityError {
 }
 export interface ILoadCommunitiesReqeust {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_REQUEST;
-  data: { communityId: number };
 }
 export interface ILoadCommunitiesSuccess {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS;
@@ -128,6 +133,32 @@ export interface ILoadCommunitiesSuccess {
 }
 export interface ILoadCommunitiesError {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_ERROR;
+  error: Error;
+}
+
+export interface ILoadCountryCommunitiesRequest {
+  type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST;
+  data: { country: string; communityId: number };
+}
+export interface ILoadCountryCommunitiesSuccess {
+  type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_SUCCESS;
+  data: ICommunity[];
+}
+export interface ILoadCountryCommunitiesError {
+  type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR;
+  error: Error;
+}
+
+export interface ILoadCategoryCommunitiesRequest {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST;
+  data: { categoryId: number; communityId: number };
+}
+export interface ILoadCategoryCommunitiesSuccess {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_SUCCESS;
+  data: ICommunity[];
+}
+export interface ILoadCategoryCommunitiesError {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR;
   error: Error;
 }
 
@@ -166,6 +197,12 @@ export type ActionsCommunity =
   | ILoadCommunitiesReqeust
   | ILoadCommunitiesSuccess
   | ILoadCommunitiesError
+  | ILoadCountryCommunitiesRequest
+  | ILoadCountryCommunitiesSuccess
+  | ILoadCountryCommunitiesError
+  | ILoadCategoryCommunitiesRequest
+  | ILoadCategoryCommunitiesSuccess
+  | ILoadCategoryCommunitiesError
   | ILoadCategoriesReqeust
   | ILoadCategoriesSuccess
   | ILoadCategoriesError;

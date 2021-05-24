@@ -8,8 +8,26 @@ export interface IUserInfo {
   id: number;
   nickname: string;
   country: string;
-  Categories?: { name: string; profilePhoto: string }[];
+  Categories?: ICategory[];
   profilePhoto?: string;
+}
+
+export interface IComment {
+  id: number;
+  content: string;
+  PostId: number;
+  User: IUserInfo;
+}
+
+export interface IPost {
+  id: number;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  User: IUserInfo;
+  Images: { src: string }[];
+  Likers: { id: number }[];
+  Comments: IComment[];
 }
 
 export interface ICommunity {
@@ -23,7 +41,8 @@ export interface ICommunity {
   updatedAt: Date;
   country: string;
   Users: IUserInfo[];
-  Categories: { name: string }[];
+  Posts: IPost[];
+  Categories: ICategory[];
   OwnerId: number;
 }
 
@@ -32,20 +51,4 @@ export interface IUser extends IUserInfo {
   Posts: { id: number }[];
   Owned: ICommunity[];
   Communities: ICommunity[];
-}
-export interface IComment {
-  id: number;
-  content: string;
-  PostId: number;
-  User: IUserInfo;
-}
-export interface IPost {
-  id: number;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  User: IUserInfo;
-  Images: { src: string }[];
-  Likers: { id: number }[];
-  Comments: IComment[];
 }

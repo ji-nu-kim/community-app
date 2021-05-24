@@ -18,12 +18,9 @@ export const SectionContainer = styled.section`
     -webkit-text-fill-color: transparent;
   }
 
-  .cards {
+  .cards-container {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(340px, auto));
-    grid-template-rows: repeat(auto-fill, minmax(220px, auto));
-    grid-auto-flow: dense;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fill, minmax(250px, auto));
   }
 `;

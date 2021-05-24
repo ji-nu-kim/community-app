@@ -22,7 +22,7 @@ export const HomeSectionContainer = styled.div`
     .cards-container {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fill, 250px);
+      grid-template-columns: repeat(auto-fill, 240px);
       justify-content: space-evenly;
     }
   }

@@ -10,6 +10,7 @@ export const initialState: CommunityState = {
   imagePath: [],
   singleCommunity: null,
   mainCommunities: [],
+  changableCommunities: [],
   mainCategories: [],
   hasMoreCommunity: true,
 
@@ -152,9 +153,29 @@ const reducer = (
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesDone = true;
         draft.mainCommunities = draft.mainCommunities.concat(action.data);
-        draft.hasMoreCommunity = action.data.length === 10;
         break;
       case actionTypesCommunity.LOAD_COMMUNITIES_ERROR:
+        draft.loadCommunitiesLoading = false;
+        draft.loadCommunitiesError = action.error;
+        break;
+
+      case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST:
+      case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST:
+        draft.loadCommunitiesLoading = true;
+        draft.loadCommunitiesDone = false;
+        draft.loadCommunitiesError = null;
+        break;
+      case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_SUCCESS:
+      case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_SUCCESS:
+        draft.loadCommunitiesLoading = false;
+        draft.loadCommunitiesDone = true;
+        draft.changableCommunities = draft.changableCommunities.concat(
+          action.data
+        );
+        draft.hasMoreCommunity = action.data.length === 12;
+        break;
+      case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR:
+      case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR:
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesError = action.error;
         break;

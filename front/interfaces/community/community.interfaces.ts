@@ -5,6 +5,7 @@ export interface CommunityState {
   singleCommunity: ICommunity | null;
   mainCommunities: ICommunity[];
   changableCommunities: ICommunity[];
+  singleCategory: ICategory | null;
   mainCategories: ICategory[];
   hasMoreCommunity: boolean;
 
@@ -24,6 +25,9 @@ export interface CommunityState {
   updateCommunityLoading: boolean;
   updateCommunityDone: boolean;
   updateCommunityError: any;
+  joinCommunityLoading: boolean;
+  joinCommunityDone: boolean;
+  joinCommunityError: any;
 
   loadCommunityLoading: boolean;
   loadCommunityDone: boolean;
@@ -32,6 +36,9 @@ export interface CommunityState {
   loadCommunitiesDone: boolean;
   loadCommunitiesError: any;
 
+  loadCategoryLoading: boolean;
+  loadCategoryDone: boolean;
+  loadCategoryError: any;
   loadCategoriesLoading: boolean;
   loadCategoriesDone: boolean;
   loadCategoriesError: any;

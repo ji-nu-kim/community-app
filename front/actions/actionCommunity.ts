@@ -1,17 +1,19 @@
 import {
   actionTypesCommunity,
   IRemoveCommunityImage,
-  IUploadCommunityImageReqeust,
+  IUploadCommunityImageRequest,
   ChangeCommunityInfoData,
   IChangeCommunityInfoRequest,
-  IAddCommunityReqeust,
-  IRemoveCommunityReqeust,
-  IUpdateCommunityReqeust,
-  ILoadCommunityReqeust,
-  ILoadCommunitiesReqeust,
+  IAddCommunityRequest,
+  IRemoveCommunityRequest,
+  IUpdateCommunityRequest,
+  IJoinCommunityRequest,
+  ILoadCommunityRequest,
+  ILoadCommunitiesRequest,
   ILoadCountryCommunitiesRequest,
   ILoadCategoryCommunitiesRequest,
-  ILoadCategoriesReqeust,
+  ILoadCategoryRequest,
+  ILoadCategoriesRequest,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
 
@@ -23,7 +25,7 @@ export const removeCommunityImage = (): IRemoveCommunityImage => {
 
 export const uploadCommunityImageRequestAction = (
   data: FormData
-): IUploadCommunityImageReqeust => {
+): IUploadCommunityImageRequest => {
   return {
     type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST,
     data,
@@ -41,7 +43,7 @@ export const changeCommunityInfoRequestAction = (
 
 export const addCommunityRequestAction = (
   data: CommunityData
-): IAddCommunityReqeust => {
+): IAddCommunityRequest => {
   return {
     type: actionTypesCommunity.ADD_COMMUNITY_REQUEST,
     data,
@@ -50,7 +52,7 @@ export const addCommunityRequestAction = (
 
 export const removeCommunityRequestAction = (data: {
   communityId: number;
-}): IRemoveCommunityReqeust => {
+}): IRemoveCommunityRequest => {
   return {
     type: actionTypesCommunity.REMOVE_COMMUNITY_REQUEST,
     data,
@@ -60,23 +62,32 @@ export const removeCommunityRequestAction = (data: {
 export const updateCommunityRequestAction = (data: {
   communityId: number;
   content: string;
-}): IUpdateCommunityReqeust => {
+}): IUpdateCommunityRequest => {
   return {
     type: actionTypesCommunity.UPDATE_COMMUNITY_REQUEST,
     data,
   };
 };
 
+export const joinCommunityRequestAction = (data: {
+  communityId: number;
+}): IJoinCommunityRequest => {
+  return {
+    type: actionTypesCommunity.JOIN_COMMUNITY_REQUEST,
+    data,
+  };
+};
+
 export const loadCommunityRequestAction = (data: {
   communityId: number;
-}): ILoadCommunityReqeust => {
+}): ILoadCommunityRequest => {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITY_REQUEST,
     data,
   };
 };
 
-export const loadCommunitiesRequestAction = (): ILoadCommunitiesReqeust => {
+export const loadCommunitiesRequestAction = (): ILoadCommunitiesRequest => {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
   };
@@ -102,7 +113,16 @@ export const loadCategoryCommunitiesRequestAction = (data: {
   };
 };
 
-export const loadCategoriesReqeustAction = (): ILoadCategoriesReqeust => {
+export const loadCategoryRequestAction = (data: {
+  categoryId: number;
+}): ILoadCategoryRequest => {
+  return {
+    type: actionTypesCommunity.LOAD_CATEGORY_REQUEST,
+    data,
+  };
+};
+
+export const loadCategoriesRequestAction = (): ILoadCategoriesRequest => {
   return {
     type: actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
   };

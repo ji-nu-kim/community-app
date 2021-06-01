@@ -5,7 +5,7 @@ const comment = require('./comment');
 const image = require('./image');
 const community = require('./community');
 const category = require('./category');
-const agelimit = require('./agelimit');
+const notice = require('./notice');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
@@ -24,7 +24,7 @@ db.Comment = comment;
 db.Image = image;
 db.Category = category;
 db.Community = community;
-db.AgeLimit = agelimit;
+db.Notice = notice;
 
 Object.keys(db).forEach(modelName => {
   db[modelName].init(sequelize);

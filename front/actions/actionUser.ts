@@ -4,7 +4,7 @@ import {
   ILogOutRequest,
   ILoadMyInfoRequest,
   ILoadUserInfoRequest,
-  IUploadImageReqeust,
+  IUploadImageRequest,
   ISignUpRequest,
   IChangeProfileRequest,
   IChangeCountryRequest,
@@ -49,7 +49,7 @@ export const removeImage = (): IRemoveUserImage => {
 
 export const uploadImageRequestAction = (
   data: FormData
-): IUploadImageReqeust => {
+): IUploadImageRequest => {
   return {
     type: actionTypesUser.UPLOAD_IMAGE_REQUEST,
     data,

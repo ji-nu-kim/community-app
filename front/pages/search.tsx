@@ -1,5 +1,5 @@
 import { END } from '@redux-saga/core';
-import { loadCategoriesReqeustAction } from 'actions/actionCommunity';
+import { loadCategoriesRequestAction } from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import axios from 'axios';
 import AppLayout from 'components/AppLayout';
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.Cookie = cookie;
     }
     context.store.dispatch(loadMyInfoRequestAction());
-    context.store.dispatch(loadCategoriesReqeustAction());
+    context.store.dispatch(loadCategoriesRequestAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
   });

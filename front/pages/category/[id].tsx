@@ -1,5 +1,8 @@
 import { END } from '@redux-saga/core';
-import { loadCategoryCommunitiesRequestAction } from 'actions/actionCommunity';
+import {
+  loadCategoryCommunitiesRequestAction,
+  loadCategoryRequestAction,
+} from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import axios from 'axios';
 import AppLayout from 'components/AppLayout';
@@ -14,8 +17,12 @@ import CategorySection from 'components/CategorySection';
 function Category() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { changableCommunities, hasMoreCommunity, loadCommunitiesLoading } =
-    useSelector((state: RootStateInterface) => state.community);
+  const {
+    changableCommunities,
+    hasMoreCommunity,
+    loadCommunitiesLoading,
+    singleCategory,
+  } = useSelector((state: RootStateInterface) => state.community);
 
   useEffect(() => {
     function onScroll() {
@@ -50,7 +57,10 @@ function Category() {
 
   return (
     <AppLayout>
-      <CategorySection changableCommunities={changableCommunities} />
+      <CategorySection
+        changableCommunities={changableCommunities}
+        singleCategory={singleCategory}
+      />
     </AppLayout>
   );
 }
@@ -64,6 +74,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.Cookie = cookie;
     }
     context.store.dispatch(loadMyInfoRequestAction());
+    context.store.dispatch(loadCategoryRequestAction({ categoryId }));
     context.store.dispatch(
       loadCategoryCommunitiesRequestAction({
         categoryId,

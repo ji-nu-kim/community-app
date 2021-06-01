@@ -1,23 +1,25 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import {
-  IAddCommunityReqeust,
+  IAddCommunityRequest,
   actionTypesCommunity,
   CommunityData,
-  ILoadCommunityReqeust,
-  IUploadCommunityImageReqeust,
+  ILoadCommunityRequest,
+  IUploadCommunityImageRequest,
   IChangeCommunityInfoRequest,
   ChangeCommunityInfoData,
   ILoadCountryCommunitiesRequest,
   ILoadCategoryCommunitiesRequest,
+  ILoadCategoryRequest,
+  IJoinCommunityRequest,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
-import { ICommunity } from 'interfaces/db';
+import { ICategory, ICommunity } from 'interfaces/db';
 
 function uploadCommunityImageAPI(data: FormData) {
   return axios.post('/community/image', data);
 }
 
-function* uploadCommunityImage(action: IUploadCommunityImageReqeust) {
+function* uploadCommunityImage(action: IUploadCommunityImageRequest) {
   try {
     const result: { data: string[] } = yield call(
       uploadCommunityImageAPI,
@@ -61,7 +63,7 @@ function addCommunityAPI(data: CommunityData) {
   return axios.post('/community', data);
 }
 
-function* addCommunity(action: IAddCommunityReqeust) {
+function* addCommunity(action: IAddCommunityRequest) {
   try {
     yield call(addCommunityAPI, action.data);
     yield put({
@@ -75,11 +77,29 @@ function* addCommunity(action: IAddCommunityReqeust) {
   }
 }
 
+function joinCommunityAPI(data: { communityId: number }) {
+  return axios.post('/community/join', data);
+}
+
+function* joinCommunity(action: IJoinCommunityRequest) {
+  try {
+    yield call(joinCommunityAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.JOIN_COMMUNITY_SUCCESS,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.JOIN_COMMUNITY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function loadCommunityAPI(data: { communityId: number }) {
   return axios.get(`/community/${data.communityId}`);
 }
 
-function* loadCommunity(action: ILoadCommunityReqeust) {
+function* loadCommunity(action: ILoadCommunityRequest) {
   try {
     const result: { data: ICommunity } = yield call(
       loadCommunityAPI,
@@ -172,13 +192,35 @@ function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
   }
 }
 
+function loadCategoryAPI(data: { categoryId: number }) {
+  return axios.get(`/community/category/${data.categoryId}`);
+}
+
+function* loadCategory(action: ILoadCategoryRequest) {
+  try {
+    const result: { data: ICategory } = yield call(
+      loadCategoryAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORY_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LOAD_CATEGORY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function loadCategoriesAPI() {
   return axios.get('/community/categories');
 }
 
 function* loadCategories() {
   try {
-    const result: { data: ICommunity } = yield call(loadCategoriesAPI);
+    const result: { data: ICategory[] } = yield call(loadCategoriesAPI);
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORIES_SUCCESS,
       data: result.data,
@@ -206,6 +248,9 @@ function* watchChangeCommunityInfo() {
 function* watchAddCommunity() {
   yield takeLatest(actionTypesCommunity.ADD_COMMUNITY_REQUEST, addCommunity);
 }
+function* watchJoinCommunity() {
+  yield takeLatest(actionTypesCommunity.JOIN_COMMUNITY_REQUEST, joinCommunity);
+}
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
@@ -227,6 +272,9 @@ function* watchLoadCategoryCommunities() {
     loadCategoryCommunities
   );
 }
+function* watchLoadCategory() {
+  yield takeLatest(actionTypesCommunity.LOAD_CATEGORY_REQUEST, loadCategory);
+}
 function* watchLoadCategories() {
   yield takeLatest(
     actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
@@ -239,10 +287,12 @@ export default function* communitySaga() {
     fork(watchUploadCommunityImage),
     fork(watchChangeCommunityInfo),
     fork(watchAddCommunity),
+    fork(watchJoinCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCommunities),
     fork(watchLoadCountryCommunities),
     fork(watchLoadCategoryCommunities),
+    fork(watchLoadCategory),
     fork(watchLoadCategories),
   ]);
 }

@@ -2,10 +2,11 @@ import { RootStateInterface } from 'interfaces/RootState';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { NavWrapper, StyleSearch } from './styles';
+import { NavWrapper, NavSearch, UserButtons, VisitorButtons } from './styles';
 import {
   CaretDownOutlined,
   CaretUpOutlined,
+  NotificationOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import useInput from 'hooks/useInput';
@@ -19,22 +20,26 @@ interface NavListProps {
 function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
   const { me } = useSelector((state: RootStateInterface) => state.user);
   const { pathname } = useRouter();
+  const [searchValue, onChangeSearch] = useInput<string>('');
+
+  const notificationModalTrigger = useCallback(() => {}, []);
+
   const userInfoModalTrigger = useCallback(() => {
     setUserInfoModal(prev => !prev);
   }, [setUserInfoModal]);
 
-  const [searchValue, onChangeSearch] = useInput<string>('');
   const sumbitSearch = useCallback(() => {
     console.log(searchValue);
   }, [searchValue]);
+
   return (
     <>
       <NavWrapper>
-        <div className="logo-section">
+        <div className="nav-logo">
           <h1>Community</h1>
         </div>
         {pathname === '/search' ? (
-          <StyleSearch>
+          <NavSearch>
             <input
               type="search"
               placeholder="검색"
@@ -44,12 +49,18 @@ function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
             <button onClick={sumbitSearch}>
               <SearchOutlined />
             </button>
-          </StyleSearch>
+          </NavSearch>
         ) : null}
         {me ? (
-          <>
+          <UserButtons>
             <div
-              className="btn-userinfo btn-glass-style btn"
+              className="notification-button"
+              onClick={notificationModalTrigger}
+            >
+              <NotificationOutlined />
+            </div>
+            <div
+              className="info-button glass-style-button button-style"
               onClick={userInfoModalTrigger}
             >
               <div>{me?.nickname}</div>
@@ -57,20 +68,22 @@ function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
                 {userInfoModal ? <CaretUpOutlined /> : <CaretDownOutlined />}
               </div>
             </div>
-          </>
+          </UserButtons>
         ) : (
-          <div className="btn-group">
+          <VisitorButtons>
             <Link href="/signup">
               <a>
-                <div className="btn-signup btn">가입하기</div>
+                <div className="button-style">가입하기</div>
               </a>
             </Link>
             <Link href="/login">
               <a>
-                <div className="btn-glass-style btn">로그인하기</div>
+                <div className="glass-style-button button-style">
+                  로그인하기
+                </div>
               </a>
             </Link>
-          </div>
+          </VisitorButtons>
         )}
       </NavWrapper>
     </>

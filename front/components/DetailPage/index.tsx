@@ -1,13 +1,21 @@
 import { MessageOutlined, UserOutlined } from '@ant-design/icons';
 import { ICommunity } from 'interfaces/db';
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { DetailBg, DetailHeader, DetailMain, DetailPost } from './styles';
 import ShowPeopleModal from 'components/Modals/ShowPeopleModal';
 import PostForm from 'components/PostForm';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
 import CommentForm from 'components/CommentForm';
+import Router from 'next/router';
+import { joinCommunityRequestAction } from 'actions/actionCommunity';
 
 interface DetailPageProps {
   singleCommunity: ICommunity;
@@ -18,7 +26,11 @@ function DetailPage({
   singleCommunity,
   setCommunityModifyModal,
 }: DetailPageProps) {
+  const dispatch = useDispatch();
   const { me } = useSelector((state: RootStateInterface) => state.user);
+  const { joinCommunityDone } = useSelector(
+    (state: RootStateInterface) => state.community
+  );
   const [showPeopleModal, setShowPeopleModal] = useState(false);
   const [currentNavValue, setCurrentNavValue] = useState('nav-info');
   const [openComment, setOpenComment] = useState(false);
@@ -50,6 +62,32 @@ function DetailPage({
     },
     []
   );
+
+  const onClickJoin = useCallback(() => {
+    if (!me) {
+      const confirmLogin = confirm(
+        '로그인한 유저만 가능합니다. 로그인하시겠습니까?'
+      );
+      if (confirmLogin) {
+        return Router.push('/login');
+      }
+    }
+
+    if (me) {
+      const confirmJoin = confirm('커뮤니티 가입신청을 하시겠습니까?');
+      if (confirmJoin) {
+        dispatch(
+          joinCommunityRequestAction({ communityId: singleCommunity.id })
+        );
+      }
+    }
+  }, [singleCommunity.id, me]);
+
+  useEffect(() => {
+    if (joinCommunityDone) {
+      alert('커뮤니티 가입신청이 완료되었습니다');
+    }
+  }, [joinCommunityDone]);
 
   return (
     <DetailBg
@@ -86,7 +124,7 @@ function DetailPage({
             {communityOwner ? null : communityUser ? (
               <button>탈퇴하기</button>
             ) : (
-              <button>가입하기</button>
+              <button onClick={onClickJoin}>가입하기</button>
             )}
           </div>
         </DetailHeader>

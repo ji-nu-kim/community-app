@@ -3,16 +3,16 @@ import {
   actionTypesPost,
   AddPostData,
   CommentData,
-  IAddCommentReqeust,
-  IAddPostReqeust,
-  ILikePostReqeust,
-  ILoadPostReqeust,
-  ILoadPostsReqeust,
-  ILoadUserPostsReqeust,
-  IRemovePostReqeust,
-  IUnlikePostReqeust,
-  IUpdatePostReqeust,
-  IUploadImagesReqeust,
+  IAddCommentRequest,
+  IAddPostRequest,
+  ILikePostRequest,
+  ILoadPostRequest,
+  ILoadPostsRequest,
+  ILoadUserPostsRequest,
+  IRemovePostRequest,
+  IUnlikePostRequest,
+  IUpdatePostRequest,
+  IUploadImagesRequest,
 } from '../interfaces/post/postAction.interfaces';
 import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
@@ -22,7 +22,7 @@ function postAPI(data: AddPostData) {
   return axios.post(`/post/${data.communityId}`, data.formData);
 }
 
-function* addPost(action: IAddPostReqeust) {
+function* addPost(action: IAddPostRequest) {
   try {
     yield call(postAPI, action.data);
     yield put({
@@ -40,7 +40,7 @@ function removePostAPI(data: { postId: number }) {
   return axios.delete(`/post/${data.postId}`);
 }
 
-function* removePost(action: IRemovePostReqeust) {
+function* removePost(action: IRemovePostRequest) {
   try {
     const result: { data: number } = yield call(removePostAPI, action.data);
     yield put({
@@ -63,7 +63,7 @@ function updatePostAPI(data: { postId: number; content: string }) {
   return axios.patch(`/post/${data.postId}`, data);
 }
 
-function* updatePost(action: IUpdatePostReqeust) {
+function* updatePost(action: IUpdatePostRequest) {
   try {
     const result: { data: { postId: number; content: string } } = yield call(
       updatePostAPI,
@@ -85,7 +85,7 @@ function loadPostAPI(data: { postId: number }) {
   return axios.get(`/post/${data.postId}`);
 }
 
-function* loadPost(action: ILoadPostReqeust) {
+function* loadPost(action: ILoadPostRequest) {
   try {
     const result: { data: IPost } = yield call(loadPostAPI, action.data);
     yield put({
@@ -104,7 +104,7 @@ function loadPostsAPI(data: { postId: number }) {
   return axios.get(`/posts?lastId=${data.postId}`);
 }
 
-function* loadPosts(action: ILoadPostsReqeust) {
+function* loadPosts(action: ILoadPostsRequest) {
   try {
     const result: { data: IPost[] } = yield call(loadPostsAPI, action.data);
     yield put({
@@ -123,7 +123,7 @@ function loadUserPostsAPI(data: { postId: number; userId: number }) {
   return axios.get(`/user/${data.userId}/posts?lastId=${data.postId}`);
 }
 
-function* loadUserPosts(action: ILoadUserPostsReqeust) {
+function* loadUserPosts(action: ILoadUserPostsRequest) {
   try {
     const result: { data: IPost[] } = yield call(loadUserPostsAPI, action.data);
     yield put({
@@ -142,7 +142,7 @@ function addCommentAPI(data: CommentData) {
   return axios.post(`/post/${data.postId}/comment`, data);
 }
 
-function* addComment(action: IAddCommentReqeust) {
+function* addComment(action: IAddCommentRequest) {
   try {
     const result: { data: IComment } = yield call(addCommentAPI, action.data);
     yield put({
@@ -161,7 +161,7 @@ function likePostAPI(data: { postId: number }) {
   return axios.patch(`/post/${data.postId}/like`);
 }
 
-function* likePost(action: ILikePostReqeust) {
+function* likePost(action: ILikePostRequest) {
   try {
     const result: { data: { postId: number; userId: number } } = yield call(
       likePostAPI,
@@ -183,7 +183,7 @@ function unlikePostAPI(data: { postId: number }) {
   return axios.delete(`/post/${data.postId}/like`);
 }
 
-function* unlikePost(action: IUnlikePostReqeust) {
+function* unlikePost(action: IUnlikePostRequest) {
   try {
     const result: { data: { postId: number; userId: number } } = yield call(
       unlikePostAPI,
@@ -205,7 +205,7 @@ function uploadImagesAPI(data: FormData) {
   return axios.post('/post/images', data);
 }
 
-function* uploadImages(action: IUploadImagesReqeust) {
+function* uploadImages(action: IUploadImagesRequest) {
   try {
     const result: { data: string[] } = yield call(uploadImagesAPI, action.data);
     yield put({

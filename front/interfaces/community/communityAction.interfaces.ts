@@ -17,6 +17,9 @@ export const actionTypesCommunity = {
   UPDATE_COMMUNITY_REQUEST: 'UPDATE_COMMUNITY_REQUEST',
   UPDATE_COMMUNITY_SUCCESS: 'UPDATE_COMMUNITY_SUCCESS',
   UPDATE_COMMUNITY_ERROR: 'UPDATE_COMMUNITY_ERROR',
+  JOIN_COMMUNITY_REQUEST: 'JOIN_COMMUNITY_REQUEST:',
+  JOIN_COMMUNITY_SUCCESS: 'JOIN_COMMUNITY_SUCCESS:',
+  JOIN_COMMUNITY_ERROR: 'JOIN_COMMUNITY_ERROR:',
   LOAD_COMMUNITY_REQUEST: 'LOAD_COMMUNITY_REQUEST',
   LOAD_COMMUNITY_SUCCESS: 'LOAD_COMMUNITY_SUCCESS',
   LOAD_COMMUNITY_ERROR: 'LOAD_COMMUNITY_ERROR',
@@ -29,6 +32,9 @@ export const actionTypesCommunity = {
   LOAD_CATEGORY_COMMUNITIES_REQUEST: 'LOAD_CATEGORY_COMMUNITIES_REQUEST',
   LOAD_CATEGORY_COMMUNITIES_SUCCESS: 'LOAD_CATEGORY_COMMUNITIES_SUCCESS',
   LOAD_CATEGORY_COMMUNITIES_ERROR: 'LOAD_CATEGORY_COMMUNITIES_ERROR',
+  LOAD_CATEGORY_REQUEST: 'LOAD_CATEGORY_REQUEST',
+  LOAD_CATEGORY_SUCCESS: 'LOAD_CATEGORY_SUCCESS',
+  LOAD_CATEGORY_ERROR: 'LOAD_CATEGORY_ERROR',
   LOAD_CATEGORIES_REQUEST: 'LOAD_CATEGORIES_REQUEST',
   LOAD_CATEGORIES_SUCCESS: 'LOAD_CATEGORIES_SUCCESS',
   LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
@@ -37,7 +43,7 @@ export const actionTypesCommunity = {
 export interface IRemoveCommunityImage {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_IMAGE;
 }
-export interface IUploadCommunityImageReqeust {
+export interface IUploadCommunityImageRequest {
   type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST;
   data: FormData;
 }
@@ -76,7 +82,7 @@ export interface CommunityData {
   category: string;
 }
 
-export interface IAddCommunityReqeust {
+export interface IAddCommunityRequest {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_REQUEST;
   data: CommunityData;
 }
@@ -87,7 +93,7 @@ export interface IAddCommunityError {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_ERROR;
   error: Error;
 }
-export interface IRemoveCommunityReqeust {
+export interface IRemoveCommunityRequest {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_REQUEST;
   data: { communityId: number };
 }
@@ -99,7 +105,7 @@ export interface IRemoveCommunityError {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_ERROR;
   error: Error;
 }
-export interface IUpdateCommunityReqeust {
+export interface IUpdateCommunityRequest {
   type: typeof actionTypesCommunity.UPDATE_COMMUNITY_REQUEST;
   data: { communityId: number; content: string };
 }
@@ -112,7 +118,21 @@ export interface IUpdateCommunityError {
   error: Error;
 }
 
-export interface ILoadCommunityReqeust {
+export interface IJoinCommunityRequest {
+  type: typeof actionTypesCommunity.JOIN_COMMUNITY_REQUEST;
+  data: { communityId: number };
+}
+
+export interface IJoinCommunitySuccess {
+  type: typeof actionTypesCommunity.JOIN_COMMUNITY_SUCCESS;
+}
+
+export interface IJoinCommunityError {
+  type: typeof actionTypesCommunity.JOIN_COMMUNITY_ERROR;
+  error: Error;
+}
+
+export interface ILoadCommunityRequest {
   type: typeof actionTypesCommunity.LOAD_COMMUNITY_REQUEST;
   data: { communityId: number };
 }
@@ -124,7 +144,7 @@ export interface ILoadCommunityError {
   type: typeof actionTypesCommunity.LOAD_COMMUNITY_ERROR;
   error: Error;
 }
-export interface ILoadCommunitiesReqeust {
+export interface ILoadCommunitiesRequest {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_REQUEST;
 }
 export interface ILoadCommunitiesSuccess {
@@ -161,8 +181,21 @@ export interface ILoadCategoryCommunitiesError {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR;
   error: Error;
 }
+export interface ILoadCategoryRequest {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_REQUEST;
+  data: { categoryId: number };
+}
 
-export interface ILoadCategoriesReqeust {
+export interface ILoadCategorySuccess {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_SUCCESS;
+  data: ICategory;
+}
+
+export interface ILoadCategoryError {
+  type: typeof actionTypesCommunity.LOAD_CATEGORY_ERROR;
+  error: Error;
+}
+export interface ILoadCategoriesRequest {
   type: typeof actionTypesCommunity.LOAD_CATEGORIES_REQUEST;
 }
 export interface ILoadCategoriesSuccess {
@@ -176,25 +209,28 @@ export interface ILoadCategoriesError {
 
 export type ActionsCommunity =
   | IRemoveCommunityImage
-  | IUploadCommunityImageReqeust
+  | IUploadCommunityImageRequest
   | IUploadCommunityImageSuccess
   | IUploadCommunityImageError
   | IChangeCommunityInfoRequest
   | IChangeCommunityInfoSuccess
   | IChangeCommunityInfoError
-  | IAddCommunityReqeust
+  | IAddCommunityRequest
   | IAddCommunitySuccess
   | IAddCommunityError
-  | IRemoveCommunityReqeust
+  | IRemoveCommunityRequest
   | IRemoveCommunitySuccess
   | IRemoveCommunityError
-  | IUpdateCommunityReqeust
+  | IUpdateCommunityRequest
   | IUpdateCommunitySuccess
   | IUpdateCommunityError
-  | ILoadCommunityReqeust
+  | IJoinCommunityRequest
+  | IJoinCommunitySuccess
+  | IJoinCommunityError
+  | ILoadCommunityRequest
   | ILoadCommunitySuccess
   | ILoadCommunityError
-  | ILoadCommunitiesReqeust
+  | ILoadCommunitiesRequest
   | ILoadCommunitiesSuccess
   | ILoadCommunitiesError
   | ILoadCountryCommunitiesRequest
@@ -203,6 +239,9 @@ export type ActionsCommunity =
   | ILoadCategoryCommunitiesRequest
   | ILoadCategoryCommunitiesSuccess
   | ILoadCategoryCommunitiesError
-  | ILoadCategoriesReqeust
+  | ILoadCategoryRequest
+  | ILoadCategorySuccess
+  | ILoadCategoryError
+  | ILoadCategoriesRequest
   | ILoadCategoriesSuccess
   | ILoadCategoriesError;

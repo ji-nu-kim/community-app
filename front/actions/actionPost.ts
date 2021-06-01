@@ -1,21 +1,21 @@
 import {
   actionTypesPost,
-  IAddPostReqeust,
-  IRemovePostReqeust,
-  IUpdatePostReqeust,
-  IAddCommentReqeust,
-  ILoadPostReqeust,
-  ILoadPostsReqeust,
-  ILoadUserPostsReqeust,
-  ILikePostReqeust,
-  IUnlikePostReqeust,
-  IUploadImagesReqeust,
+  IAddPostRequest,
+  IRemovePostRequest,
+  IUpdatePostRequest,
+  IAddCommentRequest,
+  ILoadPostRequest,
+  ILoadPostsRequest,
+  ILoadUserPostsRequest,
+  ILikePostRequest,
+  IUnlikePostRequest,
+  IUploadImagesRequest,
   IRemoveImage,
   CommentData,
   AddPostData,
 } from '../interfaces/post/postAction.interfaces';
 
-export const addPostRequestAction = (data: AddPostData): IAddPostReqeust => {
+export const addPostRequestAction = (data: AddPostData): IAddPostRequest => {
   return {
     type: actionTypesPost.ADD_POST_REQUEST,
     data,
@@ -24,7 +24,7 @@ export const addPostRequestAction = (data: AddPostData): IAddPostReqeust => {
 
 export const removePostRequestAction = (data: {
   postId: number;
-}): IRemovePostReqeust => {
+}): IRemovePostRequest => {
   return {
     type: actionTypesPost.REMOVE_POST_REQUEST,
     data,
@@ -34,7 +34,7 @@ export const removePostRequestAction = (data: {
 export const updatePostRequestAction = (data: {
   postId: number;
   content: string;
-}): IUpdatePostReqeust => {
+}): IUpdatePostRequest => {
   return {
     type: actionTypesPost.UPDATE_POST_REQUEST,
     data,
@@ -43,7 +43,7 @@ export const updatePostRequestAction = (data: {
 
 export const loadPostRequestAction = (data: {
   postId: number;
-}): ILoadPostReqeust => {
+}): ILoadPostRequest => {
   return {
     type: actionTypesPost.LOAD_POST_REQUEST,
     data,
@@ -52,7 +52,7 @@ export const loadPostRequestAction = (data: {
 
 export const loadPostsRequestAction = (data: {
   postId: number;
-}): ILoadPostsReqeust => {
+}): ILoadPostsRequest => {
   return {
     type: actionTypesPost.LOAD_POSTS_REQUEST,
     data,
@@ -62,7 +62,7 @@ export const loadPostsRequestAction = (data: {
 export const loadUserPostsRequestAction = (data: {
   postId: number;
   userId: number;
-}): ILoadUserPostsReqeust => {
+}): ILoadUserPostsRequest => {
   return {
     type: actionTypesPost.LOAD_USER_POSTS_REQUEST,
     data,
@@ -71,7 +71,7 @@ export const loadUserPostsRequestAction = (data: {
 
 export const addCommentRequestAction = (
   data: CommentData
-): IAddCommentReqeust => {
+): IAddCommentRequest => {
   return {
     type: actionTypesPost.ADD_COMMENT_REQUEST,
     data,
@@ -80,7 +80,7 @@ export const addCommentRequestAction = (
 
 export const likePostRequestAction = (data: {
   postId: number;
-}): ILikePostReqeust => {
+}): ILikePostRequest => {
   return {
     type: actionTypesPost.LIKE_POST_REQUEST,
     data,
@@ -89,7 +89,7 @@ export const likePostRequestAction = (data: {
 
 export const unlikePostRequestAction = (data: {
   postId: number;
-}): IUnlikePostReqeust => {
+}): IUnlikePostRequest => {
   return {
     type: actionTypesPost.UNLIKE_POST_REQUEST,
     data,
@@ -98,7 +98,7 @@ export const unlikePostRequestAction = (data: {
 
 export const uploadImagesRequestAction = (
   data: FormData
-): IUploadImagesReqeust => {
+): IUploadImagesRequest => {
   return {
     type: actionTypesPost.UPLOAD_IMAGES_REQUEST,
     data,

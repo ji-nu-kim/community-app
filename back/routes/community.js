@@ -53,7 +53,39 @@ router.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// 카테고리 검색
+router.post('/join', isLoggedIn, async (req, res, next) => {
+  try {
+    const community = await Community.findOne({
+      where: { id: req.body.communityId },
+    });
+    if (!community) {
+      return res.status(404).send('존재하지 않는 커뮤니티입니다');
+    }
+    await community.addJoinUsers(req.user.id);
+    return res.status(200).send('커뮤니티 가입신청이 완료되었습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 싱글 카테고리 불러오기
+router.get('/category/:categoryId', async (req, res, next) => {
+  try {
+    const category = await Category.findOne({
+      where: { id: req.params.categoryId },
+    });
+    if (!category) {
+      return res.status(404).send('카테고리가 존재하지 않습니다');
+    }
+    return res.status(200).json(category);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 모든 카테고리 불러오기
 router.get('/categories', async (req, res, next) => {
   try {
     const categories = await Category.findAll();

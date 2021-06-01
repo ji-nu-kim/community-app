@@ -41,11 +41,16 @@ module.exports = class User extends Model {
   static associate(db) {
     db.User.hasMany(db.Post);
     db.User.hasMany(db.Comment);
+    db.User.hasMany(db.Notice);
     // 내가 만든 커뮤니티
     db.User.hasMany(db.Community, { as: 'Owned', foreignKey: 'OwnerId' });
     // 다른 커뮤니티
     db.User.belongsToMany(db.Community, {
       through: 'COMMUNITY_USER',
+    });
+    db.User.belongsToMany(db.Community, {
+      through: 'COMMUNITY_JOIN',
+      as: 'JoinCommunities',
     });
     db.User.belongsToMany(db.Category, {
       through: 'CATEGORY_USER',

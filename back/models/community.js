@@ -44,9 +44,12 @@ module.exports = class Community extends Model {
   static associate(db) {
     db.Community.belongsTo(db.User, { as: 'Owner', foreignKey: 'OwnerId' });
     db.Community.hasMany(db.Post);
-    db.Community.hasMany(db.AgeLimit);
     db.Community.belongsToMany(db.User, {
       through: 'COMMUNITY_USER',
+    });
+    db.Community.belongsToMany(db.User, {
+      through: 'COMMUNITY_JOIN',
+      as: 'JoinUsers',
     });
     db.Community.belongsToMany(db.Category, {
       through: 'COMMUNITY_CATEGORY',

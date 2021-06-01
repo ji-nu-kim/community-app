@@ -19,7 +19,7 @@ import ProfileLayout, {
   ProfileGridHeader,
 } from 'components/Layouts/ProfileLayout';
 import ProfileModifyModal from 'components/Modals/ProfileModifyModal';
-import { loadCategoriesReqeustAction } from 'actions/actionCommunity';
+import { loadCategoriesRequestAction } from 'actions/actionCommunity';
 import SearchSectionCard from 'components/SearchSectionCard';
 import CountryModal from 'components/Modals/CountryModal';
 
@@ -160,7 +160,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.Cookie = cookie;
     }
     context.store.dispatch(loadMyInfoRequestAction());
-    context.store.dispatch(loadCategoriesReqeustAction());
+    context.store.dispatch(loadCategoriesRequestAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
   });

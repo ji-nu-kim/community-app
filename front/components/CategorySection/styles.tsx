@@ -1,8 +1,16 @@
 import styled from 'styled-components';
 
+interface IBackgroundImg {
+  img: string;
+}
+
 export const CategorySectionContainer = styled.div`
   width: 100%;
   height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(${(props: IBackgroundImg) => props.img});
+  background-position: center;
+  background-size: cover;
 
   .cards-container {
     padding: 1rem;

@@ -26,7 +26,6 @@ export const actionTypesUser = {
   CHANGE_COUNTRY_SUCCESS: 'CHANGE_COUNTRY_SUCCESS',
   CHANGE_COUNTRY_ERROR: 'CHANGE_COUNTRY_ERROR',
   ADD_POST_TO_ME: 'ADD_POST_TO_ME',
-  ADD_COMMUNITY_TO_ME: 'ADD_COMMUNITY_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
   REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
@@ -88,7 +87,7 @@ export interface ILoadUserInfoError {
 export interface IRemoveUserImage {
   type: typeof actionTypesUser.REMOVE_IMAGE;
 }
-export interface IUploadImageReqeust {
+export interface IUploadImageRequest {
   type: typeof actionTypesUser.UPLOAD_IMAGE_REQUEST;
   data: FormData;
 }
@@ -175,7 +174,7 @@ export type ActionsUser =
   | ILoadUserInfoRequest
   | ILoadUserInfoSuccess
   | ILoadUserInfoError
-  | IUploadImageReqeust
+  | IUploadImageRequest
   | IUploadImageSuccess
   | IUploadImageError
   | ISignUpRequest

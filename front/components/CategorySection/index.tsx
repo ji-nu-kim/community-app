@@ -1,4 +1,4 @@
-import { ICommunity } from 'interfaces/db';
+import { ICategory, ICommunity } from 'interfaces/db';
 import Link from 'next/link';
 import React from 'react';
 import HomeSectionCard from 'components/HomeSectionCard';
@@ -6,14 +6,19 @@ import { CategorySectionContainer, CategorySectionHeader } from './styles';
 
 interface CategorySectionProps {
   changableCommunities: ICommunity[];
+  singleCategory: ICategory | null;
 }
 
-function CategorySection({ changableCommunities }: CategorySectionProps) {
-  const categoryName = changableCommunities[0]?.Categories[0]?.name;
+function CategorySection({
+  changableCommunities,
+  singleCategory,
+}: CategorySectionProps) {
   return (
-    <CategorySectionContainer>
+    <CategorySectionContainer
+      img={`http://localhost:3065/${singleCategory?.profilePhoto}`}
+    >
       <CategorySectionHeader>
-        <h1>{categoryName}</h1>
+        <h1>{singleCategory?.name}</h1>
       </CategorySectionHeader>
       <div className="cards-container">
         {changableCommunities.map(community => (

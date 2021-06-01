@@ -38,7 +38,7 @@ export interface AddPostData {
   formData: FormData;
   communityId: number;
 }
-export interface IAddPostReqeust {
+export interface IAddPostRequest {
   type: typeof actionTypesPost.ADD_POST_REQUEST;
   data: AddPostData;
 }
@@ -49,7 +49,7 @@ export interface IAddPostError {
   type: typeof actionTypesPost.ADD_POST_ERROR;
   error: Error;
 }
-export interface IRemovePostReqeust {
+export interface IRemovePostRequest {
   type: typeof actionTypesPost.REMOVE_POST_REQUEST;
   data: { postId: number };
 }
@@ -61,7 +61,7 @@ export interface IRemovePostError {
   type: typeof actionTypesPost.REMOVE_POST_ERROR;
   error: Error;
 }
-export interface IUpdatePostReqeust {
+export interface IUpdatePostRequest {
   type: typeof actionTypesPost.UPDATE_POST_REQUEST;
   data: { postId: number; content: string };
 }
@@ -74,7 +74,7 @@ export interface IUpdatePostError {
   error: Error;
 }
 
-export interface ILoadPostReqeust {
+export interface ILoadPostRequest {
   type: typeof actionTypesPost.LOAD_POST_REQUEST;
   data: { postId: number };
 }
@@ -86,7 +86,7 @@ export interface ILoadPostError {
   type: typeof actionTypesPost.LOAD_POST_ERROR;
   error: Error;
 }
-export interface ILoadPostsReqeust {
+export interface ILoadPostsRequest {
   type: typeof actionTypesPost.LOAD_POSTS_REQUEST;
   data: { postId: number };
 }
@@ -98,7 +98,7 @@ export interface ILoadPostsError {
   type: typeof actionTypesPost.LOAD_POSTS_ERROR;
   error: Error;
 }
-export interface ILoadUserPostsReqeust {
+export interface ILoadUserPostsRequest {
   type: typeof actionTypesPost.LOAD_USER_POSTS_REQUEST;
   data: { postId: number; userId: number };
 }
@@ -115,7 +115,7 @@ export interface CommentData {
   comment: string;
   postId: number;
 }
-export interface IAddCommentReqeust {
+export interface IAddCommentRequest {
   type: typeof actionTypesPost.ADD_COMMENT_REQUEST;
   data: CommentData;
 }
@@ -128,7 +128,7 @@ export interface IAddCommentError {
   error: Error;
 }
 
-export interface ILikePostReqeust {
+export interface ILikePostRequest {
   type: typeof actionTypesPost.LIKE_POST_REQUEST;
   data: { postId: number };
 }
@@ -140,7 +140,7 @@ export interface ILikePostError {
   type: typeof actionTypesPost.LIKE_POST_ERROR;
   error: Error;
 }
-export interface IUnlikePostReqeust {
+export interface IUnlikePostRequest {
   type: typeof actionTypesPost.UNLIKE_POST_REQUEST;
   data: { postId: number };
 }
@@ -152,7 +152,7 @@ export interface IUnlikePostError {
   type: typeof actionTypesPost.UNLIKE_POST_ERROR;
   error: Error;
 }
-export interface IUploadImagesReqeust {
+export interface IUploadImagesRequest {
   type: typeof actionTypesPost.UPLOAD_IMAGES_REQUEST;
   data: FormData;
 }
@@ -170,34 +170,34 @@ export interface IRemoveImage {
 }
 
 export type ActionsPost =
-  | IAddPostReqeust
+  | IAddPostRequest
   | IAddPostSuccess
   | IAddPostError
-  | IRemovePostReqeust
+  | IRemovePostRequest
   | IRemovePostSuccess
   | IRemovePostError
-  | IUpdatePostReqeust
+  | IUpdatePostRequest
   | IUpdatePostSuccess
   | IUpdatePostError
-  | ILoadPostReqeust
+  | ILoadPostRequest
   | ILoadPostSuccess
   | ILoadPostError
-  | ILoadPostsReqeust
+  | ILoadPostsRequest
   | ILoadPostsSuccess
   | ILoadPostsError
-  | ILoadUserPostsReqeust
+  | ILoadUserPostsRequest
   | ILoadUserPostsSuccess
   | ILoadUserPostsError
-  | IAddCommentReqeust
+  | IAddCommentRequest
   | IAddCommentSuccess
   | IAddCommentError
-  | ILikePostReqeust
+  | ILikePostRequest
   | ILikePostSuccess
   | ILikePostError
-  | IUnlikePostReqeust
+  | IUnlikePostRequest
   | IUnlikePostSuccess
   | IUnlikePostError
-  | IUploadImagesReqeust
+  | IUploadImagesRequest
   | IUploadImagesSuccess
   | IUploadImagesError
   | IRemoveImage;

@@ -7,7 +7,7 @@ import {
   ILoadUserInfoRequest,
   ILogInRequest,
   ISignUpRequest,
-  IUploadImageReqeust,
+  IUploadImageRequest,
   LoginData,
   SignUpData,
 } from '../interfaces/user/userAction.interfaces';
@@ -100,7 +100,7 @@ function uploadImageAPI(data: FormData) {
   return axios.post('/user/image', data);
 }
 
-function* uploadImage(action: IUploadImageReqeust) {
+function* uploadImage(action: IUploadImageRequest) {
   try {
     const result: { data: string[] } = yield call(uploadImageAPI, action.data);
     yield put({

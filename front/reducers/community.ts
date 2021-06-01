@@ -11,6 +11,7 @@ export const initialState: CommunityState = {
   singleCommunity: null,
   mainCommunities: [],
   changableCommunities: [],
+  singleCategory: null,
   mainCategories: [],
   hasMoreCommunity: true,
 
@@ -29,6 +30,9 @@ export const initialState: CommunityState = {
   updateCommunityLoading: false,
   updateCommunityDone: false,
   updateCommunityError: null,
+  joinCommunityLoading: false,
+  joinCommunityDone: false,
+  joinCommunityError: null,
 
   loadCommunityLoading: false,
   loadCommunityDone: false,
@@ -37,6 +41,9 @@ export const initialState: CommunityState = {
   loadCommunitiesDone: false,
   loadCommunitiesError: null,
 
+  loadCategoryLoading: false,
+  loadCategoryDone: false,
+  loadCategoryError: null,
   loadCategoriesLoading: false,
   loadCategoriesDone: false,
   loadCategoriesError: null,
@@ -128,6 +135,19 @@ const reducer = (
         draft.updateCommunityLoading = false;
         draft.updateCommunityError = action.error;
         break;
+      case actionTypesCommunity.JOIN_COMMUNITY_REQUEST:
+        draft.joinCommunityLoading = true;
+        draft.joinCommunityDone = false;
+        draft.joinCommunityError = null;
+        break;
+      case actionTypesCommunity.JOIN_COMMUNITY_SUCCESS:
+        draft.joinCommunityLoading = false;
+        draft.joinCommunityDone = true;
+        break;
+      case actionTypesCommunity.JOIN_COMMUNITY_ERROR:
+        draft.joinCommunityLoading = false;
+        draft.joinCommunityError = action.error;
+        break;
 
       case actionTypesCommunity.LOAD_COMMUNITY_REQUEST:
         draft.loadCommunityLoading = true;
@@ -180,6 +200,20 @@ const reducer = (
         draft.loadCommunitiesError = action.error;
         break;
 
+      case actionTypesCommunity.LOAD_CATEGORY_REQUEST:
+        draft.loadCategoryLoading = true;
+        draft.loadCategoryDone = false;
+        draft.loadCategoryError = null;
+        break;
+      case actionTypesCommunity.LOAD_CATEGORY_SUCCESS:
+        draft.loadCategoryLoading = false;
+        draft.loadCategoryDone = true;
+        draft.singleCategory = action.data;
+        break;
+      case actionTypesCommunity.LOAD_CATEGORY_ERROR:
+        draft.loadCategoryLoading = false;
+        draft.loadCategoryError = action.error;
+        break;
       case actionTypesCommunity.LOAD_CATEGORIES_REQUEST:
         draft.loadCategoriesLoading = true;
         draft.loadCategoriesDone = false;

@@ -12,7 +12,7 @@ export const NavWrapper = styled.div`
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
 
-  .logo-section {
+  .nav-logo {
     margin-left: 1rem;
     h1 {
       font-family: 'Luckiest Guy', cursive;
@@ -21,12 +21,7 @@ export const NavWrapper = styled.div`
     }
   }
 
-  .btn-group {
-    display: flex;
-    align-items: center;
-  }
-
-  .btn {
+  .button-style {
     margin-right: 1rem;
     font-size: 0.5rem;
     cursor: pointer;
@@ -38,7 +33,7 @@ export const NavWrapper = styled.div`
     }
   }
 
-  .btn-glass-style {
+  .glass-style-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,14 +42,9 @@ export const NavWrapper = styled.div`
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
   }
-
-  .btn-userinfo {
-    display: flex;
-    justify-content: space-evenly;
-  }
 `;
 
-export const StyleSearch = styled.div`
+export const NavSearch = styled.div`
   width: 400px;
   height: 30px;
   display: grid;
@@ -81,4 +71,29 @@ export const StyleSearch = styled.div`
       background: rgba(125, 125, 125, 0.5);
     }
   }
+`;
+
+export const UserButtons = styled.div`
+  display: flex;
+
+  .notification-button {
+    cursor: pointer;
+
+    margin-right: 1rem;
+    color: #fff;
+
+    :hover {
+      opacity: 0.5;
+    }
+  }
+
+  .info-button {
+    display: flex;
+    justify-content: space-evenly;
+  }
+`;
+
+export const VisitorButtons = styled.div`
+  display: flex;
+  align-items: center;
 `;

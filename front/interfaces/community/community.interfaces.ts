@@ -31,6 +31,9 @@ export interface CommunityState {
   refuseCommunityLoading: boolean;
   refuseCommunityDone: boolean;
   refuseCommunityError: any;
+  leaveCommunityLoading: boolean;
+  leaveCommunityDone: boolean;
+  leaveCommunityError: any;
 
   loadCommunityLoading: boolean;
   loadCommunityDone: boolean;

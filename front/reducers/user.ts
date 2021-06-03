@@ -3,6 +3,8 @@ import produce from 'immer';
 
 export const initialState: UserState = {
   imagePath: [],
+  me: null,
+  userInfo: null,
   logInLoading: false,
   logInDone: false,
   logInError: null,
@@ -15,6 +17,9 @@ export const initialState: UserState = {
   signUpLoading: false,
   signUpDone: false,
   signUpError: null,
+  leaveLoading: false,
+  leaveDone: false,
+  leaveError: null,
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
@@ -24,12 +29,18 @@ export const initialState: UserState = {
   changeProfileLoading: false,
   changeProfileDone: false,
   changeProfileError: null,
+  changeCountryLoading: false,
+  changeCountryDone: false,
+  changeCountryError: null,
   sendNotificationLoading: false,
   sendNotificationDone: false,
   sendNotificationError: null,
-
-  me: null,
-  userInfo: null,
+  checkNotificationLoading: false,
+  checkNotificationDone: false,
+  checkNotificationError: null,
+  removeNotificationLoading: false,
+  removeNotificationDone: false,
+  removeNotificationError: null,
 };
 
 const reducer = (state = initialState, action: ActionsUser): UserState => {
@@ -43,7 +54,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.LOG_IN_SUCCESS:
         draft.logInLoading = false;
         draft.logInDone = true;
-        draft.me = action.data;
         break;
       case actionTypesUser.LOG_IN_ERROR:
         draft.logInLoading = false;
@@ -64,7 +74,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.logOutLoading = false;
         draft.logOutError = action.error;
         break;
-
       case actionTypesUser.LOAD_MY_INFO_REQUEST:
         draft.loadMyInfoLoading = true;
         draft.loadMyInfoDone = false;
@@ -93,7 +102,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.loadUserInfoLoading = false;
         draft.loadUserInfoError = action.error;
         break;
-
       case actionTypesUser.UPLOAD_IMAGE_REQUEST:
         draft.uploadImageLoading = true;
         draft.uploadImageDone = false;
@@ -108,12 +116,10 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.uploadImageLoading = false;
         draft.uploadImageError = action.error;
         break;
-
       case actionTypesUser.REMOVE_IMAGE:
         draft.imagePath = [];
         draft.uploadImageDone = false;
         break;
-
       case actionTypesUser.SIGN_UP_REQUEST:
         draft.signUpLoading = true;
         draft.signUpDone = false;
@@ -127,22 +133,48 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.signUpLoading = false;
         draft.signUpError = action.error;
         break;
-
-      case actionTypesUser.CHANGE_COUNTRY_REQUEST:
+      case actionTypesUser.LEAVE_REQUEST:
+        draft.leaveLoading = true;
+        draft.leaveDone = false;
+        draft.leaveError = null;
+        break;
+      case actionTypesUser.LEAVE_SUCCESS:
+        draft.leaveLoading = false;
+        draft.leaveDone = true;
+        break;
+      case actionTypesUser.LEAVE_ERROR:
+        draft.leaveLoading = false;
+        draft.leaveError = action.error;
+        break;
       case actionTypesUser.CHANGE_PROFILE_REQUEST:
         draft.changeProfileLoading = true;
         draft.changeProfileDone = false;
         draft.changeProfileError = null;
         break;
-      case actionTypesUser.CHANGE_COUNTRY_SUCCESS:
       case actionTypesUser.CHANGE_PROFILE_SUCCESS:
         draft.changeProfileLoading = false;
         draft.changeProfileDone = true;
+        draft.me = action.data;
         break;
-      case actionTypesUser.CHANGE_COUNTRY_ERROR:
       case actionTypesUser.CHANGE_PROFILE_ERROR:
         draft.changeProfileLoading = false;
         draft.changeProfileError = action.error;
+        break;
+      case actionTypesUser.CHANGE_COUNTRY_REQUEST:
+        draft.changeCountryLoading = true;
+        draft.changeCountryDone = false;
+        draft.changeCountryError = null;
+        break;
+      case actionTypesUser.CHANGE_COUNTRY_SUCCESS:
+        draft.changeCountryLoading = false;
+        draft.changeCountryDone = true;
+        if (draft.me) {
+          draft.me.country = action.data.country;
+        }
+        break;
+      case actionTypesUser.CHANGE_COUNTRY_ERROR:
+        draft.changeCountryLoading = false;
+        draft.changeCountryError = action.error;
         break;
 
       case actionTypesUser.SEND_NOTIFICATION_REQUEST:
@@ -158,21 +190,40 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.sendNotificationLoading = false;
         draft.sendNotificationError = action.error;
         break;
-
-      case actionTypesUser.ADD_POST_TO_ME:
+      case actionTypesUser.CHECK_NOTIFICATION_REQUEST:
+        draft.checkNotificationLoading = true;
+        draft.checkNotificationDone = false;
+        draft.checkNotificationError = null;
+        break;
+      case actionTypesUser.CHECK_NOTIFICATION_SUCCESS:
+        draft.checkNotificationLoading = false;
+        draft.checkNotificationDone = true;
         if (draft.me) {
-          draft.me.Posts.unshift({ id: action.data });
+          draft.me.Notices = action.data;
         }
         break;
-
-      case actionTypesUser.REMOVE_POST_OF_ME:
+      case actionTypesUser.CHECK_NOTIFICATION_ERROR:
+        draft.checkNotificationLoading = false;
+        draft.checkNotificationError = action.error;
+        break;
+      case actionTypesUser.REMOVE_NOTIFICATION_REQUEST:
+        draft.removeNotificationLoading = true;
+        draft.removeNotificationDone = false;
+        draft.removeNotificationError = null;
+        break;
+      case actionTypesUser.REMOVE_NOTIFICATION_SUCCESS:
+        draft.removeNotificationLoading = false;
+        draft.removeNotificationDone = true;
         if (draft.me) {
-          draft.me.Posts = draft.me.Posts.filter(
-            v => v.id !== action.data.postId
+          draft.me.Notices = draft.me.Notices.filter(
+            notice => notice.id !== action.data.notificationId
           );
         }
         break;
-
+      case actionTypesUser.REMOVE_NOTIFICATION_ERROR:
+        draft.removeNotificationLoading = false;
+        draft.removeNotificationError = action.error;
+        break;
       default:
         break;
     }

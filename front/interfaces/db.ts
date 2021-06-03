@@ -49,7 +49,7 @@ export interface ICommunity {
 
 export interface INotice {
   id: number;
-  createdAt: Date;
+  createdAt: string;
   title: string;
   checked: boolean;
 }

@@ -1,9 +1,11 @@
-import React, { ReactNode, useState } from 'react';
+import React, { memo, ReactNode, useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import NavList from './NavList';
 import SideBar from './SideBar';
 import UserInfoModal from './Modals/UserInfoModal';
 import NotificationModal from './Modals/NotificationModal';
+import { useSelector } from 'react-redux';
+import { RootStateInterface } from 'interfaces/RootState';
 
 const Global = createGlobalStyle`
   .ant-row {
@@ -23,6 +25,9 @@ interface AppLayoutProps {
 }
 
 function AppLayout({ children }: AppLayoutProps) {
+  const Notices = useSelector(
+    (state: RootStateInterface) => state.user.me?.Notices
+  );
   const [userInfoModal, setUserInfoModal] = useState(false);
   const [notificationModal, setNotificationModal] = useState(false);
 
@@ -30,6 +35,7 @@ function AppLayout({ children }: AppLayoutProps) {
     <div>
       <Global />
       <NavList
+        notices={Notices}
         userInfoModal={userInfoModal}
         setUserInfoModal={setUserInfoModal}
         setNotificationModal={setNotificationModal}
@@ -40,10 +46,13 @@ function AppLayout({ children }: AppLayoutProps) {
       </div>
       {userInfoModal && <UserInfoModal setUserInfoModal={setUserInfoModal} />}
       {notificationModal && (
-        <NotificationModal setNotificationModal={setNotificationModal} />
+        <NotificationModal
+          setNotificationModal={setNotificationModal}
+          notices={Notices}
+        />
       )}
     </div>
   );
 }
 
-export default AppLayout;
+export default memo(AppLayout);

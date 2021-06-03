@@ -13,9 +13,10 @@ import {
   IJoinCommunityRequest,
   IAcceptCommunityRequest,
   IRefuseCommunityRequest,
+  ILeaveCommunityRequest,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
-import { ICategory, ICommunity } from 'interfaces/db';
+import { ICategory, ICommunity, IUser } from 'interfaces/db';
 
 function uploadCommunityImageAPI(data: FormData) {
   return axios.post('/community/image', data);
@@ -103,9 +104,11 @@ function acceptCommunityAPI(data: { communityId: number; userId: number }) {
 
 function* acceptCommunity(action: IAcceptCommunityRequest) {
   try {
-    yield call(acceptCommunityAPI, action.data);
+    const result: { data: IUser } = yield call(acceptCommunityAPI, action.data);
+    console.log(result.data);
     yield put({
       type: actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -121,13 +124,39 @@ function refuseCommunityAPI(data: { communityId: number; userId: number }) {
 
 function* refuseCommunity(action: IRefuseCommunityRequest) {
   try {
-    yield call(refuseCommunityAPI, action.data);
+    const result: { data: { userId: number } } = yield call(
+      refuseCommunityAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS,
+      data: result.data,
     });
   } catch (error) {
     yield put({
       type: actionTypesCommunity.REFUSE_COMMUNITY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function leaveCommunityAPI(data: { communityId: number }) {
+  return axios.delete(`/community/${data.communityId}/leave`);
+}
+
+function* leaveCommunity(action: ILeaveCommunityRequest) {
+  try {
+    const result: { data: { userId: number } } = yield call(
+      leaveCommunityAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LEAVE_COMMUNITY_ERROR,
       error: error.response.data,
     });
   }
@@ -301,6 +330,12 @@ function* watchRefuseCommunity() {
     refuseCommunity
   );
 }
+function* watchLeaveCommunity() {
+  yield takeLatest(
+    actionTypesCommunity.LEAVE_COMMUNITY_REQUEST,
+    leaveCommunity
+  );
+}
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
@@ -340,6 +375,7 @@ export default function* communitySaga() {
     fork(watchJoinCommunity),
     fork(watchAcceptCommunity),
     fork(watchRefuseCommunity),
+    fork(watchLeaveCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCommunities),
     fork(watchLoadCountryCommunities),

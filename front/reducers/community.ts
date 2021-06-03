@@ -36,6 +36,9 @@ export const initialState: CommunityState = {
   refuseCommunityLoading: false,
   refuseCommunityDone: false,
   refuseCommunityError: null,
+  leaveCommunityLoading: false,
+  leaveCommunityDone: false,
+  leaveCommunityError: null,
 
   loadCommunityLoading: false,
   loadCommunityDone: false,
@@ -139,6 +142,12 @@ const reducer = (
       case actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS:
         draft.acceptCommunityLoading = false;
         draft.acceptCommunityDone = true;
+        if (draft.singleCommunity) {
+          console.log(action.data);
+          draft.singleCommunity.Users = draft.singleCommunity.Users.concat(
+            action.data
+          );
+        }
         break;
       case actionTypesCommunity.ACCEPT_COMMUNITY_ERROR:
         draft.acceptCommunityLoading = false;
@@ -152,13 +161,37 @@ const reducer = (
       case actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS:
         draft.refuseCommunityLoading = false;
         draft.refuseCommunityDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.JoinUsers =
+            draft.singleCommunity.JoinUsers.filter(
+              user => user.id != action.data.userId
+            );
+        }
         break;
       case actionTypesCommunity.REFUSE_COMMUNITY_ERROR:
         draft.refuseCommunityLoading = true;
         draft.refuseCommunityDone = false;
         draft.refuseCommunityError = null;
         break;
-
+      case actionTypesCommunity.LEAVE_COMMUNITY_REQUEST:
+        draft.leaveCommunityLoading = true;
+        draft.leaveCommunityDone = false;
+        draft.leaveCommunityError = null;
+        break;
+      case actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS:
+        draft.leaveCommunityLoading = false;
+        draft.leaveCommunityDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.Users = draft.singleCommunity.Users.filter(
+            user => user.id != action.data.userId
+          );
+        }
+        break;
+      case actionTypesCommunity.LEAVE_COMMUNITY_ERROR:
+        draft.leaveCommunityLoading = true;
+        draft.leaveCommunityDone = false;
+        draft.leaveCommunityError = null;
+        break;
       case actionTypesCommunity.LOAD_COMMUNITY_REQUEST:
         draft.loadCommunityLoading = true;
         draft.loadCommunityDone = false;

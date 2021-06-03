@@ -77,13 +77,25 @@ export const UserButtons = styled.div`
   display: flex;
 
   .notification-button {
+    position: relative;
     cursor: pointer;
-
     margin-right: 1rem;
     color: #fff;
 
     :hover {
       opacity: 0.5;
+    }
+
+    .notification-numbers {
+      background: hotpink;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 10px;
+      position: absolute;
+      top: -4px;
+      right: -8px;
     }
   }
 

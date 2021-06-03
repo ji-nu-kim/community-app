@@ -1,4 +1,4 @@
-import { IUser } from '../db';
+import { INotice, IUser } from '../db';
 
 export const actionTypesUser = {
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
@@ -20,6 +20,9 @@ export const actionTypesUser = {
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_ERROR: 'SIGN_UP_ERROR',
+  LEAVE_REQUEST: 'LEAVE_REQUEST',
+  LEAVE_SUCCESS: 'LEAVE_SUCCESS',
+  LEAVE_ERROR: 'LEAVE_ERROR',
   CHANGE_PROFILE_REQUEST: 'CHANGE_PROFILE_REQUEST',
   CHANGE_PROFILE_SUCCESS: 'CHANGE_PROFILE_SUCCESS',
   CHANGE_PROFILE_ERROR: 'CHANGE_PROFILE_ERROR',
@@ -29,8 +32,12 @@ export const actionTypesUser = {
   SEND_NOTIFICATION_REQUEST: 'SEND_NOTIFICATION_REQUEST',
   SEND_NOTIFICATION_SUCCESS: 'SEND_NOTIFICATION_SUCCESS',
   SEND_NOTIFICATION_ERROR: 'SEND_NOTIFICATION_ERROR',
-  ADD_POST_TO_ME: 'ADD_POST_TO_ME',
-  REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
+  CHECK_NOTIFICATION_REQUEST: 'CHECK_NOTIFICATION_REQUEST',
+  CHECK_NOTIFICATION_SUCCESS: 'CHECK_NOTIFICATION_SUCCESS',
+  CHECK_NOTIFICATION_ERROR: 'CHECK_NOTIFICATION_ERROR',
+  REMOVE_NOTIFICATION_REQUEST: 'REMOVE_NOTIFICATION_REQUEST',
+  REMOVE_NOTIFICATION_SUCCESS: 'REMOVE_NOTIFICATION_SUCCESS',
+  REMOVE_NOTIFICATION_ERROR: 'REMOVE_NOTIFICATION_ERROR',
 } as const;
 export interface LoginData {
   email: string;
@@ -42,7 +49,6 @@ export interface ILogInRequest {
 }
 export interface ILogInSuccess {
   type: typeof actionTypesUser.LOG_IN_SUCCESS;
-  data: IUser;
 }
 export interface ILogInError {
   type: typeof actionTypesUser.LOG_IN_ERROR;
@@ -75,18 +81,12 @@ export interface ILoadUserInfoRequest {
 }
 export interface ILoadUserInfoSuccess {
   type: typeof actionTypesUser.LOAD_USER_INFO_SUCCESS;
-  data: {
-    id: number;
-    nickname: string;
-    email: string;
-    Posts: number;
-  };
+  data: IUser;
 }
 export interface ILoadUserInfoError {
   type: typeof actionTypesUser.LOAD_USER_INFO_ERROR;
   error: Error;
 }
-
 export interface IRemoveUserImage {
   type: typeof actionTypesUser.REMOVE_IMAGE;
 }
@@ -102,52 +102,57 @@ export interface IUploadImageError {
   type: typeof actionTypesUser.UPLOAD_IMAGE_ERROR;
   error: Error;
 }
-
 export interface SignUpData {
   email: string;
   nickname: string;
   password: string;
   country: string;
 }
-
 export interface ISignUpRequest {
   type: typeof actionTypesUser.SIGN_UP_REQUEST;
   data: SignUpData;
 }
-
 export interface ISignUpSuccess {
   type: typeof actionTypesUser.SIGN_UP_SUCCESS;
 }
-
 export interface ISignUpError {
   type: typeof actionTypesUser.SIGN_UP_ERROR;
   error: Error;
 }
-
+export interface ILeaveRequest {
+  type: typeof actionTypesUser.LEAVE_REQUEST;
+}
+export interface ILeaveSuccess {
+  type: typeof actionTypesUser.LEAVE_SUCCESS;
+}
+export interface ILeaveError {
+  type: typeof actionTypesUser.LEAVE_ERROR;
+  error: Error;
+}
 export interface ChangeProfileData {
   nickname: string;
   profilePhoto: string[];
   category: string[];
 }
-
 export interface IChangeProfileRequest {
   type: typeof actionTypesUser.CHANGE_PROFILE_REQUEST;
   data: ChangeProfileData;
 }
 export interface IChangeProfileSuccess {
   type: typeof actionTypesUser.CHANGE_PROFILE_SUCCESS;
+  data: IUser;
 }
 export interface IChangeProfileError {
   type: typeof actionTypesUser.CHANGE_PROFILE_ERROR;
   error: Error;
 }
-
 export interface IChangeCountryRequest {
   type: typeof actionTypesUser.CHANGE_COUNTRY_REQUEST;
   data: { country: string };
 }
 export interface IChangeCountrySuccess {
   type: typeof actionTypesUser.CHANGE_COUNTRY_SUCCESS;
+  data: { country: string };
 }
 export interface IChangeCountryError {
   type: typeof actionTypesUser.CHANGE_COUNTRY_ERROR;
@@ -164,15 +169,28 @@ export interface ISendNotificationError {
   type: typeof actionTypesUser.SEND_NOTIFICATION_ERROR;
   error: Error;
 }
-
-export interface IAddPostToMe {
-  type: typeof actionTypesUser.ADD_POST_TO_ME;
-  data: number;
+export interface ICheckNotificationRequest {
+  type: typeof actionTypesUser.CHECK_NOTIFICATION_REQUEST;
 }
-
-export interface IRemovePostOfMe {
-  type: typeof actionTypesUser.REMOVE_POST_OF_ME;
-  data: { postId: number };
+export interface ICheckNotificationSuccess {
+  type: typeof actionTypesUser.CHECK_NOTIFICATION_SUCCESS;
+  data: INotice[];
+}
+export interface ICheckNotificationError {
+  type: typeof actionTypesUser.CHECK_NOTIFICATION_ERROR;
+  error: Error;
+}
+export interface IRemoveNotificationRequest {
+  type: typeof actionTypesUser.REMOVE_NOTIFICATION_REQUEST;
+  data: { notificationId: number };
+}
+export interface IRemoveNotificationSuccess {
+  type: typeof actionTypesUser.REMOVE_NOTIFICATION_SUCCESS;
+  data: { notificationId: number };
+}
+export interface IRemoveNotificationError {
+  type: typeof actionTypesUser.REMOVE_NOTIFICATION_ERROR;
+  error: Error;
 }
 
 export type ActionsUser =
@@ -191,9 +209,13 @@ export type ActionsUser =
   | IUploadImageRequest
   | IUploadImageSuccess
   | IUploadImageError
+  | IRemoveUserImage
   | ISignUpRequest
   | ISignUpSuccess
   | ISignUpError
+  | ILeaveRequest
+  | ILeaveSuccess
+  | ILeaveError
   | IChangeProfileRequest
   | IChangeProfileSuccess
   | IChangeProfileError
@@ -203,6 +225,9 @@ export type ActionsUser =
   | ISendNotificationRequest
   | ISendNotificationSuccess
   | ISendNotificationError
-  | IAddPostToMe
-  | IRemovePostOfMe
-  | IRemoveUserImage;
+  | ICheckNotificationRequest
+  | ICheckNotificationSuccess
+  | ICheckNotificationError
+  | IRemoveNotificationRequest
+  | IRemoveNotificationSuccess
+  | IRemoveNotificationError;

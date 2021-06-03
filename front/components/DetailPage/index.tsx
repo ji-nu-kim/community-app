@@ -16,7 +16,11 @@ import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
 import CommentForm from 'components/CommentForm';
 import Router from 'next/router';
-import { joinCommunityRequestAction } from 'actions/actionCommunity';
+import {
+  joinCommunityRequestAction,
+  leaveCommunityRequestAction,
+} from 'actions/actionCommunity';
+import { sendNotificationRequestAction } from 'actions/actionUser';
 
 interface DetailPageProps {
   singleCommunity: ICommunity;
@@ -87,7 +91,25 @@ function DetailPage({
         );
       }
     }
-  }, [singleCommunity.id, me]);
+  }, [singleCommunity, me]);
+
+  const onClickLeave = useCallback(() => {
+    if (me) {
+      const confirmLeave = confirm('커뮤니티를 탈퇴하시겠습니까?');
+
+      if (confirmLeave) {
+        dispatch(
+          leaveCommunityRequestAction({ communityId: singleCommunity.id })
+        );
+        dispatch(
+          sendNotificationRequestAction({
+            title: `${singleCommunity.communityName} 커뮤니티를 탈퇴했습니다`,
+            userId: me.id,
+          })
+        );
+      }
+    }
+  }, [singleCommunity, me]);
 
   useEffect(() => {
     if (joinCommunityDone) {
@@ -143,7 +165,7 @@ function DetailPage({
               </>
             )}
             {communityOwner ? null : communityUser ? (
-              <button>탈퇴하기</button>
+              <button onClick={onClickLeave}>탈퇴하기</button>
             ) : (
               <button onClick={onClickJoin}>가입하기</button>
             )}

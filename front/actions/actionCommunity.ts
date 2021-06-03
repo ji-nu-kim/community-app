@@ -9,6 +9,7 @@ import {
   IJoinCommunityRequest,
   IAcceptCommunityRequest,
   IRefuseCommunityRequest,
+  ILeaveCommunityRequest,
   ILoadCommunityRequest,
   ILoadCommunitiesRequest,
   ILoadCountryCommunitiesRequest,
@@ -85,6 +86,15 @@ export const refuseCommunityRequestAction = (data: {
 }): IRefuseCommunityRequest => {
   return {
     type: actionTypesCommunity.REFUSE_COMMUNITY_REQUEST,
+    data,
+  };
+};
+
+export const leaveCommunityRequestAction = (data: {
+  communityId: number;
+}): ILeaveCommunityRequest => {
+  return {
+    type: actionTypesCommunity.LEAVE_COMMUNITY_REQUEST,
     data,
   };
 };

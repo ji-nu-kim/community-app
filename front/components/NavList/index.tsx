@@ -1,7 +1,7 @@
 import { RootStateInterface } from 'interfaces/RootState';
 import Link from 'next/link';
-import React, { Dispatch, SetStateAction, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavWrapper, NavSearch, UserButtons, VisitorButtons } from './styles';
 import {
   CaretDownOutlined,
@@ -11,25 +11,38 @@ import {
 } from '@ant-design/icons';
 import useInput from 'hooks/useInput';
 import { useRouter } from 'next/router';
+import { INotice } from 'interfaces/db';
+import { checkNotificationRequestAction } from 'actions/actionUser';
 
 interface NavListProps {
   setUserInfoModal: Dispatch<SetStateAction<boolean>>;
   setNotificationModal: Dispatch<SetStateAction<boolean>>;
   userInfoModal: boolean;
+  notices: INotice[] | undefined;
 }
 
 function NavList({
   setUserInfoModal,
   userInfoModal,
   setNotificationModal,
+  notices,
 }: NavListProps) {
+  const dispatch = useDispatch();
   const { me } = useSelector((state: RootStateInterface) => state.user);
   const { pathname } = useRouter();
   const [searchValue, onChangeSearch] = useInput<string>('');
+  // 새로 온 알림의 수(확인하면 사라짐)
+  const newNotification = notices?.filter(
+    notice => notice.checked === false
+  ).length;
 
   const notificationModalTrigger = useCallback(() => {
     setNotificationModal(prev => !prev);
-  }, [setNotificationModal]);
+
+    if (newNotification && newNotification > 0) {
+      dispatch(checkNotificationRequestAction());
+    }
+  }, [setNotificationModal, newNotification]);
 
   const userInfoModalTrigger = useCallback(() => {
     setUserInfoModal(prev => !prev);
@@ -65,6 +78,9 @@ function NavList({
               onClick={notificationModalTrigger}
             >
               <NotificationOutlined />
+              {newNotification && newNotification > 0 ? (
+                <div className="notification-numbers">{newNotification}</div>
+              ) : null}
             </div>
             <div
               className="info-button glass-style-button button-style"
@@ -97,4 +113,4 @@ function NavList({
   );
 }
 
-export default NavList;
+export default memo(NavList);

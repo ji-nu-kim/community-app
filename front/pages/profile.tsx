@@ -12,13 +12,12 @@ import { GetServerSideProps } from 'next';
 import wrapper from 'store/configureStore';
 import axios from 'axios';
 import { END } from '@redux-saga/core';
-
 import { UserOutlined } from '@ant-design/icons';
 import ProfileLayout, {
   ProfileGridContents,
   ProfileGridHeader,
 } from 'components/Layouts/ProfileLayout';
-import ProfileModifyModal from 'components/Modals/ProfileModifyModal';
+import UserProfileModifyModal from 'components/Modals/UserProfileModifyModal';
 import { loadCategoriesRequestAction } from 'actions/actionCommunity';
 import SearchSectionCard from 'components/SearchSectionCard';
 import CountryModal from 'components/Modals/CountryModal';
@@ -28,7 +27,7 @@ function Profile() {
   const { me, changeProfileDone } = useSelector(
     (state: RootStateInterface) => state.user
   );
-  const [profileModifyModal, setProfileModifyModal] = useState(false);
+  const [userProfileModifyModal, setUserProfileModifyModal] = useState(false);
   const [countryModal, setCountryModal] = useState(false);
   const [modifyCountry, setModifyCountry] = useState('');
 
@@ -42,15 +41,16 @@ function Profile() {
   }, []);
 
   const profileModifyModalTrigger = useCallback(() => {
-    setProfileModifyModal(prev => !prev);
+    setUserProfileModifyModal(prev => !prev);
   }, []);
 
   useEffect(() => {
     if (changeProfileDone) {
-      setProfileModifyModal(false);
-      dispatch(loadMyInfoRequestAction());
+      setUserProfileModifyModal(false);
     }
+  }, [changeProfileDone]);
 
+  useEffect(() => {
     if (modifyCountry !== '') {
       if (confirm(`주소를 ${modifyCountry}로 변경하시겠습니까?`)) {
         dispatch(changeCountryRequestAction({ country: modifyCountry }));
@@ -58,7 +58,7 @@ function Profile() {
         alert('취소했습니다');
       }
     }
-  }, [changeProfileDone, modifyCountry]);
+  }, [modifyCountry]);
 
   useEffect(() => {
     if (!me) {
@@ -142,8 +142,10 @@ function Profile() {
           </div>
         </ProfileLayout>
 
-        {profileModifyModal && (
-          <ProfileModifyModal setProfileModifyModal={setProfileModifyModal} />
+        {userProfileModifyModal && (
+          <UserProfileModifyModal
+            setUserProfileModifyModal={setUserProfileModifyModal}
+          />
         )}
         {countryModal && (
           <CountryModal

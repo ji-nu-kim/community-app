@@ -10,18 +10,18 @@ import React, {
   useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalContainer, ModalHeader, ModalFormContainer } from './styles';
+import { ModalContainer, ModalHeader, ModalBody } from './styles';
 import useInput from 'hooks/useInput';
 import CategoryList from 'components/CategoryList';
 import { changeProfileRequestAction } from 'actions/actionUser';
 
-interface ProfileModifyModalProps {
-  setProfileModifyModal: Dispatch<SetStateAction<boolean>>;
+interface UserProfileModifyModalProps {
+  setUserProfileModifyModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function ProfileModifyModal({
-  setProfileModifyModal,
-}: ProfileModifyModalProps) {
+function UserProfileModifyModal({
+  setUserProfileModifyModal,
+}: UserProfileModifyModalProps) {
   const dispatch = useDispatch();
   const { me, imagePath } = useSelector(
     (state: RootStateInterface) => state.user
@@ -38,8 +38,8 @@ function ProfileModifyModal({
     me?.Categories?.map(v => v.name) || []
   );
 
-  const onCloseProfileModifyModal = useCallback(() => {
-    setProfileModifyModal(false);
+  const onCloseUserProfileModifyModal = useCallback(() => {
+    setUserProfileModifyModal(false);
   }, []);
 
   const onSubmit = useCallback(() => {
@@ -56,11 +56,11 @@ function ProfileModifyModal({
     <ModalContainer>
       <ModalHeader>
         <div className="modal-title">프로필수정</div>
-        <div className="close-btn" onClick={onCloseProfileModifyModal}>
+        <div className="close-btn" onClick={onCloseUserProfileModifyModal}>
           <CloseCircleOutlined />
         </div>
       </ModalHeader>
-      <ModalFormContainer>
+      <ModalBody>
         <Form onFinish={onSubmit} className="form">
           <div className="form-profile">
             <div className="profile-img">
@@ -97,9 +97,9 @@ function ProfileModifyModal({
             </Button>
           </div>
         </Form>
-      </ModalFormContainer>
+      </ModalBody>
     </ModalContainer>
   );
 }
 
-export default memo(ProfileModifyModal);
+export default memo(UserProfileModifyModal);

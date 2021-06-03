@@ -1,4 +1,4 @@
-import { ICategory, ICommunity } from '../db';
+import { ICategory, ICommunity, IUser } from '../db';
 
 export const actionTypesCommunity = {
   REMOVE_COMMUNITY_IMAGE: 'REMOVE_COMMUNITY_IMAGE', // 커뮤니티 프로필 미리보기 이미지 삭제
@@ -14,15 +14,18 @@ export const actionTypesCommunity = {
   REMOVE_COMMUNITY_REQUEST: 'REMOVE_COMMUNITY_REQUEST', // 커뮤니티 제거(유저가 없을 때만)
   REMOVE_COMMUNITY_SUCCESS: 'REMOVE_COMMUNITY_SUCCESS',
   REMOVE_COMMUNITY_ERROR: 'REMOVE_COMMUNITY_ERROR',
-  JOIN_COMMUNITY_REQUEST: 'JOIN_COMMUNITY_REQUEST:', // 커뮤니티 가입신청(임시 유저에 저장)
+  JOIN_COMMUNITY_REQUEST: 'JOIN_COMMUNITY_REQUEST:', // 커뮤니티 가입신청(임시 DB에 저장)
   JOIN_COMMUNITY_SUCCESS: 'JOIN_COMMUNITY_SUCCESS:',
   JOIN_COMMUNITY_ERROR: 'JOIN_COMMUNITY_ERROR:',
-  ACCEPT_COMMUNITY_REQUEST: 'ACCEPT_COMMUNITY_REQUEST', // 커뮤니티 가입승인(커뮤니티 유저에 저장)
+  ACCEPT_COMMUNITY_REQUEST: 'ACCEPT_COMMUNITY_REQUEST', // 커뮤니티 가입승인(커뮤니티 DB에 저장)
   ACCEPT_COMMUNITY_SUCCESS: 'ACCEPT_COMMUNITY_SUCCESS',
   ACCEPT_COMMUNITY_ERROR: 'ACCEPT_COMMUNITY_ERROR',
-  REFUSE_COMMUNITY_REQUEST: 'REFUSE_COMMUNITY_REQUEST', // 커뮤니티 가입거절(임시 유저에서 삭제)
+  REFUSE_COMMUNITY_REQUEST: 'REFUSE_COMMUNITY_REQUEST', // 커뮤니티 가입거절(임시 DB에서 삭제)
   REFUSE_COMMUNITY_SUCCESS: 'REFUSE_COMMUNITY_SUCCESS',
   REFUSE_COMMUNITY_ERROR: 'REFUSE_COMMUNITY_ERROR',
+  LEAVE_COMMUNITY_REQUEST: 'LEAVE_COMMUNITY_REQUEST', // 커뮤니티 탈퇴
+  LEAVE_COMMUNITY_SUCCESS: 'LEAVE_COMMUNITY_SUCCESS',
+  LEAVE_COMMUNITY_ERROR: 'LEAVE_COMMUNITY_ERROR',
   LOAD_COMMUNITY_REQUEST: 'LOAD_COMMUNITY_REQUEST', // 특정 커뮤니티 불러오기
   LOAD_COMMUNITY_SUCCESS: 'LOAD_COMMUNITY_SUCCESS',
   LOAD_COMMUNITY_ERROR: 'LOAD_COMMUNITY_ERROR',
@@ -108,7 +111,6 @@ export interface IRemoveCommunityError {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_ERROR;
   error: Error;
 }
-
 export interface IJoinCommunityRequest {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_REQUEST;
   data: { communityId: number };
@@ -117,40 +119,46 @@ export interface IJoinCommunityRequest {
 export interface IJoinCommunitySuccess {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_SUCCESS;
 }
-
 export interface IJoinCommunityError {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_ERROR;
   error: Error;
 }
-
 export interface IAcceptCommunityRequest {
   type: typeof actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST;
   data: { communityId: number; userId: number };
 }
-
 export interface IAcceptCommunitySuccess {
   type: typeof actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS;
+  data: IUser;
 }
-
 export interface IAcceptCommunityError {
   type: typeof actionTypesCommunity.ACCEPT_COMMUNITY_ERROR;
   error: Error;
 }
-
 export interface IRefuseCommunityRequest {
   type: typeof actionTypesCommunity.REFUSE_COMMUNITY_REQUEST;
   data: { communityId: number; userId: number };
 }
-
 export interface IRefuseCommunitySuccess {
   type: typeof actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS;
+  data: { userId: number };
 }
-
 export interface IRefuseCommunityError {
   type: typeof actionTypesCommunity.REFUSE_COMMUNITY_ERROR;
   error: Error;
 }
-
+export interface ILeaveCommunityRequest {
+  type: typeof actionTypesCommunity.LEAVE_COMMUNITY_REQUEST;
+  data: { communityId: number };
+}
+export interface ILeaveCommunitySuccess {
+  type: typeof actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS;
+  data: { userId: number };
+}
+export interface ILeaveCommunityError {
+  type: typeof actionTypesCommunity.LEAVE_COMMUNITY_ERROR;
+  error: Error;
+}
 export interface ILoadCommunityRequest {
   type: typeof actionTypesCommunity.LOAD_COMMUNITY_REQUEST;
   data: { communityId: number };
@@ -249,6 +257,9 @@ export type ActionsCommunity =
   | IRefuseCommunityRequest
   | IRefuseCommunitySuccess
   | IRefuseCommunityError
+  | ILeaveCommunityRequest
+  | ILeaveCommunitySuccess
+  | ILeaveCommunityError
   | ILoadCommunityRequest
   | ILoadCommunitySuccess
   | ILoadCommunityError

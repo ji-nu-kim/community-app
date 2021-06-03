@@ -5,18 +5,14 @@ const path = require('path');
 const {
   User,
   Post,
-  Image,
-  Comment,
   Community,
   Category,
-  sequelize,
   Notice,
+  Comment,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { Op } = require('sequelize');
-
 const router = express.Router();
 
 try {
@@ -25,7 +21,6 @@ try {
   console.log('uploads폴더를 생성합니다');
   fs.mkdirSync('uploads');
 }
-
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
@@ -47,6 +42,7 @@ router.get('/', async (req, res, next) => {
       const user = await User.findOne({
         where: { id: req.user.id },
         attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
+        order: [[Notice, 'createdAt', 'DESC']],
         include: [
           {
             model: Community,
@@ -102,21 +98,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         console.error(loginError);
         return next(loginError);
       }
-      const userInfo = await User.findOne({
-        where: { id: user.id },
-        attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
-        include: [
-          {
-            model: Post,
-            attributes: ['id'],
-          },
-          {
-            model: Community,
-            as: 'Owned',
-          },
-        ],
-      });
-      return res.status(200).json(userInfo);
+      return res.status(200).send('로그인에 성공했습니다');
     });
   })(req, res, next);
 });
@@ -153,6 +135,22 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
+// 유저 탈퇴
+router.delete('/leave', isLoggedIn, async (req, res, next) => {
+  try {
+    await Promise.all([
+      Notice.destroy({ where: { UserId: req.user.id } }),
+      Comment.destroy({ where: { UserId: req.user.id } }),
+      Post.destroy({ where: { UserId: req.user.id } }),
+      User.destroy({ where: { id: req.user.id } }),
+    ]);
+    return res.status(200).send('탈퇴완료');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 // 유저 프로필 수정
 router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
@@ -174,9 +172,43 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
         })
       )
     );
-
     await user.setCategories(result.map(v => v.id));
-    return res.status(200).send('프로필이 변경 되었습니다');
+    const profileChangeUser = await User.findOne({
+      where: { id: req.user.id },
+      attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
+      order: [[Notice, 'createdAt', 'DESC']],
+      include: [
+        {
+          model: Community,
+          as: 'Owned',
+        },
+        {
+          model: Category,
+          through: 'CATEGORY_USER',
+          attributes: ['name', 'profilePhoto'],
+        },
+        {
+          model: Community,
+          through: 'COMMUNITY_USER',
+          include: [
+            {
+              model: User,
+              through: 'COMMUNITY_USER',
+            },
+            {
+              model: Category,
+              through: 'COMMUNITY_CATEGORY',
+              attributes: ['name', 'profilePhoto'],
+            },
+          ],
+        },
+        {
+          model: Notice,
+        },
+      ],
+    });
+
+    return res.status(200).json(profileChangeUser);
   } catch (error) {
     console.error(error);
     next(error);
@@ -203,6 +235,40 @@ router.post('/notification', isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 확인한 알림을 체크표시함
+router.patch('/notification', isLoggedIn, async (req, res, next) => {
+  try {
+    await Notice.update({ checked: true }, { where: { UserId: req.user.id } });
+    const notices = await Notice.findAll({
+      where: { UserId: req.user.id },
+    });
+    if (!notices) {
+      return res.status(404).send('알림을 찾을 수 없습니다');
+    }
+    return res.status(200).json(notices);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 알림 삭제
+router.delete(
+  '/notification/:notificationId',
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      await Notice.destroy({ where: { id: req.params.notificationId } });
+      return res
+        .status(200)
+        .json({ notificationId: parseInt(req.params.notificationId, 10) });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
 // 주소 변경
 router.patch('/country', isLoggedIn, async (req, res, next) => {
   try {
@@ -210,7 +276,7 @@ router.patch('/country', isLoggedIn, async (req, res, next) => {
       { country: req.body.country },
       { where: { id: req.user.id } }
     );
-    return res.status(200).send('주소가 변경 되었습니다');
+    return res.status(200).json({ country: req.body.country });
   } catch (error) {
     console.error(error);
     next(error);
@@ -247,7 +313,6 @@ router.get('/:userId', async (req, res, next) => {
       data.Posts = data.Posts.length;
       data.Followers = data.Followers.length;
       data.Followings = data.Followings.length;
-      console.log(data);
       return res.status(200).json(data);
     } else {
       return res.status(404).json('존재하지 않는 사용자입니다');

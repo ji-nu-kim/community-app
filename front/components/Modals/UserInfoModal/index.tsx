@@ -1,4 +1,4 @@
-import { logOutRequestAction } from 'actions/actionUser';
+import { leaveRequestAction, logOutRequestAction } from 'actions/actionUser';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -20,13 +20,8 @@ function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
   }, []);
 
   const onClickDeleteAccountBtun = useCallback(() => {
-    if (confirm('회원탈퇴하시겠습니까?')) {
-      const result = prompt('비밀번호를 입력하세요');
-      if (!result) {
-        return alert('올바른 비밀번호를 입력하세요');
-      } else {
-        // dispatch()
-      }
+    if (confirm('탈퇴하시겠습니까?')) {
+      dispatch(leaveRequestAction());
     } else {
       return null;
     }

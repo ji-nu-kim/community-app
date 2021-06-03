@@ -32,36 +32,34 @@ export const ModalContainer = styled.div`
       margin: 0;
 
       li {
+        position: relative;
+        padding: 1rem;
+        padding-right: 4rem;
         font-size: 0.75rem;
         cursor: pointer;
         width: 100%;
         position: relative;
         color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 
-        .notification-title {
-          display: grid;
-          grid-template-columns: auto 30px;
-          align-items: center;
-          justify-items: center;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-
-          .title-text {
-            padding: 0.5rem;
-
-            :hover {
-              color: rgba(0, 0, 0, 0.3);
-            }
-          }
-
-          .delete-button {
-            :hover {
-              color: rgba(0, 0, 0, 0.3);
-            }
-          }
+        :hover {
+          background: rgba(0, 0, 0, 0.4);
         }
-        .notification-body {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-          padding: 1rem;
+
+        .delete-button {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          right: 5%;
+          transform: translateY(-50%);
+          background: #039be5;
+          border: none;
+          width: 40px;
+          height: 20px;
+
+          :hover {
+            opacity: 0.7;
+          }
         }
       }
     }

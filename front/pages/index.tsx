@@ -1,5 +1,5 @@
 import AppLayout from '../components/AppLayout';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -33,7 +33,7 @@ function Home() {
         })
       );
     }
-  }, [me]);
+  }, []);
 
   useEffect(() => {
     function onScroll() {
@@ -84,4 +84,4 @@ export const getServerSideProps: GetServerSideProps =
     await context.store.sagaTask.toPromise();
   });
 
-export default Home;
+export default memo(Home);

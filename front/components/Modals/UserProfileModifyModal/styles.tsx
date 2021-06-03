@@ -9,7 +9,7 @@ export const ModalContainer = styled.div`
   z-index: 100;
   width: 500px;
   height: 500px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
@@ -45,7 +45,7 @@ export const ModalHeader = styled.header`
   }
 `;
 
-export const ModalFormContainer = styled.div`
+export const ModalBody = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +61,7 @@ export const ModalFormContainer = styled.div`
 
       .profile-nickname {
         #nickname {
-          background: rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.1);
           padding-left: 4px;
           color: #fff;
           margin-top: 0.5rem;
@@ -69,7 +69,7 @@ export const ModalFormContainer = styled.div`
           border: none;
 
           :hover {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
           }
         }
       }

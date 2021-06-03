@@ -6,13 +6,14 @@ import {
   ILoadUserInfoRequest,
   IUploadImageRequest,
   ISignUpRequest,
+  ILeaveRequest,
   IChangeProfileRequest,
   IChangeCountryRequest,
   ISendNotificationRequest,
+  ICheckNotificationRequest,
+  IRemoveNotificationRequest,
   SignUpData,
   LoginData,
-  IAddPostToMe,
-  IRemovePostOfMe,
   IRemoveUserImage,
   ChangeProfileData,
 } from '../interfaces/user/userAction.interfaces';
@@ -41,13 +42,11 @@ export const loadUserInfoRequestAction = (data: {
     data,
   };
 };
-
 export const removeImage = (): IRemoveUserImage => {
   return {
     type: actionTypesUser.REMOVE_IMAGE,
   };
 };
-
 export const uploadImageRequestAction = (
   data: FormData
 ): IUploadImageRequest => {
@@ -56,11 +55,15 @@ export const uploadImageRequestAction = (
     data,
   };
 };
-
 export const signUpRequestAction = (data: SignUpData): ISignUpRequest => {
   return {
     type: actionTypesUser.SIGN_UP_REQUEST,
     data,
+  };
+};
+export const leaveRequestAction = (): ILeaveRequest => {
+  return {
+    type: actionTypesUser.LEAVE_REQUEST,
   };
 };
 export const changeProfileRequestAction = (
@@ -88,15 +91,16 @@ export const sendNotificationRequestAction = (data: {
     data,
   };
 };
-export const addPostToMe = (data: number): IAddPostToMe => {
+export const checkNotificationRequestAction = (): ICheckNotificationRequest => {
   return {
-    type: actionTypesUser.ADD_POST_TO_ME,
-    data,
+    type: actionTypesUser.CHECK_NOTIFICATION_REQUEST,
   };
 };
-export const removePostOfMe = (data: { postId: number }): IRemovePostOfMe => {
+export const removeNotificationRequestAction = (data: {
+  notificationId: number;
+}): IRemoveNotificationRequest => {
   return {
-    type: actionTypesUser.REMOVE_POST_OF_ME,
+    type: actionTypesUser.REMOVE_NOTIFICATION_REQUEST,
     data,
   };
 };

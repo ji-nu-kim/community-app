@@ -24,7 +24,10 @@ function HomeSection({
         </h1>
         <div className="cards-container">
           {communities.map(community => (
-            <Link key={community.id} href={`/community/${community.id}`}>
+            <Link
+              key={`new${community.id}`}
+              href={`/community/${community.id}`}
+            >
               <a>
                 <HomeSectionCard
                   profilePhoto={community.profilePhoto}
@@ -47,7 +50,10 @@ function HomeSection({
             </h1>
             <div className="cards-container">
               {changableCommunities.map(community => (
-                <Link key={community.id} href={`/community/${community.id}`}>
+                <Link
+                  key={`country${community.id}`}
+                  href={`/community/${community.id}`}
+                >
                   <a>
                     <HomeSectionCard
                       profilePhoto={community.profilePhoto}

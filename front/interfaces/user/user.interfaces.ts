@@ -14,6 +14,9 @@ export interface UserState {
   signUpLoading: boolean;
   signUpDone: boolean;
   signUpError: any;
+  leaveLoading: boolean;
+  leaveDone: boolean;
+  leaveError: any;
   loadMyInfoLoading: boolean;
   loadMyInfoDone: boolean;
   loadMyInfoError: any;
@@ -23,9 +26,18 @@ export interface UserState {
   changeProfileLoading: boolean;
   changeProfileDone: boolean;
   changeProfileError: any;
+  changeCountryLoading: boolean;
+  changeCountryDone: boolean;
+  changeCountryError: any;
   sendNotificationLoading: boolean;
   sendNotificationDone: boolean;
   sendNotificationError: any;
+  checkNotificationLoading: boolean;
+  checkNotificationDone: boolean;
+  checkNotificationError: any;
+  removeNotificationLoading: boolean;
+  removeNotificationDone: boolean;
+  removeNotificationError: any;
 
   me: IUser | null;
   userInfo: any;

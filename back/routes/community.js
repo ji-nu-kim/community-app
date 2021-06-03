@@ -83,7 +83,7 @@ router.delete(
         return res.status(404).send('존재하지 않는 커뮤니티입니다');
       }
       await community.removeJoinUsers(req.params.userId);
-      return res.status(200).send('커뮤니티 가입거절이 완료되었습니다');
+      return res.status(200).json({ userId: parseInt(req.params.userId, 10) });
     } catch (error) {
       console.error(error);
       next(error);
@@ -101,7 +101,28 @@ router.post('/accept', isLoggedIn, async (req, res, next) => {
       return res.status(404).send('존재하지 않는 커뮤니티입니다');
     }
     await community.addUsers(req.body.userId);
-    return res.status(200).send('커뮤니티 가입승인이 완료되었습니다');
+    const acceptUser = await User.findOne({
+      where: { id: req.body.userId },
+      attributes: ['id', 'nickname', 'profilePhoto'],
+    });
+    return res.status(200).json(acceptUser);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 커뮤니티 탈퇴
+router.delete('/:communityId/leave', isLoggedIn, async (req, res, next) => {
+  try {
+    const community = await Community.findOne({
+      where: { id: req.params.communityId },
+    });
+    if (!community) {
+      return res.status(404).send('존재하지 않는 커뮤니티입니다');
+    }
+    await community.removeUsers(req.user.id);
+    return res.status(200).json({ userId: parseInt(req.user.id, 10) });
   } catch (error) {
     console.error(error);
     next(error);

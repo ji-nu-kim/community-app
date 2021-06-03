@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import NavList from './NavList';
 import SideBar from './SideBar';
 import UserInfoModal from './Modals/UserInfoModal';
+import NotificationModal from './Modals/NotificationModal';
 
 const Global = createGlobalStyle`
   .ant-row {
@@ -23,6 +24,7 @@ interface AppLayoutProps {
 
 function AppLayout({ children }: AppLayoutProps) {
   const [userInfoModal, setUserInfoModal] = useState(false);
+  const [notificationModal, setNotificationModal] = useState(false);
 
   return (
     <div>
@@ -30,12 +32,16 @@ function AppLayout({ children }: AppLayoutProps) {
       <NavList
         userInfoModal={userInfoModal}
         setUserInfoModal={setUserInfoModal}
+        setNotificationModal={setNotificationModal}
       />
       <div style={{ display: 'grid', gridTemplateColumns: '200px auto' }}>
         <SideBar />
         <div>{children}</div>
       </div>
       {userInfoModal && <UserInfoModal setUserInfoModal={setUserInfoModal} />}
+      {notificationModal && (
+        <NotificationModal setNotificationModal={setNotificationModal} />
+      )}
     </div>
   );
 }

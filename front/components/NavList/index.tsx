@@ -14,15 +14,22 @@ import { useRouter } from 'next/router';
 
 interface NavListProps {
   setUserInfoModal: Dispatch<SetStateAction<boolean>>;
+  setNotificationModal: Dispatch<SetStateAction<boolean>>;
   userInfoModal: boolean;
 }
 
-function NavList({ setUserInfoModal, userInfoModal }: NavListProps) {
+function NavList({
+  setUserInfoModal,
+  userInfoModal,
+  setNotificationModal,
+}: NavListProps) {
   const { me } = useSelector((state: RootStateInterface) => state.user);
   const { pathname } = useRouter();
   const [searchValue, onChangeSearch] = useInput<string>('');
 
-  const notificationModalTrigger = useCallback(() => {}, []);
+  const notificationModalTrigger = useCallback(() => {
+    setNotificationModal(prev => !prev);
+  }, [setNotificationModal]);
 
   const userInfoModalTrigger = useCallback(() => {
     setUserInfoModal(prev => !prev);

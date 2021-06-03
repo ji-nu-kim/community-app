@@ -50,7 +50,7 @@ module.exports = class User extends Model {
     });
     db.User.belongsToMany(db.Community, {
       through: 'COMMUNITY_JOIN',
-      as: 'JoinCommunities',
+      as: 'JoinUsers',
     });
     db.User.belongsToMany(db.Category, {
       through: 'CATEGORY_USER',

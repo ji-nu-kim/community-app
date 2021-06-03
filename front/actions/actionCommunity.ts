@@ -6,8 +6,9 @@ import {
   IChangeCommunityInfoRequest,
   IAddCommunityRequest,
   IRemoveCommunityRequest,
-  IUpdateCommunityRequest,
   IJoinCommunityRequest,
+  IAcceptCommunityRequest,
+  IRefuseCommunityRequest,
   ILoadCommunityRequest,
   ILoadCommunitiesRequest,
   ILoadCountryCommunitiesRequest,
@@ -59,21 +60,31 @@ export const removeCommunityRequestAction = (data: {
   };
 };
 
-export const updateCommunityRequestAction = (data: {
-  communityId: number;
-  content: string;
-}): IUpdateCommunityRequest => {
-  return {
-    type: actionTypesCommunity.UPDATE_COMMUNITY_REQUEST,
-    data,
-  };
-};
-
 export const joinCommunityRequestAction = (data: {
   communityId: number;
 }): IJoinCommunityRequest => {
   return {
     type: actionTypesCommunity.JOIN_COMMUNITY_REQUEST,
+    data,
+  };
+};
+
+export const acceptCommunityRequestAction = (data: {
+  communityId: number;
+  userId: number;
+}): IAcceptCommunityRequest => {
+  return {
+    type: actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST,
+    data,
+  };
+};
+
+export const refuseCommunityRequestAction = (data: {
+  communityId: number;
+  userId: number;
+}): IRefuseCommunityRequest => {
+  return {
+    type: actionTypesCommunity.REFUSE_COMMUNITY_REQUEST,
     data,
   };
 };

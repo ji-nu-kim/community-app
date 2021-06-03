@@ -53,6 +53,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 커뮤니티 가입신청
 router.post('/join', isLoggedIn, async (req, res, next) => {
   try {
     const community = await Community.findOne({
@@ -63,6 +64,44 @@ router.post('/join', isLoggedIn, async (req, res, next) => {
     }
     await community.addJoinUsers(req.user.id);
     return res.status(200).send('커뮤니티 가입신청이 완료되었습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 커뮤니티 가입거절 or 임시 커뮤니티 유저에서 삭제
+router.delete(
+  '/:communityId/refuse/:userId',
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      const community = await Community.findOne({
+        where: { id: req.params.communityId },
+      });
+      if (!community) {
+        return res.status(404).send('존재하지 않는 커뮤니티입니다');
+      }
+      await community.removeJoinUsers(req.params.userId);
+      return res.status(200).send('커뮤니티 가입거절이 완료되었습니다');
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
+// 커뮤니티 가입승인
+router.post('/accept', isLoggedIn, async (req, res, next) => {
+  try {
+    const community = await Community.findOne({
+      where: { id: req.body.communityId },
+    });
+    if (!community) {
+      return res.status(404).send('존재하지 않는 커뮤니티입니다');
+    }
+    await community.addUsers(req.body.userId);
+    return res.status(200).send('커뮤니티 가입승인이 완료되었습니다');
   } catch (error) {
     console.error(error);
     next(error);
@@ -124,7 +163,7 @@ router.post('/image', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
 });
 
-// 개별 커뮤니티 검색
+// 단일 커뮤니티 정보 불러오기
 router.get('/:communityId', async (req, res, next) => {
   try {
     const community = await Community.findOne({
@@ -136,6 +175,11 @@ router.get('/:communityId', async (req, res, next) => {
     const fullCommunity = await Community.findOne({
       where: { id: community.id },
       include: [
+        {
+          model: User,
+          through: 'COMMUNITY_JOIN',
+          as: 'JoinUsers',
+        },
         {
           model: User,
           through: 'COMMUNITY_USER',

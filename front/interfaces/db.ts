@@ -41,14 +41,22 @@ export interface ICommunity {
   updatedAt: Date;
   country: string;
   Users: IUserInfo[];
+  JoinUsers: IUserInfo[];
   Posts: IPost[];
   Categories: ICategory[];
   OwnerId: number;
 }
 
+export interface INotice {
+  id: number;
+  createdAt: Date;
+  title: string;
+  checked: boolean;
+}
 export interface IUser extends IUserInfo {
   email: string;
   Posts: { id: number }[];
   Owned: ICommunity[];
   Communities: ICommunity[];
+  Notices: INotice[];
 }

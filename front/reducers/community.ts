@@ -27,12 +27,15 @@ export const initialState: CommunityState = {
   removeCommunityLoading: false,
   removeCommunityDone: false,
   removeCommunityError: null,
-  updateCommunityLoading: false,
-  updateCommunityDone: false,
-  updateCommunityError: null,
   joinCommunityLoading: false,
   joinCommunityDone: false,
   joinCommunityError: null,
+  acceptCommunityLoading: false,
+  acceptCommunityDone: false,
+  acceptCommunityError: null,
+  refuseCommunityLoading: false,
+  refuseCommunityDone: false,
+  refuseCommunityError: null,
 
   loadCommunityLoading: false,
   loadCommunityDone: false,
@@ -115,26 +118,6 @@ const reducer = (
         draft.removeCommunityLoading = false;
         draft.removeCommunityError = action.error;
         break;
-      case actionTypesCommunity.UPDATE_COMMUNITY_REQUEST:
-        draft.updateCommunityLoading = true;
-        draft.updateCommunityDone = false;
-        draft.updateCommunityError = null;
-        break;
-      case actionTypesCommunity.UPDATE_COMMUNITY_SUCCESS: {
-        draft.updateCommunityLoading = false;
-        draft.updateCommunityDone = true;
-        const community = draft.mainCommunities.find(
-          v => v.id === action.data.communityId
-        );
-        if (community) {
-          community.description = action.data.content;
-        }
-        break;
-      }
-      case actionTypesCommunity.UPDATE_COMMUNITY_ERROR:
-        draft.updateCommunityLoading = false;
-        draft.updateCommunityError = action.error;
-        break;
       case actionTypesCommunity.JOIN_COMMUNITY_REQUEST:
         draft.joinCommunityLoading = true;
         draft.joinCommunityDone = false;
@@ -147,6 +130,33 @@ const reducer = (
       case actionTypesCommunity.JOIN_COMMUNITY_ERROR:
         draft.joinCommunityLoading = false;
         draft.joinCommunityError = action.error;
+        break;
+      case actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST:
+        draft.acceptCommunityLoading = true;
+        draft.acceptCommunityDone = false;
+        draft.acceptCommunityError = null;
+        break;
+      case actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS:
+        draft.acceptCommunityLoading = false;
+        draft.acceptCommunityDone = true;
+        break;
+      case actionTypesCommunity.ACCEPT_COMMUNITY_ERROR:
+        draft.acceptCommunityLoading = false;
+        draft.acceptCommunityError = action.error;
+        break;
+      case actionTypesCommunity.REFUSE_COMMUNITY_REQUEST:
+        draft.refuseCommunityLoading = true;
+        draft.refuseCommunityDone = false;
+        draft.refuseCommunityError = null;
+        break;
+      case actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS:
+        draft.refuseCommunityLoading = false;
+        draft.refuseCommunityDone = true;
+        break;
+      case actionTypesCommunity.REFUSE_COMMUNITY_ERROR:
+        draft.refuseCommunityLoading = true;
+        draft.refuseCommunityDone = false;
+        draft.refuseCommunityError = null;
         break;
 
       case actionTypesCommunity.LOAD_COMMUNITY_REQUEST:

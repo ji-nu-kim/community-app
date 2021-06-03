@@ -126,7 +126,11 @@ function Profile() {
                       <SearchSectionCard
                         id={community.id}
                         name={community.communityName}
-                        img={`http://localhost:3065/${community.profilePhoto}`}
+                        img={
+                          community.profilePhoto
+                            ? `http://localhost:3065/${community.profilePhoto}`
+                            : null
+                        }
                         width="250"
                         height="120"
                       />

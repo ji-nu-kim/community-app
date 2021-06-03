@@ -55,6 +55,10 @@ function Category() {
     router.query.id,
   ]);
 
+  if (!singleCategory) {
+    return <div>잠시만 기다려주세요</div>;
+  }
+
   return (
     <AppLayout>
       <CategorySection

@@ -6,7 +6,7 @@ import { CategorySectionContainer, CategorySectionHeader } from './styles';
 
 interface CategorySectionProps {
   changableCommunities: ICommunity[];
-  singleCategory: ICategory | null;
+  singleCategory: ICategory;
 }
 
 function CategorySection({
@@ -15,10 +15,10 @@ function CategorySection({
 }: CategorySectionProps) {
   return (
     <CategorySectionContainer
-      img={`http://localhost:3065/${singleCategory?.profilePhoto}`}
+      img={`http://localhost:3065/${singleCategory.profilePhoto}`}
     >
       <CategorySectionHeader>
-        <h1>{singleCategory?.name}</h1>
+        <h1>{singleCategory.name}</h1>
       </CategorySectionHeader>
       <div className="cards-container">
         {changableCommunities.map(community => (

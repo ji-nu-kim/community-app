@@ -6,6 +6,7 @@ import {
   IChangeProfileRequest,
   ILoadUserInfoRequest,
   ILogInRequest,
+  ISendNotificationRequest,
   ISignUpRequest,
   IUploadImageRequest,
   LoginData,
@@ -169,6 +170,24 @@ function* changeCountry(action: IChangeCountryRequest) {
   }
 }
 
+function sendNotificationAPI(data: { title: string; userId: number }) {
+  return axios.post('/user/notification', data);
+}
+
+function* sendNotification(action: ISendNotificationRequest) {
+  try {
+    yield call(sendNotificationAPI, action.data);
+    yield put({
+      type: actionTypesUser.SEND_NOTIFICATION_SUCCESS,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesUser.SEND_NOTIFICATION_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchLogIn() {
   yield takeLatest(actionTypesUser.LOG_IN_REQUEST, logIn);
 }
@@ -193,6 +212,9 @@ function* watchChangeProfile() {
 function* watchChangeCountry() {
   yield takeLatest(actionTypesUser.CHANGE_COUNTRY_REQUEST, changeCountry);
 }
+function* watchSendNotification() {
+  yield takeLatest(actionTypesUser.SEND_NOTIFICATION_REQUEST, sendNotification);
+}
 
 export default function* userSaga() {
   yield all([
@@ -204,5 +226,6 @@ export default function* userSaga() {
     fork(watchSignUp),
     fork(watchChangeProfile),
     fork(watchChangeCountry),
+    fork(watchSendNotification),
   ]);
 }

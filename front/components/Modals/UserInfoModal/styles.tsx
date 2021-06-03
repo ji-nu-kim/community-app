@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ModalWrapper = styled.div`
+export const ModalExternal = styled.div`
   position: fixed;
   left: 0;
   bottom: 0;

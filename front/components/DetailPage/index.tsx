@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { DetailBg, DetailHeader, DetailMain, DetailPost } from './styles';
 import ShowPeopleModal from 'components/Modals/ShowPeopleModal';
+import JoinUserModal from 'components/Modals/JoinUserModal';
 import PostForm from 'components/PostForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
@@ -32,6 +33,7 @@ function DetailPage({
     (state: RootStateInterface) => state.community
   );
   const [showPeopleModal, setShowPeopleModal] = useState(false);
+  const [joinUserModal, setJoinUserModal] = useState(false);
   const [currentNavValue, setCurrentNavValue] = useState('nav-info');
   const [openComment, setOpenComment] = useState(false);
   const [currentPost, setCurrentPost] = useState(0);
@@ -47,6 +49,10 @@ function DetailPage({
 
   const showPeopleModalTrigger = useCallback(() => {
     setShowPeopleModal(prev => !prev);
+  }, []);
+
+  const joinUserModalTrigger = useCallback(() => {
+    setJoinUserModal(prev => !prev);
   }, []);
 
   const onClickNav = useCallback(e => {
@@ -119,7 +125,22 @@ function DetailPage({
           </div>
           <div className="header-right">
             {communityOwner && (
-              <button onClick={communityModifyModalTrigger}>수정하기</button>
+              <>
+                <div className="join-user-icon" onClick={joinUserModalTrigger}>
+                  <UserOutlined />
+                  {singleCommunity.JoinUsers.length > 0 && (
+                    <div className="user-icon-badge">
+                      {singleCommunity.JoinUsers.length}
+                    </div>
+                  )}
+                </div>
+                <button
+                  className="insert-button"
+                  onClick={communityModifyModalTrigger}
+                >
+                  수정하기
+                </button>
+              </>
             )}
             {communityOwner ? null : communityUser ? (
               <button>탈퇴하기</button>
@@ -330,8 +351,18 @@ function DetailPage({
           )}
         </DetailMain>
       </div>
+
       {showPeopleModal && (
-        <ShowPeopleModal setShowPeopleModal={setShowPeopleModal} />
+        <ShowPeopleModal
+          setShowPeopleModal={setShowPeopleModal}
+          singleCommunity={singleCommunity}
+        />
+      )}
+      {joinUserModal && (
+        <JoinUserModal
+          setJoinUserModal={setJoinUserModal}
+          singleCommunity={singleCommunity}
+        />
       )}
     </DetailBg>
   );

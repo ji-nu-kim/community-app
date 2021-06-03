@@ -8,6 +8,7 @@ import {
   ISignUpRequest,
   IChangeProfileRequest,
   IChangeCountryRequest,
+  ISendNotificationRequest,
   SignUpData,
   LoginData,
   IAddPostToMe,
@@ -75,6 +76,15 @@ export const changeCountryRequestAction = (data: {
 }): IChangeCountryRequest => {
   return {
     type: actionTypesUser.CHANGE_COUNTRY_REQUEST,
+    data,
+  };
+};
+export const sendNotificationRequestAction = (data: {
+  title: string;
+  userId: number;
+}): ISendNotificationRequest => {
+  return {
+    type: actionTypesUser.SEND_NOTIFICATION_REQUEST,
     data,
   };
 };

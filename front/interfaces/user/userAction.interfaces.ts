@@ -16,6 +16,7 @@ export const actionTypesUser = {
   UPLOAD_IMAGE_REQUEST: 'UPLOAD_IMAGE_REQUEST',
   UPLOAD_IMAGE_SUCCESS: 'UPLOAD_IMAGE_SUCCESS',
   UPLOAD_IMAGE_ERROR: 'UPLOAD_IMAGE_ERROR',
+  REMOVE_IMAGE: 'REMOVE_IMAGE',
   SIGN_UP_REQUEST: 'SIGN_UP_REQUEST',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_ERROR: 'SIGN_UP_ERROR',
@@ -25,9 +26,11 @@ export const actionTypesUser = {
   CHANGE_COUNTRY_REQUEST: 'CHANGE_COUNTRY_REQUEST',
   CHANGE_COUNTRY_SUCCESS: 'CHANGE_COUNTRY_SUCCESS',
   CHANGE_COUNTRY_ERROR: 'CHANGE_COUNTRY_ERROR',
+  SEND_NOTIFICATION_REQUEST: 'SEND_NOTIFICATION_REQUEST',
+  SEND_NOTIFICATION_SUCCESS: 'SEND_NOTIFICATION_SUCCESS',
+  SEND_NOTIFICATION_ERROR: 'SEND_NOTIFICATION_ERROR',
   ADD_POST_TO_ME: 'ADD_POST_TO_ME',
   REMOVE_POST_OF_ME: 'REMOVE_POST_OF_ME',
-  REMOVE_IMAGE: 'REMOVE_IMAGE',
 } as const;
 export interface LoginData {
   email: string;
@@ -150,6 +153,17 @@ export interface IChangeCountryError {
   type: typeof actionTypesUser.CHANGE_COUNTRY_ERROR;
   error: Error;
 }
+export interface ISendNotificationRequest {
+  type: typeof actionTypesUser.SEND_NOTIFICATION_REQUEST;
+  data: { title: string; userId: number };
+}
+export interface ISendNotificationSuccess {
+  type: typeof actionTypesUser.SEND_NOTIFICATION_SUCCESS;
+}
+export interface ISendNotificationError {
+  type: typeof actionTypesUser.SEND_NOTIFICATION_ERROR;
+  error: Error;
+}
 
 export interface IAddPostToMe {
   type: typeof actionTypesUser.ADD_POST_TO_ME;
@@ -186,6 +200,9 @@ export type ActionsUser =
   | IChangeCountryRequest
   | IChangeCountrySuccess
   | IChangeCountryError
+  | ISendNotificationRequest
+  | ISendNotificationSuccess
+  | ISendNotificationError
   | IAddPostToMe
   | IRemovePostOfMe
   | IRemoveUserImage;

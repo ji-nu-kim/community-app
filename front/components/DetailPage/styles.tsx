@@ -23,7 +23,7 @@ export const DetailHeader = styled.div`
   padding: 1rem;
   background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(255, 255, 255, 0.3));
   display: grid;
-  grid-template-columns: auto 76px;
+  grid-template-columns: auto 100px;
 
   .header-left {
     display: flex;
@@ -74,15 +74,44 @@ export const DetailHeader = styled.div`
     }
   }
   .header-right {
+    justify-self: flex-end;
+    display: flex;
+    height: 33px;
+
+    .join-user-icon {
+      position: relative;
+      font-size: 20px;
+      cursor: pointer;
+
+      .user-icon-badge {
+        background: hotpink;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 10px;
+        position: absolute;
+        top: -6px;
+        right: -8px;
+      }
+
+      :hover {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .insert-button {
+      margin-left: 1rem;
+    }
+
     button {
+      cursor: pointer;
       border: none;
       color: #fff;
       background: rgba(3, 155, 229, 0.7);
-      height: 28px;
       font-size: 0.75rem;
 
       :hover {
-        cursor: pointer;
         color: rgba(255, 255, 255, 0.7);
         background: rgba(3, 155, 229, 0.3);
       }

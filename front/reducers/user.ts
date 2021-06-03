@@ -24,6 +24,9 @@ export const initialState: UserState = {
   changeProfileLoading: false,
   changeProfileDone: false,
   changeProfileError: null,
+  sendNotificationLoading: false,
+  sendNotificationDone: false,
+  sendNotificationError: null,
 
   me: null,
   userInfo: null,
@@ -140,6 +143,20 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.CHANGE_PROFILE_ERROR:
         draft.changeProfileLoading = false;
         draft.changeProfileError = action.error;
+        break;
+
+      case actionTypesUser.SEND_NOTIFICATION_REQUEST:
+        draft.sendNotificationLoading = true;
+        draft.sendNotificationDone = false;
+        draft.sendNotificationError = null;
+        break;
+      case actionTypesUser.SEND_NOTIFICATION_SUCCESS:
+        draft.sendNotificationLoading = false;
+        draft.sendNotificationDone = true;
+        break;
+      case actionTypesUser.SEND_NOTIFICATION_ERROR:
+        draft.sendNotificationLoading = false;
+        draft.sendNotificationError = action.error;
         break;
 
       case actionTypesUser.ADD_POST_TO_ME:

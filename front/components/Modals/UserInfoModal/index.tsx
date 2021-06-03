@@ -2,7 +2,7 @@ import { logOutRequestAction } from 'actions/actionUser';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { ModalContainer, ModalWrapper } from './styles';
+import { ModalContainer, ModalExternal } from './styles';
 
 interface UserInfoModalProps {
   setUserInfoModal: Dispatch<SetStateAction<boolean>>;
@@ -33,7 +33,7 @@ function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
   }, []);
 
   return (
-    <ModalWrapper onClick={UserInfoModalTrigger}>
+    <ModalExternal onClick={UserInfoModalTrigger}>
       <ModalContainer onClick={UserInfoModalTrigger}>
         <ul>
           <li>
@@ -45,7 +45,7 @@ function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
           <li onClick={onClickDeleteAccountBtun}>회원탈퇴</li>
         </ul>
       </ModalContainer>
-    </ModalWrapper>
+    </ModalExternal>
   );
 }
 

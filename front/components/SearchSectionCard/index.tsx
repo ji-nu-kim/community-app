@@ -5,7 +5,7 @@ import { CardContainer } from './styles';
 interface CategoryCardProps {
   id: number;
   name: string;
-  img: string;
+  img: string | null;
   width: string;
   height: string;
 }

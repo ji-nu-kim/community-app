@@ -1,50 +1,56 @@
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
-import { MG, ModalContainer, ModalContent, ModalHeader } from './styles';
+import {
+  ModalExternal,
+  ModalContainer,
+  ModalBody,
+  ModalHeader,
+} from './styles';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
-import { RootStateInterface } from 'interfaces/RootState';
+import { ICommunity } from 'interfaces/db';
 
 interface ShowPeopleModalProps {
   setShowPeopleModal: Dispatch<SetStateAction<boolean>>;
+  singleCommunity: ICommunity;
 }
 
-function ShowPeopleModal({ setShowPeopleModal }: ShowPeopleModalProps) {
-  const { singleCommunity } = useSelector(
-    (state: RootStateInterface) => state.community
-  );
+function ShowPeopleModal({
+  setShowPeopleModal,
+  singleCommunity,
+}: ShowPeopleModalProps) {
+  const { Users } = singleCommunity;
 
   const closeShowPeopleModal = useCallback(() => {
     setShowPeopleModal(false);
   }, [setShowPeopleModal]);
 
   return (
-    <MG onClick={closeShowPeopleModal}>
-      <ModalContainer>
+    <ModalExternal onClick={closeShowPeopleModal}>
+      <ModalContainer onClick={e => e.stopPropagation()}>
         <ModalHeader>
           <div className="modal-title">커뮤니티 회원</div>
           <div className="close-btn" onClick={closeShowPeopleModal}>
             <CloseCircleOutlined />
           </div>
         </ModalHeader>
-        <ModalContent>
-          {singleCommunity?.Users.map(v => (
-            <div className="user-container" key={v.nickname}>
-              {v.profilePhoto ? (
+        <ModalBody>
+          {Users.map(user => (
+            <div className="user-container" key={user.nickname}>
+              {user.profilePhoto ? (
                 <img
                   width="24px"
                   height="24px"
-                  src={`http://localhost:3065/${v.profilePhoto}`}
+                  src={`http://localhost:3065/${user.profilePhoto}`}
                   alt="user-image"
                 />
               ) : (
-                <div className="fake-image">{v.nickname[0]}</div>
+                <div className="fake-image">{user.nickname[0]}</div>
               )}
-              <div className="user-nickname">{v.nickname}</div>
+              <div className="user-nickname">{user.nickname}</div>
             </div>
           ))}
-        </ModalContent>
+        </ModalBody>
       </ModalContainer>
-    </MG>
+    </ModalExternal>
   );
 }
 

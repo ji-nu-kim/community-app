@@ -11,6 +11,8 @@ import {
   ILoadCategoryCommunitiesRequest,
   ILoadCategoryRequest,
   IJoinCommunityRequest,
+  IAcceptCommunityRequest,
+  IRefuseCommunityRequest,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
 import { ICategory, ICommunity } from 'interfaces/db';
@@ -90,6 +92,42 @@ function* joinCommunity(action: IJoinCommunityRequest) {
   } catch (error) {
     yield put({
       type: actionTypesCommunity.JOIN_COMMUNITY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function acceptCommunityAPI(data: { communityId: number; userId: number }) {
+  return axios.post('/community/accept', data);
+}
+
+function* acceptCommunity(action: IAcceptCommunityRequest) {
+  try {
+    yield call(acceptCommunityAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.ACCEPT_COMMUNITY_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function refuseCommunityAPI(data: { communityId: number; userId: number }) {
+  return axios.delete(`/community/${data.communityId}/refuse/${data.userId}`);
+}
+
+function* refuseCommunity(action: IRefuseCommunityRequest) {
+  try {
+    yield call(refuseCommunityAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.REFUSE_COMMUNITY_ERROR,
       error: error.response.data,
     });
   }
@@ -251,6 +289,18 @@ function* watchAddCommunity() {
 function* watchJoinCommunity() {
   yield takeLatest(actionTypesCommunity.JOIN_COMMUNITY_REQUEST, joinCommunity);
 }
+function* watchAcceptCommunity() {
+  yield takeLatest(
+    actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST,
+    acceptCommunity
+  );
+}
+function* watchRefuseCommunity() {
+  yield takeLatest(
+    actionTypesCommunity.REFUSE_COMMUNITY_REQUEST,
+    refuseCommunity
+  );
+}
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
@@ -288,6 +338,8 @@ export default function* communitySaga() {
     fork(watchChangeCommunityInfo),
     fork(watchAddCommunity),
     fork(watchJoinCommunity),
+    fork(watchAcceptCommunity),
+    fork(watchRefuseCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCommunities),
     fork(watchLoadCountryCommunities),

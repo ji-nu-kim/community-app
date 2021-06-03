@@ -23,6 +23,9 @@ export interface UserState {
   changeProfileLoading: boolean;
   changeProfileDone: boolean;
   changeProfileError: any;
+  sendNotificationLoading: boolean;
+  sendNotificationDone: boolean;
+  sendNotificationError: any;
 
   me: IUser | null;
   userInfo: any;

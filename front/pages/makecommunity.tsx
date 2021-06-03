@@ -18,7 +18,7 @@ import SignUpLayout, {
 import CountryModal from 'components/Modals/CountryModal';
 import {
   addCommunityRequestAction,
-  loadCategoriesReqeustAction,
+  loadCategoriesRequestAction,
 } from 'actions/actionCommunity';
 import { END } from '@redux-saga/core';
 import axios from 'axios';
@@ -207,7 +207,7 @@ export const getServerSideProps: GetServerSideProps =
       axios.defaults.headers.Cookie = cookie;
     }
     context.store.dispatch(loadMyInfoRequestAction());
-    context.store.dispatch(loadCategoriesReqeustAction());
+    context.store.dispatch(loadCategoriesRequestAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
   });

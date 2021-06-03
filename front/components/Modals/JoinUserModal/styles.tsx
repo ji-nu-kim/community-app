@@ -17,7 +17,7 @@ export const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
-  width: 600px;
+  width: 300px;
   height: 500px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
@@ -56,38 +56,54 @@ export const ModalHeader = styled.header`
 `;
 
 export const ModalBody = styled.div`
+  overflow-y: auto;
   padding: 1rem;
-  display: flex;
 
-  .user-container {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
-    height: 40px;
-    padding: 0.5rem;
+  .card-container {
+    background: rgba(255, 255, 255, 0.4);
+    outline: 1px solid rgba(255, 255, 255, 1);
+    color: #fff;
+    display: grid;
+    grid-template-rows: 250px 70px 50px;
+    margin-bottom: 30px;
 
-    :hover {
-      border: 2px solid #039be5;
-      background: rgba(0, 0, 0, 0.1);
+    .card-image {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
-    img {
-      border-radius: 50%;
-      object-fit: cover;
+    .card-info {
+      align-self: center;
+      margin-left: 8px;
     }
 
-    .fake-image {
-      width: 24px;
-      height: 24px;
-      background: rgba(255, 255, 255, rgba(0, 0, 0, 0.1));
-    }
+    .card-button {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
 
-    .user-nickname {
-      margin-left: 4px;
-      font-weight: bold;
-      color: #b3b3b3;
+      button {
+        background: #039be5;
+        border: none;
+        cursor: pointer;
+
+        :hover {
+          background: #007ebd;
+        }
+
+        :first-child {
+          border-right: 1px solid rgba(255, 255, 255, 0.4);
+        }
+      }
     }
   }
 `;

@@ -22,12 +22,15 @@ export interface CommunityState {
   removeCommunityLoading: boolean;
   removeCommunityDone: boolean;
   removeCommunityError: any;
-  updateCommunityLoading: boolean;
-  updateCommunityDone: boolean;
-  updateCommunityError: any;
   joinCommunityLoading: boolean;
   joinCommunityDone: boolean;
   joinCommunityError: any;
+  acceptCommunityLoading: boolean;
+  acceptCommunityDone: boolean;
+  acceptCommunityError: any;
+  refuseCommunityLoading: boolean;
+  refuseCommunityDone: boolean;
+  refuseCommunityError: any;
 
   loadCommunityLoading: boolean;
   loadCommunityDone: boolean;

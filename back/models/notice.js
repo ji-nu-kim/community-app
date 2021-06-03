@@ -9,14 +9,9 @@ module.exports = class Notice extends Model {
           type: DataTypes.STRING(140),
           allowNull: false,
         },
-        content: {
-          type: DataTypes.TEXT,
-          allowNull: false,
-        },
-        variety: {
-          // 커뮤니티 가입알림은 'Join', 일반 알림은 'Normal', 중요 알림은 'Important' 등
-          type: DataTypes.STRING(20),
-          allowNull: false,
+        checked: {
+          type: DataTypes.BOOLEAN,
+          defaultValue: false,
         },
       },
       {

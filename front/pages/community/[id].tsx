@@ -16,8 +16,12 @@ import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
 function Community() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { singleCommunity, loadCommunityError, changeCommunityInfoDone } =
-    useSelector((state: RootStateInterface) => state.community);
+  const {
+    singleCommunity,
+    loadCommunityError,
+    changeCommunityInfoDone,
+    refuseCommunityDone,
+  } = useSelector((state: RootStateInterface) => state.community);
   const { addPostDone, addCommentDone } = useSelector(
     (state: RootStateInterface) => state.post
   );
@@ -36,10 +40,17 @@ function Community() {
       dispatch(
         loadCommunityRequestAction({ communityId: Number(router.query.id) })
       );
-      dispatch(loadMyInfoRequestAction());
       setCommunityModifyModal(false);
     }
   }, [changeCommunityInfoDone, router.query.id]);
+
+  useEffect(() => {
+    if (refuseCommunityDone) {
+      dispatch(
+        loadCommunityRequestAction({ communityId: Number(router.query.id) })
+      );
+    }
+  }, [refuseCommunityDone]);
 
   useEffect(() => {
     if (loadCommunityError) {

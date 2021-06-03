@@ -10,6 +10,7 @@ const {
   Community,
   Category,
   sequelize,
+  Notice,
 } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -39,6 +40,7 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 },
 });
 
+// 유저정보 불러오기
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
@@ -70,6 +72,9 @@ router.get('/', async (req, res, next) => {
               },
             ],
           },
+          {
+            model: Notice,
+          },
         ],
       });
       return res.status(200).json(user);
@@ -82,6 +87,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// 로그인
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) {
@@ -115,12 +121,14 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 });
 
+// 로그아웃
 router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('로그아웃 되었습니다');
 });
 
+// 회원가입
 router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({
@@ -145,6 +153,7 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
+// 유저 프로필 수정
 router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
@@ -174,9 +183,29 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   }
 });
 
+// 유저에게 알림을 보냄
+router.post('/notification', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.body.userId },
+    });
+    if (!user) {
+      return res.status(404).send('존재하지 않는 유저입니다');
+    }
+    await Notice.create({
+      title: req.body.title,
+      UserId: req.body.userId,
+    });
+    return res.status(200).send('알림전송을 완료하였습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 주소 변경
 router.patch('/country', isLoggedIn, async (req, res, next) => {
   try {
-    console.log(req.body.country);
     await User.update(
       { country: req.body.country },
       { where: { id: req.user.id } }
@@ -193,6 +222,7 @@ router.post('/image', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
 });
 
+// 특정 유저 검색
 router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({

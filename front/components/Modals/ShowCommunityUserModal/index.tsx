@@ -8,27 +8,28 @@ import {
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ICommunity } from 'interfaces/db';
 
-interface ShowPeopleModalProps {
-  setShowPeopleModal: Dispatch<SetStateAction<boolean>>;
+interface ShowCommunityUserModalProps {
+  setShowCommunityUserModal: Dispatch<SetStateAction<boolean>>;
   singleCommunity: ICommunity;
 }
 
-function ShowPeopleModal({
-  setShowPeopleModal,
+function ShowCommunityUserModal({
+  setShowCommunityUserModal,
   singleCommunity,
-}: ShowPeopleModalProps) {
+}: ShowCommunityUserModalProps) {
   const { Users } = singleCommunity;
 
-  const closeShowPeopleModal = useCallback(() => {
-    setShowPeopleModal(false);
-  }, [setShowPeopleModal]);
+  const closeShowCommunityUserModal = useCallback(() => {
+    setShowCommunityUserModal(false);
+  }, [setShowCommunityUserModal]);
 
+  // 유저 클릭하면 유저정보 볼 수 있게 모달창이 좋을 듯
   return (
-    <ModalExternal onClick={closeShowPeopleModal}>
+    <ModalExternal onClick={closeShowCommunityUserModal}>
       <ModalContainer onClick={e => e.stopPropagation()}>
         <ModalHeader>
           <div className="modal-title">커뮤니티 회원</div>
-          <div className="close-btn" onClick={closeShowPeopleModal}>
+          <div className="close-btn" onClick={closeShowCommunityUserModal}>
             <CloseCircleOutlined />
           </div>
         </ModalHeader>
@@ -54,4 +55,4 @@ function ShowPeopleModal({
   );
 }
 
-export default ShowPeopleModal;
+export default ShowCommunityUserModal;

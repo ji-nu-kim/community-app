@@ -109,7 +109,7 @@ function PostForm() {
         <div
           style={{
             textAlign: 'end',
-            padding: '0.5rem 0',
+            marginTop: '0.5rem',
           }}
         >
           <Button onClick={onClickImageUpload}>업로드</Button>
@@ -126,12 +126,15 @@ function PostForm() {
         <div
           style={{
             position: 'absolute',
-            marginBottom: '250px',
             display: 'flex',
+            marginTop: '150px',
           }}
         >
           {imagePaths.map((v, i) => (
-            <div key={v} style={{ marginRight: '1rem' }}>
+            <div
+              key={v}
+              style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}
+            >
               <img
                 src={`http://localhost:3065/${v}`}
                 style={{ width: '100px' }}

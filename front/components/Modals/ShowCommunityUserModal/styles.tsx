@@ -58,15 +58,19 @@ export const ModalHeader = styled.header`
 export const ModalBody = styled.div`
   padding: 1rem;
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: flex-start;
 
   .user-container {
     cursor: pointer;
     display: flex;
     align-items: center;
     border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 25px;
+    border-radius: 10px;
     height: 40px;
-    padding: 0.5rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
 
     :hover {
       border: 2px solid #039be5;
@@ -81,7 +85,12 @@ export const ModalBody = styled.div`
     .fake-image {
       width: 24px;
       height: 24px;
-      background: rgba(255, 255, 255, rgba(0, 0, 0, 0.1));
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
     }
 
     .user-nickname {

@@ -55,6 +55,5 @@ module.exports = class User extends Model {
     db.User.belongsToMany(db.Category, {
       through: 'CATEGORY_USER',
     });
-    db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
   }
 };

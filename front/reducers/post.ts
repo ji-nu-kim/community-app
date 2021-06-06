@@ -7,7 +7,9 @@ export const initialState: PostState = {
   imagePaths: [],
   singlePost: null,
   hasMorePost: true,
-
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -17,28 +19,18 @@ export const initialState: PostState = {
   updatePostLoading: false,
   updatePostDone: false,
   updatePostError: null,
-
-  addCommentLoading: false,
-  addCommentDone: false,
-  addCommentError: null,
-
-  uploadImagesLoading: false,
-  uploadImagesDone: false,
-  uploadImagesError: null,
-
-  likePostLoading: false,
-  likePostDone: false,
-  likePostError: null,
-  unlikePostLoading: false,
-  unlikePostDone: false,
-  unlikePostError: null,
-
-  loadPostLoading: false,
-  loadPostDone: false,
-  loadPostError: null,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
+  removeCommentLoading: false,
+  removeCommentDone: false,
+  removeCommentError: null,
+  updateCommentLoading: false,
+  updateCommentDone: false,
+  updateCommentError: null,
 };
 
 const reducer = (state = initialState, action: ActionsPost): PostState => {
@@ -52,6 +44,7 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.ADD_POST_SUCCESS:
         draft.addPostLoading = false;
         draft.addPostDone = true;
+        draft.mainPosts.concat(action.data);
         draft.imagePaths = [];
         break;
       case actionTypesPost.ADD_POST_ERROR:
@@ -92,40 +85,22 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
         draft.updatePostLoading = false;
         draft.updatePostError = action.error;
         break;
-
-      case actionTypesPost.LOAD_POST_REQUEST:
-        draft.loadPostLoading = true;
-        draft.loadPostDone = false;
-        draft.loadPostError = null;
-        break;
-      case actionTypesPost.LOAD_POST_SUCCESS:
-        draft.loadPostLoading = false;
-        draft.loadPostDone = true;
-        draft.singlePost = action.data;
-        break;
-      case actionTypesPost.LOAD_POST_ERROR:
-        draft.loadPostLoading = false;
-        draft.loadPostError = action.error;
-        break;
-      case actionTypesPost.LOAD_USER_POSTS_REQUEST:
       case actionTypesPost.LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         break;
-      case actionTypesPost.LOAD_USER_POSTS_SUCCESS:
-      case actionTypesPost.LOAD_POSTS_SUCCESS:
+      case actionTypesPost.LOAD_POSTS_SUCCESS: {
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.hasMorePost = action.data.length === 10;
         break;
-      case actionTypesPost.LOAD_USER_POSTS_ERROR:
+      }
       case actionTypesPost.LOAD_POSTS_ERROR:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
-
       case actionTypesPost.ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;
         draft.addCommentDone = false;
@@ -144,43 +119,47 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
         draft.addCommentLoading = false;
         draft.addCommentError = action.error;
         break;
-
-      case actionTypesPost.LIKE_POST_REQUEST:
-        draft.likePostLoading = true;
-        draft.likePostDone = false;
-        draft.likePostError = null;
+      case actionTypesPost.UPDATE_COMMENT_REQUEST:
+        draft.updateCommentLoading = true;
+        draft.updateCommentDone = false;
+        draft.updateCommentError = null;
         break;
-      case actionTypesPost.LIKE_POST_SUCCESS: {
-        console.log(action.data);
-        const post = draft.mainPosts.find(v => v.id === action.data.postId);
-        post?.Likers.push({ id: action.data.userId });
-        draft.likePostLoading = false;
-        draft.likePostDone = true;
+      case actionTypesPost.UPDATE_COMMENT_SUCCESS: {
+        draft.updateCommentLoading = false;
+        draft.updateCommentDone = true;
+        const post = draft.mainPosts.find(v => v.id === action.data.PostId);
+        if (post) {
+          const comment = post.Comments.find(v => v.id === action.data.id);
+          if (comment) {
+            comment.content = action.data.content;
+          }
+        }
         break;
       }
-      case actionTypesPost.LIKE_POST_ERROR:
-        draft.likePostLoading = false;
-        draft.likePostError = action.error;
+      case actionTypesPost.UPDATE_COMMENT_ERROR:
+        draft.updateCommentLoading = false;
+        draft.updateCommentError = action.error;
         break;
-      case actionTypesPost.UNLIKE_POST_REQUEST:
-        draft.unlikePostLoading = true;
-        draft.unlikePostDone = false;
-        draft.unlikePostError = null;
+      case actionTypesPost.REMOVE_COMMENT_REQUEST:
+        draft.removeCommentLoading = true;
+        draft.removeCommentDone = false;
+        draft.removeCommentError = null;
         break;
-      case actionTypesPost.UNLIKE_POST_SUCCESS: {
+      case actionTypesPost.REMOVE_COMMENT_SUCCESS: {
+        draft.removeCommentLoading = false;
+        draft.removeCommentDone = true;
         const post = draft.mainPosts.find(v => v.id === action.data.postId);
         if (post) {
-          post.Likers = post.Likers.filter(v => v.id !== action.data.userId);
+          post.Comments = post.Comments.filter(
+            v => v.id !== action.data.commentId
+          );
         }
-        draft.unlikePostLoading = false;
-        draft.unlikePostDone = true;
         break;
       }
-      case actionTypesPost.UNLIKE_POST_ERROR:
-        draft.unlikePostLoading = false;
-        draft.unlikePostError = action.error;
+      case actionTypesPost.REMOVE_COMMENT_ERROR:
+        draft.removeCommentLoading = false;
+        draft.removeCommentError = action.error;
         break;
-
       case actionTypesPost.UPLOAD_IMAGES_REQUEST:
         draft.uploadImagesLoading = true;
         draft.uploadImagesDone = false;

@@ -5,6 +5,9 @@ export interface PostState {
   mainPosts: IPost[];
   imagePaths: string[];
   hasMorePost: boolean;
+  uploadImagesLoading: boolean;
+  uploadImagesDone: boolean;
+  uploadImagesError: any;
 
   addPostLoading: boolean;
   addPostDone: boolean;
@@ -15,26 +18,16 @@ export interface PostState {
   updatePostLoading: boolean;
   updatePostDone: boolean;
   updatePostError: any;
-
-  addCommentLoading: boolean;
-  addCommentDone: boolean;
-  addCommentError: any;
-
-  uploadImagesLoading: boolean;
-  uploadImagesDone: boolean;
-  uploadImagesError: any;
-
-  likePostLoading: boolean;
-  likePostDone: boolean;
-  likePostError: any;
-  unlikePostLoading: boolean;
-  unlikePostDone: boolean;
-  unlikePostError: any;
-
-  loadPostLoading: boolean;
-  loadPostDone: boolean;
-  loadPostError: any;
   loadPostsLoading: boolean;
   loadPostsDone: boolean;
   loadPostsError: any;
+  addCommentLoading: boolean;
+  addCommentDone: boolean;
+  addCommentError: any;
+  removeCommentLoading: boolean;
+  removeCommentDone: boolean;
+  removeCommentError: any;
+  updateCommentLoading: boolean;
+  updateCommentDone: boolean;
+  updateCommentError: any;
 }

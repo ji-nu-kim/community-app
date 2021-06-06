@@ -10,24 +10,18 @@ export const actionTypesPost = {
   UPDATE_POST_REQUEST: 'UPDATE_POST_REQUEST',
   UPDATE_POST_SUCCESS: 'UPDATE_POST_SUCCESS',
   UPDATE_POST_ERROR: 'UPDATE_POST_ERROR',
-  ADD_COMMENT_REQUEST: 'ADD_COMMENT_REQUEST',
-  ADD_COMMENT_SUCCESS: 'ADD_COMMENT_SUCCESS',
-  ADD_COMMENT_ERROR: 'ADD_COMMENT_ERROR',
-  LOAD_POST_REQUEST: 'LOAD_POST_REQUEST',
-  LOAD_POST_SUCCESS: 'LOAD_POST_SUCCESS',
-  LOAD_POST_ERROR: 'LOAD_POST_ERROR',
   LOAD_POSTS_REQUEST: 'LOAD_POSTS_REQUEST',
   LOAD_POSTS_SUCCESS: 'LOAD_POSTS_SUCCESS',
   LOAD_POSTS_ERROR: 'LOAD_POSTS_ERROR',
-  LOAD_USER_POSTS_REQUEST: 'LOAD_USER_POSTS_REQUEST',
-  LOAD_USER_POSTS_SUCCESS: 'LOAD_USER_POSTS_SUCCESS',
-  LOAD_USER_POSTS_ERROR: 'LOAD_USER_POSTS_ERROR',
-  LIKE_POST_REQUEST: 'LIKE_POST_REQUEST',
-  LIKE_POST_SUCCESS: 'LIKE_POST_SUCCESS',
-  LIKE_POST_ERROR: 'LIKE_POST_ERROR',
-  UNLIKE_POST_REQUEST: 'UNLIKE_POST_REQUEST',
-  UNLIKE_POST_SUCCESS: 'UNLIKE_POST_SUCCESS',
-  UNLIKE_POST_ERROR: 'UNLIKE_POST_ERROR',
+  ADD_COMMENT_REQUEST: 'ADD_COMMENT_REQUEST',
+  ADD_COMMENT_SUCCESS: 'ADD_COMMENT_SUCCESS',
+  ADD_COMMENT_ERROR: 'ADD_COMMENT_ERROR',
+  REMOVE_COMMENT_REQUEST: 'REMOVE_COMMENT_REQUEST',
+  REMOVE_COMMENT_SUCCESS: 'REMOVE_COMMENT_SUCCESS',
+  REMOVE_COMMENT_ERROR: 'REMOVE_COMMENT_ERROR',
+  UPDATE_COMMENT_REQUEST: 'UPDATE_COMMENT_REQUEST',
+  UPDATE_COMMENT_SUCCESS: 'UPDATE_COMMENT_SUCCESS',
+  UPDATE_COMMENT_ERROR: 'UPDATE_COMMENT_ERROR',
   UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
   UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
   UPLOAD_IMAGES_ERROR: 'UPLOAD_IMAGES_ERROR',
@@ -44,6 +38,7 @@ export interface IAddPostRequest {
 }
 export interface IAddPostSuccess {
   type: typeof actionTypesPost.ADD_POST_SUCCESS;
+  data: IPost;
 }
 export interface IAddPostError {
   type: typeof actionTypesPost.ADD_POST_ERROR;
@@ -51,7 +46,7 @@ export interface IAddPostError {
 }
 export interface IRemovePostRequest {
   type: typeof actionTypesPost.REMOVE_POST_REQUEST;
-  data: { postId: number };
+  data: { postId: number; communityId: number };
 }
 export interface IRemovePostSuccess {
   type: typeof actionTypesPost.REMOVE_POST_SUCCESS;
@@ -63,7 +58,7 @@ export interface IRemovePostError {
 }
 export interface IUpdatePostRequest {
   type: typeof actionTypesPost.UPDATE_POST_REQUEST;
-  data: { postId: number; content: string };
+  data: { postId: number; communityId: number; content: string };
 }
 export interface IUpdatePostSuccess {
   type: typeof actionTypesPost.UPDATE_POST_SUCCESS;
@@ -73,22 +68,9 @@ export interface IUpdatePostError {
   type: typeof actionTypesPost.UPDATE_POST_ERROR;
   error: Error;
 }
-
-export interface ILoadPostRequest {
-  type: typeof actionTypesPost.LOAD_POST_REQUEST;
-  data: { postId: number };
-}
-export interface ILoadPostSuccess {
-  type: typeof actionTypesPost.LOAD_POST_SUCCESS;
-  data: IPost;
-}
-export interface ILoadPostError {
-  type: typeof actionTypesPost.LOAD_POST_ERROR;
-  error: Error;
-}
 export interface ILoadPostsRequest {
   type: typeof actionTypesPost.LOAD_POSTS_REQUEST;
-  data: { postId: number };
+  data: { communityId: number; postId: number };
 }
 export interface ILoadPostsSuccess {
   type: typeof actionTypesPost.LOAD_POSTS_SUCCESS;
@@ -96,18 +78,6 @@ export interface ILoadPostsSuccess {
 }
 export interface ILoadPostsError {
   type: typeof actionTypesPost.LOAD_POSTS_ERROR;
-  error: Error;
-}
-export interface ILoadUserPostsRequest {
-  type: typeof actionTypesPost.LOAD_USER_POSTS_REQUEST;
-  data: { postId: number; userId: number };
-}
-export interface ILoadUserPostsSuccess {
-  type: typeof actionTypesPost.LOAD_USER_POSTS_SUCCESS;
-  data: IPost[];
-}
-export interface ILoadUserPostsError {
-  type: typeof actionTypesPost.LOAD_USER_POSTS_ERROR;
   error: Error;
 }
 
@@ -127,31 +97,31 @@ export interface IAddCommentError {
   type: typeof actionTypesPost.ADD_COMMENT_ERROR;
   error: Error;
 }
+export interface IUpdateCommentRequest {
+  type: typeof actionTypesPost.UPDATE_COMMENT_REQUEST;
+  data: CommentData;
+}
+export interface IUpdateCommentSuccess {
+  type: typeof actionTypesPost.UPDATE_COMMENT_SUCCESS;
+  data: IComment;
+}
+export interface IUpdateCommentError {
+  type: typeof actionTypesPost.UPDATE_COMMENT_ERROR;
+  error: Error;
+}
+export interface IRemoveCommentRequest {
+  type: typeof actionTypesPost.REMOVE_COMMENT_REQUEST;
+  data: { commentId: number; postId: number };
+}
+export interface IRemoveCommentSuccess {
+  type: typeof actionTypesPost.REMOVE_COMMENT_SUCCESS;
+  data: { commentId: number; postId: number };
+}
+export interface IRemoveCommentError {
+  type: typeof actionTypesPost.REMOVE_COMMENT_ERROR;
+  error: Error;
+}
 
-export interface ILikePostRequest {
-  type: typeof actionTypesPost.LIKE_POST_REQUEST;
-  data: { postId: number };
-}
-export interface ILikePostSuccess {
-  type: typeof actionTypesPost.LIKE_POST_SUCCESS;
-  data: { postId: number; userId: number };
-}
-export interface ILikePostError {
-  type: typeof actionTypesPost.LIKE_POST_ERROR;
-  error: Error;
-}
-export interface IUnlikePostRequest {
-  type: typeof actionTypesPost.UNLIKE_POST_REQUEST;
-  data: { postId: number };
-}
-export interface IUnlikePostSuccess {
-  type: typeof actionTypesPost.UNLIKE_POST_SUCCESS;
-  data: { postId: number; userId: number };
-}
-export interface IUnlikePostError {
-  type: typeof actionTypesPost.UNLIKE_POST_ERROR;
-  error: Error;
-}
 export interface IUploadImagesRequest {
   type: typeof actionTypesPost.UPLOAD_IMAGES_REQUEST;
   data: FormData;
@@ -179,24 +149,18 @@ export type ActionsPost =
   | IUpdatePostRequest
   | IUpdatePostSuccess
   | IUpdatePostError
-  | ILoadPostRequest
-  | ILoadPostSuccess
-  | ILoadPostError
   | ILoadPostsRequest
   | ILoadPostsSuccess
   | ILoadPostsError
-  | ILoadUserPostsRequest
-  | ILoadUserPostsSuccess
-  | ILoadUserPostsError
   | IAddCommentRequest
   | IAddCommentSuccess
   | IAddCommentError
-  | ILikePostRequest
-  | ILikePostSuccess
-  | ILikePostError
-  | IUnlikePostRequest
-  | IUnlikePostSuccess
-  | IUnlikePostError
+  | IUpdateCommentRequest
+  | IUpdateCommentSuccess
+  | IUpdateCommentError
+  | IRemoveCommentRequest
+  | IRemoveCommentSuccess
+  | IRemoveCommentError
   | IUploadImagesRequest
   | IUploadImagesSuccess
   | IUploadImagesError

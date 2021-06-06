@@ -141,6 +141,7 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.LEAVE_SUCCESS:
         draft.leaveLoading = false;
         draft.leaveDone = true;
+        draft.me = null;
         break;
       case actionTypesUser.LEAVE_ERROR:
         draft.leaveLoading = false;

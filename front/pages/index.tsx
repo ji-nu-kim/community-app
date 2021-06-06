@@ -25,7 +25,7 @@ function Home() {
   } = useSelector((state: RootStateInterface) => state.community);
 
   useEffect(() => {
-    if (me) {
+    if (me?.country) {
       dispatch(
         loadCountryCommunitiesRequestAction({
           country: me.country,
@@ -33,7 +33,7 @@ function Home() {
         })
       );
     }
-  }, []);
+  }, [me?.country]);
 
   useEffect(() => {
     function onScroll() {

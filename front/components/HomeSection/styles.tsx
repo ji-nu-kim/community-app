@@ -35,19 +35,7 @@ export const HomeSectionContainer = styled.div`
 
   .section-2 {
     span {
-      color: #f2e205;
-    }
-  }
-
-  .section-3 {
-    span {
       color: #8435f2;
-    }
-  }
-
-  .section-4 {
-    span {
-      color: #d92387;
     }
   }
 `;

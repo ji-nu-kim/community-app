@@ -216,11 +216,6 @@ router.get('/:communityId', async (req, res, next) => {
             { model: Image },
             { model: User, attributes: ['id', 'nickname', 'profilePhoto'] },
             {
-              model: User,
-              as: 'Likers',
-              attributes: ['id'],
-            },
-            {
               model: Comment,
               attributes: ['id', 'content'],
               include: [

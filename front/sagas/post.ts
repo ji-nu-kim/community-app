@@ -5,16 +5,11 @@ import {
   CommentData,
   IAddCommentRequest,
   IAddPostRequest,
-  ILikePostRequest,
-  ILoadPostRequest,
   ILoadPostsRequest,
-  ILoadUserPostsRequest,
   IRemovePostRequest,
-  IUnlikePostRequest,
   IUpdatePostRequest,
   IUploadImagesRequest,
 } from '../interfaces/post/postAction.interfaces';
-import { actionTypesUser } from '../interfaces/user/userAction.interfaces';
 import axios from 'axios';
 import { IComment, IPost } from 'interfaces/db';
 
@@ -24,9 +19,10 @@ function postAPI(data: AddPostData) {
 
 function* addPost(action: IAddPostRequest) {
   try {
-    yield call(postAPI, action.data);
+    const result: { data: IPost } = yield call(postAPI, action.data);
     yield put({
       type: actionTypesPost.ADD_POST_SUCCESS,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -36,19 +32,20 @@ function* addPost(action: IAddPostRequest) {
   }
 }
 
-function removePostAPI(data: { postId: number }) {
-  return axios.delete(`/post/${data.postId}`);
+function removePostAPI(data: { communityId: number; postId: number }) {
+  return axios.delete(
+    `/post/community/${data.communityId}/post/${data.postId}`
+  );
 }
 
 function* removePost(action: IRemovePostRequest) {
   try {
-    const result: { data: number } = yield call(removePostAPI, action.data);
+    const result: { data: { postId: number } } = yield call(
+      removePostAPI,
+      action.data
+    );
     yield put({
       type: actionTypesPost.REMOVE_POST_SUCCESS,
-      data: result.data,
-    });
-    yield put({
-      type: actionTypesUser.REMOVE_POST_OF_ME,
       data: result.data,
     });
   } catch (error) {
@@ -59,8 +56,15 @@ function* removePost(action: IRemovePostRequest) {
   }
 }
 
-function updatePostAPI(data: { postId: number; content: string }) {
-  return axios.patch(`/post/${data.postId}`, data);
+function updatePostAPI(data: {
+  postId: number;
+  communityId: number;
+  content: string;
+}) {
+  return axios.patch(
+    `/post/community/${data.communityId}/post/${data.postId}`,
+    data
+  );
 }
 
 function* updatePost(action: IUpdatePostRequest) {
@@ -81,27 +85,10 @@ function* updatePost(action: IUpdatePostRequest) {
   }
 }
 
-function loadPostAPI(data: { postId: number }) {
-  return axios.get(`/post/${data.postId}`);
-}
-
-function* loadPost(action: ILoadPostRequest) {
-  try {
-    const result: { data: IPost } = yield call(loadPostAPI, action.data);
-    yield put({
-      type: actionTypesPost.LOAD_POST_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.LOAD_POST_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function loadPostsAPI(data: { postId: number }) {
-  return axios.get(`/posts?lastId=${data.postId}`);
+function loadPostsAPI(data: { communityId: number; postId: number }) {
+  return axios.get(
+    `/posts/community/${data.communityId}/post?lastId=${data.postId}`
+  );
 }
 
 function* loadPosts(action: ILoadPostsRequest) {
@@ -114,25 +101,6 @@ function* loadPosts(action: ILoadPostsRequest) {
   } catch (error) {
     yield put({
       type: actionTypesPost.LOAD_POSTS_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function loadUserPostsAPI(data: { postId: number; userId: number }) {
-  return axios.get(`/user/${data.userId}/posts?lastId=${data.postId}`);
-}
-
-function* loadUserPosts(action: ILoadUserPostsRequest) {
-  try {
-    const result: { data: IPost[] } = yield call(loadUserPostsAPI, action.data);
-    yield put({
-      type: actionTypesPost.LOAD_USER_POSTS_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.LOAD_USER_POSTS_ERROR,
       error: error.response.data,
     });
   }
@@ -152,50 +120,6 @@ function* addComment(action: IAddCommentRequest) {
   } catch (error) {
     yield put({
       type: actionTypesPost.ADD_COMMENT_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function likePostAPI(data: { postId: number }) {
-  return axios.patch(`/post/${data.postId}/like`);
-}
-
-function* likePost(action: ILikePostRequest) {
-  try {
-    const result: { data: { postId: number; userId: number } } = yield call(
-      likePostAPI,
-      action.data
-    );
-    yield put({
-      type: actionTypesPost.LIKE_POST_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.LIKE_POST_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function unlikePostAPI(data: { postId: number }) {
-  return axios.delete(`/post/${data.postId}/like`);
-}
-
-function* unlikePost(action: IUnlikePostRequest) {
-  try {
-    const result: { data: { postId: number; userId: number } } = yield call(
-      unlikePostAPI,
-      action.data
-    );
-    yield put({
-      type: actionTypesPost.UNLIKE_POST_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.UNLIKE_POST_ERROR,
       error: error.response.data,
     });
   }
@@ -223,39 +147,18 @@ function* uploadImages(action: IUploadImagesRequest) {
 function* watchAddPost() {
   yield takeLatest(actionTypesPost.ADD_POST_REQUEST, addPost);
 }
-
 function* watchRemovePost() {
   yield takeLatest(actionTypesPost.REMOVE_POST_REQUEST, removePost);
 }
-
 function* watchUpdatePost() {
   yield takeLatest(actionTypesPost.UPDATE_POST_REQUEST, updatePost);
 }
-
-function* watchLoadPost() {
-  yield takeLatest(actionTypesPost.LOAD_POST_REQUEST, loadPost);
-}
-
-function* watchLoadPosts() {
+function* watchloadPosts() {
   yield takeLatest(actionTypesPost.LOAD_POSTS_REQUEST, loadPosts);
 }
-
-function* watchLoadUserPosts() {
-  yield takeLatest(actionTypesPost.LOAD_USER_POSTS_REQUEST, loadUserPosts);
-}
-
 function* watchAddComment() {
   yield takeLatest(actionTypesPost.ADD_COMMENT_REQUEST, addComment);
 }
-
-function* watchLikePost() {
-  yield takeLatest(actionTypesPost.LIKE_POST_REQUEST, likePost);
-}
-
-function* watchUnlikePost() {
-  yield takeLatest(actionTypesPost.UNLIKE_POST_REQUEST, unlikePost);
-}
-
 function* watchUploadImages() {
   yield takeLatest(actionTypesPost.UPLOAD_IMAGES_REQUEST, uploadImages);
 }
@@ -265,12 +168,8 @@ export default function* postSaga() {
     fork(watchAddPost),
     fork(watchRemovePost),
     fork(watchUpdatePost),
-    fork(watchLoadPost),
-    fork(watchLoadPosts),
-    fork(watchLoadUserPosts),
+    fork(watchloadPosts),
     fork(watchAddComment),
-    fork(watchLikePost),
-    fork(watchUnlikePost),
     fork(watchUploadImages),
   ]);
 }

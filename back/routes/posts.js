@@ -3,9 +3,11 @@ const { Op } = require('sequelize');
 const { Post, User, Image, Comment } = require('../models');
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/community/:communityId/post', async (req, res, next) => {
   try {
-    const where = {};
+    const where = {
+      CommunityId: req.params.communityId,
+    };
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
     }
@@ -20,12 +22,7 @@ router.get('/', async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'nickname'],
-        },
-        {
-          model: User,
-          as: 'Likers',
-          attributes: ['id'],
+          attributes: ['id', 'nickname', 'profilePhoto'],
         },
         {
           model: Comment,

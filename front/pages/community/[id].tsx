@@ -1,28 +1,43 @@
 import { END } from '@redux-saga/core';
 import { loadCommunityRequestAction } from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
+import { loadPostsRequestAction } from 'actions/actionPost';
 import axios from 'axios';
 import AppLayout from 'components/AppLayout';
-import DetailPage from 'components/DetailPage';
+import CommunityBody from 'components/CommunityBody';
+import CommunityHeader from 'components/CommunityHeader';
 import { RootStateInterface } from 'interfaces/RootState';
 import { GetServerSideProps } from 'next';
 import Router, { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import wrapper from 'store/configureStore';
+import styled from 'styled-components';
 
-import CommunitymodifyModal from 'components/Modals/CommunityModifyModal';
+interface IBackgroundImage {
+  backgroundImage: string | null;
+}
+
+const CommunityContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    url(${(props: IBackgroundImage) =>
+      props.backgroundImage && props.backgroundImage});
+  background-position: center;
+  background-size: cover;
+`;
 
 function Community() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { singleCommunity, loadCommunityError, changeCommunityInfoDone } =
-    useSelector((state: RootStateInterface) => state.community);
+  const { singleCommunity, loadCommunityError } = useSelector(
+    (state: RootStateInterface) => state.community
+  );
   const { addPostDone, addCommentDone } = useSelector(
     (state: RootStateInterface) => state.post
   );
-
-  const [communityModifyModal, setCommunityModifyModal] = useState(false);
+  const { me } = useSelector((state: RootStateInterface) => state.user);
 
   useEffect(() => {
     if (addPostDone || addCommentDone)
@@ -30,15 +45,6 @@ function Community() {
         loadCommunityRequestAction({ communityId: Number(router.query.id) })
       );
   }, [addPostDone, addCommentDone, router.query.id]);
-
-  useEffect(() => {
-    if (changeCommunityInfoDone) {
-      dispatch(
-        loadCommunityRequestAction({ communityId: Number(router.query.id) })
-      );
-      setCommunityModifyModal(false);
-    }
-  }, [changeCommunityInfoDone, router.query.id]);
 
   useEffect(() => {
     if (loadCommunityError) {
@@ -52,15 +58,16 @@ function Community() {
 
   return (
     <AppLayout>
-      <DetailPage
-        singleCommunity={singleCommunity}
-        setCommunityModifyModal={setCommunityModifyModal}
-      />
-      {communityModifyModal && (
-        <CommunitymodifyModal
-          setCommunityModifyModal={setCommunityModifyModal}
-        />
-      )}
+      <CommunityContainer
+        backgroundImage={
+          singleCommunity.profilePhoto
+            ? `http://localhost:3065/${singleCommunity.profilePhoto}`
+            : null
+        }
+      >
+        <CommunityHeader singleCommunity={singleCommunity} me={me} />
+        <CommunityBody singleCommunity={singleCommunity} />
+      </CommunityContainer>
     </AppLayout>
   );
 }
@@ -76,6 +83,9 @@ export const getServerSideProps: GetServerSideProps =
     context.store.dispatch(loadMyInfoRequestAction());
     context.store.dispatch(
       loadCommunityRequestAction({ communityId: communityId })
+    );
+    context.store.dispatch(
+      loadPostsRequestAction({ communityId: communityId, postId: 0 })
     );
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();

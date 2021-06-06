@@ -4,15 +4,13 @@ import {
   IRemovePostRequest,
   IUpdatePostRequest,
   IAddCommentRequest,
-  ILoadPostRequest,
-  ILoadPostsRequest,
-  ILoadUserPostsRequest,
-  ILikePostRequest,
-  IUnlikePostRequest,
   IUploadImagesRequest,
   IRemoveImage,
   CommentData,
   AddPostData,
+  ILoadPostsRequest,
+  IRemoveCommentRequest,
+  IUpdateCommentRequest,
 } from '../interfaces/post/postAction.interfaces';
 
 export const addPostRequestAction = (data: AddPostData): IAddPostRequest => {
@@ -24,6 +22,7 @@ export const addPostRequestAction = (data: AddPostData): IAddPostRequest => {
 
 export const removePostRequestAction = (data: {
   postId: number;
+  communityId: number;
 }): IRemovePostRequest => {
   return {
     type: actionTypesPost.REMOVE_POST_REQUEST,
@@ -33,6 +32,7 @@ export const removePostRequestAction = (data: {
 
 export const updatePostRequestAction = (data: {
   postId: number;
+  communityId: number;
   content: string;
 }): IUpdatePostRequest => {
   return {
@@ -41,30 +41,12 @@ export const updatePostRequestAction = (data: {
   };
 };
 
-export const loadPostRequestAction = (data: {
-  postId: number;
-}): ILoadPostRequest => {
-  return {
-    type: actionTypesPost.LOAD_POST_REQUEST,
-    data,
-  };
-};
-
 export const loadPostsRequestAction = (data: {
+  communityId: number;
   postId: number;
 }): ILoadPostsRequest => {
   return {
     type: actionTypesPost.LOAD_POSTS_REQUEST,
-    data,
-  };
-};
-
-export const loadUserPostsRequestAction = (data: {
-  postId: number;
-  userId: number;
-}): ILoadUserPostsRequest => {
-  return {
-    type: actionTypesPost.LOAD_USER_POSTS_REQUEST,
     data,
   };
 };
@@ -78,20 +60,21 @@ export const addCommentRequestAction = (
   };
 };
 
-export const likePostRequestAction = (data: {
-  postId: number;
-}): ILikePostRequest => {
+export const updateCommentRequestAction = (
+  data: CommentData
+): IUpdateCommentRequest => {
   return {
-    type: actionTypesPost.LIKE_POST_REQUEST,
+    type: actionTypesPost.UPDATE_COMMENT_REQUEST,
     data,
   };
 };
 
-export const unlikePostRequestAction = (data: {
+export const removeCommentRequestAction = (data: {
+  commentId: number;
   postId: number;
-}): IUnlikePostRequest => {
+}): IRemoveCommentRequest => {
   return {
-    type: actionTypesPost.UNLIKE_POST_REQUEST,
+    type: actionTypesPost.REMOVE_COMMENT_REQUEST,
     data,
   };
 };

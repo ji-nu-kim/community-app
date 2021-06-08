@@ -1,5 +1,5 @@
 import { Form, Input, Button } from 'antd';
-import React, { useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import { addCommentRequestAction } from '../actions/actionPost';
 import useInput from '../hooks/useInput';
 import { RootStateInterface } from '../interfaces/RootState';
@@ -12,9 +12,7 @@ interface CommentFormProps {
 function CommentForm({ postId }: CommentFormProps) {
   const dispatch = useDispatch();
   const id = useSelector((state: RootStateInterface) => state.user.me?.id);
-  const { addCommentDone } = useSelector(
-    (state: RootStateInterface) => state.post
-  );
+  const { addCommentDone } = useSelector((state: RootStateInterface) => state.post);
   const [comment, onChangeComment, setComment] = useInput<string>('');
 
   useEffect(() => {
@@ -62,4 +60,4 @@ function CommentForm({ postId }: CommentFormProps) {
   );
 }
 
-export default CommentForm;
+export default memo(CommentForm);

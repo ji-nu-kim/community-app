@@ -37,48 +37,64 @@ router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
 });
 
 // 게시글 생성
-router.post(
-  '/:communityId',
+router.post('/:communityId', isLoggedIn, upload.none(), async (req, res, next) => {
+  try {
+    const post = await Post.create({
+      content: req.body.content,
+      UserId: req.user.id,
+      CommunityId: req.params.communityId,
+    });
+
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        // Promise.all로 비동기 요청을 한 번에 처리
+        const images = await Promise.all(
+          req.body.image.map(img => Image.create({ src: img }))
+        );
+        await post.addImages(images);
+      } else {
+        const image = await Image.create({ src: req.body.image });
+        await post.addImages(image);
+      }
+    }
+    const fullPost = await Post.findOne({
+      where: { id: post.id },
+      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+      include: [
+        { model: Image },
+        { model: User, attributes: ['id', 'nickname', 'profilePhoto'] },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'profilePhoto'],
+            },
+          ],
+        },
+      ],
+    });
+    return res.status(201).json(fullPost);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 게시글 삭제
+router.delete(
+  '/community/:communityId/post/:postId',
   isLoggedIn,
-  upload.none(),
   async (req, res, next) => {
     try {
-      const post = await Post.create({
-        content: req.body.content,
-        UserId: req.user.id,
-        CommunityId: req.params.communityId,
+      await Post.destroy({
+        where: {
+          id: parseInt(req.params.postId, 10),
+          UserId: req.user.id,
+          CommunityId: parseInt(req.params.communityId, 10),
+        },
       });
-
-      if (req.body.image) {
-        if (Array.isArray(req.body.image)) {
-          // Promise.all로 비동기 요청을 한 번에 처리
-          const images = await Promise.all(
-            req.body.image.map(img => Image.create({ src: img }))
-          );
-          await post.addImages(images);
-        } else {
-          const image = await Image.create({ src: req.body.image });
-          await post.addImages(image);
-        }
-      }
-      const fullPost = await Post.findOne({
-        where: { id: post.id },
-        attributes: ['id', 'content', 'createdAt', 'updatedAt'],
-        include: [
-          { model: Image },
-          { model: User, attributes: ['id', 'nickname'] },
-          {
-            model: Comment,
-            include: [
-              {
-                model: User,
-                attributes: ['id', 'nickname'],
-              },
-            ],
-          },
-        ],
-      });
-      return res.status(201).json(fullPost);
+      return res.status(200).json({ postId: parseInt(req.params.postId, 10) });
     } catch (error) {
       console.error(error);
       next(error);
@@ -86,78 +102,34 @@ router.post(
   }
 );
 
-router.delete('/:postId', isLoggedIn, async (req, res, next) => {
-  try {
-    await Post.destroy({
-      where: {
-        id: parseInt(req.params.postId, 10),
-        UserId: req.user.id,
-      },
-    });
-    return res.status(200).json({ postId: parseInt(req.params.postId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.get('/:postId', async (req, res, next) => {
-  try {
-    const post = await Post.findOne({
-      where: { id: req.params.postId },
-    });
-    if (!post) {
-      return res.status(404).send('존재하지 않는 게시글입니다');
-    }
-    const fullPost = await Post.findOne({
-      where: { id: post.id },
-      attributes: ['id', 'content', 'createdAt', 'updatedAt'],
-      include: [
+// 게시글 수정
+router.patch(
+  '/community/:communityId/post/:postId',
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      await Post.update(
         {
-          model: User,
-          attributes: ['id', 'nickname'],
+          content: req.body.content,
         },
         {
-          model: Comment,
-          include: [
-            {
-              model: User,
-              attributes: ['id', 'nickname'],
-            },
-          ],
-        },
-        { model: Image },
-      ],
-    });
-    return res.status(200).json(fullPost);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-router.patch('/:postId', isLoggedIn, async (req, res, next) => {
-  try {
-    await Post.update(
-      {
+          where: {
+            id: req.params.postId,
+            UserId: req.user.id,
+            CommunityId: req.params.communityId,
+          },
+        }
+      );
+      res.status(200).json({
+        postId: parseInt(req.params.postId, 10),
         content: req.body.content,
-      },
-      {
-        where: {
-          id: req.params.postId,
-          UserId: req.user.id,
-        },
-      }
-    );
-    res.status(200).json({
-      postId: parseInt(req.params.postId, 10),
-      content: req.body.content,
-    });
-  } catch (error) {
-    console.error(error);
-    next(error);
+      });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
   try {

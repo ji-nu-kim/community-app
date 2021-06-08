@@ -23,15 +23,11 @@ function CommunityBody({ singleCommunity }: CommunityBodyProps) {
     <BodyContainer>
       <div className="body-inner-container">
         <div className="body-nav" onClick={onClickNav}>
-          <div className={`nav-info${currentNav === 'info' ? ' active' : ''}`}>
-            정보
-          </div>
+          <div className={`nav-info${currentNav === 'info' ? ' active' : ''}`}>정보</div>
           <div className={`nav-post${currentNav === 'post' ? ' active' : ''}`}>
             게시글
           </div>
-          <div className={`nav-meet${currentNav === 'meet' ? ' active' : ''}`}>
-            모임
-          </div>
+          <div className={`nav-meet${currentNav === 'meet' ? ' active' : ''}`}>모임</div>
         </div>
         <div className="body-content">
           {currentNav === 'info' && <Info singleCommunity={singleCommunity} />}

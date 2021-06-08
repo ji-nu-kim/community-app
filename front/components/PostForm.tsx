@@ -5,7 +5,7 @@ import {
 } from '../actions/actionPost';
 import useInput from '../hooks/useInput';
 import { Button, Form, Input } from 'antd';
-import React, { ChangeEvent, useCallback, useEffect, useRef } from 'react';
+import React, { ChangeEvent, memo, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStateInterface } from '../interfaces/RootState';
@@ -113,11 +113,7 @@ function PostForm() {
           }}
         >
           <Button onClick={onClickImageUpload}>업로드</Button>
-          <Button
-            style={{ marginLeft: '0.5rem' }}
-            type="primary"
-            htmlType="submit"
-          >
+          <Button style={{ marginLeft: '0.5rem' }} type="primary" htmlType="submit">
             올리기
           </Button>
         </div>
@@ -131,10 +127,7 @@ function PostForm() {
           }}
         >
           {imagePaths.map((v, i) => (
-            <div
-              key={v}
-              style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}
-            >
+            <div key={v} style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}>
               <img
                 src={`http://localhost:3065/${v}`}
                 style={{ width: '100px' }}
@@ -151,4 +144,4 @@ function PostForm() {
   );
 }
 
-export default PostForm;
+export default memo(PostForm);

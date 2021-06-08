@@ -33,17 +33,12 @@ function* addPost(action: IAddPostRequest) {
 }
 
 function removePostAPI(data: { communityId: number; postId: number }) {
-  return axios.delete(
-    `/post/community/${data.communityId}/post/${data.postId}`
-  );
+  return axios.delete(`/post/community/${data.communityId}/post/${data.postId}`);
 }
 
 function* removePost(action: IRemovePostRequest) {
   try {
-    const result: { data: { postId: number } } = yield call(
-      removePostAPI,
-      action.data
-    );
+    const result: { data: { postId: number } } = yield call(removePostAPI, action.data);
     yield put({
       type: actionTypesPost.REMOVE_POST_SUCCESS,
       data: result.data,
@@ -56,15 +51,8 @@ function* removePost(action: IRemovePostRequest) {
   }
 }
 
-function updatePostAPI(data: {
-  postId: number;
-  communityId: number;
-  content: string;
-}) {
-  return axios.patch(
-    `/post/community/${data.communityId}/post/${data.postId}`,
-    data
-  );
+function updatePostAPI(data: { postId: number; communityId: number; content: string }) {
+  return axios.patch(`/post/community/${data.communityId}/post/${data.postId}`, data);
 }
 
 function* updatePost(action: IUpdatePostRequest) {
@@ -86,9 +74,7 @@ function* updatePost(action: IUpdatePostRequest) {
 }
 
 function loadPostsAPI(data: { communityId: number; postId: number }) {
-  return axios.get(
-    `/posts/community/${data.communityId}/post?lastId=${data.postId}`
-  );
+  return axios.get(`/posts/community/${data.communityId}/post?lastId=${data.postId}`);
 }
 
 function* loadPosts(action: ILoadPostsRequest) {

@@ -5,6 +5,7 @@ import { ModalContainer } from './styles';
 
 interface PostSettingModalProps {
   onMouserLeaveMoreButton: () => void;
+  setCurrentModifyPost: Dispatch<SetStateAction<number>>;
   postId: number;
   communityId: number;
   setEditMode: Dispatch<SetStateAction<boolean>>;
@@ -12,6 +13,7 @@ interface PostSettingModalProps {
 
 function PostSettingModal({
   onMouserLeaveMoreButton,
+  setCurrentModifyPost,
   postId,
   communityId,
   setEditMode,
@@ -19,12 +21,15 @@ function PostSettingModal({
   const dispatch = useDispatch();
 
   const onClickModifyButton = useCallback(() => {
+    setCurrentModifyPost(postId);
     setEditMode(true);
-  }, [setEditMode]);
+  }, [postId]);
 
   const onClickDeleteButton = useCallback(() => {
-    return dispatch(removePostRequestAction({ postId, communityId }));
-  }, [postId]);
+    if (confirm('게시글을 지우시겠습니까?')) {
+      return dispatch(removePostRequestAction({ postId, communityId }));
+    }
+  }, []);
 
   return (
     <ModalContainer onMouseLeave={onMouserLeaveMoreButton}>

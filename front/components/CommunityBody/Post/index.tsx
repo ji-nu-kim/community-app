@@ -1,11 +1,12 @@
 import { MessageOutlined, MoreOutlined } from '@ant-design/icons';
 import CommentForm from 'components/CommentForm';
+import PostEditModal from 'components/Modals/PostEditModal';
 import PostSettingModal from 'components/Modals/PostSettingModal';
 import PostForm from 'components/PostForm';
 import { ICommunity } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { PostContainer } from './styles';
 
@@ -19,6 +20,7 @@ function Post({ singleCommunity }: PostProps) {
   const [currentPost, setCurrentPost] = useState(0);
   const [showMoreButton, setShowMoreButton] = useState(false);
   const [onMouseCurrentPost, setOnMouseCurrentPost] = useState(0);
+  const [currentModifyPost, setCurrentModifyPost] = useState(0);
   const [editMode, setEditMode] = useState(false);
 
   const onMouserInMoreButton = useCallback(
@@ -60,9 +62,7 @@ function Post({ singleCommunity }: PostProps) {
                         alt="profile image"
                       />
                     ) : (
-                      <div className="left-fake-image">
-                        {post.User.nickname[0]}
-                      </div>
+                      <div className="left-fake-image">{post.User.nickname[0]}</div>
                     )}
                   </span>
                   <div className="left-nickname">{post.User.nickname}</div>
@@ -80,18 +80,27 @@ function Post({ singleCommunity }: PostProps) {
                   {showMoreButton && post.id === onMouseCurrentPost && (
                     <PostSettingModal
                       onMouserLeaveMoreButton={onMouserLeaveMoreButton}
+                      setCurrentModifyPost={setCurrentModifyPost}
                       setEditMode={setEditMode}
                       postId={post.id}
                       communityId={singleCommunity.id}
                     />
                   )}
                 </div>
+
+                {editMode && post.id === currentModifyPost && (
+                  <PostEditModal
+                    setEditMode={setEditMode}
+                    setCurrentModifyPost={setCurrentModifyPost}
+                    currentPostText={post.content}
+                    postId={post.id}
+                    communityId={singleCommunity.id}
+                  />
+                )}
               </div>
               {post.Images.length ? (
                 <img
-                  src={`http://localhost:3065/${post.Images.map(
-                    image => image.src
-                  )}`}
+                  src={`http://localhost:3065/${post.Images[0].src}`}
                   alt="image"
                   className="post-image"
                 />
@@ -115,10 +124,7 @@ function Post({ singleCommunity }: PostProps) {
                   <>
                     {post.Comments &&
                       post.Comments.map(comment => (
-                        <div
-                          className="post-comment-container"
-                          key={comment.id}
-                        >
+                        <div className="post-comment-container" key={comment.id}>
                           <div className="header comment-header">
                             <div className="header-left">
                               <span>
@@ -134,9 +140,7 @@ function Post({ singleCommunity }: PostProps) {
                                   </div>
                                 )}
                               </span>
-                              <div className="left-nickname">
-                                {comment.User.nickname}
-                              </div>
+                              <div className="left-nickname">{comment.User.nickname}</div>
                             </div>
                             {/* 삭제, 수정기능 */}
                             <div className="header-right">1</div>
@@ -160,4 +164,4 @@ function Post({ singleCommunity }: PostProps) {
   );
 }
 
-export default Post;
+export default memo(Post);

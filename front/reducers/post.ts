@@ -44,9 +44,10 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.ADD_POST_SUCCESS:
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.mainPosts.concat(action.data);
         draft.imagePaths = [];
+        draft.mainPosts.unshift(action.data);
         break;
+
       case actionTypesPost.ADD_POST_ERROR:
         draft.addPostLoading = false;
         draft.addPostError = action.error;
@@ -59,9 +60,7 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.REMOVE_POST_SUCCESS:
         draft.removePostLoading = false;
         draft.removePostDone = true;
-        draft.mainPosts = draft.mainPosts.filter(
-          v => v.id !== action.data.postId
-        );
+        draft.mainPosts = draft.mainPosts.filter(v => v.id !== action.data.postId);
         break;
       case actionTypesPost.REMOVE_POST_ERROR:
         draft.removePostLoading = false;
@@ -150,9 +149,7 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
         draft.removeCommentDone = true;
         const post = draft.mainPosts.find(v => v.id === action.data.postId);
         if (post) {
-          post.Comments = post.Comments.filter(
-            v => v.id !== action.data.commentId
-          );
+          post.Comments = post.Comments.filter(v => v.id !== action.data.commentId);
         }
         break;
       }

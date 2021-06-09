@@ -6,7 +6,9 @@ import {
   IAddCommentRequest,
   IAddPostRequest,
   ILoadPostsRequest,
+  IRemoveCommentRequest,
   IRemovePostRequest,
+  IUpdateCommentRequest,
   IUpdatePostRequest,
   IUploadImagesRequest,
 } from '../interfaces/post/postAction.interfaces';
@@ -111,6 +113,46 @@ function* addComment(action: IAddCommentRequest) {
   }
 }
 
+function updateCommentAPI(data: { postId: number; commentId: number; content: string }) {
+  return axios.patch(`/post/${data.postId}/comment/${data.commentId}`, data);
+}
+
+function* updateComment(action: IUpdateCommentRequest) {
+  try {
+    const result: { data: { postId: number; commentId: number; content: string } } =
+      yield call(updateCommentAPI, action.data);
+    yield put({
+      type: actionTypesPost.UPDATE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesPost.UPDATE_COMMENT_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function removeCommentAPI(data: { postId: number; commentId: number }) {
+  return axios.delete(`/post/${data.postId}/comment/${data.commentId}`);
+}
+
+function* removeComment(action: IRemoveCommentRequest) {
+  try {
+    const result: { data: { postId: number; commentId: number; content: string } } =
+      yield call(removeCommentAPI, action.data);
+    yield put({
+      type: actionTypesPost.REMOVE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesPost.REMOVE_COMMENT_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function uploadImagesAPI(data: FormData) {
   return axios.post('/post/images', data);
 }
@@ -133,17 +175,23 @@ function* uploadImages(action: IUploadImagesRequest) {
 function* watchAddPost() {
   yield takeLatest(actionTypesPost.ADD_POST_REQUEST, addPost);
 }
-function* watchRemovePost() {
-  yield takeLatest(actionTypesPost.REMOVE_POST_REQUEST, removePost);
-}
 function* watchUpdatePost() {
   yield takeLatest(actionTypesPost.UPDATE_POST_REQUEST, updatePost);
+}
+function* watchRemovePost() {
+  yield takeLatest(actionTypesPost.REMOVE_POST_REQUEST, removePost);
 }
 function* watchloadPosts() {
   yield takeLatest(actionTypesPost.LOAD_POSTS_REQUEST, loadPosts);
 }
 function* watchAddComment() {
   yield takeLatest(actionTypesPost.ADD_COMMENT_REQUEST, addComment);
+}
+function* watchUpdateComment() {
+  yield takeLatest(actionTypesPost.UPDATE_COMMENT_REQUEST, updateComment);
+}
+function* watchRemoveComment() {
+  yield takeLatest(actionTypesPost.REMOVE_COMMENT_REQUEST, removeComment);
 }
 function* watchUploadImages() {
   yield takeLatest(actionTypesPost.UPLOAD_IMAGES_REQUEST, uploadImages);
@@ -152,10 +200,12 @@ function* watchUploadImages() {
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
-    fork(watchRemovePost),
     fork(watchUpdatePost),
+    fork(watchRemovePost),
     fork(watchloadPosts),
     fork(watchAddComment),
+    fork(watchUpdateComment),
+    fork(watchRemoveComment),
     fork(watchUploadImages),
   ]);
 }

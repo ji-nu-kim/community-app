@@ -131,6 +131,7 @@ router.patch(
   }
 );
 
+// 댓글 생성
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
   try {
     const post = await Post.findOne({
@@ -155,6 +156,64 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
       ],
     });
     return res.status(201).json(fullComment);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 댓글 수정
+router.patch('/:postId/comment/:commentId', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: parseInt(req.params.postId, 10) },
+    });
+    if (!post) {
+      return res.status(403).send('존재하지 않는 게시글입니다');
+    }
+    await Comment.update(
+      {
+        content: req.body.content,
+      },
+      {
+        where: {
+          id: req.params.commentId,
+          UserId: req.user.id,
+          PostId: req.params.postId,
+        },
+      }
+    );
+    res.status(200).json({
+      commentId: parseInt(req.params.commentId, 10),
+      postId: parseInt(req.params.postId, 10),
+      content: req.body.content,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 댓글 삭제
+router.delete('/:postId/comment/:commentId', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: parseInt(req.params.postId, 10) },
+    });
+    if (!post) {
+      return res.status(403).send('존재하지 않는 게시글입니다');
+    }
+    await Comment.destroy({
+      where: {
+        id: parseInt(req.params.commentId, 10),
+        UserId: req.user.id,
+        PostId: parseInt(req.params.postId, 10),
+      },
+    });
+    return res.status(200).json({
+      postId: parseInt(req.params.postId, 10),
+      commentId: parseInt(req.params.commentId, 10),
+    });
   } catch (error) {
     console.error(error);
     next(error);

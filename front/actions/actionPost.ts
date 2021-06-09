@@ -51,18 +51,18 @@ export const loadPostsRequestAction = (data: {
   };
 };
 
-export const addCommentRequestAction = (
-  data: CommentData
-): IAddCommentRequest => {
+export const addCommentRequestAction = (data: CommentData): IAddCommentRequest => {
   return {
     type: actionTypesPost.ADD_COMMENT_REQUEST,
     data,
   };
 };
 
-export const updateCommentRequestAction = (
-  data: CommentData
-): IUpdateCommentRequest => {
+export const updateCommentRequestAction = (data: {
+  commentId: number;
+  postId: number;
+  content: string;
+}): IUpdateCommentRequest => {
   return {
     type: actionTypesPost.UPDATE_COMMENT_REQUEST,
     data,
@@ -79,9 +79,7 @@ export const removeCommentRequestAction = (data: {
   };
 };
 
-export const uploadImagesRequestAction = (
-  data: FormData
-): IUploadImagesRequest => {
+export const uploadImagesRequestAction = (data: FormData): IUploadImagesRequest => {
   return {
     type: actionTypesPost.UPLOAD_IMAGES_REQUEST,
     data,

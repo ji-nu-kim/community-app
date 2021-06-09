@@ -4,9 +4,9 @@ export const ModalContainer = styled.div`
   position: absolute;
   z-index: 1000;
   top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
+  right: -5px;
+  width: 55px;
+  height: 55px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   backdrop-filter: saturate(180%) blur(12px);
@@ -20,9 +20,9 @@ export const ModalContainer = styled.div`
     padding: 0;
     display: grid;
     grid-template-rows: repeat(2, 1fr);
-    margin-bottom: 0;
 
     li {
+      font-size: 0.5rem;
       position: relative;
       color: #fff;
       display: flex;
@@ -31,23 +31,11 @@ export const ModalContainer = styled.div`
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
       :last-child {
-        padding: 10px;
         border-bottom: none;
       }
       :hover {
         background: rgba(0, 0, 0, 0.3);
         border-radius: 10px;
-      }
-
-      a {
-        padding: 10px;
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        width: 100%;
-        height: 100%;
       }
     }
   }

@@ -126,9 +126,9 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.UPDATE_COMMENT_SUCCESS: {
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
-        const post = draft.mainPosts.find(v => v.id === action.data.PostId);
+        const post = draft.mainPosts.find(v => v.id === action.data.postId);
         if (post) {
-          const comment = post.Comments.find(v => v.id === action.data.id);
+          const comment = post.Comments.find(v => v.id === action.data.commentId);
           if (comment) {
             comment.content = action.data.content;
           }

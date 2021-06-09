@@ -8,6 +8,7 @@ export const PostContainer = styled.div`
   background: rgba(0, 0, 0, 0.4);
 
   .header {
+    position: relative;
     display: flex;
     justify-content: space-between;
 
@@ -28,6 +29,7 @@ export const PostContainer = styled.div`
         border-radius: 50%;
         margin-right: 8px;
         background: rgba(0, 0, 0, 0.5);
+        text-align: center;
       }
       .left-nickname {
         font-weight: bold;
@@ -82,6 +84,7 @@ export const PostContainer = styled.div`
     }
 
     .post-comment-container {
+      position: relative;
       margin: 0.5rem 0;
       padding: 0.5rem;
       background: linear-gradient(

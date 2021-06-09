@@ -4,25 +4,31 @@ import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
 
 interface PostSettingModalProps {
-  onMouserLeaveMoreButton: () => void;
+  onMouserLeavePostSettingButton: () => void;
   setCurrentModifyPost: Dispatch<SetStateAction<number>>;
+  setShowPostSettingButton: Dispatch<SetStateAction<boolean>>;
+  setEditMode: Dispatch<SetStateAction<boolean>>;
   postId: number;
   communityId: number;
-  setEditMode: Dispatch<SetStateAction<boolean>>;
 }
 
 function PostSettingModal({
-  onMouserLeaveMoreButton,
+  onMouserLeavePostSettingButton,
   setCurrentModifyPost,
+  setShowPostSettingButton,
+  setEditMode,
   postId,
   communityId,
-  setEditMode,
 }: PostSettingModalProps) {
   const dispatch = useDispatch();
 
+  const onCloseModal = useCallback(() => {
+    setShowPostSettingButton(false);
+  }, []);
+
   const onClickModifyButton = useCallback(() => {
     setCurrentModifyPost(postId);
-    setEditMode(true);
+    setEditMode(prev => !prev);
   }, [postId]);
 
   const onClickDeleteButton = useCallback(() => {
@@ -32,7 +38,7 @@ function PostSettingModal({
   }, []);
 
   return (
-    <ModalContainer onMouseLeave={onMouserLeaveMoreButton}>
+    <ModalContainer onMouseLeave={onMouserLeavePostSettingButton} onClick={onCloseModal}>
       <ul>
         <li onClick={onClickModifyButton}>수정</li>
         <li onClick={onClickDeleteButton}>삭제</li>

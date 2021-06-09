@@ -99,11 +99,11 @@ export interface IAddCommentError {
 }
 export interface IUpdateCommentRequest {
   type: typeof actionTypesPost.UPDATE_COMMENT_REQUEST;
-  data: CommentData;
+  data: { commentId: number; postId: number; content: string };
 }
 export interface IUpdateCommentSuccess {
   type: typeof actionTypesPost.UPDATE_COMMENT_SUCCESS;
-  data: IComment;
+  data: { commentId: number; postId: number; content: string };
 }
 export interface IUpdateCommentError {
   type: typeof actionTypesPost.UPDATE_COMMENT_ERROR;

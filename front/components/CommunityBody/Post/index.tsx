@@ -1,5 +1,7 @@
 import { MessageOutlined, MoreOutlined } from '@ant-design/icons';
 import CommentForm from 'components/CommentForm';
+import CommentEditModal from 'components/Modals/CommentEditModal';
+import CommentSettingModal from 'components/Modals/CommentSettingModal';
 import PostEditModal from 'components/Modals/PostEditModal';
 import PostSettingModal from 'components/Modals/PostSettingModal';
 import PostForm from 'components/PostForm';
@@ -16,29 +18,44 @@ interface PostProps {
 
 function Post({ singleCommunity }: PostProps) {
   const { mainPosts } = useSelector((state: RootStateInterface) => state.post);
-  const [openComment, setOpenComment] = useState(false);
-  const [currentPost, setCurrentPost] = useState(0);
-  const [showMoreButton, setShowMoreButton] = useState(false);
-  const [onMouseCurrentPost, setOnMouseCurrentPost] = useState(0);
-  const [currentModifyPost, setCurrentModifyPost] = useState(0);
   const [editMode, setEditMode] = useState(false);
+  const [showPostSettingButton, setShowPostSettingButton] = useState(false); // 포스트설정 모달 보여주기
+  const [CurrentPostSettingButton, setCurrentPostSettingButton] = useState(0); // 현재 보여지고 있는 포스트설정 모달
+  const [currentModifyPost, setCurrentModifyPost] = useState(0); // 현재 수정중인 포스트
+  const [showCommentSettingButton, setShowCommentSettingButton] = useState(false);
+  const [currentCommentSettingButton, setCurrentCommentSettingButton] = useState(0);
+  const [currentModifyComment, setCurrentModifyComment] = useState(0);
+  const [openPostCommentForm, setOpenPostCommentForm] = useState(false);
+  const [currentPostCommentForm, setCurrentPostCommentForm] = useState(0);
 
-  const onMouserInMoreButton = useCallback(
+  const onClickPostSettingButton = useCallback(
     (postId: number) => () => {
-      setOnMouseCurrentPost(postId);
-      setShowMoreButton(true);
+      setCurrentPostSettingButton(postId);
+      setShowPostSettingButton(true);
     },
     []
   );
 
-  const onMouserLeaveMoreButton = useCallback(() => {
-    setOnMouseCurrentPost(0);
+  const onMouserLeavePostSettingButton = useCallback(() => {
+    setCurrentPostSettingButton(0);
   }, []);
 
-  const onToggleComment = useCallback(
-    id => () => {
-      setCurrentPost(id);
-      setOpenComment(prev => !prev);
+  const onMouserInCommentMoreButton = useCallback(
+    (commentId: number) => () => {
+      setCurrentCommentSettingButton(commentId);
+      setShowCommentSettingButton(true);
+    },
+    []
+  );
+
+  const onMouserLeaveCommentSettingButton = useCallback(() => {
+    setCurrentCommentSettingButton(0);
+  }, []);
+
+  const onTogglePostCommentForm = useCallback(
+    (postId: number) => () => {
+      setCurrentPostCommentForm(postId);
+      setOpenPostCommentForm(prev => !prev);
     },
     []
   );
@@ -52,6 +69,15 @@ function Post({ singleCommunity }: PostProps) {
           </div>
           {mainPosts.map(post => (
             <div className="post-body-container" key={post.id}>
+              {editMode && post.id === currentModifyPost && (
+                <PostEditModal
+                  setEditMode={setEditMode}
+                  setCurrentModifyPost={setCurrentModifyPost}
+                  currentPostText={post.content}
+                  postId={post.id}
+                  communityId={singleCommunity.id}
+                />
+              )}
               <div className="header post-body-header">
                 <div className="header-left">
                   <span>
@@ -73,30 +99,21 @@ function Post({ singleCommunity }: PostProps) {
                   </div>
                   <div
                     className="right-buttons"
-                    onMouseEnter={onMouserInMoreButton(post.id)}
+                    onClick={onClickPostSettingButton(post.id)}
                   >
                     <MoreOutlined />
                   </div>
-                  {showMoreButton && post.id === onMouseCurrentPost && (
+                  {showPostSettingButton && post.id === CurrentPostSettingButton && (
                     <PostSettingModal
-                      onMouserLeaveMoreButton={onMouserLeaveMoreButton}
+                      onMouserLeavePostSettingButton={onMouserLeavePostSettingButton}
                       setCurrentModifyPost={setCurrentModifyPost}
+                      setShowPostSettingButton={setShowPostSettingButton}
                       setEditMode={setEditMode}
                       postId={post.id}
                       communityId={singleCommunity.id}
                     />
                   )}
                 </div>
-
-                {editMode && post.id === currentModifyPost && (
-                  <PostEditModal
-                    setEditMode={setEditMode}
-                    setCurrentModifyPost={setCurrentModifyPost}
-                    currentPostText={post.content}
-                    postId={post.id}
-                    communityId={singleCommunity.id}
-                  />
-                )}
               </div>
               {post.Images.length ? (
                 <img
@@ -108,7 +125,7 @@ function Post({ singleCommunity }: PostProps) {
               <div className="post-text">{post.content}</div>
               <div className="post-comment-info">
                 <div
-                  onClick={onToggleComment(post.id)}
+                  onClick={onTogglePostCommentForm(post.id)}
                   style={{
                     cursor: 'pointer',
                   }}
@@ -120,11 +137,20 @@ function Post({ singleCommunity }: PostProps) {
                     ? `댓글 ${post.Comments.length}개 모두보기`
                     : '댓글 작성하기'}
                 </div>
-                {openComment && currentPost === post.id && (
+                {openPostCommentForm && currentPostCommentForm === post.id && (
                   <>
                     {post.Comments &&
                       post.Comments.map(comment => (
                         <div className="post-comment-container" key={comment.id}>
+                          {editMode && comment.id === currentModifyComment && (
+                            <CommentEditModal
+                              setEditMode={setEditMode}
+                              setCurrentModifyComment={setCurrentModifyComment}
+                              currentCommentText={comment.content}
+                              postId={post.id}
+                              commentId={comment.id}
+                            />
+                          )}
                           <div className="header comment-header">
                             <div className="header-left">
                               <span>
@@ -142,8 +168,29 @@ function Post({ singleCommunity }: PostProps) {
                               </span>
                               <div className="left-nickname">{comment.User.nickname}</div>
                             </div>
-                            {/* 삭제, 수정기능 */}
-                            <div className="header-right">1</div>
+                            <div className="header-right">
+                              <div
+                                className="right-buttons"
+                                onMouseEnter={onMouserInCommentMoreButton(comment.id)}
+                              >
+                                <MoreOutlined />
+                              </div>
+                            </div>
+                            {showCommentSettingButton &&
+                              comment.id === currentCommentSettingButton && (
+                                <CommentSettingModal
+                                  onMouserLeaveCommentSettingButton={
+                                    onMouserLeaveCommentSettingButton
+                                  }
+                                  setCurrentModifyComment={setCurrentModifyComment}
+                                  setShowCommentSettingButton={
+                                    setShowCommentSettingButton
+                                  }
+                                  setEditMode={setEditMode}
+                                  postId={post.id}
+                                  commentId={comment.id}
+                                />
+                              )}
                           </div>
                           <div className="comment-text">{comment.content}</div>
                         </div>

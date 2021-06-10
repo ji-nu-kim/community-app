@@ -84,6 +84,27 @@ function PostForm() {
       encType="multipart/form-data"
       onFinish={onSubmit}
     >
+      {imagePaths && (
+        <div
+          style={{
+            display: 'flex',
+            marginBottom: '1rem',
+          }}
+        >
+          {imagePaths.map((v, i) => (
+            <div key={v} style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}>
+              <img
+                src={`http://localhost:3065/${v}`}
+                style={{ width: '100px' }}
+                alt={v}
+              />
+              <StyleButton onClick={onRemoveImage(i)}>
+                <CloseCircleOutlined />
+              </StyleButton>
+            </div>
+          ))}
+        </div>
+      )}
       <Input.TextArea
         value={text}
         onChange={onChangeText}
@@ -118,28 +139,6 @@ function PostForm() {
           </Button>
         </div>
       </div>
-      {imagePaths && (
-        <div
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            marginTop: '150px',
-          }}
-        >
-          {imagePaths.map((v, i) => (
-            <div key={v} style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}>
-              <img
-                src={`http://localhost:3065/${v}`}
-                style={{ width: '100px' }}
-                alt={v}
-              />
-              <StyleButton onClick={onRemoveImage(i)}>
-                <CloseCircleOutlined />
-              </StyleButton>
-            </div>
-          ))}
-        </div>
-      )}
     </Form>
   );
 }

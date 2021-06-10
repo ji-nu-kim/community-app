@@ -32,7 +32,7 @@ function CommunityBody({ singleCommunity }: CommunityBodyProps) {
         <div className="body-content">
           {currentNav === 'info' && <Info singleCommunity={singleCommunity} />}
           {currentNav === 'post' && <Post singleCommunity={singleCommunity} />}
-          {currentNav === 'meet' && <Meet />}
+          {currentNav === 'meet' && <Meet singleCommunity={singleCommunity} />}
         </div>
       </div>
     </BodyContainer>

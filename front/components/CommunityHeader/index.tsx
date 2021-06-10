@@ -6,7 +6,7 @@ import {
 import { sendNotificationRequestAction } from 'actions/actionUser';
 import CommunityModifyModal from 'components/Modals/CommunityModifyModal';
 import JoinUserModal from 'components/Modals/JoinUserModal';
-import { ICommunity, IUser } from 'interfaces/db';
+import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import Router from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -16,19 +16,18 @@ import { HeaderContainer } from './styles';
 interface CommunityHeaderProps {
   singleCommunity: ICommunity;
   me: IUser | null;
+  communityUser: IUserInfo | undefined;
 }
 
-function CommunityHeader({ singleCommunity, me }: CommunityHeaderProps) {
+function CommunityHeader({ singleCommunity, me, communityUser }: CommunityHeaderProps) {
   const dispatch = useDispatch();
   const { joinCommunityDone } = useSelector(
     (state: RootStateInterface) => state.community
   );
   const [joinUserModal, setJoinUserModal] = useState(false);
   const [communityModifyModal, setCommunityModifyModal] = useState(false);
-  const communityOwner = me?.id === singleCommunity.OwnerId;
-  const communityUser = singleCommunity.Users.map(
-    user => user.id === me?.id
-  ).length;
+  const communityOwner = me?.id === singleCommunity?.OwnerId;
+  const joinUser = singleCommunity.JoinUsers.find(user => user.id === me?.id);
 
   const communityModifyModalTrigger = useCallback(() => {
     setCommunityModifyModal(prev => !prev);
@@ -36,41 +35,33 @@ function CommunityHeader({ singleCommunity, me }: CommunityHeaderProps) {
 
   const onClickJoin = useCallback(() => {
     if (!me) {
-      const confirmLogin = confirm(
-        '로그인한 유저만 가능합니다. 로그인하시겠습니까?'
-      );
+      const confirmLogin = confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?');
       if (confirmLogin) {
         return Router.push('/login');
       }
-    }
-
-    if (me) {
+    } else if (!communityUser) {
       const confirmJoin = confirm('커뮤니티 가입신청을 하시겠습니까?');
       if (confirmJoin) {
-        dispatch(
-          joinCommunityRequestAction({ communityId: singleCommunity.id })
-        );
+        return dispatch(joinCommunityRequestAction({ communityId: singleCommunity.id }));
       }
     }
-  }, [singleCommunity, me]);
+  }, [singleCommunity, me, communityUser]);
 
   const onClickLeave = useCallback(() => {
-    if (me) {
+    if (communityUser) {
       const confirmLeave = confirm('커뮤니티를 탈퇴하시겠습니까?');
 
       if (confirmLeave) {
-        dispatch(
-          leaveCommunityRequestAction({ communityId: singleCommunity.id })
-        );
+        dispatch(leaveCommunityRequestAction({ communityId: singleCommunity.id }));
         dispatch(
           sendNotificationRequestAction({
             title: `${singleCommunity.communityName} 커뮤니티를 탈퇴했습니다`,
-            userId: me.id,
+            userId: communityUser.id,
           })
         );
       }
     }
-  }, [singleCommunity, me]);
+  }, [singleCommunity, communityUser]);
 
   const joinUserModalTrigger = useCallback(() => {
     setJoinUserModal(prev => !prev);
@@ -109,23 +100,24 @@ function CommunityHeader({ singleCommunity, me }: CommunityHeaderProps) {
             <div className="join-user-icon" onClick={joinUserModalTrigger}>
               <UserOutlined />
               {singleCommunity.JoinUsers.length > 0 && (
-                <div className="user-icon-badge">
-                  {singleCommunity.JoinUsers.length}
-                </div>
+                <div className="user-icon-badge">{singleCommunity.JoinUsers.length}</div>
               )}
             </div>
-            <button
-              className="insert-button"
-              onClick={communityModifyModalTrigger}
-            >
+            <button className="insert-button" onClick={communityModifyModalTrigger}>
               수정하기
             </button>
           </>
         )}
         {communityOwner ? null : communityUser ? (
-          <button onClick={onClickLeave}>탈퇴하기</button>
+          <button onClick={onClickLeave} className="leave-button">
+            탈퇴하기
+          </button>
+        ) : joinUser ? (
+          <button className="wait-button">가입대기</button>
         ) : (
-          <button onClick={onClickJoin}>가입하기</button>
+          <button onClick={onClickJoin} className="join-button">
+            가입하기
+          </button>
         )}
       </div>
       {joinUserModal && (
@@ -136,9 +128,7 @@ function CommunityHeader({ singleCommunity, me }: CommunityHeaderProps) {
       )}
 
       {communityModifyModal && (
-        <CommunityModifyModal
-          setCommunityModifyModal={setCommunityModifyModal}
-        />
+        <CommunityModifyModal setCommunityModifyModal={setCommunityModifyModal} />
       )}
     </HeaderContainer>
   );

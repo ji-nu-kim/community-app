@@ -118,6 +118,7 @@ export interface IJoinCommunityRequest {
 
 export interface IJoinCommunitySuccess {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_SUCCESS;
+  data: IUser;
 }
 export interface IJoinCommunityError {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_ERROR;

@@ -7,6 +7,13 @@ export const PostContainer = styled.div`
   -webkit-backdrop-filter: blur(2px);
   background: rgba(0, 0, 0, 0.4);
 
+  .visitor-post {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .header {
     position: relative;
     display: flex;

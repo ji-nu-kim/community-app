@@ -21,7 +21,6 @@ function CommentEditModal({
   commentId,
 }: CommentEditModalProps) {
   const dispatch = useDispatch();
-
   const [content, onChangeContent] = useInput<string>(currentCommentText || '');
 
   const onCloseCommentEditModal = useCallback(() => {

@@ -55,10 +55,7 @@ export const initialState: CommunityState = {
   loadCategoriesError: null,
 };
 
-const reducer = (
-  state = initialState,
-  action: ActionsCommunity
-): CommunityState => {
+const reducer = (state = initialState, action: ActionsCommunity): CommunityState => {
   return produce(state, draft => {
     switch (action.type) {
       case actionTypesCommunity.REMOVE_COMMUNITY_IMAGE:
@@ -129,6 +126,11 @@ const reducer = (
       case actionTypesCommunity.JOIN_COMMUNITY_SUCCESS:
         draft.joinCommunityLoading = false;
         draft.joinCommunityDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.JoinUsers = draft.singleCommunity.JoinUsers.concat(
+            action.data
+          );
+        }
         break;
       case actionTypesCommunity.JOIN_COMMUNITY_ERROR:
         draft.joinCommunityLoading = false;
@@ -143,10 +145,7 @@ const reducer = (
         draft.acceptCommunityLoading = false;
         draft.acceptCommunityDone = true;
         if (draft.singleCommunity) {
-          console.log(action.data);
-          draft.singleCommunity.Users = draft.singleCommunity.Users.concat(
-            action.data
-          );
+          draft.singleCommunity.Users = draft.singleCommunity.Users.concat(action.data);
         }
         break;
       case actionTypesCommunity.ACCEPT_COMMUNITY_ERROR:
@@ -162,10 +161,9 @@ const reducer = (
         draft.refuseCommunityLoading = false;
         draft.refuseCommunityDone = true;
         if (draft.singleCommunity) {
-          draft.singleCommunity.JoinUsers =
-            draft.singleCommunity.JoinUsers.filter(
-              user => user.id != action.data.userId
-            );
+          draft.singleCommunity.JoinUsers = draft.singleCommunity.JoinUsers.filter(
+            user => user.id != action.data.userId
+          );
         }
         break;
       case actionTypesCommunity.REFUSE_COMMUNITY_ERROR:
@@ -232,9 +230,7 @@ const reducer = (
       case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_SUCCESS:
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesDone = true;
-        draft.changableCommunities = draft.changableCommunities.concat(
-          action.data
-        );
+        draft.changableCommunities = draft.changableCommunities.concat(action.data);
         draft.hasMoreCommunity = action.data.length === 12;
         break;
       case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR:

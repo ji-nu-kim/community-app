@@ -55,5 +55,9 @@ module.exports = class User extends Model {
     db.User.belongsToMany(db.Category, {
       through: 'CATEGORY_USER',
     });
+    db.User.hasMany(db.Meet, { as: 'MeetOwned', foreignKey: 'MeetOwnerId' });
+    db.User.belongsToMany(db.Meet, {
+      through: 'MEET_USER',
+    });
   }
 };

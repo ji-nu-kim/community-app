@@ -32,11 +32,22 @@ function Community() {
     (state: RootStateInterface) => state.community
   );
   const { me } = useSelector((state: RootStateInterface) => state.user);
+  const { reportPostDone, reportCommentDone } = useSelector(
+    (state: RootStateInterface) => state.post
+  );
+  const communityUser = singleCommunity?.Users.find(user => user.id === me?.id);
+
   useEffect(() => {
     if (loadCommunityError) {
       Router.push('/');
     }
   }, [loadCommunityError]);
+
+  useEffect(() => {
+    if (reportPostDone || reportCommentDone) {
+      alert('신고를 완료했습니다');
+    }
+  }, [reportPostDone, reportCommentDone]);
 
   if (!singleCommunity) {
     return <div>잠시 기다려주세요</div>;
@@ -51,7 +62,11 @@ function Community() {
             : null
         }
       >
-        <CommunityHeader singleCommunity={singleCommunity} me={me} />
+        <CommunityHeader
+          singleCommunity={singleCommunity}
+          me={me}
+          communityUser={communityUser}
+        />
         <CommunityBody singleCommunity={singleCommunity} />
       </CommunityContainer>
     </AppLayout>

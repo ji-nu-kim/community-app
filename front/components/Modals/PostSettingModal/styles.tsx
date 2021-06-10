@@ -6,12 +6,10 @@ export const ModalContainer = styled.div`
   top: 0;
   right: 0;
   width: 100px;
-  height: 100px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-radius: 10px;
   cursor: pointer;
 
   ul {
@@ -19,10 +17,11 @@ export const ModalContainer = styled.div`
     list-style: none;
     padding: 0;
     display: grid;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: auto;
     margin-bottom: 0;
 
     li {
+      height: 40px;
       position: relative;
       color: #fff;
       display: flex;
@@ -31,12 +30,10 @@ export const ModalContainer = styled.div`
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
       :last-child {
-        padding: 10px;
         border-bottom: none;
       }
       :hover {
         background: rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
       }
 
       a {

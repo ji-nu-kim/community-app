@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Post, User, Image, Comment } = require('../models');
+const { Post, User, Image, Comment, Report } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -34,6 +34,28 @@ const upload = multer({
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
+});
+
+// 게시글 신고
+router.post('/report', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.body.postId },
+    });
+    if (!post) {
+      return res.status(404).send('게시글을 찾을 수 없습니다');
+    }
+    const report = await Report.create({
+      reason: req.body.reason,
+      reporter: req.body.reporter,
+      reportedPerson: req.body.reportedPerson,
+    });
+    await report.addPosts(req.body.postId);
+    return res.status(200).send('게시글 신고가 완료되었습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 // 게시글 생성
@@ -87,13 +109,27 @@ router.delete(
   isLoggedIn,
   async (req, res, next) => {
     try {
-      await Post.destroy({
-        where: {
-          id: parseInt(req.params.postId, 10),
-          UserId: req.user.id,
-          CommunityId: parseInt(req.params.communityId, 10),
-        },
-      });
+      const post = await Post.findOne({ where: { id: req.params.postId } });
+      if (!post) {
+        return res.status(404).send('게시글이 존재하지 않습니다');
+      }
+
+      await Promise.all([
+        Comment.destroy({
+          where: {
+            UserId: req.user.id,
+            PostId: parseInt(req.params.postId, 10),
+          },
+        }),
+        Post.destroy({
+          where: {
+            id: parseInt(req.params.postId, 10),
+            UserId: req.user.id,
+            CommunityId: parseInt(req.params.communityId, 10),
+          },
+        }),
+      ]);
+
       return res.status(200).json({ postId: parseInt(req.params.postId, 10) });
     } catch (error) {
       console.error(error);
@@ -131,6 +167,34 @@ router.patch(
   }
 );
 
+// 댓글 신고
+router.post('/comment/report', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.body.postId },
+    });
+    if (!post) {
+      return res.status(404).send('게시글을 찾을 수 없습니다');
+    }
+    const comment = await Comment.findOne({
+      where: { id: req.body.commentId },
+    });
+    if (!comment) {
+      return res.status(404).send('댓글을 찾을 수 없습니다');
+    }
+    const report = await Report.create({
+      reason: req.body.reason,
+      reporter: req.body.reporter,
+      reportedPerson: req.body.reportedPerson,
+    });
+    await report.addComments(req.body.commentId);
+    return res.status(200).send('게시글 신고가 완료되었습니다');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 // 댓글 생성
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
   try {
@@ -151,7 +215,7 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'nickname'],
+          attributes: ['id', 'nickname', 'profilePhoto'],
         },
       ],
     });

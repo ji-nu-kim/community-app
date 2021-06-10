@@ -10,6 +10,9 @@ export const actionTypesPost = {
   UPDATE_POST_REQUEST: 'UPDATE_POST_REQUEST',
   UPDATE_POST_SUCCESS: 'UPDATE_POST_SUCCESS',
   UPDATE_POST_ERROR: 'UPDATE_POST_ERROR',
+  REPORT_POST_REQUEST: 'REPORT_POST_REQUEST',
+  REPORT_POST_SUCCESS: 'REPORT_POST_SUCCESS',
+  REPORT_POST_ERROR: 'REPORT_POST_ERROR',
   LOAD_POSTS_REQUEST: 'LOAD_POSTS_REQUEST',
   LOAD_POSTS_SUCCESS: 'LOAD_POSTS_SUCCESS',
   LOAD_POSTS_ERROR: 'LOAD_POSTS_ERROR',
@@ -22,6 +25,9 @@ export const actionTypesPost = {
   UPDATE_COMMENT_REQUEST: 'UPDATE_COMMENT_REQUEST',
   UPDATE_COMMENT_SUCCESS: 'UPDATE_COMMENT_SUCCESS',
   UPDATE_COMMENT_ERROR: 'UPDATE_COMMENT_ERROR',
+  REPORT_COMMENT_REQUEST: 'REPORT_COMMENT_REQUEST',
+  REPORT_COMMENT_SUCCESS: 'REPORT_COMMENT_SUCCESS',
+  REPORT_COMMENT_ERROR: 'REPORT_COMMENT_ERROR',
   UPLOAD_IMAGES_REQUEST: 'UPLOAD_IMAGES_REQUEST',
   UPLOAD_IMAGES_SUCCESS: 'UPLOAD_IMAGES_SUCCESS',
   UPLOAD_IMAGES_ERROR: 'UPLOAD_IMAGES_ERROR',
@@ -68,6 +74,23 @@ export interface IUpdatePostError {
   type: typeof actionTypesPost.UPDATE_POST_ERROR;
   error: Error;
 }
+export interface IReportPostData {
+  postId: number;
+  reporter: number;
+  reportedPerson: number;
+  reason: string;
+}
+export interface IReportPostRequest {
+  type: typeof actionTypesPost.REPORT_POST_REQUEST;
+  data: IReportPostData;
+}
+export interface IReportPostSuccess {
+  type: typeof actionTypesPost.REPORT_POST_SUCCESS;
+}
+export interface IReportPostError {
+  type: typeof actionTypesPost.REPORT_POST_ERROR;
+  error: Error;
+}
 export interface ILoadPostsRequest {
   type: typeof actionTypesPost.LOAD_POSTS_REQUEST;
   data: { communityId: number; postId: number };
@@ -80,7 +103,6 @@ export interface ILoadPostsError {
   type: typeof actionTypesPost.LOAD_POSTS_ERROR;
   error: Error;
 }
-
 export interface CommentData {
   comment: string;
   postId: number;
@@ -121,7 +143,24 @@ export interface IRemoveCommentError {
   type: typeof actionTypesPost.REMOVE_COMMENT_ERROR;
   error: Error;
 }
-
+export interface IReportCommentData {
+  postId: number;
+  commentId: number;
+  reporter: number;
+  reportedPerson: number;
+  reason: string;
+}
+export interface IReportCommentRequest {
+  type: typeof actionTypesPost.REPORT_COMMENT_REQUEST;
+  data: IReportCommentData;
+}
+export interface IReportCommentSuccess {
+  type: typeof actionTypesPost.REPORT_COMMENT_SUCCESS;
+}
+export interface IReportCommentError {
+  type: typeof actionTypesPost.REPORT_COMMENT_ERROR;
+  error: Error;
+}
 export interface IUploadImagesRequest {
   type: typeof actionTypesPost.UPLOAD_IMAGES_REQUEST;
   data: FormData;
@@ -149,6 +188,9 @@ export type ActionsPost =
   | IUpdatePostRequest
   | IUpdatePostSuccess
   | IUpdatePostError
+  | IReportPostRequest
+  | IReportPostSuccess
+  | IReportPostError
   | ILoadPostsRequest
   | ILoadPostsSuccess
   | ILoadPostsError
@@ -161,6 +203,9 @@ export type ActionsPost =
   | IRemoveCommentRequest
   | IRemoveCommentSuccess
   | IRemoveCommentError
+  | IReportCommentRequest
+  | IReportCommentSuccess
+  | IReportCommentError
   | IUploadImagesRequest
   | IUploadImagesSuccess
   | IUploadImagesError

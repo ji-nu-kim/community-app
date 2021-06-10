@@ -27,9 +27,6 @@ export const MeetContainer = styled.div`
     width: 350px;
     height: 200px;
     background: #3d9df2;
-    border-radius: 10px;
-    border: 2px solid #f279a6;
-    padding: 0.5rem;
     display: grid;
     grid-template-rows: 44px auto;
     font-weight: bold;

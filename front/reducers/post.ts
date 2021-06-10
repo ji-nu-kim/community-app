@@ -19,6 +19,9 @@ export const initialState: PostState = {
   updatePostLoading: false,
   updatePostDone: false,
   updatePostError: null,
+  reportPostLoading: false,
+  reportPostDone: false,
+  reportPostError: null,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -31,6 +34,9 @@ export const initialState: PostState = {
   updateCommentLoading: false,
   updateCommentDone: false,
   updateCommentError: null,
+  reportCommentLoading: false,
+  reportCommentDone: false,
+  reportCommentError: null,
 };
 
 const reducer = (state = initialState, action: ActionsPost): PostState => {
@@ -83,6 +89,19 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.UPDATE_POST_ERROR:
         draft.updatePostLoading = false;
         draft.updatePostError = action.error;
+        break;
+      case actionTypesPost.REPORT_POST_REQUEST:
+        draft.reportPostLoading = true;
+        draft.reportPostDone = false;
+        draft.reportPostError = null;
+        break;
+      case actionTypesPost.REPORT_POST_SUCCESS:
+        draft.reportPostLoading = false;
+        draft.reportPostDone = true;
+        break;
+      case actionTypesPost.REPORT_POST_ERROR:
+        draft.reportPostLoading = false;
+        draft.reportPostError = action.error;
         break;
       case actionTypesPost.LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -156,6 +175,20 @@ const reducer = (state = initialState, action: ActionsPost): PostState => {
       case actionTypesPost.REMOVE_COMMENT_ERROR:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
+        break;
+      case actionTypesPost.REPORT_COMMENT_REQUEST:
+        draft.reportCommentLoading = true;
+        draft.reportCommentDone = false;
+        draft.reportCommentError = null;
+        break;
+      case actionTypesPost.REPORT_COMMENT_SUCCESS: {
+        draft.reportCommentLoading = false;
+        draft.reportCommentDone = true;
+        break;
+      }
+      case actionTypesPost.REPORT_COMMENT_ERROR:
+        draft.reportCommentLoading = false;
+        draft.reportCommentError = action.error;
         break;
       case actionTypesPost.UPLOAD_IMAGES_REQUEST:
         draft.uploadImagesLoading = true;

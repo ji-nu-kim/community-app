@@ -2,14 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-const {
-  User,
-  Post,
-  Community,
-  Category,
-  Notice,
-  Comment,
-} = require('../models');
+const { User, Post, Community, Category, Notice, Comment } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -135,7 +128,7 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-// 유저 탈퇴
+// 유저 탈퇴(문제, 댓글, 게시글 삭제가 안됌, 댓글, 게시글 삭제해야 탈퇴할 수 있도록, 혹은 그대로 남겨두고 널처리, 데이터 받아올 때 널인건 빼고 받아오기)
 router.delete('/leave', isLoggedIn, async (req, res, next) => {
   try {
     await Promise.all([
@@ -253,29 +246,22 @@ router.patch('/notification', isLoggedIn, async (req, res, next) => {
 });
 
 // 알림 삭제
-router.delete(
-  '/notification/:notificationId',
-  isLoggedIn,
-  async (req, res, next) => {
-    try {
-      await Notice.destroy({ where: { id: req.params.notificationId } });
-      return res
-        .status(200)
-        .json({ notificationId: parseInt(req.params.notificationId, 10) });
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+router.delete('/notification/:notificationId', isLoggedIn, async (req, res, next) => {
+  try {
+    await Notice.destroy({ where: { id: req.params.notificationId } });
+    return res
+      .status(200)
+      .json({ notificationId: parseInt(req.params.notificationId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-);
+});
 
 // 주소 변경
 router.patch('/country', isLoggedIn, async (req, res, next) => {
   try {
-    await User.update(
-      { country: req.body.country },
-      { where: { id: req.user.id } }
-    );
+    await User.update({ country: req.body.country }, { where: { id: req.user.id } });
     return res.status(200).json({ country: req.body.country });
   } catch (error) {
     console.error(error);
@@ -293,14 +279,7 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { id: parseInt(req.params.userId, 10) },
-      attributes: [
-        'id',
-        'nickname',
-        'email',
-        'country',
-        'categories',
-        'profilePhoto',
-      ],
+      attributes: ['id', 'nickname', 'email', 'country', 'categories', 'profilePhoto'],
       include: [
         {
           model: Post,

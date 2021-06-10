@@ -1,4 +1,7 @@
-import { removeCommentRequestAction } from 'actions/actionPost';
+import {
+  removeCommentRequestAction,
+  reportCommentRequestAction,
+} from 'actions/actionPost';
 import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
@@ -10,6 +13,8 @@ interface CommentSettingModalProps {
   setShowCommentSettingButton: Dispatch<SetStateAction<boolean>>;
   postId: number;
   commentId: number;
+  commentOwnerId: number;
+  communityUserId: number;
 }
 
 function CommentSettingModal({
@@ -19,8 +24,11 @@ function CommentSettingModal({
   setEditMode,
   postId,
   commentId,
+  commentOwnerId,
+  communityUserId,
 }: CommentSettingModalProps) {
   const dispatch = useDispatch();
+  const commentOwner = commentOwnerId === communityUserId;
 
   const onCloseModal = useCallback(() => {
     setShowCommentSettingButton(false);
@@ -35,7 +43,23 @@ function CommentSettingModal({
     if (confirm('댓글을 지우시겠습니까?')) {
       return dispatch(removeCommentRequestAction({ postId, commentId }));
     }
-  }, []);
+  }, [postId, commentId]);
+
+  const onClickReportButton = useCallback(() => {
+    const reason = prompt('신고하는 이유를 적어주세요');
+
+    if (reason && communityUserId) {
+      dispatch(
+        reportCommentRequestAction({
+          postId,
+          commentId,
+          reporter: communityUserId,
+          reportedPerson: commentOwnerId,
+          reason,
+        })
+      );
+    }
+  }, [commentOwnerId, communityUserId]);
 
   return (
     <ModalContainer
@@ -43,8 +67,14 @@ function CommentSettingModal({
       onClick={onCloseModal}
     >
       <ul>
-        <li onClick={onClickModifyButton}>수정</li>
-        <li onClick={onClickDeleteButton}>삭제</li>
+        {commentOwner ? (
+          <>
+            <li onClick={onClickModifyButton}>수정</li>
+            <li onClick={onClickDeleteButton}>삭제</li>
+          </>
+        ) : (
+          <li onClick={onClickReportButton}>신고하기</li>
+        )}
       </ul>
     </ModalContainer>
   );

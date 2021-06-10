@@ -24,10 +24,7 @@ function uploadCommunityImageAPI(data: FormData) {
 
 function* uploadCommunityImage(action: IUploadCommunityImageRequest) {
   try {
-    const result: { data: string[] } = yield call(
-      uploadCommunityImageAPI,
-      action.data
-    );
+    const result: { data: string[] } = yield call(uploadCommunityImageAPI, action.data);
     yield put({
       type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_SUCCESS,
       data: result.data,
@@ -46,10 +43,7 @@ function changeCommunityInfoAPI(data: ChangeCommunityInfoData) {
 
 function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
   try {
-    const result: { data: string } = yield call(
-      changeCommunityInfoAPI,
-      action.data
-    );
+    const result: { data: string } = yield call(changeCommunityInfoAPI, action.data);
     yield put({
       type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS,
       data: result.data,
@@ -86,9 +80,10 @@ function joinCommunityAPI(data: { communityId: number }) {
 
 function* joinCommunity(action: IJoinCommunityRequest) {
   try {
-    yield call(joinCommunityAPI, action.data);
+    const result: { data: IUser } = yield call(joinCommunityAPI, action.data);
     yield put({
       type: actionTypesCommunity.JOIN_COMMUNITY_SUCCESS,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -105,7 +100,6 @@ function acceptCommunityAPI(data: { communityId: number; userId: number }) {
 function* acceptCommunity(action: IAcceptCommunityRequest) {
   try {
     const result: { data: IUser } = yield call(acceptCommunityAPI, action.data);
-    console.log(result.data);
     yield put({
       type: actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS,
       data: result.data,
@@ -168,10 +162,7 @@ function loadCommunityAPI(data: { communityId: number }) {
 
 function* loadCommunity(action: ILoadCommunityRequest) {
   try {
-    const result: { data: ICommunity } = yield call(
-      loadCommunityAPI,
-      action.data
-    );
+    const result: { data: ICommunity } = yield call(loadCommunityAPI, action.data);
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITY_SUCCESS,
       data: result.data,
@@ -203,13 +194,8 @@ function* loadCommunities() {
   }
 }
 
-function loadCountryCommunitiesAPI(data: {
-  country: string;
-  communityId: number;
-}) {
-  return axios.get(
-    `/communities/country/${data.country}?lastId=${data.communityId}`
-  );
+function loadCountryCommunitiesAPI(data: { country: string; communityId: number }) {
+  return axios.get(`/communities/country/${data.country}?lastId=${data.communityId}`);
 }
 
 function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
@@ -230,14 +216,8 @@ function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
   }
 }
 
-function loadCategoryCommunitiesAPI(data: {
-  categoryId: number;
-  communityId: number;
-}) {
-  console.log(data);
-  return axios.get(
-    `/communities/category/${data.categoryId}?lastId=${data.communityId}`
-  );
+function loadCategoryCommunitiesAPI(data: { categoryId: number; communityId: number }) {
+  return axios.get(`/communities/category/${data.categoryId}?lastId=${data.communityId}`);
 }
 
 function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
@@ -246,7 +226,6 @@ function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
       loadCategoryCommunitiesAPI,
       action.data
     );
-    console.log(result.data);
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_SUCCESS,
       data: result.data,
@@ -265,10 +244,7 @@ function loadCategoryAPI(data: { categoryId: number }) {
 
 function* loadCategory(action: ILoadCategoryRequest) {
   try {
-    const result: { data: ICategory } = yield call(
-      loadCategoryAPI,
-      action.data
-    );
+    const result: { data: ICategory } = yield call(loadCategoryAPI, action.data);
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_SUCCESS,
       data: result.data,
@@ -319,31 +295,19 @@ function* watchJoinCommunity() {
   yield takeLatest(actionTypesCommunity.JOIN_COMMUNITY_REQUEST, joinCommunity);
 }
 function* watchAcceptCommunity() {
-  yield takeLatest(
-    actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST,
-    acceptCommunity
-  );
+  yield takeLatest(actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST, acceptCommunity);
 }
 function* watchRefuseCommunity() {
-  yield takeLatest(
-    actionTypesCommunity.REFUSE_COMMUNITY_REQUEST,
-    refuseCommunity
-  );
+  yield takeLatest(actionTypesCommunity.REFUSE_COMMUNITY_REQUEST, refuseCommunity);
 }
 function* watchLeaveCommunity() {
-  yield takeLatest(
-    actionTypesCommunity.LEAVE_COMMUNITY_REQUEST,
-    leaveCommunity
-  );
+  yield takeLatest(actionTypesCommunity.LEAVE_COMMUNITY_REQUEST, leaveCommunity);
 }
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
 function* watchLoadCommunities() {
-  yield takeLatest(
-    actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
-    loadCommunities
-  );
+  yield takeLatest(actionTypesCommunity.LOAD_COMMUNITIES_REQUEST, loadCommunities);
 }
 function* watchLoadCountryCommunities() {
   yield takeLatest(
@@ -361,10 +325,7 @@ function* watchLoadCategory() {
   yield takeLatest(actionTypesCommunity.LOAD_CATEGORY_REQUEST, loadCategory);
 }
 function* watchLoadCategories() {
-  yield takeLatest(
-    actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
-    loadCategories
-  );
+  yield takeLatest(actionTypesCommunity.LOAD_CATEGORIES_REQUEST, loadCategories);
 }
 
 export default function* communitySaga() {

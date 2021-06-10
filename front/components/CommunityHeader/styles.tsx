@@ -83,21 +83,30 @@ export const HeaderContainer = styled.div`
       }
     }
 
+    button {
+      border: none;
+      color: #fff;
+      font-size: 0.75rem;
+    }
+
     .insert-button {
       margin-left: 1rem;
     }
 
-    button {
+    .insert-button,
+    .join-button,
+    .leave-button {
       cursor: pointer;
-      border: none;
-      color: #fff;
       background: rgba(3, 155, 229, 0.7);
-      font-size: 0.75rem;
 
       :hover {
         color: rgba(255, 255, 255, 0.7);
         background: rgba(3, 155, 229, 0.3);
       }
+    }
+
+    .wait-button {
+      background: #e5037f;
     }
   }
 `;

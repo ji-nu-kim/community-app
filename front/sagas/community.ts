@@ -14,9 +14,11 @@ import {
   IAcceptCommunityRequest,
   IRefuseCommunityRequest,
   ILeaveCommunityRequest,
+  IAddMeetRequest,
+  IAddMeetData,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
-import { ICategory, ICommunity, IUser } from 'interfaces/db';
+import { ICategory, ICommunity, IMeet, IUser } from 'interfaces/db';
 
 function uploadCommunityImageAPI(data: FormData) {
   return axios.post('/community/image', data);
@@ -276,6 +278,26 @@ function* loadCategories() {
   }
 }
 
+function addMeetAPI(data: IAddMeetData) {
+  return axios.post('/community/meet', data);
+}
+
+function* addMeet(action: IAddMeetRequest) {
+  try {
+    const result: { data: IMeet } = yield call(addMeetAPI, action.data);
+    console.log(result.data);
+    yield put({
+      type: actionTypesCommunity.ADD_MEET_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.ADD_MEET_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
 function* watchUploadCommunityImage() {
   yield takeLatest(
     actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_REQUEST,
@@ -327,6 +349,9 @@ function* watchLoadCategory() {
 function* watchLoadCategories() {
   yield takeLatest(actionTypesCommunity.LOAD_CATEGORIES_REQUEST, loadCategories);
 }
+function* watchAddMeet() {
+  yield takeLatest(actionTypesCommunity.ADD_MEET_REQUEST, addMeet);
+}
 
 export default function* communitySaga() {
   yield all([
@@ -343,5 +368,6 @@ export default function* communitySaga() {
     fork(watchLoadCategoryCommunities),
     fork(watchLoadCategory),
     fork(watchLoadCategories),
+    fork(watchAddMeet),
   ]);
 }

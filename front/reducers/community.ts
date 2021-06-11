@@ -39,7 +39,6 @@ export const initialState: CommunityState = {
   leaveCommunityLoading: false,
   leaveCommunityDone: false,
   leaveCommunityError: null,
-
   loadCommunityLoading: false,
   loadCommunityDone: false,
   loadCommunityError: null,
@@ -53,6 +52,10 @@ export const initialState: CommunityState = {
   loadCategoriesLoading: false,
   loadCategoriesDone: false,
   loadCategoriesError: null,
+
+  addMeetLoading: false,
+  addMeetDone: false,
+  addMeetError: null,
 };
 
 const reducer = (state = initialState, action: ActionsCommunity): CommunityState => {
@@ -204,7 +207,6 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
         draft.loadCommunityLoading = false;
         draft.loadCommunityError = action.error;
         break;
-
       case actionTypesCommunity.LOAD_COMMUNITIES_REQUEST:
         draft.loadCommunitiesLoading = true;
         draft.loadCommunitiesDone = false;
@@ -219,7 +221,6 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesError = action.error;
         break;
-
       case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST:
       case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST:
         draft.loadCommunitiesLoading = true;
@@ -266,6 +267,20 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.LOAD_CATEGORIES_ERROR:
         draft.loadCategoriesLoading = false;
         draft.loadCategoriesError = action.error;
+        break;
+
+      case actionTypesCommunity.ADD_MEET_REQUEST:
+        draft.addMeetLoading = true;
+        draft.addMeetDone = false;
+        draft.addMeetError = null;
+        break;
+      case actionTypesCommunity.ADD_MEET_SUCCESS:
+        draft.addMeetLoading = false;
+        draft.addMeetDone = true;
+        break;
+      case actionTypesCommunity.ADD_MEET_ERROR:
+        draft.addMeetLoading = false;
+        draft.addMeetError = action.error;
         break;
 
       default:

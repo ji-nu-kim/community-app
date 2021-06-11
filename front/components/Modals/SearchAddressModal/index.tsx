@@ -3,9 +3,9 @@ import React, { Dispatch, memo, SetStateAction } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import styled from 'styled-components';
 
-const CountryModalContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
+const SearchAddressModalContainer = styled.div`
+  width: 100%;
+  height: 100%;
   backdrop-filter: saturate(180%) blur(12px);
   position: absolute;
   top: 0;
@@ -17,16 +17,25 @@ const CountryModalContainer = styled.div`
   z-index: 100;
 `;
 
-interface CountryModalProps {
-  closeCountryModal: () => void;
+interface SearchAddressModalProps {
+  closeSearchAddressModal: () => void;
   setCountry: Dispatch<SetStateAction<string>>;
+  type: 'village' | 'road';
 }
 
-function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
+function SearchAddressModal({
+  closeSearchAddressModal,
+  setCountry,
+  type,
+}: SearchAddressModalProps) {
   const handleComplete = (data: any) => {
-    let fullAddress = `${data.sido} ${data.sigungu} ${data.bname}`;
-    setCountry(fullAddress);
-    closeCountryModal();
+    if (type === 'village') {
+      setCountry(`${data.sido} ${data.sigungu} ${data.bname}`);
+    } else if (type === 'road') {
+      setCountry(data.address);
+    }
+
+    closeSearchAddressModal();
   };
 
   const postCodeStyle = {
@@ -36,17 +45,17 @@ function CountryModal({ closeCountryModal, setCountry }: CountryModalProps) {
   } as const;
 
   return (
-    <CountryModalContainer>
+    <SearchAddressModalContainer>
       <DaumPostcode style={postCodeStyle} onComplete={handleComplete} />
       <Button
         style={{ marginTop: '1rem' }}
         type="primary"
-        onClick={closeCountryModal}
+        onClick={closeSearchAddressModal}
       >
         닫기
       </Button>
-    </CountryModalContainer>
+    </SearchAddressModalContainer>
   );
 }
 
-export default memo(CountryModal);
+export default memo(SearchAddressModal);

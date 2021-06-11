@@ -15,7 +15,6 @@ export interface CommunityState {
   changeCommunityInfoLoading: boolean;
   changeCommunityInfoDone: boolean;
   changeCommunityInfoError: any;
-
   addCommunityLoading: boolean;
   addCommunityDone: boolean;
   addCommunityError: any;
@@ -34,7 +33,6 @@ export interface CommunityState {
   leaveCommunityLoading: boolean;
   leaveCommunityDone: boolean;
   leaveCommunityError: any;
-
   loadCommunityLoading: boolean;
   loadCommunityDone: boolean;
   loadCommunityError: any;
@@ -48,4 +46,8 @@ export interface CommunityState {
   loadCategoriesLoading: boolean;
   loadCategoriesDone: boolean;
   loadCategoriesError: any;
+
+  addMeetLoading: boolean;
+  addMeetDone: boolean;
+  addMeetError: any;
 }

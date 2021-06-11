@@ -7,10 +7,8 @@ import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
 
 interface CommentSettingModalProps {
-  onMouserLeaveCommentSettingButton: () => void;
   setCurrentModifyComment: Dispatch<SetStateAction<number>>;
   setEditMode: Dispatch<SetStateAction<boolean>>;
-  setShowCommentSettingButton: Dispatch<SetStateAction<boolean>>;
   postId: number;
   commentId: number;
   commentOwnerId: number;
@@ -18,9 +16,7 @@ interface CommentSettingModalProps {
 }
 
 function CommentSettingModal({
-  onMouserLeaveCommentSettingButton,
   setCurrentModifyComment,
-  setShowCommentSettingButton,
   setEditMode,
   postId,
   commentId,
@@ -29,10 +25,6 @@ function CommentSettingModal({
 }: CommentSettingModalProps) {
   const dispatch = useDispatch();
   const commentOwner = commentOwnerId === communityUserId;
-
-  const onCloseModal = useCallback(() => {
-    setShowCommentSettingButton(false);
-  }, []);
 
   const onClickModifyButton = useCallback(() => {
     setCurrentModifyComment(commentId);
@@ -62,10 +54,7 @@ function CommentSettingModal({
   }, [commentOwnerId, communityUserId]);
 
   return (
-    <ModalContainer
-      onMouseLeave={onMouserLeaveCommentSettingButton}
-      onClick={onCloseModal}
-    >
+    <ModalContainer>
       <ul>
         {commentOwner ? (
           <>

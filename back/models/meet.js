@@ -5,12 +5,16 @@ module.exports = class Meet extends Model {
   static init(sequelize) {
     return super.init(
       {
+        title: {
+          type: DataTypes.STRING(30),
+          allowNull: false,
+        },
         place: {
-          type: DataTypes.STRING(50),
+          type: DataTypes.STRING(30),
           allowNull: false,
         },
         fee: {
-          type: DataTypes.STRING(30),
+          type: DataTypes.INTEGER,
           allowNull: true,
         },
         members: {
@@ -18,7 +22,7 @@ module.exports = class Meet extends Model {
           allowNull: false,
         },
         date: {
-          type: DataTypes.DATE,
+          type: DataTypes.STRING(50),
           allowNull: false,
         },
       },

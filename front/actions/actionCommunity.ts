@@ -16,6 +16,8 @@ import {
   ILoadCategoryCommunitiesRequest,
   ILoadCategoryRequest,
   ILoadCategoriesRequest,
+  IAddMeetRequest,
+  IAddMeetData,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
 
@@ -43,9 +45,7 @@ export const changeCommunityInfoRequestAction = (
   };
 };
 
-export const addCommunityRequestAction = (
-  data: CommunityData
-): IAddCommunityRequest => {
+export const addCommunityRequestAction = (data: CommunityData): IAddCommunityRequest => {
   return {
     type: actionTypesCommunity.ADD_COMMUNITY_REQUEST,
     data,
@@ -146,5 +146,12 @@ export const loadCategoryRequestAction = (data: {
 export const loadCategoriesRequestAction = (): ILoadCategoriesRequest => {
   return {
     type: actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
+  };
+};
+
+export const addMeetRequestAction = (data: IAddMeetData): IAddMeetRequest => {
+  return {
+    type: actionTypesCommunity.ADD_MEET_REQUEST,
+    data,
   };
 };

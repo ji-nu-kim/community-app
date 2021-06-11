@@ -1,4 +1,4 @@
-import { ICategory, ICommunity, IUser } from '../db';
+import { ICategory, ICommunity, IUser, IMeet } from '../db';
 
 export const actionTypesCommunity = {
   REMOVE_COMMUNITY_IMAGE: 'REMOVE_COMMUNITY_IMAGE', // 커뮤니티 프로필 미리보기 이미지 삭제
@@ -44,6 +44,9 @@ export const actionTypesCommunity = {
   LOAD_CATEGORIES_REQUEST: 'LOAD_CATEGORIES_REQUEST', // 모든 카테고리 불러오기
   LOAD_CATEGORIES_SUCCESS: 'LOAD_CATEGORIES_SUCCESS',
   LOAD_CATEGORIES_ERROR: 'LOAD_CATEGORIES_ERROR',
+  ADD_MEET_REQUEST: 'ADD_MEET_REQUEST', // 모임 생성
+  ADD_MEET_SUCCESS: 'ADD_MEET_SUCCESS',
+  ADD_MEET_ERROR: 'ADD_MEET_ERROR',
 } as const;
 
 export interface IRemoveCommunityImage {
@@ -61,7 +64,6 @@ export interface IUploadCommunityImageError {
   type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR;
   error: Error;
 }
-
 export interface ChangeCommunityInfoData {
   id: number;
   profilePhoto: string[];
@@ -87,7 +89,6 @@ export interface CommunityData {
   country: string;
   category: string;
 }
-
 export interface IAddCommunityRequest {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_REQUEST;
   data: CommunityData;
@@ -115,7 +116,6 @@ export interface IJoinCommunityRequest {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_REQUEST;
   data: { communityId: number };
 }
-
 export interface IJoinCommunitySuccess {
   type: typeof actionTypesCommunity.JOIN_COMMUNITY_SUCCESS;
   data: IUser;
@@ -183,7 +183,6 @@ export interface ILoadCommunitiesError {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_ERROR;
   error: Error;
 }
-
 export interface ILoadCountryCommunitiesRequest {
   type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST;
   data: { country: string; communityId: number };
@@ -196,7 +195,6 @@ export interface ILoadCountryCommunitiesError {
   type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR;
   error: Error;
 }
-
 export interface ILoadCategoryCommunitiesRequest {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST;
   data: { categoryId: number; communityId: number };
@@ -213,12 +211,10 @@ export interface ILoadCategoryRequest {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_REQUEST;
   data: { categoryId: number };
 }
-
 export interface ILoadCategorySuccess {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_SUCCESS;
   data: ICategory;
 }
-
 export interface ILoadCategoryError {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_ERROR;
   error: Error;
@@ -232,6 +228,26 @@ export interface ILoadCategoriesSuccess {
 }
 export interface ILoadCategoriesError {
   type: typeof actionTypesCommunity.LOAD_CATEGORIES_ERROR;
+  error: Error;
+}
+export interface IAddMeetData {
+  place: string;
+  fee: number;
+  members: number;
+  date: string;
+  title: string;
+  communityId: number;
+}
+export interface IAddMeetRequest {
+  type: typeof actionTypesCommunity.ADD_MEET_REQUEST;
+  data: IAddMeetData;
+}
+export interface IAddMeetSuccess {
+  type: typeof actionTypesCommunity.ADD_MEET_SUCCESS;
+  data: IMeet;
+}
+export interface IAddMeetError {
+  type: typeof actionTypesCommunity.ADD_MEET_ERROR;
   error: Error;
 }
 
@@ -278,4 +294,7 @@ export type ActionsCommunity =
   | ILoadCategoryError
   | ILoadCategoriesRequest
   | ILoadCategoriesSuccess
-  | ILoadCategoriesError;
+  | ILoadCategoriesError
+  | IAddMeetRequest
+  | IAddMeetSuccess
+  | IAddMeetError;

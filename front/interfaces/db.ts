@@ -30,6 +30,17 @@ export interface IPost {
   Comments: IComment[];
 }
 
+export interface IMeet {
+  id: number;
+  place: string;
+  fee: number;
+  members: number;
+  date: string;
+  title: string;
+  MeetOwnerId: number;
+  Users: IUserInfo[];
+}
+
 export interface ICommunity {
   id: number;
   communityName: string;
@@ -45,6 +56,7 @@ export interface ICommunity {
   Posts: IPost[];
   Categories: ICategory[];
   OwnerId: number;
+  Meets: IMeet[];
 }
 
 export interface INotice {

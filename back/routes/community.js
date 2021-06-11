@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { Post, User, Image, Comment, Community, Category } = require('../models');
+const { Post, User, Image, Comment, Community, Category, Meet } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -29,7 +29,6 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     if (exCommunity) {
       return res.status(404).send('사용중인 커뮤니티입니다');
     }
-
     const community = await Community.create({
       communityName: req.body.communityName,
       description: req.body.description,
@@ -226,9 +225,32 @@ router.get('/:communityId', async (req, res, next) => {
             },
           ],
         },
+        {
+          model: Meet,
+          include: { model: User, through: 'MEET_USER' },
+        },
       ],
     });
     return res.status(200).json(fullCommunity);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/meet/', isLoggedIn, async (req, res, next) => {
+  try {
+    const meet = await Meet.create({
+      place: req.body.place,
+      fee: req.body.fee,
+      members: req.body.members,
+      title: req.body.title,
+      date: req.body.date,
+      MeetOwnerId: req.user.id,
+      CommunityId: req.body.communityId,
+    });
+    await meet.addUsers(req.user.id);
+    return res.status(200).json(meet);
   } catch (error) {
     console.error(error);
     next(error);

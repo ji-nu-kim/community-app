@@ -14,7 +14,7 @@ import SignUpLayout, {
   InputContainer,
   ButtonContainer,
 } from 'components/Layouts/SignUpLayout';
-import CountryModal from 'components/Modals/CountryModal';
+import SearchAddressModal from 'components/Modals/SearchAddressModal';
 
 type SignUpType = {
   email: string;
@@ -30,7 +30,7 @@ function Signup() {
     (state: RootStateInterface) => state.user
   );
 
-  const [countryModal, setCountryModal] = useState(false);
+  const [showSearchAddressModal, setShowSearchAddressModal] = useState(false);
   const [countryError, setCountryError] = useState(false);
   const [country, setCountry] = useState('');
 
@@ -51,18 +51,17 @@ function Signup() {
     mode: 'onBlur',
   });
 
-  const openCountryModal = useCallback(() => {
+  const openSearchAddressModal = useCallback(() => {
     setCountryError(false);
-    setCountryModal(true);
+    setShowSearchAddressModal(true);
   }, []);
 
-  const closeCountryModal = useCallback(() => {
-    setCountryModal(false);
+  const closeSearchAddressModal = useCallback(() => {
+    setShowSearchAddressModal(false);
   }, []);
 
   const onSubmit = useCallback(
     handleSubmit((data: SignUpType) => {
-      console.log(country);
       if (country === '') {
         return setCountryError(true);
       }
@@ -156,11 +155,9 @@ function Signup() {
               value={country}
               readOnly
               placeholder="주소를 검색하세요"
-              onClick={openCountryModal}
+              onClick={openSearchAddressModal}
             />
-            {countryError && (
-              <FormErrorMessage errorMessage="주소를 입력하세요" />
-            )}
+            {countryError && <FormErrorMessage errorMessage="주소를 입력하세요" />}
           </InputContainer>
           <div>
             <Controller
@@ -168,10 +165,7 @@ function Signup() {
               control={control}
               defaultValue={false}
               render={({ onChange, value }) => (
-                <Checkbox
-                  onChange={e => onChange(e.target.checked)}
-                  checked={value}
-                >
+                <Checkbox onChange={e => onChange(e.target.checked)} checked={value}>
                   회원가입에 동의합니다
                 </Checkbox>
               )}
@@ -181,20 +175,16 @@ function Signup() {
             )}
           </div>
           <ButtonContainer>
-            <Button
-              type="primary"
-              size="large"
-              htmlType="submit"
-              loading={signUpLoading}
-            >
+            <Button type="primary" size="large" htmlType="submit" loading={signUpLoading}>
               가입하기
             </Button>
           </ButtonContainer>
         </Form>
-        {countryModal && (
-          <CountryModal
-            closeCountryModal={closeCountryModal}
+        {showSearchAddressModal && (
+          <SearchAddressModal
+            closeSearchAddressModal={closeSearchAddressModal}
             setCountry={setCountry}
+            type="village"
           />
         )}
       </SignUpLayout>

@@ -4,10 +4,7 @@ import Head from 'next/head';
 import Router from 'next/router';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  changeCountryRequestAction,
-  loadMyInfoRequestAction,
-} from 'actions/actionUser';
+import { changeCountryRequestAction, loadMyInfoRequestAction } from 'actions/actionUser';
 import { GetServerSideProps } from 'next';
 import wrapper from 'store/configureStore';
 import axios from 'axios';
@@ -20,7 +17,7 @@ import ProfileLayout, {
 import UserProfileModifyModal from 'components/Modals/UserProfileModifyModal';
 import { loadCategoriesRequestAction } from 'actions/actionCommunity';
 import SearchSectionCard from 'components/SearchSectionCard';
-import CountryModal from 'components/Modals/CountryModal';
+import SearchAddressModal from 'components/Modals/SearchAddressModal';
 
 function Profile() {
   const dispatch = useDispatch();
@@ -28,15 +25,15 @@ function Profile() {
     (state: RootStateInterface) => state.user
   );
   const [userProfileModifyModal, setUserProfileModifyModal] = useState(false);
-  const [countryModal, setCountryModal] = useState(false);
+  const [showSearchAddressModal, setShowSearchAdressModal] = useState(false);
   const [modifyCountry, setModifyCountry] = useState('');
 
-  const openCountryModal = useCallback(() => {
-    setCountryModal(true);
+  const openSearchAddressModal = useCallback(() => {
+    setShowSearchAdressModal(true);
   }, []);
 
-  const closeCountryModal = useCallback(() => {
-    setCountryModal(false);
+  const closeSearchAddressModal = useCallback(() => {
+    setShowSearchAdressModal(false);
     setModifyCountry('');
   }, []);
 
@@ -91,7 +88,7 @@ function Profile() {
                 <div className="header-text">
                   <p>프로필</p>
                   <h1>{me?.nickname}</h1>
-                  <p className="text-country" onClick={openCountryModal}>
+                  <p className="text-country" onClick={openSearchAddressModal}>
                     {me?.country}
                   </p>
                 </div>
@@ -143,14 +140,13 @@ function Profile() {
         </ProfileLayout>
 
         {userProfileModifyModal && (
-          <UserProfileModifyModal
-            setUserProfileModifyModal={setUserProfileModifyModal}
-          />
+          <UserProfileModifyModal setUserProfileModifyModal={setUserProfileModifyModal} />
         )}
-        {countryModal && (
-          <CountryModal
-            closeCountryModal={closeCountryModal}
+        {showSearchAddressModal && (
+          <SearchAddressModal
+            closeSearchAddressModal={closeSearchAddressModal}
             setCountry={setModifyCountry}
+            type="village"
           />
         )}
       </AppLayout>
@@ -158,8 +154,8 @@ function Profile() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps(async context => {
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
@@ -169,6 +165,7 @@ export const getServerSideProps: GetServerSideProps =
     context.store.dispatch(loadCategoriesRequestAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  });
+  }
+);
 
 export default memo(Profile);

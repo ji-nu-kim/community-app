@@ -38,10 +38,6 @@ function Post({ singleCommunity }: PostProps) {
     []
   );
 
-  const onMouserLeavePostSettingButton = useCallback(() => {
-    setCurrentPostSettingButton(0);
-  }, []);
-
   const onClickCommentSettingButton = useCallback(
     (commentId: number) => () => {
       setCurrentCommentSettingButton(commentId);
@@ -49,10 +45,6 @@ function Post({ singleCommunity }: PostProps) {
     },
     []
   );
-
-  const onMouserLeaveCommentSettingButton = useCallback(() => {
-    setCurrentCommentSettingButton(0);
-  }, []);
 
   const onTogglePostCommentForm = useCallback(
     (postId: number) => () => {
@@ -62,8 +54,15 @@ function Post({ singleCommunity }: PostProps) {
     []
   );
 
+  const onCloseSettingModal = useCallback(() => {
+    if (showPostSettingButton || showCommentSettingButton) {
+      setShowPostSettingButton(false);
+      setShowCommentSettingButton(false);
+    }
+  }, [showPostSettingButton, showCommentSettingButton]);
+
   return (
-    <PostContainer>
+    <PostContainer onClick={onCloseSettingModal}>
       {communityUser ? (
         <>
           <div className="post-form-container">
@@ -109,9 +108,7 @@ function Post({ singleCommunity }: PostProps) {
                       </div>
                       {showPostSettingButton && post.id === CurrentPostSettingButton && (
                         <PostSettingModal
-                          onMouserLeavePostSettingButton={onMouserLeavePostSettingButton}
                           setCurrentModifyPost={setCurrentModifyPost}
-                          setShowPostSettingButton={setShowPostSettingButton}
                           setEditMode={setEditMode}
                           postId={post.id}
                           communityId={singleCommunity.id}
@@ -187,13 +184,7 @@ function Post({ singleCommunity }: PostProps) {
                                 {showCommentSettingButton &&
                                   comment.id === currentCommentSettingButton && (
                                     <CommentSettingModal
-                                      onMouserLeaveCommentSettingButton={
-                                        onMouserLeaveCommentSettingButton
-                                      }
                                       setCurrentModifyComment={setCurrentModifyComment}
-                                      setShowCommentSettingButton={
-                                        setShowCommentSettingButton
-                                      }
                                       setEditMode={setEditMode}
                                       postId={post.id}
                                       commentId={comment.id}

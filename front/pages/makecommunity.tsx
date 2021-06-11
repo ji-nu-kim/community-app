@@ -15,7 +15,7 @@ import SignUpLayout, {
   TextAreaContainer,
   ButtonContainer,
 } from 'components/Layouts/SignUpLayout';
-import CountryModal from 'components/Modals/CountryModal';
+import SearchAddressModal from 'components/Modals/SearchAddressModal';
 import {
   addCommunityRequestAction,
   loadCategoriesRequestAction,
@@ -33,14 +33,10 @@ type SignUpType = {
 function MakeCommunity() {
   const dispatch = useDispatch();
   const { me } = useSelector((state: RootStateInterface) => state.user);
-  const {
-    mainCategories,
-    addCommunityDone,
-    addCommunityError,
-    addCommunityLoading,
-  } = useSelector((state: RootStateInterface) => state.community);
+  const { mainCategories, addCommunityDone, addCommunityError, addCommunityLoading } =
+    useSelector((state: RootStateInterface) => state.community);
 
-  const [countryModal, setCountryModal] = useState(false);
+  const [showSearchAddressModal, setShowSearchAddressModal] = useState(false);
   const [countryError, setCountryError] = useState(false);
   const [categoryError, setcategoryError] = useState(false);
   const [country, setCountry] = useState('');
@@ -72,13 +68,13 @@ function MakeCommunity() {
     mode: 'onBlur',
   });
 
-  const openCountryModal = useCallback(() => {
+  const openSearchAddressModal = useCallback(() => {
     setCountryError(false);
-    setCountryModal(true);
+    setShowSearchAddressModal(true);
   }, []);
 
-  const closeCountryModal = useCallback(() => {
-    setCountryModal(false);
+  const closeSearchAddressModal = useCallback(() => {
+    setShowSearchAddressModal(false);
   }, []);
 
   const onChangeCategory = useCallback(e => {
@@ -153,20 +149,14 @@ function MakeCommunity() {
               value={country}
               readOnly
               placeholder="주소를 검색하세요"
-              onClick={openCountryModal}
+              onClick={openSearchAddressModal}
             />
-            {countryError && (
-              <FormErrorMessage errorMessage="주소를 입력하세요" />
-            )}
+            {countryError && <FormErrorMessage errorMessage="주소를 입력하세요" />}
           </InputContainer>
 
           <label htmlFor="categories">카테고리</label>
           <br />
-          <select
-            id="categories"
-            className="select-category"
-            onChange={onChangeCategory}
-          >
+          <select id="categories" className="select-category" onChange={onChangeCategory}>
             <option value="">카테고리를 선택하세요</option>
             {mainCategories.map(v => (
               <option key={v.name} value={v.id}>
@@ -174,24 +164,19 @@ function MakeCommunity() {
               </option>
             ))}
           </select>
-          {categoryError && (
-            <FormErrorMessage errorMessage="카테고리를 선택하세요" />
-          )}
+          {categoryError && <FormErrorMessage errorMessage="카테고리를 선택하세요" />}
 
           <ButtonContainer>
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={addCommunityLoading}
-            >
+            <Button type="primary" htmlType="submit" loading={addCommunityLoading}>
               생성하기
             </Button>
           </ButtonContainer>
         </Form>
-        {countryModal && (
-          <CountryModal
-            closeCountryModal={closeCountryModal}
+        {showSearchAddressModal && (
+          <SearchAddressModal
+            closeSearchAddressModal={closeSearchAddressModal}
             setCountry={setCountry}
+            type="village"
           />
         )}
       </SignUpLayout>
@@ -199,8 +184,8 @@ function MakeCommunity() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps(async context => {
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     axios.defaults.headers.Cookie = '';
     if (context.req && cookie) {
@@ -210,6 +195,7 @@ export const getServerSideProps: GetServerSideProps =
     context.store.dispatch(loadCategoriesRequestAction());
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  });
+  }
+);
 
 export default MakeCommunity;

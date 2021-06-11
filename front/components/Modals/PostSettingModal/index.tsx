@@ -4,9 +4,7 @@ import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
 
 interface PostSettingModalProps {
-  onMouserLeavePostSettingButton: () => void;
   setCurrentModifyPost: Dispatch<SetStateAction<number>>;
-  setShowPostSettingButton: Dispatch<SetStateAction<boolean>>;
   setEditMode: Dispatch<SetStateAction<boolean>>;
   postId: number;
   communityId: number;
@@ -15,9 +13,7 @@ interface PostSettingModalProps {
 }
 
 function PostSettingModal({
-  onMouserLeavePostSettingButton,
   setCurrentModifyPost,
-  setShowPostSettingButton,
   setEditMode,
   postId,
   communityId,
@@ -26,10 +22,6 @@ function PostSettingModal({
 }: PostSettingModalProps) {
   const dispatch = useDispatch();
   const postOwner = postOwnerId === communityUserId;
-
-  const onCloseModal = useCallback(() => {
-    setShowPostSettingButton(false);
-  }, []);
 
   const onClickModifyButton = useCallback(() => {
     setCurrentModifyPost(postId);
@@ -58,7 +50,7 @@ function PostSettingModal({
   }, [postOwnerId, communityUserId]);
 
   return (
-    <ModalContainer onMouseLeave={onMouserLeavePostSettingButton} onClick={onCloseModal}>
+    <ModalContainer>
       <ul>
         {postOwner ? (
           <>

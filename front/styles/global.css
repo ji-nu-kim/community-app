@@ -17,14 +17,22 @@ p {
   margin: 0;
 }
 
+/* 스크롤 커스텀 */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(#ee9ca7, #ffdde1);
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* auto-fill시 배경 transparent  */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition-delay: 9999s;
+  transition-delay: 9999s;
 }

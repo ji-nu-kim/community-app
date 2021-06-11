@@ -1,11 +1,5 @@
 import React from 'react';
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-} from 'next/document';
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 class CustomDocument extends Document {
@@ -47,6 +41,7 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Yeon+Sung&display=swap"
             rel="stylesheet"
           />
+          <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62b3976eb30288d24fa52e7f88fec8a1&libraries=services"></script>
         </Head>
         <body>
           <Main />

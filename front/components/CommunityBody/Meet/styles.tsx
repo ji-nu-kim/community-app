@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface ICardContainer {
+  number: number;
+}
+
 export const MeetContainer = styled.div`
   position: relative;
   height: 100%;
@@ -7,95 +11,71 @@ export const MeetContainer = styled.div`
   -webkit-backdrop-filter: blur(2px);
   background: rgba(255, 255, 255, 0.4);
   overflow: auto;
+  padding: 1rem;
 
-  .joined-meet {
-    display: grid;
-    grid-template-rows: 44px auto;
-  }
-
+  .joined-meet,
   .new-meet {
     display: grid;
     grid-template-rows: 44px auto;
   }
+`;
 
-  .meet-container {
+export const CardContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 300px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+
+  .card-left {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-  }
-
-  .meet-card {
-    width: 350px;
-    height: 200px;
-    background: #3d9df2;
-    display: grid;
-    grid-template-rows: 44px auto;
-    font-weight: bold;
-
-    :hover {
-      filter: hue-rotate(20deg);
-    }
-
-    .title {
-      background: #f279a6;
-      color: #3d9df2;
+    align-items: center;
+    z-index: 10;
+    filter: ${(props: ICardContainer) =>
+      props.number && `hue-rotate(${props.number * 60}deg)`};
+    background: linear-gradient(
+      40deg,
+      rgba(255, 252, 0, 0.85) 0%,
+      rgba(252, 0, 255, 0.85) 45%,
+      rgba(0, 255, 252, 0.85) 100%
+    );
+    text-align: center;
+    .card-header {
+      font-size: 1.5rem;
       font-weight: bold;
-      font-size: 1.25rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      margin-bottom: 2rem;
     }
-    .body {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border: 2px solid #f279a6;
-
-      .body-left {
-        display: grid;
-        grid-template-rows: repeat(3, 1fr);
-        border-right: 2px solid #f279a6;
-
-        * {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        * :not(:last-child) {
-          border-bottom: 2px solid #f279a6;
-        }
+    .card-body {
+      font-size: 0.75rem;
+      div {
+        margin-bottom: 0.5rem;
       }
-      .body-right {
-        display: grid;
-        grid-template-rows: 2fr 1fr;
 
-        .right-first {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          border-bottom: 2px solid #f279a6;
-          text-align: center;
-          * {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          * :first-child {
-            border-right: 2px solid #f279a6;
-          }
-        }
+      .meet-button {
         button {
           cursor: pointer;
-          background: #fff;
           border: none;
-          color: #f279a6;
-          font-weight: bold;
+          background: #039be5;
+          height: 30px;
 
           :hover {
-            background: transparent;
+            background: #0282c2;
           }
         }
       }
     }
+  }
+
+  .card-right {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 5;
   }
 `;
 
@@ -107,8 +87,14 @@ export const MakeMeetButton = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid hotpink;
+  color: hotpink;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
+
+  :hover {
+    filter: hue-rotate(180deg);
+  }
 `;

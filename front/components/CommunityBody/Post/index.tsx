@@ -5,7 +5,7 @@ import CommentSettingModal from 'components/Modals/CommentSettingModal';
 import PostEditModal from 'components/Modals/PostEditModal';
 import PostSettingModal from 'components/Modals/PostSettingModal';
 import PostForm from 'components/PostForm';
-import { ICommunity } from 'interfaces/db';
+import { ICommunity, IUserInfo } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
 import React, { memo, useCallback, useState } from 'react';
@@ -14,10 +14,10 @@ import { PostContainer } from './styles';
 
 interface PostProps {
   singleCommunity: ICommunity;
+  communityUser: IUserInfo | undefined;
 }
 
-function Post({ singleCommunity }: PostProps) {
-  const { me } = useSelector((state: RootStateInterface) => state.user);
+function Post({ singleCommunity, communityUser }: PostProps) {
   const { mainPosts } = useSelector((state: RootStateInterface) => state.post);
   const [editMode, setEditMode] = useState(false);
   const [showPostSettingButton, setShowPostSettingButton] = useState(false); // 포스트설정 모달 보여주기
@@ -28,7 +28,6 @@ function Post({ singleCommunity }: PostProps) {
   const [currentModifyComment, setCurrentModifyComment] = useState(0);
   const [openPostCommentForm, setOpenPostCommentForm] = useState(false);
   const [currentPostCommentForm, setCurrentPostCommentForm] = useState(0);
-  const communityUser = singleCommunity.Users.find(user => user.id === me?.id);
 
   const onClickPostSettingButton = useCallback(
     (postId: number) => () => {

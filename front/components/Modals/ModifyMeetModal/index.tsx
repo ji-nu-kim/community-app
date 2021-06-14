@@ -7,11 +7,12 @@ import { Controller, useForm } from 'react-hook-form';
 import { createMeetValidation } from 'utils/yup';
 import { ModalContainer, ModalHeader, ModalBody, InputContainer } from './styles';
 import SearchAddressModal from 'components/Modals/SearchAddressModal';
-import { day } from 'utils/day';
+import { fromMomentToDate } from 'utils/day';
 
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
-import { addMeetRequestAction } from 'actions/actionCommunity';
+import { IMeet } from 'interfaces/db';
+import { modifyMeetRequestAction } from 'actions/actionCommunity';
 
 type CreateMeetType = {
   title: string;
@@ -20,14 +21,19 @@ type CreateMeetType = {
   date: Date;
 };
 
-interface CreateMeetModalProps {
-  setShowCreateMeetModal: Dispatch<SetStateAction<boolean>>;
+interface ModifyMeetModalProps {
+  setShowModifyMeetModal: Dispatch<SetStateAction<boolean>>;
   communityId: number;
+  meetInfo: IMeet | undefined;
 }
 
-function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModalProps) {
+function ModifyMeetModal({
+  setShowModifyMeetModal,
+  communityId,
+  meetInfo,
+}: ModifyMeetModalProps) {
   const dispatch = useDispatch();
-  const [place, setPlace] = useState('');
+  const [place, setPlace] = useState(meetInfo?.place as string);
   const [placeError, setPlaceError] = useState(false);
   const [showSearchAddressModal, setShowSearchAddressModal] = useState(false);
   const { handleSubmit, errors, control } = useForm<CreateMeetType>({
@@ -35,8 +41,8 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
     mode: 'onBlur',
   });
 
-  const closeCreateMeetModal = useCallback(() => {
-    setShowCreateMeetModal(false);
+  const closeModifyMeetModal = useCallback(() => {
+    setShowModifyMeetModal(false);
   }, []);
 
   const openSearchAddressModal = useCallback(() => {
@@ -55,28 +61,31 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
       }
       const d = new Date(data.date);
       const date = moment(d).locale('ko').format('LLL');
-
       dispatch(
-        addMeetRequestAction({
-          title: data.title,
-          fee: data.fee,
-          members: data.members,
-          date,
-          place,
+        modifyMeetRequestAction({
           communityId,
+          meetId: meetInfo?.id as number,
+          fee: data.fee,
+          date,
+          members: data.members,
+          title: data.title,
+          place,
         })
       );
-
       setShowSearchAddressModal(false);
     }),
-    [place]
+    [place, communityId, meetInfo]
   );
+
+  if (!meetInfo) {
+    return <div>잠시만 기다려주세요</div>;
+  }
 
   return (
     <ModalContainer>
       <ModalHeader>
-        <div className="modal-title">모임만들기</div>
-        <div className="close-button" onClick={closeCreateMeetModal}>
+        <div className="modal-title">모임수정하기</div>
+        <div className="close-button" onClick={closeModifyMeetModal}>
           <CloseCircleOutlined />
         </div>
       </ModalHeader>
@@ -91,7 +100,7 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
               name="title"
               control={control}
               placeholder="모임 이름을 입력하세요"
-              defaultValue=""
+              defaultValue={meetInfo.title}
               maxLength="15"
             />
             {errors.title?.message && (
@@ -108,7 +117,7 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
                 type="number"
                 name="fee"
                 control={control}
-                defaultValue="0"
+                defaultValue={meetInfo.fee}
               />
               {errors.fee?.message && (
                 <FormErrorMessage errorMessage={errors.fee.message} />
@@ -122,7 +131,8 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
                 as={<input />}
                 type="number"
                 name="members"
-                defaultValue="1"
+                min={meetInfo.Users.length}
+                defaultValue={meetInfo.members}
                 control={control}
               />
               {errors.members?.message && (
@@ -140,7 +150,7 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
                 type="datetime-local"
                 name="date"
                 control={control}
-                defaultValue={day}
+                defaultValue={fromMomentToDate(meetInfo.date)}
                 style={{ cursor: 'pointer' }}
               />
               {errors.date?.message && (
@@ -180,4 +190,4 @@ function CreateMeetModal({ setShowCreateMeetModal, communityId }: CreateMeetModa
   );
 }
 
-export default CreateMeetModal;
+export default ModifyMeetModal;

@@ -47,6 +47,18 @@ export const actionTypesCommunity = {
   ADD_MEET_REQUEST: 'ADD_MEET_REQUEST', // 모임 생성
   ADD_MEET_SUCCESS: 'ADD_MEET_SUCCESS',
   ADD_MEET_ERROR: 'ADD_MEET_ERROR',
+  REMOVE_MEET_REQUEST: 'REMOVE_MEET_REQUEST', // 모임 제거
+  REMOVE_MEET_SUCCESS: 'REMOVE_MEET_SUCCESS',
+  REMOVE_MEET_ERROR: 'REMOVE_MEET_ERROR',
+  MODIFY_MEET_REQUEST: 'MODIFY_MEET_REQUEST', // 모임 수정
+  MODIFY_MEET_SUCCESS: 'MODIFY_MEET_SUCCESS',
+  MODIFY_MEET_ERROR: 'MODIFY_MEET_ERROR',
+  JOIN_MEET_REQUEST: 'JOIN_MEET_REQUEST', // 모임 가입
+  JOIN_MEET_SUCCESS: 'JOIN_MEET_SUCCESS',
+  JOIN_MEET_ERROR: 'JOIN_MEET_ERROR',
+  LEAVE_MEET_REQUEST: 'LEAVE_MEET_REQUEST', // 모임 탈퇴
+  LEAVE_MEET_SUCCESS: 'LEAVE_MEET_SUCCESS',
+  LEAVE_MEET_ERROR: 'LEAVE_MEET_ERROR',
 } as const;
 
 export interface IRemoveCommunityImage {
@@ -250,6 +262,57 @@ export interface IAddMeetError {
   type: typeof actionTypesCommunity.ADD_MEET_ERROR;
   error: Error;
 }
+export interface IRemoveMeetRequest {
+  type: typeof actionTypesCommunity.REMOVE_MEET_REQUEST;
+  data: { communityId: number; meetId: number };
+}
+export interface IRemoveMeetSuccess {
+  type: typeof actionTypesCommunity.REMOVE_MEET_SUCCESS;
+  data: { meetId: number };
+}
+export interface IRemoveMeetError {
+  type: typeof actionTypesCommunity.REMOVE_MEET_ERROR;
+  error: Error;
+}
+export interface IModifyMeetData extends IAddMeetData {
+  meetId: number;
+}
+export interface IModifyMeetRequest {
+  type: typeof actionTypesCommunity.MODIFY_MEET_REQUEST;
+  data: IModifyMeetData;
+}
+export interface IModifyMeetSuccess {
+  type: typeof actionTypesCommunity.MODIFY_MEET_SUCCESS;
+  data: IMeet;
+}
+export interface IModifyMeetError {
+  type: typeof actionTypesCommunity.MODIFY_MEET_ERROR;
+  error: Error;
+}
+export interface IJoinMeetRequest {
+  type: typeof actionTypesCommunity.JOIN_MEET_REQUEST;
+  data: { communityId: number; meetId: number };
+}
+export interface IJoinMeetSuccess {
+  type: typeof actionTypesCommunity.JOIN_MEET_SUCCESS;
+  data: IMeet;
+}
+export interface IJoinMeetError {
+  type: typeof actionTypesCommunity.JOIN_MEET_ERROR;
+  error: Error;
+}
+export interface ILeaveMeetRequest {
+  type: typeof actionTypesCommunity.LEAVE_MEET_REQUEST;
+  data: { communityId: number; meetId: number };
+}
+export interface ILeaveMeetSuccess {
+  type: typeof actionTypesCommunity.LEAVE_MEET_SUCCESS;
+  data: { meetId: number; userId: number };
+}
+export interface ILeaveMeetError {
+  type: typeof actionTypesCommunity.LEAVE_MEET_ERROR;
+  error: Error;
+}
 
 export type ActionsCommunity =
   | IRemoveCommunityImage
@@ -297,4 +360,16 @@ export type ActionsCommunity =
   | ILoadCategoriesError
   | IAddMeetRequest
   | IAddMeetSuccess
-  | IAddMeetError;
+  | IAddMeetError
+  | IRemoveMeetRequest
+  | IRemoveMeetSuccess
+  | IRemoveMeetError
+  | IModifyMeetRequest
+  | IModifyMeetSuccess
+  | IModifyMeetError
+  | IJoinMeetRequest
+  | IJoinMeetSuccess
+  | IJoinMeetError
+  | ILeaveMeetRequest
+  | ILeaveMeetSuccess
+  | ILeaveMeetError;

@@ -1,7 +1,16 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { Post, User, Image, Comment, Community, Category, Meet } = require('../models');
+const {
+  Post,
+  User,
+  Image,
+  Comment,
+  Community,
+  Category,
+  Meet,
+  sequelize,
+} = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -238,19 +247,177 @@ router.get('/:communityId', async (req, res, next) => {
   }
 });
 
-router.post('/meet/', isLoggedIn, async (req, res, next) => {
+// 모임 생성
+router.post('/:communityId/meet', isLoggedIn, async (req, res, next) => {
+  const t = await sequelize.transaction();
   try {
-    const meet = await Meet.create({
-      place: req.body.place,
-      fee: req.body.fee,
-      members: req.body.members,
-      title: req.body.title,
-      date: req.body.date,
-      MeetOwnerId: req.user.id,
-      CommunityId: req.body.communityId,
+    const community = await Community.findOne({
+      where: { id: parseInt(req.params.communityId, 10) },
     });
-    await meet.addUsers(req.user.id);
-    return res.status(200).json(meet);
+    if (!community) {
+      await t.rollback();
+      return res.status(404).send('커뮤니티를 찾을 수 없습니다');
+    }
+    const meet = await Meet.create(
+      {
+        place: req.body.place,
+        fee: req.body.fee,
+        members: req.body.members,
+        title: req.body.title,
+        date: req.body.date,
+        MeetOwnerId: req.user.id,
+        CommunityId: req.body.communityId,
+      },
+      { transaction: t }
+    );
+    await meet.addUsers(req.user.id, { transaction: t });
+    await t.commit();
+    const fullMeet = await Meet.findOne({
+      where: { id: meet.id },
+      include: {
+        model: User,
+        through: 'MEET_USER',
+      },
+    });
+    return res.status(200).json(fullMeet);
+  } catch (error) {
+    await t.rollback();
+    console.error(error);
+    next(error);
+  }
+});
+
+// 모임 수정
+router.patch('/:communityId/meet/:meetId', isLoggedIn, async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const community = await Community.findOne({
+      where: { id: parseInt(req.params.communityId, 10) },
+      include: { model: Meet },
+    });
+    if (!community) {
+      await t.rollback();
+      return res.status(404).send('커뮤니티를 찾을 수 없습니다');
+    }
+    const meet = await community.Meets.find(
+      meet => meet.id === parseInt(req.params.meetId, 10)
+    );
+    if (!meet) {
+      await t.rollback();
+      return res.status(404).send('모임을 찾을 수 없습니다');
+    }
+    await meet.update(
+      {
+        place: req.body.place,
+        fee: req.body.fee,
+        members: req.body.members,
+        title: req.body.title,
+        date: req.body.date,
+      },
+      { transaction: t }
+    );
+    await t.commit();
+    const updatedMeet = await Meet.findOne({
+      where: { id: meet.id },
+      include: { model: User, through: 'MEET_USER' },
+    });
+    return res.status(200).json(updatedMeet);
+  } catch (error) {
+    await t.rollback();
+    console.error(error);
+    next(error);
+  }
+});
+
+// 모임 가입
+router.post('/:communityId/meet/:meetId/join', isLoggedIn, async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const community = await Community.findOne({
+      where: { id: parseInt(req.params.communityId, 10) },
+      include: { model: Meet },
+    });
+    if (!community) {
+      await t.rollback();
+      return res.status(404).send('커뮤니티를 찾을 수 없습니다');
+    }
+    const meet = await community.Meets.find(
+      meet => meet.id === parseInt(req.params.meetId, 10)
+    );
+    if (!meet) {
+      await t.rollback();
+      return res.status(404).send('모임을 찾을 수 없습니다');
+    }
+    const users = await meet.getUsers();
+    if (meet.members <= users.length) {
+      return res.status(403).send('인원이 초과되었습니다');
+    }
+    await meet.addUsers(req.user.id, { transaction: t });
+    await t.commit();
+    const fullMeet = await Meet.findOne({
+      where: { id: meet.id },
+      include: { model: User, through: 'MEET_USER' },
+    });
+    return res.status(200).json(fullMeet);
+  } catch (error) {
+    await t.rollback();
+    console.error(error);
+    next(error);
+  }
+});
+
+// 모임 제거
+router.delete('/:communityId/meet/:meetId', isLoggedIn, async (req, res, next) => {
+  try {
+    const community = await Community.findOne({
+      where: { id: parseInt(req.params.communityId, 10) },
+      include: { model: Meet },
+    });
+    if (!community) {
+      return res.status(404).send('커뮤니티를 찾을 수 없습니다');
+    }
+    const meet = await community.Meets.find(
+      meet => meet.id === parseInt(req.params.meetId, 10)
+    );
+    if (!meet) {
+      return res.status(404).send('모임을 찾을 수 없습니다');
+    }
+    const users = await meet.getUsers();
+    const usersId = await users.map(user => user.id);
+    await Promise.all(usersId.map(userId => meet.removeUsers(userId)));
+    await Meet.destroy({
+      where: {
+        id: parseInt(req.params.meetId, 10),
+        CommunityId: parseInt(req.params.communityId, 10),
+      },
+    });
+    return res.status(200).json({ meetId: parseInt(req.params.meetId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 모임 탈퇴
+router.delete('/:communityId/meet/:meetId/leave', async (req, res, next) => {
+  try {
+    const community = await Community.findOne({
+      where: { id: parseInt(req.params.communityId, 10) },
+      include: { model: Meet },
+    });
+    if (!community) {
+      return res.status(404).send('error');
+    }
+    const meet = await community.Meets.find(
+      meet => meet.id === parseInt(req.params.meetId, 10)
+    );
+    if (!meet) {
+      return res.status(404).send('모임을 찾을 수 없습니다');
+    }
+    await meet.removeUsers(req.user.id);
+    return res
+      .status(200)
+      .json({ meetId: parseInt(req.params.meetId, 10), userId: req.user.id });
   } catch (error) {
     console.error(error);
     next(error);

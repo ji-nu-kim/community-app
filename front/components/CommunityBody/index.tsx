@@ -4,6 +4,8 @@ import { ICommunity } from 'interfaces/db';
 import Info from './Info';
 import Post from './Post';
 import Meet from './Meet';
+import { RootStateInterface } from 'interfaces/RootState';
+import { useSelector } from 'react-redux';
 
 interface CommunityBodyProps {
   singleCommunity: ICommunity;
@@ -11,10 +13,12 @@ interface CommunityBodyProps {
 
 function CommunityBody({ singleCommunity }: CommunityBodyProps) {
   const [currentNav, setCurrentNav] = useState('info');
+  const { me } = useSelector((state: RootStateInterface) => state.user);
+  const communityUser = singleCommunity.Users.find(user => user.id === me?.id);
 
   const onClickNav = useCallback(e => {
     const navName = e.target.className.split('-');
-    if (navName[0] === 'nav') {
+    if (navName[0] === 'nav' && navName[1].length < 5) {
       setCurrentNav(navName[1]);
     }
   }, []);
@@ -31,8 +35,16 @@ function CommunityBody({ singleCommunity }: CommunityBodyProps) {
         </div>
         <div className="body-content">
           {currentNav === 'info' && <Info singleCommunity={singleCommunity} />}
-          {currentNav === 'post' && <Post singleCommunity={singleCommunity} />}
-          {currentNav === 'meet' && <Meet singleCommunity={singleCommunity} />}
+          {currentNav === 'post' && (
+            <Post singleCommunity={singleCommunity} communityUser={communityUser} />
+          )}
+          {currentNav === 'meet' && (
+            <Meet
+              singleCommunity={singleCommunity}
+              me={me}
+              communityUser={communityUser}
+            />
+          )}
         </div>
       </div>
     </BodyContainer>

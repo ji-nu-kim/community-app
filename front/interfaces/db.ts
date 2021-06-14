@@ -38,7 +38,10 @@ export interface IMeet {
   date: string;
   title: string;
   MeetOwnerId: number;
-  Users: IUserInfo[];
+  Users: {
+    id: number;
+    nickname: string;
+  }[];
 }
 
 export interface ICommunity {
@@ -67,8 +70,8 @@ export interface INotice {
 }
 export interface IUser extends IUserInfo {
   email: string;
-  Posts: { id: number }[];
   Owned: ICommunity[];
   Communities: ICommunity[];
   Notices: INotice[];
+  Meets: IMeet[];
 }

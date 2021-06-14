@@ -16,9 +16,15 @@ import {
   ILeaveCommunityRequest,
   IAddMeetRequest,
   IAddMeetData,
+  IRemoveMeetRequest,
+  IJoinMeetRequest,
+  ILeaveMeetRequest,
+  IModifyMeetRequest,
+  IModifyMeetData,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
 import { ICategory, ICommunity, IMeet, IUser } from 'interfaces/db';
+import { actionTypesUser } from 'interfaces';
 
 function uploadCommunityImageAPI(data: FormData) {
   return axios.post('/community/image', data);
@@ -279,20 +285,118 @@ function* loadCategories() {
 }
 
 function addMeetAPI(data: IAddMeetData) {
-  return axios.post('/community/meet', data);
+  return axios.post(`/community/${data.communityId}/meet`, data);
 }
 
 function* addMeet(action: IAddMeetRequest) {
   try {
     const result: { data: IMeet } = yield call(addMeetAPI, action.data);
-    console.log(result.data);
     yield put({
       type: actionTypesCommunity.ADD_MEET_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.ADD_MEET_OF_ME,
       data: result.data,
     });
   } catch (error) {
     yield put({
       type: actionTypesCommunity.ADD_MEET_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function removeMeetAPI(data: { meetId: number; communityId: number }) {
+  return axios.delete(`/community/${data.communityId}/meet/${data.meetId}`);
+}
+
+function* removeMeet(action: IRemoveMeetRequest) {
+  try {
+    const result: { data: { meetId: number } } = yield call(removeMeetAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.REMOVE_MEET_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.REMOVE_MEET_OF_ME,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.REMOVE_MEET_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function joinMeetAPI(data: { meetId: number; communityId: number }) {
+  return axios.post(`/community/${data.communityId}/meet/${data.meetId}/join`);
+}
+
+function* joinMeet(action: IJoinMeetRequest) {
+  try {
+    const result: { data: IMeet } = yield call(joinMeetAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.JOIN_MEET_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.JOIN_USER_OF_MEET,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.JOIN_MEET_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function leaveMeetAPI(data: { meetId: number; communityId: number }) {
+  return axios.delete(`/community/${data.communityId}/meet/${data.meetId}/leave`);
+}
+
+function* leaveMeet(action: ILeaveMeetRequest) {
+  try {
+    const result: { data: { meetId: number; userId: number } } = yield call(
+      leaveMeetAPI,
+      action.data
+    );
+    yield put({
+      type: actionTypesCommunity.LEAVE_MEET_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.LEAVE_USER_OF_MEET,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.LEAVE_MEET_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function modifyMeetAPI(data: IModifyMeetData) {
+  return axios.patch(`/community/${data.communityId}/meet/${data.meetId}`, data);
+}
+
+function* modifyMeet(action: IModifyMeetRequest) {
+  try {
+    const result: { data: IMeet } = yield call(modifyMeetAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.MODIFY_MEET_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.MODIFY_MEET_OF_ME,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.MODIFY_MEET_ERROR,
       error: error.response.data,
     });
   }
@@ -352,6 +456,18 @@ function* watchLoadCategories() {
 function* watchAddMeet() {
   yield takeLatest(actionTypesCommunity.ADD_MEET_REQUEST, addMeet);
 }
+function* watchRemoveMeet() {
+  yield takeLatest(actionTypesCommunity.REMOVE_MEET_REQUEST, removeMeet);
+}
+function* watchJoinMeet() {
+  yield takeLatest(actionTypesCommunity.JOIN_MEET_REQUEST, joinMeet);
+}
+function* watchLeaveMeet() {
+  yield takeLatest(actionTypesCommunity.LEAVE_MEET_REQUEST, leaveMeet);
+}
+function* watchModifyMeet() {
+  yield takeLatest(actionTypesCommunity.MODIFY_MEET_REQUEST, modifyMeet);
+}
 
 export default function* communitySaga() {
   yield all([
@@ -369,5 +485,9 @@ export default function* communitySaga() {
     fork(watchLoadCategory),
     fork(watchLoadCategories),
     fork(watchAddMeet),
+    fork(watchRemoveMeet),
+    fork(watchJoinMeet),
+    fork(watchLeaveMeet),
+    fork(watchModifyMeet),
   ]);
 }

@@ -225,6 +225,24 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.removeNotificationLoading = false;
         draft.removeNotificationError = action.error;
         break;
+      case actionTypesUser.JOIN_USER_OF_MEET:
+      case actionTypesUser.ADD_MEET_OF_ME:
+        if (draft.me) {
+          draft.me.Meets.unshift(action.data);
+        }
+        break;
+      case actionTypesUser.LEAVE_USER_OF_MEET:
+      case actionTypesUser.REMOVE_MEET_OF_ME:
+        if (draft.me) {
+          draft.me.Meets = draft.me.Meets.filter(meet => meet.id !== action.data.meetId);
+        }
+        break;
+      case actionTypesUser.MODIFY_MEET_OF_ME:
+        if (draft.me) {
+          const meetIndex = draft.me.Meets.findIndex(meet => meet.id === action.data.id);
+          draft.me.Meets[meetIndex] = action.data;
+        }
+        break;
       default:
         break;
     }

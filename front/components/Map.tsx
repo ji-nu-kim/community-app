@@ -25,17 +25,9 @@ function Map({ address, number }: MapProps) {
           position: map.getCenter(),
         });
         marker.setMap(map);
-        console.log(result);
-
-        let iwContent = `<div><a href="https://map.kakao.com/link/search/${result.address_name}" target="_blank">큰 지도 보기</a></div>`;
-        let infoWindow = new (window as any).kakao.maps.InfoWindow({
-          content: iwContent,
-          position: map.getCenter(),
-        });
-        infoWindow.open(map, marker);
       }
     });
-  }, [address]);
+  }, []);
 
   return (
     <div
@@ -43,8 +35,6 @@ function Map({ address, number }: MapProps) {
       style={{
         width: '100%',
         height: '100%',
-        borderTopRightRadius: '10px',
-        borderBottomRightRadius: '10px',
       }}
     ></div>
   );

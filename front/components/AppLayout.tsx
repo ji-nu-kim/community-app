@@ -25,9 +25,7 @@ interface AppLayoutProps {
 }
 
 function AppLayout({ children }: AppLayoutProps) {
-  const Notices = useSelector(
-    (state: RootStateInterface) => state.user.me?.Notices
-  );
+  const Notices = useSelector((state: RootStateInterface) => state.user.me?.Notices);
   const [userInfoModal, setUserInfoModal] = useState(false);
   const [notificationModal, setNotificationModal] = useState(false);
 
@@ -40,6 +38,7 @@ function AppLayout({ children }: AppLayoutProps) {
         setUserInfoModal={setUserInfoModal}
         setNotificationModal={setNotificationModal}
       />
+
       <div style={{ display: 'grid', gridTemplateColumns: '200px auto' }}>
         <SideBar />
         <div>{children}</div>

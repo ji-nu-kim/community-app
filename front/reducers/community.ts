@@ -56,6 +56,15 @@ export const initialState: CommunityState = {
   addMeetLoading: false,
   addMeetDone: false,
   addMeetError: null,
+  removeMeetLoading: false,
+  removeMeetDone: false,
+  removeMeetError: null,
+  joinMeetLoading: false,
+  joinMeetDone: false,
+  joinMeetError: null,
+  leaveMeetLoading: false,
+  leaveMeetDone: false,
+  leaveMeetError: null,
 };
 
 const reducer = (state = initialState, action: ActionsCommunity): CommunityState => {
@@ -277,12 +286,75 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.ADD_MEET_SUCCESS:
         draft.addMeetLoading = false;
         draft.addMeetDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.Meets.unshift(action.data);
+        }
         break;
       case actionTypesCommunity.ADD_MEET_ERROR:
         draft.addMeetLoading = false;
         draft.addMeetError = action.error;
         break;
-
+      case actionTypesCommunity.REMOVE_MEET_REQUEST:
+        draft.removeMeetLoading = true;
+        draft.removeMeetDone = false;
+        draft.removeMeetError = null;
+        break;
+      case actionTypesCommunity.REMOVE_MEET_SUCCESS:
+        draft.removeMeetLoading = false;
+        draft.removeMeetDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.Meets = draft.singleCommunity.Meets.filter(
+            meet => meet.id !== action.data.meetId
+          );
+        }
+        break;
+      case actionTypesCommunity.REMOVE_MEET_ERROR:
+        draft.removeMeetLoading = false;
+        draft.removeMeetError = action.error;
+        break;
+      case actionTypesCommunity.MODIFY_MEET_REQUEST:
+      case actionTypesCommunity.JOIN_MEET_REQUEST:
+        draft.joinMeetLoading = true;
+        draft.joinMeetDone = false;
+        draft.joinMeetError = null;
+        break;
+      case actionTypesCommunity.MODIFY_MEET_SUCCESS:
+      case actionTypesCommunity.JOIN_MEET_SUCCESS:
+        draft.joinMeetLoading = false;
+        draft.joinMeetDone = true;
+        if (draft.singleCommunity) {
+          const meetIndex = draft.singleCommunity.Meets.findIndex(
+            meet => meet.id === action.data.id
+          );
+          draft.singleCommunity.Meets[meetIndex] = action.data;
+        }
+        break;
+      case actionTypesCommunity.MODIFY_MEET_ERROR:
+      case actionTypesCommunity.JOIN_MEET_ERROR:
+        draft.joinMeetLoading = false;
+        draft.joinMeetError = action.error;
+        break;
+      case actionTypesCommunity.LEAVE_MEET_REQUEST:
+        draft.leaveMeetLoading = true;
+        draft.leaveMeetDone = false;
+        draft.leaveMeetError = null;
+        break;
+      case actionTypesCommunity.LEAVE_MEET_SUCCESS:
+        draft.leaveMeetLoading = false;
+        draft.leaveMeetDone = true;
+        if (draft.singleCommunity) {
+          const meet = draft.singleCommunity.Meets.find(
+            meet => meet.id === action.data.meetId
+          );
+          if (meet) {
+            meet.Users = meet.Users.filter(user => user.id !== action.data.userId);
+          }
+        }
+        break;
+      case actionTypesCommunity.LEAVE_MEET_ERROR:
+        draft.leaveMeetLoading = false;
+        draft.leaveMeetError = action.error;
+        break;
       default:
         break;
     }

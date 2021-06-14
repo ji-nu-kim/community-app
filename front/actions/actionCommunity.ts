@@ -17,7 +17,12 @@ import {
   ILoadCategoryRequest,
   ILoadCategoriesRequest,
   IAddMeetRequest,
+  IRemoveMeetRequest,
+  IModifyMeetRequest,
+  IJoinMeetRequest,
+  ILeaveMeetRequest,
   IAddMeetData,
+  IModifyMeetData,
   CommunityData,
 } from '../interfaces/community/communityAction.interfaces';
 
@@ -26,7 +31,6 @@ export const removeCommunityImage = (): IRemoveCommunityImage => {
     type: actionTypesCommunity.REMOVE_COMMUNITY_IMAGE,
   };
 };
-
 export const uploadCommunityImageRequestAction = (
   data: FormData
 ): IUploadCommunityImageRequest => {
@@ -44,14 +48,12 @@ export const changeCommunityInfoRequestAction = (
     data,
   };
 };
-
 export const addCommunityRequestAction = (data: CommunityData): IAddCommunityRequest => {
   return {
     type: actionTypesCommunity.ADD_COMMUNITY_REQUEST,
     data,
   };
 };
-
 export const removeCommunityRequestAction = (data: {
   communityId: number;
 }): IRemoveCommunityRequest => {
@@ -60,7 +62,6 @@ export const removeCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const joinCommunityRequestAction = (data: {
   communityId: number;
 }): IJoinCommunityRequest => {
@@ -69,7 +70,6 @@ export const joinCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const acceptCommunityRequestAction = (data: {
   communityId: number;
   userId: number;
@@ -79,7 +79,6 @@ export const acceptCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const refuseCommunityRequestAction = (data: {
   communityId: number;
   userId: number;
@@ -89,7 +88,6 @@ export const refuseCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const leaveCommunityRequestAction = (data: {
   communityId: number;
 }): ILeaveCommunityRequest => {
@@ -98,7 +96,6 @@ export const leaveCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const loadCommunityRequestAction = (data: {
   communityId: number;
 }): ILoadCommunityRequest => {
@@ -107,13 +104,11 @@ export const loadCommunityRequestAction = (data: {
     data,
   };
 };
-
 export const loadCommunitiesRequestAction = (): ILoadCommunitiesRequest => {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
   };
 };
-
 export const loadCountryCommunitiesRequestAction = (data: {
   country: string;
   communityId: number;
@@ -123,7 +118,6 @@ export const loadCountryCommunitiesRequestAction = (data: {
     data,
   };
 };
-
 export const loadCategoryCommunitiesRequestAction = (data: {
   categoryId: number;
   communityId: number;
@@ -142,7 +136,6 @@ export const loadCategoryRequestAction = (data: {
     data,
   };
 };
-
 export const loadCategoriesRequestAction = (): ILoadCategoriesRequest => {
   return {
     type: actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
@@ -152,6 +145,39 @@ export const loadCategoriesRequestAction = (): ILoadCategoriesRequest => {
 export const addMeetRequestAction = (data: IAddMeetData): IAddMeetRequest => {
   return {
     type: actionTypesCommunity.ADD_MEET_REQUEST,
+    data,
+  };
+};
+export const removeMeetRequestAction = (data: {
+  communityId: number;
+  meetId: number;
+}): IRemoveMeetRequest => {
+  return {
+    type: actionTypesCommunity.REMOVE_MEET_REQUEST,
+    data,
+  };
+};
+export const modifyMeetRequestAction = (data: IModifyMeetData): IModifyMeetRequest => {
+  return {
+    type: actionTypesCommunity.MODIFY_MEET_REQUEST,
+    data,
+  };
+};
+export const joinMeetRequestAction = (data: {
+  communityId: number;
+  meetId: number;
+}): IJoinMeetRequest => {
+  return {
+    type: actionTypesCommunity.JOIN_MEET_REQUEST,
+    data,
+  };
+};
+export const leaveMeetRequestAction = (data: {
+  communityId: number;
+  meetId: number;
+}): ILeaveMeetRequest => {
+  return {
+    type: actionTypesCommunity.LEAVE_MEET_REQUEST,
     data,
   };
 };

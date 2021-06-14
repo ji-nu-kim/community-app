@@ -9,42 +9,56 @@ export const MeetContainer = styled.div`
   height: 100%;
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
-  background: rgba(255, 255, 255, 0.4);
-  overflow: auto;
-  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-rows: auto 55px;
 
   .joined-meet,
   .new-meet {
     display: grid;
     grid-template-rows: 44px auto;
+
+    .meet-members,
+    .meet-place {
+      cursor: pointer;
+
+      :hover {
+        color: #039be5;
+      }
+    }
+
+    .meet-name {
+      margin-left: 1rem;
+      align-self: center;
+      font-weight: bold;
+      font-size: 1rem;
+    }
   }
 `;
 
 export const CardContainer = styled.div`
+  padding: 1rem;
   position: relative;
   width: 100%;
   height: 300px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border-radius: 10px;
-  margin-bottom: 1rem;
 
   .card-left {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    filter: ${(props: ICardContainer) =>
-      props.number && `hue-rotate(${props.number * 60}deg)`};
-    background: linear-gradient(
-      40deg,
+    filter: ${(props: ICardContainer) => `hue-rotate(${props.number * 60}deg)`};
+    background: ${(props: ICardContainer) =>
+      `linear-gradient(
+      ${props.number * 60}deg,
       rgba(255, 252, 0, 0.85) 0%,
       rgba(252, 0, 255, 0.85) 45%,
       rgba(0, 255, 252, 0.85) 100%
-    );
+    )`};
+
     text-align: center;
     .card-header {
       font-size: 1.5rem;
@@ -68,22 +82,48 @@ export const CardContainer = styled.div`
             background: #0282c2;
           }
         }
+        .owner-buttons {
+          button:first-child {
+            margin-right: 1rem;
+          }
+        }
       }
     }
   }
 
   .card-right {
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
     z-index: 5;
+
+    .show-members {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 30% 70%;
+      align-items: center;
+      justify-items: center;
+      font-weight: bold;
+      font-size: 1rem;
+
+      .member-container {
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+
+        p {
+          margin-right: 1rem;
+          display: inline;
+        }
+      }
+    }
   }
 `;
 
 export const MakeMeetButton = styled.div`
-  left: calc(100% - 48px);
+  margin-right: 1rem;
+  align-self: center;
+  justify-self: end;
   cursor: pointer;
-  position: sticky;
-  bottom: 1rem;
   width: 30px;
   height: 30px;
   border-radius: 50%;

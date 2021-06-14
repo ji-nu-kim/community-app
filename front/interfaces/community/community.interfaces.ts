@@ -50,4 +50,13 @@ export interface CommunityState {
   addMeetLoading: boolean;
   addMeetDone: boolean;
   addMeetError: any;
+  removeMeetLoading: boolean;
+  removeMeetDone: boolean;
+  removeMeetError: any;
+  joinMeetLoading: boolean;
+  joinMeetDone: boolean;
+  joinMeetError: any;
+  leaveMeetLoading: boolean;
+  leaveMeetDone: boolean;
+  leaveMeetError: any;
 }

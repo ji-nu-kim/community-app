@@ -1,3 +1,4 @@
+import { IMeet } from 'interfaces/db';
 import {
   actionTypesUser,
   ILogInRequest,
@@ -12,6 +13,11 @@ import {
   ISendNotificationRequest,
   ICheckNotificationRequest,
   IRemoveNotificationRequest,
+  IAddMeetOfMe,
+  IRemoveMeetOfMe,
+  IModifyMeetOfMe,
+  IJoinUserOfMeet,
+  ILeaveUserOfMeet,
   SignUpData,
   LoginData,
   IRemoveUserImage,
@@ -47,9 +53,7 @@ export const removeImage = (): IRemoveUserImage => {
     type: actionTypesUser.REMOVE_IMAGE,
   };
 };
-export const uploadImageRequestAction = (
-  data: FormData
-): IUploadImageRequest => {
+export const uploadImageRequestAction = (data: FormData): IUploadImageRequest => {
   return {
     type: actionTypesUser.UPLOAD_IMAGE_REQUEST,
     data,
@@ -101,6 +105,39 @@ export const removeNotificationRequestAction = (data: {
 }): IRemoveNotificationRequest => {
   return {
     type: actionTypesUser.REMOVE_NOTIFICATION_REQUEST,
+    data,
+  };
+};
+export const addMeetOfMe = (data: IMeet): IAddMeetOfMe => {
+  return {
+    type: actionTypesUser.ADD_MEET_OF_ME,
+    data,
+  };
+};
+export const removeMeetOfMe = (data: { meetId: number }): IRemoveMeetOfMe => {
+  return {
+    type: actionTypesUser.REMOVE_MEET_OF_ME,
+    data,
+  };
+};
+export const modifyMeetOfMe = (data: IMeet): IModifyMeetOfMe => {
+  return {
+    type: actionTypesUser.MODIFY_MEET_OF_ME,
+    data,
+  };
+};
+export const joinUserOfMeet = (data: IMeet): IJoinUserOfMeet => {
+  return {
+    type: actionTypesUser.JOIN_USER_OF_MEET,
+    data,
+  };
+};
+export const leaveUserOfMeet = (data: {
+  meetId: number;
+  userId: number;
+}): ILeaveUserOfMeet => {
+  return {
+    type: actionTypesUser.LEAVE_USER_OF_MEET,
     data,
   };
 };

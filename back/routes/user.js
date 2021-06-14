@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-const { User, Post, Community, Category, Notice, Comment } = require('../models');
+const { User, Post, Community, Category, Notice, Comment, Meet } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -45,6 +45,10 @@ router.get('/', async (req, res, next) => {
             model: Category,
             through: 'CATEGORY_USER',
             attributes: ['name', 'profilePhoto'],
+          },
+          {
+            model: Meet,
+            include: { model: User, through: 'MEET_USER' },
           },
           {
             model: Community,

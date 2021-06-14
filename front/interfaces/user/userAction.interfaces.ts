@@ -1,4 +1,4 @@
-import { INotice, IUser } from '../db';
+import { IMeet, INotice, IUser } from '../db';
 
 export const actionTypesUser = {
   LOG_IN_REQUEST: 'LOG_IN_REQUEST',
@@ -38,6 +38,11 @@ export const actionTypesUser = {
   REMOVE_NOTIFICATION_REQUEST: 'REMOVE_NOTIFICATION_REQUEST',
   REMOVE_NOTIFICATION_SUCCESS: 'REMOVE_NOTIFICATION_SUCCESS',
   REMOVE_NOTIFICATION_ERROR: 'REMOVE_NOTIFICATION_ERROR',
+  ADD_MEET_OF_ME: 'ADD_MEET_OF_ME',
+  REMOVE_MEET_OF_ME: 'REMOVE_MEET_OF_ME',
+  MODIFY_MEET_OF_ME: 'MODIFY_MEET_OF_ME',
+  JOIN_USER_OF_MEET: 'JOIN_USER_OF_MEET',
+  LEAVE_USER_OF_MEET: 'LEAVE_USER_OF_MEET',
 } as const;
 export interface LoginData {
   email: string;
@@ -192,6 +197,26 @@ export interface IRemoveNotificationError {
   type: typeof actionTypesUser.REMOVE_NOTIFICATION_ERROR;
   error: Error;
 }
+export interface IAddMeetOfMe {
+  type: typeof actionTypesUser.ADD_MEET_OF_ME;
+  data: IMeet;
+}
+export interface IRemoveMeetOfMe {
+  type: typeof actionTypesUser.REMOVE_MEET_OF_ME;
+  data: { meetId: number };
+}
+export interface IModifyMeetOfMe {
+  type: typeof actionTypesUser.MODIFY_MEET_OF_ME;
+  data: IMeet;
+}
+export interface IJoinUserOfMeet {
+  type: typeof actionTypesUser.JOIN_USER_OF_MEET;
+  data: IMeet;
+}
+export interface ILeaveUserOfMeet {
+  type: typeof actionTypesUser.LEAVE_USER_OF_MEET;
+  data: { meetId: number; userId: number };
+}
 
 export type ActionsUser =
   | ILogInRequest
@@ -230,4 +255,9 @@ export type ActionsUser =
   | ICheckNotificationError
   | IRemoveNotificationRequest
   | IRemoveNotificationSuccess
-  | IRemoveNotificationError;
+  | IRemoveNotificationError
+  | IAddMeetOfMe
+  | IRemoveMeetOfMe
+  | IModifyMeetOfMe
+  | IJoinUserOfMeet
+  | ILeaveUserOfMeet;

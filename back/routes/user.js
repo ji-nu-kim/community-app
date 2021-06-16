@@ -132,7 +132,25 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-// 유저 탈퇴(문제, 댓글, 게시글 삭제가 안됌, 댓글, 게시글 삭제해야 탈퇴할 수 있도록, 혹은 그대로 남겨두고 널처리, 데이터 받아올 때 널인건 빼고 받아오기)
+//
+router.delete('/:userId/leave/', async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+      include: { model: Post, include: { model: Comment } },
+    });
+    if (!user) {
+      return res.status(404).send('존재하지 않는 유저입니다');
+    }
+    console.log(user);
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// 유저 탈퇴(게시글 지우면서 댓글지우고 카테고리 제거, 커뮤니티 탈퇴)
 router.delete('/leave', isLoggedIn, async (req, res, next) => {
   try {
     await Promise.all([
@@ -151,17 +169,19 @@ router.delete('/leave', isLoggedIn, async (req, res, next) => {
 // 유저 프로필 수정
 router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+    if (!user) {
+      return res.status(404).send('유저 정보가 없습니다');
+    }
     await User.update(
       {
         nickname: req.body.nickname,
         profilePhoto: req.body.profilePhoto[0],
       },
-      { where: { id: req.user.id } }
+      { where: { id: user.id } }
     );
-    const user = await User.findOne({
-      where: { id: req.user.id },
-    });
-
     const result = await Promise.all(
       req.body.category.map(v =>
         Category.findOne({

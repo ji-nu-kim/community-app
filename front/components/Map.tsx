@@ -30,7 +30,6 @@ function Map({ address, number }: MapProps) {
         let iwContent = `<div style="padding:5px;"><a href="https://map.kakao.com/link/search/${result.address_name}" target="_blank" rel="noreferer">큰 지도 보기</a></div>`;
         let iwRemoveable = true;
 
-        // 인포윈도우를 생성합니다
         let infowindow = new (window as any).kakao.maps.InfoWindow({
           content: iwContent,
           removable: iwRemoveable,

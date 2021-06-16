@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { memo, ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface ProfileLayoutProps {
@@ -131,4 +131,4 @@ function ProfileLayout({ children }: ProfileLayoutProps) {
   return <ProfileContainer>{children}</ProfileContainer>;
 }
 
-export default ProfileLayout;
+export default memo(ProfileLayout);

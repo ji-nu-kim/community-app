@@ -14,6 +14,20 @@ export const BodyContainer = styled.div`
     width: 90%;
     height: 90%;
 
+    @media (min-width: 1024px) {
+      width: 80%;
+      height: 80%;
+    }
+    @media (min-width: 1200px) {
+      width: 70%;
+    }
+    @media (min-width: 1400px) {
+      width: 60%;
+    }
+    @media (min-width: 1800px) {
+      width: 50%;
+    }
+
     .active {
       color: #039bec;
     }

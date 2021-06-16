@@ -1,4 +1,5 @@
 import { MessageOutlined, MoreOutlined } from '@ant-design/icons';
+import { loadPostsRequestAction } from 'actions/actionPost';
 import CommentForm from 'components/CommentForm';
 import CommentEditModal from 'components/Modals/CommentEditModal';
 import CommentSettingModal from 'components/Modals/CommentSettingModal';
@@ -8,8 +9,9 @@ import PostForm from 'components/PostForm';
 import { ICommunity, IUserInfo } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
-import React, { memo, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { PostContainer } from './styles';
 
 interface PostProps {
@@ -18,7 +20,10 @@ interface PostProps {
 }
 
 function Post({ singleCommunity, communityUser }: PostProps) {
-  const { mainPosts } = useSelector((state: RootStateInterface) => state.post);
+  const dispatch = useDispatch();
+  const { mainPosts, hasMorePost, loadPostsLoading } = useSelector(
+    (state: RootStateInterface) => state.post
+  );
   const [editMode, setEditMode] = useState(false);
   const [showPostSettingButton, setShowPostSettingButton] = useState(false); // 포스트설정 모달 보여주기
   const [CurrentPostSettingButton, setCurrentPostSettingButton] = useState(0); // 현재 보여지고 있는 포스트설정 모달
@@ -28,6 +33,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
   const [currentModifyComment, setCurrentModifyComment] = useState(0);
   const [openPostCommentForm, setOpenPostCommentForm] = useState(false);
   const [currentPostCommentForm, setCurrentPostCommentForm] = useState(0);
+  const postContainerRef = useRef<HTMLDivElement>(null);
 
   const onClickPostSettingButton = useCallback(
     (postId: number) => () => {
@@ -60,8 +66,37 @@ function Post({ singleCommunity, communityUser }: PostProps) {
     }
   }, [showPostSettingButton, showCommentSettingButton]);
 
+  useEffect(() => {
+    const postContainer = postContainerRef.current;
+    if (!postContainer) return;
+
+    function onScroll(e: any) {
+      if (communityUser && mainPosts.length) {
+        if (e.target.scrollTop >= e.target.scrollHeight - e.target.offsetHeight - 300) {
+          if (hasMorePost && !loadPostsLoading) {
+            const lastId = mainPosts[mainPosts.length - 1].id;
+            dispatch(
+              loadPostsRequestAction({ communityId: singleCommunity.id, postId: lastId })
+            );
+          }
+        }
+      }
+    }
+
+    postContainer.addEventListener('scroll', onScroll);
+
+    return () => postContainer.removeEventListener('scroll', onScroll);
+  }, [
+    communityUser,
+    mainPosts,
+    hasMorePost,
+    loadPostsLoading,
+    singleCommunity,
+    postContainerRef.current,
+  ]);
+
   return (
-    <PostContainer onClick={onCloseSettingModal}>
+    <PostContainer onClick={onCloseSettingModal} ref={postContainerRef}>
       {communityUser ? (
         <>
           <div className="post-form-container">

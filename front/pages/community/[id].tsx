@@ -9,7 +9,7 @@ import CommunityHeader from 'components/CommunityHeader';
 import { RootStateInterface } from 'interfaces/RootState';
 import { GetServerSideProps } from 'next';
 import Router from 'next/router';
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import wrapper from 'store/configureStore';
 import styled from 'styled-components';
@@ -91,4 +91,4 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   }
 );
 
-export default Community;
+export default memo(Community);

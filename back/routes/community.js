@@ -113,7 +113,7 @@ router.post('/accept', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// 커뮤니티 탈퇴(문제, 탈퇴한 유저의 게시글, 댓글이 삭제가 안됌: 해결방법 - 게시글을 전부 삭제해야 탈퇴 가능 or 게시글, 댓글 전부 삭제할 수 있는 방법 찾기 or 널처리 후 데이터 받아올 때 널은 빼고 받아오기)
+// 커뮤니티 탈퇴(포스트 제거하면서 댓글 전부 제거, 모임 탈퇴한 후 커뮤니티 탈퇴)
 router.delete('/:communityId/leave', isLoggedIn, async (req, res, next) => {
   try {
     const community = await Community.findOne({

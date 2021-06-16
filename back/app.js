@@ -10,6 +10,7 @@ const postsRouter = require('./routes/posts');
 const userRouter = require('./routes/user');
 const communityRouter = require('./routes/community');
 const communitiesRouter = require('./routes/communities');
+const searchRouter = require('./routes/search');
 const db = require('./models');
 const passportConfig = require('./passport');
 const passport = require('passport');
@@ -52,6 +53,7 @@ app.use('/posts', postsRouter);
 app.use('/user', userRouter);
 app.use('/community', communityRouter);
 app.use('/communities', communitiesRouter);
+app.use('/search', searchRouter);
 
 app.listen(3065, () => {
   console.log('서버 실행 중');

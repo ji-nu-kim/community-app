@@ -109,23 +109,30 @@ router.delete(
   isLoggedIn,
   async (req, res, next) => {
     try {
-      const post = await Post.findOne({ where: { id: req.params.postId } });
+      const post = await Post.findOne({
+        where: { id: req.params.postId, CommunityId: req.params.communityId },
+        include: { model: Comment },
+      });
       if (!post) {
         return res.status(404).send('게시글이 존재하지 않습니다');
       }
 
+      const commentIds = await post.Comments.map(comment => [comment.id, comment.UserId]);
+
       await Promise.all([
-        Comment.destroy({
-          where: {
-            UserId: req.user.id,
-            PostId: parseInt(req.params.postId, 10),
-          },
-        }),
+        commentIds.map(commentId =>
+          Comment.destroy({
+            where: {
+              id: commentId[0],
+              UserId: commentId[1],
+            },
+          })
+        ),
         Post.destroy({
           where: {
-            id: parseInt(req.params.postId, 10),
+            id: post.id,
             UserId: req.user.id,
-            CommunityId: parseInt(req.params.communityId, 10),
+            CommunityId: req.params.communityId,
           },
         }),
       ]);

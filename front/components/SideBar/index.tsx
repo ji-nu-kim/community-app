@@ -2,8 +2,8 @@ import React, { memo } from 'react';
 import { SideBarContainer } from './styles';
 import {
   HomeOutlined,
+  AppstoreOutlined,
   SearchOutlined,
-  SmileOutlined,
   PlusSquareOutlined,
 } from '@ant-design/icons';
 import Link from 'next/link';
@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 function SideBar() {
   const router = useRouter();
   const { me } = useSelector((state: RootStateInterface) => state.user);
+  const path = router.asPath.split('/');
 
   return (
     <>
@@ -23,7 +24,7 @@ function SideBar() {
           <ul>
             <li>
               <Link href="/">
-                <a className={router.pathname === '/' ? 'active' : 'null'}>
+                <a className={path[1] === '' ? 'active' : 'null'}>
                   <span>
                     <HomeOutlined />
                   </span>
@@ -32,28 +33,22 @@ function SideBar() {
               </Link>
             </li>
             <li>
-              <Link href="/search">
-                <a
-                  className={router.pathname === '/search' ? 'active' : 'null'}
-                >
+              <Link href="/category">
+                <a className={path[1] === 'category' ? 'active' : 'null'}>
                   <span>
-                    <SearchOutlined />
+                    <AppstoreOutlined />
                   </span>
-                  검색하기
+                  카테고리
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="/mycommunity">
-                <a
-                  className={
-                    router.pathname === '/mycommunity' ? 'active' : 'null'
-                  }
-                >
+              <Link href="/search">
+                <a className={path[1] === 'search' ? 'active' : 'null'}>
                   <span>
-                    <SmileOutlined />
+                    <SearchOutlined />
                   </span>
-                  나의 커뮤니티
+                  검색
                 </a>
               </Link>
             </li>
@@ -78,7 +73,9 @@ function SideBar() {
                   <Link href={`/community/${v.id}`}>
                     <a
                       className={
-                        Number(router.query.id) === v.id ? 'active' : 'null'
+                        path[1] === 'community' && Number(path[2]) === v.id
+                          ? 'active'
+                          : 'null'
                       }
                     >
                       <span>

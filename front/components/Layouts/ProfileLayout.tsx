@@ -1,4 +1,4 @@
-import React, { memo, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 interface ProfileLayoutProps {
@@ -6,22 +6,13 @@ interface ProfileLayoutProps {
 }
 
 const ProfileContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 200px auto;
   width: 100%;
   height: 100%;
-
-  .profile-grid {
-    display: grid;
-    grid-template-rows: 200px auto;
-    gap: 0.25rem;
-    width: 100%;
-    height: 100%;
-  }
 `;
 
-export const ProfileGridHeader = styled.div`
+export const ProfileHeader = styled.div`
   padding: 1rem;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3));
   display: grid;
@@ -64,9 +55,6 @@ export const ProfileGridHeader = styled.div`
       h1 {
         color: #fff;
         font-weight: bold;
-      }
-
-      h1 {
         font-size: 2rem;
       }
 
@@ -77,7 +65,7 @@ export const ProfileGridHeader = styled.div`
         font-weight: bold;
 
         :hover {
-          color: #e3e3ec;
+          color: #039be5;
         }
       }
     }
@@ -86,44 +74,33 @@ export const ProfileGridHeader = styled.div`
     button {
       border: none;
       color: #fff;
-      background: rgba(3, 155, 229, 0.7);
+      background: #039be5;
       height: 28px;
       font-size: 0.75rem;
 
       :hover {
         cursor: pointer;
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(3, 155, 229, 0.3);
+        background: #007bb8;
       }
     }
   }
 `;
 
-export const ProfileGridContents = styled.div`
+export const ProfileContent = styled.div`
   display: grid;
-
-  grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
-
   padding: 1rem;
+  gap: 1rem;
   h1 {
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 2.5rem;
-    background: linear-gradient(#108dc7, #ef8e38);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+    color: hotpink;
+    margin-bottom: 1rem;
   }
-
-  .contents-vertical {
-  }
-
-  .contents-container {
+  .cards-container {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, 250px);
-  }
-  .content-container {
-    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(250px, auto));
   }
 `;
 
@@ -131,4 +108,4 @@ function ProfileLayout({ children }: ProfileLayoutProps) {
   return <ProfileContainer>{children}</ProfileContainer>;
 }
 
-export default memo(ProfileLayout);
+export default ProfileLayout;

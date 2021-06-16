@@ -1,21 +1,21 @@
 import React from 'react';
-import { HomeCardContainer } from './styles';
+import { CardContainer } from './styles';
 
-interface HomeCardProps {
+interface BoxStyleCardProps {
   profilePhoto: string;
   communityName: string;
   categoryName: string;
   country: string;
 }
 
-function HomeCard({
+function BoxStyleCard({
   profilePhoto,
   communityName,
   categoryName,
   country,
-}: HomeCardProps) {
+}: BoxStyleCardProps) {
   return (
-    <HomeCardContainer>
+    <CardContainer>
       {profilePhoto ? (
         <img
           width="240"
@@ -24,15 +24,15 @@ function HomeCard({
           alt="사진"
         />
       ) : (
-        <div className="image-cover"></div>
+        <div className="fake-image"></div>
       )}
-      <div className="homecard-info">
+      <div className="card-info">
         <div className="info-title">{communityName}</div>
         <p className="info-category">{categoryName}</p>
         <p className="info-country">{country}</p>
       </div>
-    </HomeCardContainer>
+    </CardContainer>
   );
 }
 
-export default HomeCard;
+export default BoxStyleCard;

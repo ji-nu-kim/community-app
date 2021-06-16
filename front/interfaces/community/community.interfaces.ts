@@ -39,6 +39,9 @@ export interface CommunityState {
   loadCommunitiesLoading: boolean;
   loadCommunitiesDone: boolean;
   loadCommunitiesError: any;
+  searchCommunitiesLoading: boolean;
+  searchCommunitiesDone: boolean;
+  searchCommunitiesError: any;
 
   loadCategoryLoading: boolean;
   loadCategoryDone: boolean;

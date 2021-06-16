@@ -10,11 +10,10 @@ import { addCommunityValidation } from '../utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormErrorMessage from 'components/FormErrorMessage';
 import SignUpLayout, {
-  MainText,
   InputContainer,
   TextAreaContainer,
   ButtonContainer,
-} from 'components/Layouts/SignUpLayout';
+} from 'components/Layouts/FormLayout';
 import SearchAddressModal from 'components/Modals/SearchAddressModal';
 import {
   addCommunityRequestAction,
@@ -105,10 +104,10 @@ function MakeCommunity() {
   return (
     <>
       <Head>
-        <title>커뮤니티 만들기</title>
+        <title>community - 커뮤니티 만들기</title>
       </Head>
       <SignUpLayout>
-        <MainText>커뮤니티 만들기</MainText>
+        <h1>커뮤니티 만들기</h1>
         <Form onFinish={onSubmit} className="form-grid">
           <InputContainer>
             <label htmlFor="communityName">커뮤니티 이름</label>

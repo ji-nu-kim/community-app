@@ -12,6 +12,7 @@ import {
   ILeaveCommunityRequest,
   ILoadCommunityRequest,
   ILoadCommunitiesRequest,
+  ISearchCommunitiesRequest,
   ILoadCountryCommunitiesRequest,
   ILoadCategoryCommunitiesRequest,
   ILoadCategoryRequest,
@@ -107,6 +108,14 @@ export const loadCommunityRequestAction = (data: {
 export const loadCommunitiesRequestAction = (): ILoadCommunitiesRequest => {
   return {
     type: actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
+  };
+};
+export const searchCommunitiesRequestAction = (data: {
+  keyword: string;
+}): ISearchCommunitiesRequest => {
+  return {
+    type: actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST,
+    data,
   };
 };
 export const loadCountryCommunitiesRequestAction = (data: {

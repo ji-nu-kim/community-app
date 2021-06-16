@@ -6,24 +6,31 @@ interface MessageProps {
 }
 
 const MessageContainer = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: url('./errorimage.png');
-  background-repeat: no-repeat;
+  background: url('/errorimage.png');
   background-position: center;
+  background-repeat: repeat-x;
+  background-size: 20%;
 
   .message-text {
-    margin-bottom: 300px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-family: 'Yeon Sung', cursive;
+    width: 100%;
     font-size: 3rem;
     font-weight: bold;
-    background: linear-gradient(#8a2387, #e94057, #f27121);
+    text-align: center;
+    background: linear-gradient(#e1eec3, #f05053);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    @media (min-width: 1440px) {
+      top: 35%;
+    }
   }
 `;
 

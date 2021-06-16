@@ -1,4 +1,4 @@
-import AppLayout from '../components/AppLayout';
+import AppLayout from '../components/Layouts/AppLayout';
 import { RootStateInterface } from '../interfaces/RootState';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -11,13 +11,14 @@ import axios from 'axios';
 import { END } from '@redux-saga/core';
 import { UserOutlined } from '@ant-design/icons';
 import ProfileLayout, {
-  ProfileGridContents,
-  ProfileGridHeader,
+  ProfileContent,
+  ProfileHeader,
 } from 'components/Layouts/ProfileLayout';
 import UserProfileModifyModal from 'components/Modals/UserProfileModifyModal';
 import { loadCategoriesRequestAction } from 'actions/actionCommunity';
-import SearchSectionCard from 'components/SearchSectionCard';
+import RoundStyleCard from 'components/Cards/RoundStyleCard';
 import SearchAddressModal from 'components/Modals/SearchAddressModal';
+import Link from 'next/link';
 
 function Profile() {
   const dispatch = useDispatch();
@@ -66,77 +67,76 @@ function Profile() {
   return (
     <>
       <Head>
-        <title>프로필</title>
+        <title>프로필 - community</title>
       </Head>
       <AppLayout>
         <ProfileLayout>
-          <div className="profile-grid">
-            <ProfileGridHeader>
-              <div className="header-left">
-                <div className="header-image">
-                  {me?.profilePhoto ? (
-                    <img
-                      src={`http://localhost:3065/${me?.profilePhoto}`}
-                      width="150"
-                      height="150"
-                      alt="profile-image"
-                    />
-                  ) : (
-                    <UserOutlined className="header-icon" />
-                  )}
-                </div>
-                <div className="header-text">
-                  <p>프로필</p>
-                  <h1>{me?.nickname}</h1>
-                  <p className="text-country" onClick={openSearchAddressModal}>
-                    {me?.country}
-                  </p>
-                </div>
+          <ProfileHeader>
+            <div className="header-left">
+              <div className="header-image">
+                {me?.profilePhoto ? (
+                  <img
+                    src={`http://localhost:3065/${me?.profilePhoto}`}
+                    width="150"
+                    height="150"
+                    alt="profile-image"
+                  />
+                ) : (
+                  <UserOutlined className="header-icon" />
+                )}
               </div>
-              <div className="header-right">
-                <button onClick={profileModifyModalTrigger}>수정하기</button>
+              <div className="header-text">
+                <p>프로필</p>
+                <h1>{me?.nickname}</h1>
+                <p className="text-country" onClick={openSearchAddressModal}>
+                  {me?.country}
+                </p>
               </div>
-            </ProfileGridHeader>
-            <ProfileGridContents>
-              <div className="contents-vertical">
-                <h1>나의 카테고리 리스트</h1>
-                <div className="contents-container">
-                  {me?.Categories?.map(category => (
-                    <div key={category.name} className="content-container">
-                      <SearchSectionCard
-                        id={category.id}
-                        key={category.name}
+            </div>
+            <div className="header-right">
+              <button onClick={profileModifyModalTrigger}>수정하기</button>
+            </div>
+          </ProfileHeader>
+          <ProfileContent>
+            <div>
+              <h1>나의 카테고리 리스트</h1>
+              <div className="cards-container">
+                {me?.Categories?.map(category => (
+                  <Link href={`/category/${category.id}`} key={category.name}>
+                    <a>
+                      <RoundStyleCard
                         name={category.name}
                         img={`http://localhost:3065/${category.profilePhoto}`}
-                        width="250"
-                        height="120"
+                        width="240"
+                        height="220"
                       />
-                    </div>
-                  ))}
-                </div>
+                    </a>
+                  </Link>
+                ))}
               </div>
-              <div className="contents-vertical">
-                <h1>나의 커뮤니티 리스트</h1>
-                <div className="contents-container">
-                  {me?.Communities?.map(community => (
-                    <div key={community.id} className="content-container">
-                      <SearchSectionCard
-                        id={community.id}
+            </div>
+            <div>
+              <h1>나의 커뮤니티 리스트</h1>
+              <div className="cards-container">
+                {me?.Communities?.map(community => (
+                  <Link href={`/category/${community.id}`} key={community.communityName}>
+                    <a>
+                      <RoundStyleCard
                         name={community.communityName}
                         img={
                           community.profilePhoto
                             ? `http://localhost:3065/${community.profilePhoto}`
                             : null
                         }
-                        width="250"
-                        height="120"
+                        width="240"
+                        height="220"
                       />
-                    </div>
-                  ))}
-                </div>
+                    </a>
+                  </Link>
+                ))}
               </div>
-            </ProfileGridContents>
-          </div>
+            </div>
+          </ProfileContent>
         </ProfileLayout>
 
         {userProfileModifyModal && (

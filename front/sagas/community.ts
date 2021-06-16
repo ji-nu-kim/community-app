@@ -21,6 +21,7 @@ import {
   ILeaveMeetRequest,
   IModifyMeetRequest,
   IModifyMeetData,
+  ISearchCommunitiesRequest,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
 import { ICategory, ICommunity, IMeet, IUser } from 'interfaces/db';
@@ -197,6 +198,25 @@ function* loadCommunities() {
   } catch (error) {
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITIES_ERROR,
+      error: error.response.data,
+    });
+  }
+}
+
+function searchCommunitiesAPI(data: { keyword: string }) {
+  return axios.get(`/search/${encodeURIComponent(data.keyword)}`);
+}
+
+function* searchCommunities(action: ISearchCommunitiesRequest) {
+  try {
+    const result: { data: ICommunity[] } = yield call(searchCommunitiesAPI, action.data);
+    yield put({
+      type: actionTypesCommunity.SEARCH_COMMUNITIES_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: actionTypesCommunity.SEARCH_COMMUNITIES_ERROR,
       error: error.response.data,
     });
   }
@@ -435,6 +455,9 @@ function* watchLoadCommunity() {
 function* watchLoadCommunities() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITIES_REQUEST, loadCommunities);
 }
+function* watchsearchCommunities() {
+  yield takeLatest(actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST, searchCommunities);
+}
 function* watchLoadCountryCommunities() {
   yield takeLatest(
     actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST,
@@ -480,6 +503,7 @@ export default function* communitySaga() {
     fork(watchLeaveCommunity),
     fork(watchLoadCommunity),
     fork(watchLoadCommunities),
+    fork(watchsearchCommunities),
     fork(watchLoadCountryCommunities),
     fork(watchLoadCategoryCommunities),
     fork(watchLoadCategory),

@@ -6,14 +6,24 @@ interface SignUpLayoutProps {
 }
 
 export const FormContainer = styled.div`
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(to right, #fbcac9, #8ca6ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
   label {
     font-weight: bold;
@@ -28,16 +38,6 @@ export const FormContainer = styled.div`
       width: 0;
     }
   }
-`;
-
-export const MainText = styled.h1`
-  font-size: 3rem;
-  font-weight: bold;
-  background: linear-gradient(to right, #fbcac9, #8ca6ce);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-align: center;
-  margin-bottom: 2rem;
 `;
 
 export const InputContainer = styled.div`
@@ -66,7 +66,7 @@ export const TextAreaContainer = styled.div`
 export const ButtonContainer = styled.div`
   margin-top: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 `;
 

@@ -10,10 +10,9 @@ import { signUpValidation } from '../utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormErrorMessage from 'components/FormErrorMessage';
 import SignUpLayout, {
-  MainText,
   InputContainer,
   ButtonContainer,
-} from 'components/Layouts/SignUpLayout';
+} from 'components/Layouts/FormLayout';
 import SearchAddressModal from 'components/Modals/SearchAddressModal';
 
 type SignUpType = {
@@ -81,10 +80,10 @@ function Signup() {
   return (
     <>
       <Head>
-        <title>회원가입</title>
+        <title>community - 회원가입</title>
       </Head>
       <SignUpLayout>
-        <MainText>회원가입</MainText>
+        <h1>회원가입</h1>
         <Form onFinish={onSubmit} className="form-grid">
           <InputContainer>
             <label htmlFor="email">이메일</label>

@@ -6,8 +6,8 @@ const router = express.Router();
 // 새로운 커뮤니티 불러오기
 router.get('/', async (req, res, next) => {
   try {
-    const fullCommunity = await Community.findAll({
-      limit: 18,
+    const newCommunity = await Community.findAll({
+      limit: 21,
       order: [['createdAt', 'DESC']],
       include: [
         {
@@ -17,21 +17,21 @@ router.get('/', async (req, res, next) => {
         },
       ],
     });
-    return res.status(200).json(fullCommunity);
+    return res.status(200).json(newCommunity);
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-// 우리 동네 커뮤니티 불러오기
+// 동네 커뮤니티 불러오기
 router.get('/country/:country', async (req, res, next) => {
   try {
     const where = { country: req.params.country };
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
     }
-    const fullCommunity = await Community.findAll({
+    const villageCommunity = await Community.findAll({
       limit: 12,
       order: [['createdAt', 'DESC']],
       where,
@@ -43,10 +43,10 @@ router.get('/country/:country', async (req, res, next) => {
         },
       ],
     });
-    if (!fullCommunity) {
+    if (!villageCommunity) {
       return res.status(404).send('해당 지역에 커뮤니티가 없습니다');
     }
-    return res.status(200).json(fullCommunity);
+    return res.status(200).json(villageCommunity);
   } catch (error) {
     console.error(error);
     next(error);
@@ -56,12 +56,11 @@ router.get('/country/:country', async (req, res, next) => {
 // 카테고리별 커뮤니티 불러오기
 router.get('/category/:categoryId', async (req, res, next) => {
   try {
-    console.log('----------', req.params.categoryId);
     const where = {};
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
     }
-    const fullCommunity = await Community.findAll({
+    const categoryCommunity = await Community.findAll({
       where,
       limit: 18,
       order: [['createdAt', 'DESC']],
@@ -71,10 +70,10 @@ router.get('/category/:categoryId', async (req, res, next) => {
         where: { id: req.params.categoryId },
       },
     });
-    if (!fullCommunity) {
+    if (!categoryCommunity) {
       return res.status(404).send('해당 카테고리에 커뮤니티가 없습니다');
     }
-    return res.status(200).json(fullCommunity);
+    return res.status(200).json(categoryCommunity);
   } catch (error) {
     console.error(error);
     next(error);

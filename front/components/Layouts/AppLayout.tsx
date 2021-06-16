@@ -1,9 +1,9 @@
 import React, { memo, ReactNode, useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
-import NavList from './NavList';
-import SideBar from './SideBar';
-import UserInfoModal from './Modals/UserInfoModal';
-import NotificationModal from './Modals/NotificationModal';
+import NavBar from '../NavBar';
+import SideBar from '../SideBar';
+import UserInfoModal from '../Modals/UserInfoModal';
+import NotificationModal from '../Modals/NotificationModal';
 import { useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 
@@ -32,7 +32,7 @@ function AppLayout({ children }: AppLayoutProps) {
   return (
     <div>
       <Global />
-      <NavList
+      <NavBar
         notices={Notices}
         userInfoModal={userInfoModal}
         setUserInfoModal={setUserInfoModal}

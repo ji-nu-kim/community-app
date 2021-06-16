@@ -32,6 +32,9 @@ export const actionTypesCommunity = {
   LOAD_COMMUNITIES_REQUEST: 'LOAD_COMMUNITIES_REQUEST', // 모든 커뮤니티 불러오기
   LOAD_COMMUNITIES_SUCCESS: 'LOAD_COMMUNITIES_SUCCESS',
   LOAD_COMMUNITIES_ERROR: 'LOAD_COMMUNITIES_ERROR',
+  SEARCH_COMMUNITIES_REQUEST: 'SEARCH_COMMUNITIES_REQUEST', // 커뮤니티 검색
+  SEARCH_COMMUNITIES_SUCCESS: 'SEARCH_COMMUNITIES_SUCCESS',
+  SEARCH_COMMUNITIES_ERROR: 'SEARCH_COMMUNITIES_ERROR',
   LOAD_COUNTRY_COMMUNITIES_REQUEST: 'LOAD_COUNTRY_COMMUNITIES_REQUEST', // 해당 지역의 모든 커뮤니티 불러오기
   LOAD_COUNTRY_COMMUNITIES_SUCCESS: 'LOAD_COUNTRY_COMMUNITIES_SUCCESS',
   LOAD_COUNTRY_COMMUNITIES_ERROR: 'LOAD_COUNTRY_COMMUNITIES_ERROR',
@@ -195,6 +198,18 @@ export interface ILoadCommunitiesError {
   type: typeof actionTypesCommunity.LOAD_COMMUNITIES_ERROR;
   error: Error;
 }
+export interface ISearchCommunitiesRequest {
+  type: typeof actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST;
+  data: { keyword: string };
+}
+export interface ISearchCommunitiesSuccess {
+  type: typeof actionTypesCommunity.SEARCH_COMMUNITIES_SUCCESS;
+  data: ICommunity[];
+}
+export interface ISearchCommunitiesError {
+  type: typeof actionTypesCommunity.SEARCH_COMMUNITIES_ERROR;
+  error: Error;
+}
 export interface ILoadCountryCommunitiesRequest {
   type: typeof actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST;
   data: { country: string; communityId: number };
@@ -346,6 +361,9 @@ export type ActionsCommunity =
   | ILoadCommunitiesRequest
   | ILoadCommunitiesSuccess
   | ILoadCommunitiesError
+  | ISearchCommunitiesRequest
+  | ISearchCommunitiesSuccess
+  | ISearchCommunitiesError
   | ILoadCountryCommunitiesRequest
   | ILoadCountryCommunitiesSuccess
   | ILoadCountryCommunitiesError

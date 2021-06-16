@@ -3,7 +3,7 @@ import { loadCommunityRequestAction } from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import { loadPostsRequestAction } from 'actions/actionPost';
 import axios from 'axios';
-import AppLayout from 'components/AppLayout';
+import AppLayout from 'components/Layouts/AppLayout';
 import CommunityBody from 'components/CommunityBody';
 import CommunityHeader from 'components/CommunityHeader';
 import { RootStateInterface } from 'interfaces/RootState';
@@ -13,6 +13,7 @@ import React, { memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import wrapper from 'store/configureStore';
 import styled from 'styled-components';
+import Head from 'next/head';
 
 interface IBackgroundImage {
   backgroundImage: string | null;
@@ -21,7 +22,7 @@ interface IBackgroundImage {
 const CommunityContainer = styled.div`
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
     url(${(props: IBackgroundImage) => props.backgroundImage && props.backgroundImage});
   background-position: center;
   background-size: cover;
@@ -54,22 +55,27 @@ function Community() {
   }
 
   return (
-    <AppLayout>
-      <CommunityContainer
-        backgroundImage={
-          singleCommunity.profilePhoto
-            ? `http://localhost:3065/${singleCommunity.profilePhoto}`
-            : null
-        }
-      >
-        <CommunityHeader
-          singleCommunity={singleCommunity}
-          me={me}
-          communityUser={communityUser}
-        />
-        <CommunityBody singleCommunity={singleCommunity} />
-      </CommunityContainer>
-    </AppLayout>
+    <>
+      <Head>
+        <title>community - {singleCommunity.communityName}</title>
+      </Head>
+      <AppLayout>
+        <CommunityContainer
+          backgroundImage={
+            singleCommunity.profilePhoto
+              ? `http://localhost:3065/${singleCommunity.profilePhoto}`
+              : null
+          }
+        >
+          <CommunityHeader
+            singleCommunity={singleCommunity}
+            me={me}
+            communityUser={communityUser}
+          />
+          <CommunityBody singleCommunity={singleCommunity} />
+        </CommunityContainer>
+      </AppLayout>
+    </>
   );
 }
 

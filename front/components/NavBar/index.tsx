@@ -10,31 +10,30 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import useInput from 'hooks/useInput';
-import { useRouter } from 'next/router';
 import { INotice } from 'interfaces/db';
 import { checkNotificationRequestAction } from 'actions/actionUser';
+import Router, { useRouter } from 'next/router';
 
-interface NavListProps {
+interface NavBarProps {
   setUserInfoModal: Dispatch<SetStateAction<boolean>>;
   setNotificationModal: Dispatch<SetStateAction<boolean>>;
   userInfoModal: boolean;
   notices: INotice[] | undefined;
 }
 
-function NavList({
+function NavBar({
   setUserInfoModal,
   userInfoModal,
   setNotificationModal,
   notices,
-}: NavListProps) {
+}: NavBarProps) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { me } = useSelector((state: RootStateInterface) => state.user);
-  const { pathname } = useRouter();
-  const [searchValue, onChangeSearch] = useInput<string>('');
+  const [keyword, onChangeKeword] = useInput<string>('');
   // 새로 온 알림의 수(확인하면 사라짐)
-  const newNotification = notices?.filter(
-    notice => notice.checked === false
-  ).length;
+  const newNotification = notices?.filter(notice => notice.checked === false).length;
+  const path = router.asPath.split('/')[1];
 
   const notificationModalTrigger = useCallback(() => {
     setNotificationModal(prev => !prev);
@@ -48,9 +47,11 @@ function NavList({
     setUserInfoModal(prev => !prev);
   }, [setUserInfoModal]);
 
-  const sumbitSearch = useCallback(() => {
-    console.log(searchValue);
-  }, [searchValue]);
+  const sumbitKeword = useCallback(() => {
+    if (keyword !== '') {
+      return Router.push(`/search/${encodeURIComponent(keyword)}`);
+    }
+  }, [keyword]);
 
   return (
     <>
@@ -58,25 +59,23 @@ function NavList({
         <div className="nav-logo">
           <h1>Community</h1>
         </div>
-        {pathname === '/search' ? (
+
+        {path === 'search' && (
           <NavSearch>
             <input
               type="search"
-              placeholder="검색"
-              onChange={onChangeSearch}
-              onKeyDown={sumbitSearch}
+              placeholder="커뮤니티 검색"
+              onChange={onChangeKeword}
+              onKeyPress={e => e.key === 'Enter' && sumbitKeword()}
             />
-            <button onClick={sumbitSearch}>
+            <button onClick={sumbitKeword}>
               <SearchOutlined />
             </button>
           </NavSearch>
-        ) : null}
+        )}
         {me ? (
           <UserButtons>
-            <div
-              className="notification-button"
-              onClick={notificationModalTrigger}
-            >
+            <div className="notification-button" onClick={notificationModalTrigger}>
               <NotificationOutlined />
               {newNotification && newNotification > 0 ? (
                 <div className="notification-numbers">{newNotification}</div>
@@ -87,9 +86,7 @@ function NavList({
               onClick={userInfoModalTrigger}
             >
               <div>{me?.nickname}</div>
-              <div>
-                {userInfoModal ? <CaretUpOutlined /> : <CaretDownOutlined />}
-              </div>
+              <div>{userInfoModal ? <CaretUpOutlined /> : <CaretDownOutlined />}</div>
             </div>
           </UserButtons>
         ) : (
@@ -101,9 +98,7 @@ function NavList({
             </Link>
             <Link href="/login">
               <a>
-                <div className="glass-style-button button-style">
-                  로그인하기
-                </div>
+                <div className="glass-style-button button-style">로그인하기</div>
               </a>
             </Link>
           </VisitorButtons>
@@ -113,4 +108,4 @@ function NavList({
   );
 }
 
-export default memo(NavList);
+export default memo(NavBar);

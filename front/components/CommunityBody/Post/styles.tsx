@@ -83,6 +83,7 @@ export const PostContainer = styled.div`
 
     .post-text {
       padding: 1rem 0.5rem;
+      white-space: pre;
     }
 
     .post-comment-info {
@@ -106,6 +107,7 @@ export const PostContainer = styled.div`
       .comment-text {
         margin-top: 0.5rem;
         text-align: justify;
+        white-space: pre;
       }
     }
 

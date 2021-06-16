@@ -45,6 +45,9 @@ export const initialState: CommunityState = {
   loadCommunitiesLoading: false,
   loadCommunitiesDone: false,
   loadCommunitiesError: null,
+  searchCommunitiesLoading: false,
+  searchCommunitiesDone: false,
+  searchCommunitiesError: null,
 
   loadCategoryLoading: false,
   loadCategoryDone: false,
@@ -229,6 +232,20 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.LOAD_COMMUNITIES_ERROR:
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesError = action.error;
+        break;
+      case actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST:
+        draft.searchCommunitiesLoading = true;
+        draft.searchCommunitiesDone = false;
+        draft.searchCommunitiesError = null;
+        break;
+      case actionTypesCommunity.SEARCH_COMMUNITIES_SUCCESS:
+        draft.searchCommunitiesLoading = false;
+        draft.searchCommunitiesDone = true;
+        draft.changableCommunities = draft.changableCommunities.concat(action.data);
+        break;
+      case actionTypesCommunity.SEARCH_COMMUNITIES_ERROR:
+        draft.searchCommunitiesLoading = false;
+        draft.searchCommunitiesError = action.error;
         break;
       case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_REQUEST:
       case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_REQUEST:

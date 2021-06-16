@@ -45,7 +45,7 @@ export const NavWrapper = styled.div`
 `;
 
 export const NavSearch = styled.div`
-  width: 400px;
+  width: 30vw;
   height: 30px;
   display: grid;
   grid-template-columns: auto 44px;

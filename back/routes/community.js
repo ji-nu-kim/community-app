@@ -63,12 +63,15 @@ router.post('/join', isLoggedIn, async (req, res, next) => {
     if (!community) {
       return res.status(404).send('존재하지 않는 커뮤니티입니다');
     }
-    await community.addJoinUsers(req.user.id);
-    const joinUser = await User.findOne({
+    const user = await User.findOne({
       where: { id: req.user.id },
       attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
     });
-    return res.status(200).json(joinUser);
+    if (!user) {
+      return res.status(404).send('존재하지 않는 유저입니다');
+    }
+    await community.addJoinUsers(user.id);
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
     next(error);
@@ -166,9 +169,15 @@ router.get('/categories', async (req, res, next) => {
   }
 });
 
-// 커뮤니티 정보 수정
+// 커뮤니티 정보 수정(*바뀐 정보 보내서 업데이트하고 모달창 닫기)
 router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
+    const community = await Community.findOne({
+      where: { id: parseInt(req.body.id, 10) },
+    });
+    if (!community) {
+      return res.status(404).send('존재하지 않는 커뮤니티입니다');
+    }
     await Community.update(
       {
         description: req.body.description,
@@ -178,7 +187,6 @@ router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
       },
       { where: { id: req.body.id } }
     );
-
     return res.status(200).send('커뮤니티정보가 변경 되었습니다');
   } catch (error) {
     console.error(error);

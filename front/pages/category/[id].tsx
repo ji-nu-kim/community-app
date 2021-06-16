@@ -5,14 +5,20 @@ import {
 } from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import axios from 'axios';
-import AppLayout from 'components/AppLayout';
+import AppLayout from 'components/Layouts/AppLayout';
 import { RootStateInterface } from 'interfaces/RootState';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import wrapper from 'store/configureStore';
-import CategorySection from 'components/CategorySection';
+import CategoryLayout, {
+  CategoryContent,
+  CategoryHeader,
+} from 'components/Layouts/CategoryLayout';
+import BoxStyleCard from 'components/Cards/BoxStyleCard';
+import Link from 'next/link';
+import Head from 'next/head';
 
 function Category() {
   const dispatch = useDispatch();
@@ -33,8 +39,7 @@ function Category() {
         ) {
           if (hasMoreCommunity && !loadCommunitiesLoading) {
             const categoryId = Number(router.query.id);
-            const lastId =
-              changableCommunities[changableCommunities.length - 1].id;
+            const lastId = changableCommunities[changableCommunities.length - 1].id;
             dispatch(
               loadCategoryCommunitiesRequestAction({
                 categoryId,
@@ -48,29 +53,46 @@ function Category() {
     window.addEventListener('scroll', onScroll);
 
     return () => window.removeEventListener('scroll', onScroll);
-  }, [
-    hasMoreCommunity,
-    loadCommunitiesLoading,
-    changableCommunities,
-    router.query.id,
-  ]);
+  }, [hasMoreCommunity, loadCommunitiesLoading, changableCommunities, router.query.id]);
 
   if (!singleCategory) {
     return <div>잠시만 기다려주세요</div>;
   }
 
   return (
-    <AppLayout>
-      <CategorySection
-        changableCommunities={changableCommunities}
-        singleCategory={singleCategory}
-      />
-    </AppLayout>
+    <>
+      <Head>
+        <title>community - {singleCategory.name} 카테고리</title>
+      </Head>
+      <AppLayout>
+        <CategoryLayout img={singleCategory.profilePhoto}>
+          <CategoryHeader>
+            <h1>{singleCategory.name}</h1>
+          </CategoryHeader>
+          <CategoryContent>
+            <div className="cards-container">
+              {changableCommunities.map(community => (
+                <Link key={community.id} href={`/community/${community.id}`}>
+                  <a>
+                    <BoxStyleCard
+                      profilePhoto={community.profilePhoto}
+                      categoryName={community.Categories[0].name}
+                      country={community.country}
+                      communityName={community.communityName}
+                    />
+                  </a>
+                </Link>
+              ))}
+            </div>
+          </CategoryContent>
+        </CategoryLayout>
+      </AppLayout>
+    </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps =
-  wrapper.getServerSideProps(async context => {
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
+  async context => {
     const cookie = context.req ? context.req.headers.cookie : '';
     const categoryId = Number(context.query.id);
     axios.defaults.headers.Cookie = '';
@@ -87,6 +109,7 @@ export const getServerSideProps: GetServerSideProps =
     );
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  });
+  }
+);
 
 export default Category;

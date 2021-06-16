@@ -1,11 +1,10 @@
 import { loginRequestAction } from 'actions/actionUser';
 import { Button } from 'antd';
 import Form from 'antd/lib/form/Form';
-import LoginLayout, {
+import FormLayout, {
   ButtonContainer,
   InputContainer,
-  MainText,
-} from 'components/Layouts/LoginLayout';
+} from 'components/Layouts/FormLayout';
 import useInput from 'hooks/useInput';
 import { RootStateInterface } from 'interfaces/RootState';
 import Head from 'next/head';
@@ -46,10 +45,10 @@ function login() {
   return (
     <>
       <Head>
-        <title>로그인</title>
+        <title>community - 로그인</title>
       </Head>
-      <LoginLayout>
-        <MainText>로그인</MainText>
+      <FormLayout>
+        <h1>로그인</h1>
         <Form onFinish={onSubmit}>
           <InputContainer>
             <label htmlFor="email">이메일</label>
@@ -76,25 +75,19 @@ function login() {
           </InputContainer>
 
           <ButtonContainer>
-            <Button
-              type="primary"
-              size="large"
-              htmlType="submit"
-              loading={logInLoading}
-              className="login-btn"
-            >
-              로그인하기
+            <Button type="primary" size="large" htmlType="submit" loading={logInLoading}>
+              로그인
             </Button>
             <Link href="/signup">
               <a>
                 <Button size="large" htmlType="submit">
-                  회원가입하기
+                  회원가입
                 </Button>
               </a>
             </Link>
           </ButtonContainer>
         </Form>
-      </LoginLayout>
+      </FormLayout>
     </>
   );
 }

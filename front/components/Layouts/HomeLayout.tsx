@@ -1,12 +1,18 @@
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-export const HomeSectionContainer = styled.div`
+interface LoginLayoutProps {
+  children: ReactNode;
+}
+
+const HomeContainer = styled.div`
   height: 100%;
-  background: linear-gradient(150deg, rgba(255, 175, 189, 1), #ffe1a0);
+  background: linear-gradient(150deg, #ffafbd, #ffe1a0);
 
   h1 {
     font-size: 2rem;
     color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     font-family: 'Black Han Sans', sans-serif;
   }
 
@@ -15,10 +21,6 @@ export const HomeSectionContainer = styled.div`
     display: grid;
     grid-template-rows: 66px auto;
 
-    span {
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
     .cards-container {
       display: grid;
       gap: 1rem;
@@ -26,16 +28,10 @@ export const HomeSectionContainer = styled.div`
       justify-content: space-evenly;
     }
   }
-
-  .section-1 {
-    span {
-      color: #73d982;
-    }
-  }
-
-  .section-2 {
-    span {
-      color: #8435f2;
-    }
-  }
 `;
+
+function LoginLayout({ children }: LoginLayoutProps) {
+  return <HomeContainer>{children}</HomeContainer>;
+}
+
+export default LoginLayout;

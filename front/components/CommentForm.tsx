@@ -11,7 +11,7 @@ interface CommentFormProps {
 
 function CommentForm({ postId }: CommentFormProps) {
   const dispatch = useDispatch();
-  const id = useSelector((state: RootStateInterface) => state.user.me?.id);
+  const { me } = useSelector((state: RootStateInterface) => state.user);
   const { addCommentDone } = useSelector((state: RootStateInterface) => state.post);
   const [comment, onChangeComment, setComment] = useInput<string>('');
 
@@ -22,15 +22,20 @@ function CommentForm({ postId }: CommentFormProps) {
   }, [addCommentDone]);
 
   const onSubmitComment = useCallback(() => {
-    if (id) {
-      dispatch(
+    if (!comment.trim() || !comment) {
+      alert('댓글을 입력하세요');
+      return;
+    }
+
+    if (me) {
+      return dispatch(
         addCommentRequestAction({
           comment,
           postId,
         })
       );
     }
-  }, [comment, postId]);
+  }, [comment, postId, me]);
 
   return (
     <Form onFinish={onSubmitComment}>

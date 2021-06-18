@@ -79,8 +79,8 @@ export interface IUploadCommunityImageError {
   type: typeof actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR;
   error: Error;
 }
-export interface ChangeCommunityInfoData {
-  id: number;
+export interface IChangeCommunityInfoData {
+  communityId: number;
   profilePhoto: string[];
   description: string;
   caution: string;
@@ -88,17 +88,22 @@ export interface ChangeCommunityInfoData {
 }
 export interface IChangeCommunityInfoRequest {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST;
-  data: ChangeCommunityInfoData;
+  data: IChangeCommunityInfoData;
 }
 export interface IChangeCommunityInfoSuccess {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS;
-  data: string;
+  data: {
+    description: string;
+    caution: string;
+    requirement: string;
+    profilePhoto: string;
+  };
 }
 export interface IChangeCommunityInfoError {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR;
   error: Error;
 }
-export interface CommunityData {
+export interface ICommunityData {
   communityName: string;
   description: string;
   country: string;
@@ -106,7 +111,7 @@ export interface CommunityData {
 }
 export interface IAddCommunityRequest {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_REQUEST;
-  data: CommunityData;
+  data: ICommunityData;
 }
 export interface IAddCommunitySuccess {
   type: typeof actionTypesCommunity.ADD_COMMUNITY_SUCCESS;
@@ -121,7 +126,6 @@ export interface IRemoveCommunityRequest {
 }
 export interface IRemoveCommunitySuccess {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_SUCCESS;
-  data: { communityId: number };
 }
 export interface IRemoveCommunityError {
   type: typeof actionTypesCommunity.REMOVE_COMMUNITY_ERROR;
@@ -169,7 +173,7 @@ export interface ILeaveCommunityRequest {
 }
 export interface ILeaveCommunitySuccess {
   type: typeof actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS;
-  data: { userId: number };
+  data: { communityId: number; userId: number };
 }
 export interface ILeaveCommunityError {
   type: typeof actionTypesCommunity.LEAVE_COMMUNITY_ERROR;

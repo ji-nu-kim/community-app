@@ -8,6 +8,7 @@ import {
   ILogInRequest,
   IRemoveNotificationRequest,
   ISendNotificationRequest,
+  ISendNotificationSuccessData,
   ISignUpRequest,
   IUploadImageRequest,
   LoginData,
@@ -185,9 +186,13 @@ function sendNotificationAPI(data: { title: string; userId: number }) {
 
 function* sendNotification(action: ISendNotificationRequest) {
   try {
-    yield call(sendNotificationAPI, action.data);
+    const result: { data: ISendNotificationSuccessData } = yield call(
+      sendNotificationAPI,
+      action.data
+    );
     yield put({
       type: actionTypesUser.SEND_NOTIFICATION_SUCCESS,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -269,16 +274,10 @@ function* watchSendNotification() {
   yield takeLatest(actionTypesUser.SEND_NOTIFICATION_REQUEST, sendNotification);
 }
 function* watchCheckNotification() {
-  yield takeLatest(
-    actionTypesUser.CHECK_NOTIFICATION_REQUEST,
-    checkNotification
-  );
+  yield takeLatest(actionTypesUser.CHECK_NOTIFICATION_REQUEST, checkNotification);
 }
 function* watchRemoveNotification() {
-  yield takeLatest(
-    actionTypesUser.REMOVE_NOTIFICATION_REQUEST,
-    removeNotification
-  );
+  yield takeLatest(actionTypesUser.REMOVE_NOTIFICATION_REQUEST, removeNotification);
 }
 
 export default function* userSaga() {

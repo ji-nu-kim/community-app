@@ -7,6 +7,12 @@ export const PostContainer = styled.div`
   -webkit-backdrop-filter: blur(2px);
   background: rgba(0, 0, 0, 0.4);
 
+  .post-form-container {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
   .visitor-post {
     height: 100%;
     display: flex;
@@ -114,17 +120,5 @@ export const PostContainer = styled.div`
     .post-comment-form-container {
       text-align: end;
     }
-  }
-
-  .show-visitor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .post-form-container {
-    background: rgba(255, 255, 255, 0.4);
-    padding: 1rem;
-    margin-bottom: 2rem;
   }
 `;

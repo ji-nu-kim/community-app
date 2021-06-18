@@ -17,6 +17,7 @@ export interface IComment {
   content: string;
   PostId: number;
   User: IUserInfo;
+  createdAt: Date;
 }
 
 export interface IPost {
@@ -56,7 +57,6 @@ export interface ICommunity {
   country: string;
   Users: IUserInfo[];
   JoinUsers: IUserInfo[];
-  Posts: IPost[];
   Categories: ICategory[];
   OwnerId: number;
   Meets: IMeet[];

@@ -56,8 +56,10 @@ export const HeaderContainer = styled.div`
     }
   }
   .header-right {
+    width: 100%;
     justify-self: flex-end;
     display: flex;
+    justify-content: space-evenly;
     height: 33px;
 
     .join-user-icon {
@@ -89,20 +91,38 @@ export const HeaderContainer = styled.div`
       font-size: 0.75rem;
     }
 
-    .insert-button {
-      margin-left: 1rem;
+    .button-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 100%;
+      width: 60px;
+
+      button {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+      }
     }
 
-    .insert-button,
+    .remove-button,
+    .modify-button,
     .join-button,
     .leave-button {
       cursor: pointer;
       background: rgba(3, 155, 229, 0.7);
+      box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);
 
       :hover {
-        color: rgba(255, 255, 255, 0.7);
-        background: rgba(3, 155, 229, 0.3);
+        filter: saturate(180%);
       }
+    }
+
+    .remove-button {
+      background: rgba(217, 95, 162, 1);
+    }
+    .modify-button {
+      background: rgba(242, 92, 5, 1);
     }
 
     .wait-button {

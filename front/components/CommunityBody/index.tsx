@@ -1,20 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import { BodyContainer } from './styles';
-import { ICommunity } from 'interfaces/db';
+import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
 import Info from './Info';
 import Post from './Post';
 import Meet from './Meet';
-import { RootStateInterface } from 'interfaces/RootState';
-import { useSelector } from 'react-redux';
 
 interface CommunityBodyProps {
   singleCommunity: ICommunity;
+  me: IUser | null;
+  communityUser: IUserInfo | undefined;
 }
 
-function CommunityBody({ singleCommunity }: CommunityBodyProps) {
+function CommunityBody({ singleCommunity, me, communityUser }: CommunityBodyProps) {
   const [currentNav, setCurrentNav] = useState('info');
-  const { me } = useSelector((state: RootStateInterface) => state.user);
-  const communityUser = singleCommunity.Users.find(user => user.id === me?.id);
 
   const onClickNav = useCallback(e => {
     const navName = e.target.className.split('-');

@@ -72,7 +72,11 @@ function Community() {
             me={me}
             communityUser={communityUser}
           />
-          <CommunityBody singleCommunity={singleCommunity} />
+          <CommunityBody
+            singleCommunity={singleCommunity}
+            me={me}
+            communityUser={communityUser}
+          />
         </CommunityContainer>
       </AppLayout>
     </>

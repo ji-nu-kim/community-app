@@ -1,7 +1,7 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Form } from 'antd';
-import FormErrorMessage from 'components/FormErrorMessage';
+import FormErrorMessage from 'components/Message/FormErrorMessage';
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { createMeetValidation } from 'utils/yup';

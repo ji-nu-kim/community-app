@@ -8,6 +8,7 @@ export const InfoContainer = styled.div`
   grid-template-rows: repeat(3, 1fr);
 
   .common {
+    white-space: pre-line;
     backdrop-filter: saturate(180%) blur(3px);
     -webkit-backdrop-filter: saturate(180%) blur(3px);
     padding: 1rem;
@@ -49,39 +50,19 @@ export const InfoContainer = styled.div`
     );
   }
   .info-description {
-    background: linear-gradient(
-      120deg,
-      rgba(168, 192, 255, 0.8),
-      rgba(63, 43, 150, 0.8)
-    );
+    background: linear-gradient(120deg, rgba(168, 192, 255, 0.8), rgba(63, 43, 150, 0.8));
   }
   .info-category {
-    background: linear-gradient(
-      120deg,
-      rgba(48, 232, 191, 0.8),
-      rgba(255, 130, 53, 0.8)
-    );
+    background: linear-gradient(120deg, rgba(48, 232, 191, 0.8), rgba(255, 130, 53, 0.8));
   }
   .info-caution {
-    background: linear-gradient(
-      120deg,
-      rgba(238, 9, 121, 0.8),
-      rgba(255, 106, 0, 0.8)
-    );
+    background: linear-gradient(120deg, rgba(238, 9, 121, 0.8), rgba(255, 106, 0, 0.8));
   }
   .info-community-user {
     cursor: pointer;
-    background: linear-gradient(
-      120deg,
-      rgba(252, 234, 187, 0.8),
-      rgba(248, 181, 0, 0.8)
-    );
+    background: linear-gradient(120deg, rgba(252, 234, 187, 0.8), rgba(248, 181, 0, 0.8));
   }
   .info-requirement {
-    background: linear-gradient(
-      120deg,
-      rgba(44, 62, 80, 0.8),
-      rgba(52, 152, 219, 0.8)
-    );
+    background: linear-gradient(120deg, rgba(44, 62, 80, 0.8), rgba(52, 152, 219, 0.8));
   }
 `;

@@ -58,7 +58,6 @@ export const ModalHeader = styled.header`
 export const ModalBody = styled.div`
   padding: 1rem;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   align-content: flex-start;
 
@@ -71,6 +70,7 @@ export const ModalBody = styled.div`
     height: 40px;
     padding: 0.75rem;
     margin-bottom: 1rem;
+    margin-right: 1rem;
 
     :hover {
       border: 2px solid #039be5;

@@ -186,6 +186,9 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.SEND_NOTIFICATION_SUCCESS:
         draft.sendNotificationLoading = false;
         draft.sendNotificationDone = true;
+        if (draft.me && draft.me.id === action.data.userId) {
+          draft.me.Notices.unshift(action.data.notice);
+        }
         break;
       case actionTypesUser.SEND_NOTIFICATION_ERROR:
         draft.sendNotificationLoading = false;
@@ -225,13 +228,13 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.removeNotificationLoading = false;
         draft.removeNotificationError = action.error;
         break;
-      case actionTypesUser.JOIN_USER_OF_MEET:
+      case actionTypesUser.JOIN_MEET_OF_ME:
       case actionTypesUser.ADD_MEET_OF_ME:
         if (draft.me) {
           draft.me.Meets.unshift(action.data);
         }
         break;
-      case actionTypesUser.LEAVE_USER_OF_MEET:
+      case actionTypesUser.LEAVE_MEET_OF_ME:
       case actionTypesUser.REMOVE_MEET_OF_ME:
         if (draft.me) {
           draft.me.Meets = draft.me.Meets.filter(meet => meet.id !== action.data.meetId);
@@ -241,6 +244,14 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         if (draft.me) {
           const meetIndex = draft.me.Meets.findIndex(meet => meet.id === action.data.id);
           draft.me.Meets[meetIndex] = action.data;
+        }
+        break;
+      case actionTypesUser.LEAVE_COMMUNITY_OF_ME:
+        if (draft.me && draft.me.id === action.data.userId) {
+          console.log(action.data.communityId);
+          draft.me.Communities = draft.me.Communities.filter(
+            community => community.id !== action.data.communityId
+          );
         }
         break;
       default:

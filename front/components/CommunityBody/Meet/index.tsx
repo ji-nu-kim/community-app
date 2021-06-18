@@ -29,12 +29,11 @@ function Meet({ singleCommunity, communityUser, me }: MeeetProps) {
   const [showModifyMeetModal, setShowModifyMeetModal] = useState(false);
   const [currentMeet, setCurrentMeet] = useState<number[]>([]);
   const [currentModifyMeet, setCurrentModifyMeet] = useState(-9999);
-  // 내가 가입한 모임들
   const joinedMeetIndex = me?.Meets.map(meet => meet.id);
-  // 내가 가입하지 않은 모임들
   const joinedMeetList = singleCommunity.Meets.filter(meet =>
     joinedMeetIndex?.includes(meet.id)
   );
+  console.log(joinedMeetList);
   const notJoinedMeetList = singleCommunity.Meets.filter(
     meet => !joinedMeetIndex?.includes(meet.id)
   );
@@ -127,71 +126,70 @@ function Meet({ singleCommunity, communityUser, me }: MeeetProps) {
       {communityUser ? (
         <>
           <div style={{ overflow: 'auto' }}>
-            {joinedMeetIndex?.length ? (
+            {joinedMeetList.length ? (
               <div className="joined-meet">
                 <div className="meet-name">참가한 모임</div>
                 <div className="meet-card-grid">
-                  {me &&
-                    me.Meets.map((meet, i) => (
-                      <div key={meet.id}>
-                        <CardContainer number={i}>
-                          <div className="card-left">
-                            <div className="card-header">
-                              <div className="meet-title">{meet.title}</div>
+                  {joinedMeetList.map((meet, i) => (
+                    <div key={meet.id}>
+                      <CardContainer number={i}>
+                        <div className="card-left">
+                          <div className="card-header">
+                            <div className="meet-title">{meet.title}</div>
+                          </div>
+                          <div className="card-body">
+                            <div className="meet-date">{meet.date}시</div>
+                            <div className="meet-fee">참가비: {meet.fee}원</div>
+                            <div
+                              className="meet-members"
+                              onClick={onClickMember(meet.id)}
+                            >
+                              인원: {meet.Users.length} / {meet.members}명
                             </div>
-                            <div className="card-body">
-                              <div className="meet-date">{meet.date}시</div>
-                              <div className="meet-fee">참가비: {meet.fee}원</div>
-                              <div
-                                className="meet-members"
-                                onClick={onClickMember(meet.id)}
-                              >
-                                인원: {meet.Users.length} / {meet.members}명
-                              </div>
-                              <div className="meet-place" onClick={onClickPlace(meet.id)}>
-                                장소: {meet.place}
-                              </div>
-                              <div className="meet-owner">
-                                모임리더:{' '}
-                                {meet.Users.map(
-                                  user => user.id === meet.MeetOwnerId && user.nickname
-                                )}
-                              </div>
-                              <div className="meet-button">
-                                {meet.MeetOwnerId === me?.id ? (
-                                  <div className="owner-buttons">
-                                    <button onClick={onClickModifyMeetButton(meet.id)}>
-                                      수정
-                                    </button>
-                                    <button onClick={onClickDeleteMeetButton(meet.id)}>
-                                      삭제
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <button onClick={onClickLeaveMeetButton(meet.id)}>
-                                    탈퇴
+                            <div className="meet-place" onClick={onClickPlace(meet.id)}>
+                              장소: {meet.place}
+                            </div>
+                            <div className="meet-owner">
+                              모임리더:{' '}
+                              {meet.Users.map(
+                                user => user.id === meet.MeetOwnerId && user.nickname
+                              )}
+                            </div>
+                            <div className="meet-button">
+                              {meet.MeetOwnerId === me?.id ? (
+                                <div className="owner-buttons">
+                                  <button onClick={onClickModifyMeetButton(meet.id)}>
+                                    수정
                                   </button>
-                                )}
-                              </div>
+                                  <button onClick={onClickDeleteMeetButton(meet.id)}>
+                                    삭제
+                                  </button>
+                                </div>
+                              ) : (
+                                <button onClick={onClickLeaveMeetButton(meet.id)}>
+                                  탈퇴
+                                </button>
+                              )}
                             </div>
                           </div>
-                          <div className="card-right">
-                            {currentMeet.includes(meet.id) ? (
-                              <Map key={meet.id} address={meet.place} number={meet.id} />
-                            ) : (
-                              <div className="show-members">
-                                <div>참가멤버</div>
-                                <div className="member-container">
-                                  {meet.Users.map(user => (
-                                    <p key={user.id}>{user.nickname}</p>
-                                  ))}
-                                </div>
+                        </div>
+                        <div className="card-right">
+                          {currentMeet.includes(meet.id) ? (
+                            <Map key={meet.id} address={meet.place} number={meet.id} />
+                          ) : (
+                            <div className="show-members">
+                              <div>참가멤버</div>
+                              <div className="member-container">
+                                {meet.Users.map(user => (
+                                  <p key={user.id}>{user.nickname}</p>
+                                ))}
                               </div>
-                            )}
-                          </div>
-                        </CardContainer>
-                      </div>
-                    ))}
+                            </div>
+                          )}
+                        </div>
+                      </CardContainer>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : null}
@@ -283,7 +281,7 @@ function Meet({ singleCommunity, communityUser, me }: MeeetProps) {
           )}
         </>
       ) : (
-        <div>커뮤니티 유저만 볼 수 있습니다</div>
+        <div className="visitor-post">커뮤니티 유저만 볼 수 있습니다</div>
       )}
     </MeetContainer>
   );

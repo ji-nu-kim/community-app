@@ -99,6 +99,12 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS:
         draft.changeCommunityInfoLoading = false;
         draft.changeCommunityInfoDone = true;
+        if (draft.singleCommunity) {
+          draft.singleCommunity.caution = action.data.caution;
+          draft.singleCommunity.requirement = action.data.requirement;
+          draft.singleCommunity.description = action.data.description;
+          draft.singleCommunity.profilePhoto = action.data.profilePhoto;
+        }
         break;
       case actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR:
         draft.changeCommunityInfoLoading = false;
@@ -125,9 +131,6 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.REMOVE_COMMUNITY_SUCCESS:
         draft.removeCommunityLoading = false;
         draft.removeCommunityDone = true;
-        draft.mainCommunities = draft.mainCommunities.filter(
-          v => v.id !== action.data.communityId
-        );
         break;
       case actionTypesCommunity.REMOVE_COMMUNITY_ERROR:
         draft.removeCommunityLoading = false;

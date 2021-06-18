@@ -1,10 +1,10 @@
+const { Console } = require('console');
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const {
   Post,
   User,
-  Image,
   Comment,
   Community,
   Category,
@@ -116,7 +116,90 @@ router.post('/accept', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// 커뮤니티 탈퇴(포스트 제거하면서 댓글 전부 제거, 모임 탈퇴한 후 커뮤니티 탈퇴)
+// 커뮤니티 삭제
+router.delete('/:communityId', async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const community = await Community.findOne({
+      where: { id: req.params.communityId },
+      include: { model: User, through: 'COMMUNITY_USER' },
+    });
+    if (!community) {
+      await t.rollback();
+      return res.status(404).send('존재하지 않는 커뮤니티입니다');
+    }
+    // 게시글 전부 삭제
+    const communityPost = await community.getPosts({
+      include: { model: Comment },
+    });
+
+    if (communityPost.length) {
+      await communityPost.map(
+        async post => {
+          if (post.Comments.length) {
+            await post.Comments.map(async comment => {
+              await comment.destroy({
+                where: {
+                  UserId: comment.UserId,
+                  id: comment.id,
+                  PostId: comment.PostId,
+                },
+              });
+            });
+          }
+          await post.destroy({
+            where: {
+              id: post.id,
+              UserId: post.UserId,
+              CommunityId: post.CommunityId,
+            },
+          });
+        },
+        { transaction: t }
+      );
+    }
+
+    // 모임 전부 삭제(유저리스트 지우고 모임삭제)
+    const communityMeet = await community.getMeets();
+    if (communityMeet.length) {
+      await communityMeet.map(async meet => {
+        let users = await meet.getUsers();
+        if (users) {
+          await users.map(async user => {
+            await meet.removeUsers(user.id, { transaction: t });
+          });
+        }
+      });
+      await communityMeet.map(
+        async meet => await meet.destroy({ where: { id: meet.id } })
+      );
+    }
+
+    // 유저 전부 삭제
+    const usersId = await community.Users.map(user => user.id);
+    await usersId.map(
+      async userId => await community.removeUsers(userId, { transaction: t })
+    );
+
+    // 카테고리 삭제
+    const category = await community.getCategories();
+    await category.map(
+      async c => await community.removeCategories(c.id, { transaction: t })
+    );
+
+    // 커뮤니티 제거
+    await community.destroy({ transaction: t });
+
+    await t.commit();
+    return res.status(200).json(communityMeet);
+  } catch (error) {
+    await t.rollback();
+    console.error(error);
+    next(error);
+  }
+});
+
+// 커뮤니티 탈퇴
 router.delete('/:communityId/leave', isLoggedIn, async (req, res, next) => {
   try {
     const community = await Community.findOne({
@@ -125,14 +208,79 @@ router.delete('/:communityId/leave', isLoggedIn, async (req, res, next) => {
     if (!community) {
       return res.status(404).send('존재하지 않는 커뮤니티입니다');
     }
-    await Promise.all([
-      Post.destroy({
-        where: { UserId: req.user.id, CommunityId: req.params.communityId },
-      }),
-      Comment.destroy({ where: {} }),
-      community.removeUsers(req.user.id),
-    ]);
-    return res.status(200).json({ userId: parseInt(req.user.id, 10) });
+    const communityPost = await community.getPosts({
+      include: { model: Comment },
+    });
+    const communityMeet = await community.getMeets();
+
+    await communityPost.map(async post => {
+      // 내 게시글을 삭제한다(댓글 먼저 지우고 게시글 삭제)
+      if (post.UserId === parseInt(req.user.id, 10)) {
+        if (post.Comments.length) {
+          await Promise.all(
+            post.Comments.map(comment => {
+              comment.destroy({
+                where: {
+                  UserId: req.user.id,
+                  id: comment.id,
+                  PostId: comment.PostId,
+                },
+              });
+            })
+          );
+        }
+        await post.destroy({
+          where: {
+            id: post.id,
+            UserId: req.user.id,
+            CommunityId: post.CommunityId,
+          },
+        });
+        // 남이 쓴 글에 내 댓글이 있으면 삭제
+      } else if (post.Comments.length) {
+        await Promise.all(
+          post.Comments.map(comment => {
+            if (comment.UserId === parseInt(req.user.id, 10)) {
+              comment.destroy({
+                where: {
+                  UserId: req.user.id,
+                  id: comment.id,
+                  PostId: comment.PostId,
+                },
+              });
+            }
+          })
+        );
+      }
+    });
+
+    await communityMeet.map(async meet => {
+      // 내 모임 삭제(참가한 유저 먼저 지우고 모임 삭제)
+      if (meet.MeetOwnerId === parseInt(req.user.id, 10)) {
+        let users = await meet.getUsers();
+        await Promise.all(users.map(user => meet.removeUsers(user.id)));
+        await meet.destroy({
+          where: {
+            id: meet.id,
+            CommunityId: req.params.communityId,
+          },
+        });
+        // 다른 사람모임에 참가했다면 나를 제거
+      } else {
+        let user = await meet.getUsers({
+          where: { id: parseInt(req.user.id, 10) },
+        });
+        if (user) {
+          await meet.removeUsers(parseInt(req.user.id, 10));
+        }
+      }
+    });
+
+    await community.removeUsers(parseInt(req.user.id, 10));
+
+    return res
+      .status(200)
+      .json({ communityId: parseInt(req.params.communityId, 10), userId: req.user.id });
   } catch (error) {
     console.error(error);
     next(error);
@@ -169,11 +317,11 @@ router.get('/categories', async (req, res, next) => {
   }
 });
 
-// 커뮤니티 정보 수정(*바뀐 정보 보내서 업데이트하고 모달창 닫기)
-router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
+// 커뮤니티 정보 수정
+router.post('/:communityId/info', upload.none(), isLoggedIn, async (req, res, next) => {
   try {
     const community = await Community.findOne({
-      where: { id: parseInt(req.body.id, 10) },
+      where: { id: parseInt(req.params.communityId, 10) },
     });
     if (!community) {
       return res.status(404).send('존재하지 않는 커뮤니티입니다');
@@ -185,9 +333,15 @@ router.post('/info', upload.none(), isLoggedIn, async (req, res, next) => {
         requirement: req.body.requirement,
         profilePhoto: req.body.profilePhoto[0],
       },
-      { where: { id: req.body.id } }
+      { where: { id: community.id } }
     );
-    return res.status(200).send('커뮤니티정보가 변경 되었습니다');
+    const updatedCommunity = await Community.findOne({ where: { id: community.id } });
+    return res.status(200).json({
+      description: updatedCommunity.description,
+      caution: updatedCommunity.caution,
+      requirement: updatedCommunity.requirement,
+      profilePhoto: updatedCommunity.profilePhoto,
+    });
   } catch (error) {
     console.error(error);
     next(error);
@@ -224,23 +378,6 @@ router.get('/:communityId', async (req, res, next) => {
           model: Category,
           through: 'COMMUNITY_CATEGORY',
           attributes: ['name', 'profilePhoto'],
-        },
-        {
-          model: Post,
-          include: [
-            { model: Image },
-            { model: User, attributes: ['id', 'nickname', 'profilePhoto'] },
-            {
-              model: Comment,
-              attributes: ['id', 'content'],
-              include: [
-                {
-                  model: User,
-                  attributes: ['id', 'nickname', 'profilePhoto'],
-                },
-              ],
-            },
-          ],
         },
         {
           model: Meet,

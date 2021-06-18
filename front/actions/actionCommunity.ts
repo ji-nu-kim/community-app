@@ -2,7 +2,7 @@ import {
   actionTypesCommunity,
   IRemoveCommunityImage,
   IUploadCommunityImageRequest,
-  ChangeCommunityInfoData,
+  IChangeCommunityInfoData,
   IChangeCommunityInfoRequest,
   IAddCommunityRequest,
   IRemoveCommunityRequest,
@@ -24,7 +24,7 @@ import {
   ILeaveMeetRequest,
   IAddMeetData,
   IModifyMeetData,
-  CommunityData,
+  ICommunityData,
 } from '../interfaces/community/communityAction.interfaces';
 
 export const removeCommunityImage = (): IRemoveCommunityImage => {
@@ -42,14 +42,14 @@ export const uploadCommunityImageRequestAction = (
 };
 
 export const changeCommunityInfoRequestAction = (
-  data: ChangeCommunityInfoData
+  data: IChangeCommunityInfoData
 ): IChangeCommunityInfoRequest => {
   return {
     type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST,
     data,
   };
 };
-export const addCommunityRequestAction = (data: CommunityData): IAddCommunityRequest => {
+export const addCommunityRequestAction = (data: ICommunityData): IAddCommunityRequest => {
   return {
     type: actionTypesCommunity.ADD_COMMUNITY_REQUEST,
     data,

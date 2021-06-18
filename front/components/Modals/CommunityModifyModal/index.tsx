@@ -15,10 +15,10 @@ import useInput from 'hooks/useInput';
 import { changeCommunityInfoRequestAction } from 'actions/actionCommunity';
 
 interface CommunityModalProps {
-  setCommunityModifyModal: Dispatch<SetStateAction<boolean>>;
+  setShowCommunityModifyModal: Dispatch<SetStateAction<boolean>>;
 }
 
-function CommunityModal({ setCommunityModifyModal }: CommunityModalProps) {
+function CommunityModal({ setShowCommunityModifyModal }: CommunityModalProps) {
   const dispatch = useDispatch();
   const { singleCommunity, imagePath } = useSelector(
     (state: RootStateInterface) => state.community
@@ -26,22 +26,20 @@ function CommunityModal({ setCommunityModifyModal }: CommunityModalProps) {
   const [description, onChangeDescription] = useInput<string>(
     singleCommunity?.description || ''
   );
-  const [caution, onChangeCaution] = useInput<string>(
-    singleCommunity?.caution || ''
-  );
+  const [caution, onChangeCaution] = useInput<string>(singleCommunity?.caution || '');
   const [requirement, onChangeRequirement] = useInput<string>(
     singleCommunity?.requirement || ''
   );
 
   const closeCommunityModal = useCallback(() => {
-    setCommunityModifyModal(false);
-  }, [setCommunityModifyModal]);
+    setShowCommunityModifyModal(false);
+  }, [setShowCommunityModifyModal]);
 
   const onSubmit = useCallback(() => {
     if (singleCommunity) {
       dispatch(
         changeCommunityInfoRequestAction({
-          id: singleCommunity.id,
+          communityId: singleCommunity.id,
           caution,
           requirement,
           description,

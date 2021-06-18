@@ -2,7 +2,16 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-const { User, Post, Community, Category, Notice, Comment, Meet } = require('../models');
+const {
+  User,
+  Post,
+  Community,
+  Category,
+  Notice,
+  Comment,
+  Meet,
+  sequelize,
+} = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -132,33 +141,44 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-//
-router.delete('/:userId/leave/', async (req, res, next) => {
+router.delete('/:userId/leave', async (req, res, next) => {
+  const t = await sequelize.transaction();
   try {
     const user = await User.findOne({
       where: { id: req.params.userId },
-      include: { model: Post, include: { model: Comment } },
+      include: [{ model: Community, through: 'COMMUNITY_USER' }, { model: Notice }],
     });
     if (!user) {
+      await t.rollback();
       return res.status(404).send('존재하지 않는 유저입니다');
     }
-    console.log(user);
-    return res.status(200).json(user);
+    const userCommunity = user.Communities;
+    if (userCommunity.length) {
+      return res.status(404).send('커뮤니티에 가입된 상태에서는 탈퇴가 불가능합니다');
+    }
+    const categories = await user.getCategories();
+    if (categories.length) {
+      categories.map(
+        async category => await user.removeCategories(category.id, { transaction: t })
+      );
+    }
+    const notices = user.Notices;
+    if (notices.length) {
+      notices.map(async notice => await notice.destroy(notice.id, { transaction: t }));
+    }
+    await user.destroy({ transaction: t });
+    await t.commit();
+    return res.status(200).json('ok');
   } catch (error) {
+    await t.rollback();
     console.error(error);
     next(error);
   }
 });
 
-// 유저 탈퇴(게시글 지우면서 댓글지우고 카테고리 제거, 커뮤니티 탈퇴)
+// 유저 탈퇴
 router.delete('/leave', isLoggedIn, async (req, res, next) => {
   try {
-    await Promise.all([
-      Notice.destroy({ where: { UserId: req.user.id } }),
-      Comment.destroy({ where: { UserId: req.user.id } }),
-      Post.destroy({ where: { UserId: req.user.id } }),
-      User.destroy({ where: { id: req.user.id } }),
-    ]);
     return res.status(200).send('탈퇴완료');
   } catch (error) {
     console.error(error);
@@ -232,7 +252,7 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
   }
 });
 
-// 유저에게 알림을 보냄
+// 알림 생성
 router.post('/notification', isLoggedIn, async (req, res, next) => {
   try {
     const user = await User.findOne({
@@ -241,18 +261,18 @@ router.post('/notification', isLoggedIn, async (req, res, next) => {
     if (!user) {
       return res.status(404).send('존재하지 않는 유저입니다');
     }
-    await Notice.create({
+    const notice = await Notice.create({
       title: req.body.title,
       UserId: req.body.userId,
     });
-    return res.status(200).send('알림전송을 완료하였습니다');
+    return res.status(200).json({ notice, userId: req.body.userId });
   } catch (error) {
     console.error(error);
     next(error);
   }
 });
 
-// 확인한 알림을 체크표시함
+// 알림 체크표시
 router.patch('/notification', isLoggedIn, async (req, res, next) => {
   try {
     await Notice.update({ checked: true }, { where: { UserId: req.user.id } });

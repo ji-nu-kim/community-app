@@ -17,6 +17,11 @@ module.exports = class Report extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
         },
+        // post, comment
+        variety: {
+          type: DataTypes.STRING(20),
+          allowNull: false,
+        },
       },
       {
         modelName: 'Report',
@@ -28,12 +33,5 @@ module.exports = class Report extends Model {
     );
   }
 
-  static associate(db) {
-    db.Report.belongsToMany(db.Post, {
-      through: 'REPORT_POST',
-    });
-    db.Report.belongsToMany(db.Comment, {
-      through: 'REPORT_COMMENT',
-    });
-  }
+  static associate(db) {}
 };

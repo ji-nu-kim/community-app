@@ -132,7 +132,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                     </div>
                     <div className="header-right">
                       <div className="right-day">
-                        {moment(post.createdAt, 'YYYYMMDD').fromNow()}
+                        {moment(post.createdAt).locale('ko').format('LLL')}
                       </div>
                       <div
                         className="right-buttons"
@@ -208,6 +208,9 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                                   </div>
                                 </div>
                                 <div className="header-right">
+                                  <div className="right-day">
+                                    {moment(comment.createdAt).locale('ko').format('LLL')}
+                                  </div>
                                   <div
                                     className="right-buttons"
                                     onClick={onClickCommentSettingButton(comment.id)}

@@ -41,8 +41,9 @@ export const actionTypesUser = {
   ADD_MEET_OF_ME: 'ADD_MEET_OF_ME',
   REMOVE_MEET_OF_ME: 'REMOVE_MEET_OF_ME',
   MODIFY_MEET_OF_ME: 'MODIFY_MEET_OF_ME',
-  JOIN_USER_OF_MEET: 'JOIN_USER_OF_MEET',
-  LEAVE_USER_OF_MEET: 'LEAVE_USER_OF_MEET',
+  JOIN_MEET_OF_ME: 'JOIN_MEET_OF_ME',
+  LEAVE_MEET_OF_ME: 'LEAVE_MEET_OF_ME',
+  LEAVE_COMMUNITY_OF_ME: 'LEAVE_COMMUNITY_OF_ME',
 } as const;
 export interface LoginData {
   email: string;
@@ -167,8 +168,13 @@ export interface ISendNotificationRequest {
   type: typeof actionTypesUser.SEND_NOTIFICATION_REQUEST;
   data: { title: string; userId: number };
 }
+export interface ISendNotificationSuccessData {
+  notice: INotice;
+  userId: number;
+}
 export interface ISendNotificationSuccess {
   type: typeof actionTypesUser.SEND_NOTIFICATION_SUCCESS;
+  data: ISendNotificationSuccessData;
 }
 export interface ISendNotificationError {
   type: typeof actionTypesUser.SEND_NOTIFICATION_ERROR;
@@ -209,13 +215,17 @@ export interface IModifyMeetOfMe {
   type: typeof actionTypesUser.MODIFY_MEET_OF_ME;
   data: IMeet;
 }
-export interface IJoinUserOfMeet {
-  type: typeof actionTypesUser.JOIN_USER_OF_MEET;
+export interface IJoinMeeetOfMe {
+  type: typeof actionTypesUser.JOIN_MEET_OF_ME;
   data: IMeet;
 }
-export interface ILeaveUserOfMeet {
-  type: typeof actionTypesUser.LEAVE_USER_OF_MEET;
+export interface ILeaveMeetOfMe {
+  type: typeof actionTypesUser.LEAVE_MEET_OF_ME;
   data: { meetId: number; userId: number };
+}
+export interface ILeaveCommunityOfMe {
+  type: typeof actionTypesUser.LEAVE_COMMUNITY_OF_ME;
+  data: { communityId: number; userId: number };
 }
 
 export type ActionsUser =
@@ -259,5 +269,6 @@ export type ActionsUser =
   | IAddMeetOfMe
   | IRemoveMeetOfMe
   | IModifyMeetOfMe
-  | IJoinUserOfMeet
-  | ILeaveUserOfMeet;
+  | IJoinMeeetOfMe
+  | ILeaveMeetOfMe
+  | ILeaveCommunityOfMe;

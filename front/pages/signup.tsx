@@ -8,7 +8,7 @@ import { RootStateInterface } from 'interfaces/RootState';
 import { useForm, Controller } from 'react-hook-form';
 import { signUpValidation } from '../utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FormErrorMessage from 'components/FormErrorMessage';
+import FormErrorMessage from 'components/Message/FormErrorMessage';
 import SignUpLayout, {
   InputContainer,
   ButtonContainer,

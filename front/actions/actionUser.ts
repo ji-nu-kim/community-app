@@ -16,8 +16,9 @@ import {
   IAddMeetOfMe,
   IRemoveMeetOfMe,
   IModifyMeetOfMe,
-  IJoinUserOfMeet,
-  ILeaveUserOfMeet,
+  IJoinMeeetOfMe,
+  ILeaveMeetOfMe,
+  ILeaveCommunityOfMe,
   SignUpData,
   LoginData,
   IRemoveUserImage,
@@ -126,18 +127,27 @@ export const modifyMeetOfMe = (data: IMeet): IModifyMeetOfMe => {
     data,
   };
 };
-export const joinUserOfMeet = (data: IMeet): IJoinUserOfMeet => {
+export const joinMeetOfMe = (data: IMeet): IJoinMeeetOfMe => {
   return {
-    type: actionTypesUser.JOIN_USER_OF_MEET,
+    type: actionTypesUser.JOIN_MEET_OF_ME,
     data,
   };
 };
-export const leaveUserOfMeet = (data: {
+export const leaveMeetOfMe = (data: {
   meetId: number;
   userId: number;
-}): ILeaveUserOfMeet => {
+}): ILeaveMeetOfMe => {
   return {
-    type: actionTypesUser.LEAVE_USER_OF_MEET,
+    type: actionTypesUser.LEAVE_MEET_OF_ME,
+    data,
+  };
+};
+export const leaveCommunityOfMe = (data: {
+  communityId: number;
+  userId: number;
+}): ILeaveCommunityOfMe => {
+  return {
+    type: actionTypesUser.LEAVE_COMMUNITY_OF_ME,
     data,
   };
 };

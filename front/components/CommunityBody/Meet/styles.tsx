@@ -13,6 +13,13 @@ export const MeetContainer = styled.div`
   display: grid;
   grid-template-rows: auto 55px;
 
+  .visitor-post {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .joined-meet,
   .new-meet {
     display: grid;

@@ -8,7 +8,6 @@ export interface PostState {
   uploadImagesLoading: boolean;
   uploadImagesDone: boolean;
   uploadImagesError: any;
-
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: any;

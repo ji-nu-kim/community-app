@@ -2,6 +2,7 @@ import { ICategory, ICommunity } from '../db';
 
 export interface CommunityState {
   imagePath: string[];
+  communityLength: number;
   singleCommunity: ICommunity | null;
   mainCommunities: ICommunity[];
   changableCommunities: ICommunity[];

@@ -5,7 +5,6 @@ import {
   IChangeCountryRequest,
   IChangeProfileRequest,
   ILeaveRequest,
-  ILoadUserInfoRequest,
   ILogInRequest,
   IRemoveNotificationRequest,
   ISignUpRequest,
@@ -63,26 +62,6 @@ function* loadMyInfo() {
   } catch (error) {
     yield put({
       type: actionTypesUser.LOAD_MY_INFO_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function loadUserInfoAPI(data: { userId: number }) {
-  return axios.get(`/user/${data.userId}`);
-}
-function* loadUserInfo(action: ILoadUserInfoRequest) {
-  try {
-    const result: {
-      data: IUser;
-    } = yield call(loadUserInfoAPI, action.data);
-    yield put({
-      type: actionTypesUser.LOAD_USER_INFO_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesUser.LOAD_USER_INFO_ERROR,
       error: error.response.data,
     });
   }
@@ -229,9 +208,6 @@ function* watchLogOut() {
 function* watchLoadMyInfo() {
   yield takeLatest(actionTypesUser.LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
-function* watchLoadUserInfo() {
-  yield takeLatest(actionTypesUser.LOAD_USER_INFO_REQUEST, loadUserInfo);
-}
 function* watchUploadImage() {
   yield takeLatest(actionTypesUser.UPLOAD_IMAGE_REQUEST, uploadImage);
 }
@@ -259,7 +235,6 @@ export default function* userSaga() {
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchLoadMyInfo),
-    fork(watchLoadUserInfo),
     fork(watchUploadImage),
     fork(watchSignUp),
     fork(watchLeave),

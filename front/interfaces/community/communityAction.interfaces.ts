@@ -244,7 +244,7 @@ export interface ILoadCategoryRequest {
 }
 export interface ILoadCategorySuccess {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_SUCCESS;
-  data: ICategory;
+  data: { category: ICategory; communityLength: number };
 }
 export interface ILoadCategoryError {
   type: typeof actionTypesCommunity.LOAD_CATEGORY_ERROR;

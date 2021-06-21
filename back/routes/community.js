@@ -303,7 +303,18 @@ router.get('/category/:categoryId', async (req, res, next) => {
     if (!category) {
       return res.status(404).send('카테고리가 존재하지 않습니다');
     }
-    return res.status(200).json(category);
+    const communities = await Community.findAll({
+      include: {
+        model: Category,
+        through: 'COMMUNITY_CATEGORY',
+        where: { id: req.params.categoryId },
+        attributes: ['name', 'profilePhoto'],
+      },
+    });
+
+    return res
+      .status(200)
+      .json({ category, communityLength: parseInt(communities.length, 10) });
   } catch (error) {
     console.error(error);
     next(error);

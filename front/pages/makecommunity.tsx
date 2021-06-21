@@ -56,9 +56,7 @@ function MakeCommunity() {
   useEffect(() => {
     if (addCommunityDone) {
       alert('커뮤니티를 생성했습니다');
-      setTimeout(() => {
-        Router.push('/');
-      }, 1000);
+      Router.push('/');
     }
   }, [addCommunityDone]);
 

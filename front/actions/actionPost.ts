@@ -21,7 +21,6 @@ export const addPostRequestAction = (data: AddPostData): IAddPostRequest => {
     data,
   };
 };
-
 export const removePostRequestAction = (data: {
   postId: number;
   communityId: number;
@@ -31,7 +30,6 @@ export const removePostRequestAction = (data: {
     data,
   };
 };
-
 export const updatePostRequestAction = (data: {
   postId: number;
   communityId: number;
@@ -42,14 +40,12 @@ export const updatePostRequestAction = (data: {
     data,
   };
 };
-
 export const reportRequestAction = (data: IReportData): IReportRequest => {
   return {
     type: actionTypesPost.REPORT_REQUEST,
     data,
   };
 };
-
 export const loadPostsRequestAction = (data: {
   communityId: number;
   postId: number;
@@ -59,14 +55,12 @@ export const loadPostsRequestAction = (data: {
     data,
   };
 };
-
 export const addCommentRequestAction = (data: CommentData): IAddCommentRequest => {
   return {
     type: actionTypesPost.ADD_COMMENT_REQUEST,
     data,
   };
 };
-
 export const updateCommentRequestAction = (data: {
   commentId: number;
   postId: number;
@@ -77,7 +71,6 @@ export const updateCommentRequestAction = (data: {
     data,
   };
 };
-
 export const removeCommentRequestAction = (data: {
   commentId: number;
   postId: number;
@@ -87,14 +80,12 @@ export const removeCommentRequestAction = (data: {
     data,
   };
 };
-
 export const uploadImagesRequestAction = (data: FormData): IUploadImagesRequest => {
   return {
     type: actionTypesPost.UPLOAD_IMAGES_REQUEST,
     data,
   };
 };
-
 export const removeImage = (data: number): IRemoveImage => {
   return {
     type: actionTypesPost.REMOVE_IMAGE,

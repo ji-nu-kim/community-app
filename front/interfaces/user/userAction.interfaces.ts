@@ -10,9 +10,6 @@ export const actionTypesUser = {
   LOAD_MY_INFO_REQUEST: 'LOAD_MY_INFO_REQUEST',
   LOAD_MY_INFO_SUCCESS: 'LOAD_MY_INFO_SUCCESS',
   LOAD_MY_INFO_ERROR: 'LOAD_MY_INFO_ERROR',
-  LOAD_USER_INFO_REQUEST: 'LOAD_USER_INFO_REQUEST',
-  LOAD_USER_INFO_SUCCESS: 'LOAD_USER_INFO_SUCCESS',
-  LOAD_USER_INFO_ERROR: 'LOAD_USER_INFO_ERROR',
   UPLOAD_IMAGE_REQUEST: 'UPLOAD_IMAGE_REQUEST',
   UPLOAD_IMAGE_SUCCESS: 'UPLOAD_IMAGE_SUCCESS',
   UPLOAD_IMAGE_ERROR: 'UPLOAD_IMAGE_ERROR',
@@ -76,18 +73,6 @@ export interface ILoadMyInfoSuccess {
 }
 export interface ILoadMyInfoError {
   type: typeof actionTypesUser.LOAD_MY_INFO_ERROR;
-  error: Error;
-}
-export interface ILoadUserInfoRequest {
-  type: typeof actionTypesUser.LOAD_USER_INFO_REQUEST;
-  data: { userId: number };
-}
-export interface ILoadUserInfoSuccess {
-  type: typeof actionTypesUser.LOAD_USER_INFO_SUCCESS;
-  data: IUser;
-}
-export interface ILoadUserInfoError {
-  type: typeof actionTypesUser.LOAD_USER_INFO_ERROR;
   error: Error;
 }
 export interface IRemoveUserImage {
@@ -220,9 +205,6 @@ export type ActionsUser =
   | ILoadMyInfoRequest
   | ILoadMyInfoSuccess
   | ILoadMyInfoError
-  | ILoadUserInfoRequest
-  | ILoadUserInfoSuccess
-  | ILoadUserInfoError
   | IUploadImageRequest
   | IUploadImageSuccess
   | IUploadImageError

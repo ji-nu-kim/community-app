@@ -11,6 +11,7 @@ router.get('/:keyword', async (req, res, next) => {
       where: {
         communityName: { [Op.like]: `%${decodeURIComponent(req.params.keyword)}%` },
       },
+      order: [['createdAt', 'DESC']],
       attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
       include: {
         model: Category,

@@ -88,7 +88,7 @@ export const ProfileHeader = styled.div`
 
 export const ProfileContent = styled.div`
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: auto;
   padding: 1rem;
   gap: 1rem;
   h1 {

@@ -28,6 +28,7 @@ function Category() {
     hasMoreCommunity,
     loadCommunitiesLoading,
     singleCategory,
+    communityLength,
   } = useSelector((state: RootStateInterface) => state.community);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ function Category() {
             <h1>
               {singleCategory.name}
               <br />
-              커뮤니티 {changableCommunities.length}개
+              커뮤니티 {communityLength}개
             </h1>
           </CategoryHeader>
           <CategoryContent>

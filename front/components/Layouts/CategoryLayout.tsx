@@ -46,7 +46,8 @@ export const CategoryContent = styled.div`
   .cards-container {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+    grid-template-columns: repeat(auto-fill, 240px);
+    justify-content: space-evenly;
   }
 `;
 

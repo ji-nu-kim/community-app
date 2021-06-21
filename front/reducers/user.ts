@@ -23,9 +23,6 @@ export const initialState: UserState = {
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
-  loadUserInfoLoading: false,
-  loadUserInfoDone: false,
-  loadUserInfoError: null,
   changeProfileLoading: false,
   changeProfileDone: false,
   changeProfileError: null,
@@ -84,20 +81,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
       case actionTypesUser.LOAD_MY_INFO_ERROR:
         draft.loadMyInfoLoading = false;
         draft.loadMyInfoError = action.error;
-        break;
-      case actionTypesUser.LOAD_USER_INFO_REQUEST:
-        draft.loadUserInfoLoading = true;
-        draft.loadUserInfoDone = false;
-        draft.loadUserInfoError = null;
-        break;
-      case actionTypesUser.LOAD_USER_INFO_SUCCESS:
-        draft.loadUserInfoLoading = false;
-        draft.loadUserInfoDone = true;
-        draft.userInfo = action.data;
-        break;
-      case actionTypesUser.LOAD_USER_INFO_ERROR:
-        draft.loadUserInfoLoading = false;
-        draft.loadUserInfoError = action.error;
         break;
       case actionTypesUser.UPLOAD_IMAGE_REQUEST:
         draft.uploadImageLoading = true;

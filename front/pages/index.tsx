@@ -39,11 +39,14 @@ function Home() {
   useEffect(() => {
     function onScroll() {
       if (me?.country && changableCommunities.length) {
+        console.log(1);
         if (
           window.scrollY + document.documentElement.clientHeight >=
           document.documentElement.scrollHeight - 200
         ) {
+          console.log(2);
           if (hasMoreCommunity && !loadCommunitiesLoading) {
+            console.log(3);
             const lastId = changableCommunities[changableCommunities.length - 1].id;
             dispatch(
               loadCountryCommunitiesRequestAction({

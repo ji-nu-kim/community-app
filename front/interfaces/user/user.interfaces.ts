@@ -2,6 +2,8 @@ import { IUser } from '../db';
 
 export interface UserState {
   imagePath: string[];
+  me: IUser | null;
+  userInfo: any;
   logInLoading: boolean;
   logInDone: boolean;
   logInError: any;
@@ -20,9 +22,6 @@ export interface UserState {
   loadMyInfoLoading: boolean;
   loadMyInfoDone: boolean;
   loadMyInfoError: any;
-  loadUserInfoLoading: boolean;
-  loadUserInfoDone: boolean;
-  loadUserInfoError: any;
   changeProfileLoading: boolean;
   changeProfileDone: boolean;
   changeProfileError: any;
@@ -35,7 +34,4 @@ export interface UserState {
   removeNotificationLoading: boolean;
   removeNotificationDone: boolean;
   removeNotificationError: any;
-
-  me: IUser | null;
-  userInfo: any;
 }

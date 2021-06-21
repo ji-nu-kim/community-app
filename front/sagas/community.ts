@@ -289,7 +289,10 @@ function loadCategoryAPI(data: { categoryId: number }) {
 }
 function* loadCategory(action: ILoadCategoryRequest) {
   try {
-    const result: { data: ICategory } = yield call(loadCategoryAPI, action.data);
+    const result: { data: { category: ICategory; communityLength: number } } = yield call(
+      loadCategoryAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_SUCCESS,
       data: result.data,

@@ -4,7 +4,6 @@ import {
   ILogInRequest,
   ILogOutRequest,
   ILoadMyInfoRequest,
-  ILoadUserInfoRequest,
   IUploadImageRequest,
   ISignUpRequest,
   ILeaveRequest,
@@ -38,14 +37,6 @@ export const logOutRequestAction = (): ILogOutRequest => {
 export const loadMyInfoRequestAction = (): ILoadMyInfoRequest => {
   return {
     type: actionTypesUser.LOAD_MY_INFO_REQUEST,
-  };
-};
-export const loadUserInfoRequestAction = (data: {
-  userId: number;
-}): ILoadUserInfoRequest => {
-  return {
-    type: actionTypesUser.LOAD_USER_INFO_REQUEST,
-    data,
   };
 };
 export const removeImage = (): IRemoveUserImage => {

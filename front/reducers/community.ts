@@ -8,6 +8,7 @@ import produce from 'immer';
 
 export const initialState: CommunityState = {
   imagePath: [],
+  communityLength: 0,
   singleCommunity: null,
   mainCommunities: [],
   changableCommunities: [],
@@ -264,7 +265,7 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
         draft.loadCommunitiesLoading = false;
         draft.loadCommunitiesDone = true;
         draft.changableCommunities = draft.changableCommunities.concat(action.data);
-        draft.hasMoreCommunity = action.data.length === 12;
+        draft.hasMoreCommunity = action.data.length === 21;
         break;
       case actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR:
       case actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR:
@@ -280,7 +281,8 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.LOAD_CATEGORY_SUCCESS:
         draft.loadCategoryLoading = false;
         draft.loadCategoryDone = true;
-        draft.singleCategory = action.data;
+        draft.singleCategory = action.data.category;
+        draft.communityLength = action.data.communityLength;
         break;
       case actionTypesCommunity.LOAD_CATEGORY_ERROR:
         draft.loadCategoryLoading = false;

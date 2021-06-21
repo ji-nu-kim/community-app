@@ -38,37 +38,16 @@ router.get('/', async (req, res, next) => {
         order: [[Notice, 'createdAt', 'DESC']],
         include: [
           {
-            model: Community,
-            as: 'Owned',
-          },
-          {
             model: Category,
             through: 'CATEGORY_USER',
             attributes: ['id', 'name', 'profilePhoto'],
           },
           {
             model: Meet,
-            include: {
-              model: User,
-              through: 'MEET_USER',
-              attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
-            },
           },
           {
             model: Community,
             through: 'COMMUNITY_USER',
-            include: [
-              {
-                model: User,
-                through: 'COMMUNITY_USER',
-                attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
-              },
-              {
-                model: Category,
-                through: 'COMMUNITY_CATEGORY',
-                attributes: ['name', 'profilePhoto'],
-              },
-            ],
           },
           {
             model: Notice,
@@ -203,37 +182,16 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
       order: [[Notice, 'createdAt', 'DESC']],
       include: [
         {
-          model: Community,
-          as: 'Owned',
-        },
-        {
           model: Category,
           through: 'CATEGORY_USER',
           attributes: ['id', 'name', 'profilePhoto'],
         },
         {
           model: Meet,
-          include: {
-            model: User,
-            through: 'MEET_USER',
-            attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
-          },
         },
         {
           model: Community,
           through: 'COMMUNITY_USER',
-          include: [
-            {
-              model: User,
-              through: 'COMMUNITY_USER',
-              attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
-            },
-            {
-              model: Category,
-              through: 'COMMUNITY_CATEGORY',
-              attributes: ['name', 'profilePhoto'],
-            },
-          ],
         },
         {
           model: Notice,

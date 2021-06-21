@@ -2,19 +2,17 @@ import {
   IRemoveImage,
   CommentData,
   AddPostData,
-  IReportPostData,
+  IReportData,
   actionTypesPost,
   IAddPostRequest,
   IRemovePostRequest,
   IUpdatePostRequest,
-  IReportPostRequest,
+  IReportRequest,
   ILoadPostsRequest,
   IAddCommentRequest,
   IRemoveCommentRequest,
   IUpdateCommentRequest,
   IUploadImagesRequest,
-  IReportCommentRequest,
-  IReportCommentData,
 } from '../interfaces/post/postAction.interfaces';
 
 export const addPostRequestAction = (data: AddPostData): IAddPostRequest => {
@@ -45,9 +43,9 @@ export const updatePostRequestAction = (data: {
   };
 };
 
-export const reportPostRequestAction = (data: IReportPostData): IReportPostRequest => {
+export const reportRequestAction = (data: IReportData): IReportRequest => {
   return {
-    type: actionTypesPost.REPORT_POST_REQUEST,
+    type: actionTypesPost.REPORT_REQUEST,
     data,
   };
 };
@@ -86,15 +84,6 @@ export const removeCommentRequestAction = (data: {
 }): IRemoveCommentRequest => {
   return {
     type: actionTypesPost.REMOVE_COMMENT_REQUEST,
-    data,
-  };
-};
-
-export const reportCommentRequestAction = (
-  data: IReportCommentData
-): IReportCommentRequest => {
-  return {
-    type: actionTypesPost.REPORT_COMMENT_REQUEST,
     data,
   };
 };

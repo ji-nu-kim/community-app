@@ -2,6 +2,10 @@ import { searchCommunitiesRequestAction } from 'actions/actionCommunity';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import axios from 'axios';
 import AppLayout from 'components/Layouts/AppLayout';
+import CategoryLayout, {
+  CategoryContent,
+  CategoryHeader,
+} from 'components/Layouts/CategoryLayout';
 import { RootStateInterface } from 'interfaces/RootState';
 import { GetServerSideProps } from 'next';
 import React, { memo } from 'react';
@@ -10,6 +14,8 @@ import { END } from 'redux-saga';
 import wrapper from 'store/configureStore';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import BoxStyleCard from 'components/Cards/BoxStyleCard';
 
 function keyword() {
   const router = useRouter();
@@ -22,10 +28,33 @@ function keyword() {
         <title>community - {router.query.keyword} 검색</title>
       </Head>
       <AppLayout>
-        <div>
-          <div>&ldquo;검색어&rdquo;와 관련된 커뮤니티 몇개</div>
-          <div>{changableCommunities.length ? '있음' : '없음'}</div>
-        </div>
+        <CategoryLayout>
+          <CategoryHeader>
+            <h1>
+              &ldquo;{router.query.keyword}&rdquo;와
+              <br />
+              연관있는 커뮤니티 {changableCommunities.length}개
+            </h1>
+          </CategoryHeader>
+          <CategoryContent>
+            <div className="cards-container">
+              {changableCommunities.map(community => (
+                <div key={community.id}>
+                  <Link href={`/community/${community.id}`}>
+                    <a>
+                      <BoxStyleCard
+                        profilePhoto={community.profilePhoto}
+                        categoryName={community.Categories[0].name}
+                        country={community.country}
+                        communityName={community.communityName}
+                      />
+                    </a>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </CategoryContent>
+        </CategoryLayout>
       </AppLayout>
     </>
   );

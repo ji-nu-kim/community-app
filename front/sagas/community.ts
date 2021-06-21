@@ -59,7 +59,6 @@ function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
         profilePhoto: string;
       };
     } = yield call(changeCommunityInfoAPI, action.data);
-    console.log(result.data);
     yield put({
       type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS,
       data: result.data,
@@ -107,7 +106,7 @@ function* addCommunity(action: IAddCommunityRequest) {
 }
 
 function joinCommunityAPI(data: { communityId: number }) {
-  return axios.post('/community/join', data);
+  return axios.post(`/community/${data.communityId}/join`);
 }
 function* joinCommunity(action: IJoinCommunityRequest) {
   try {
@@ -125,7 +124,7 @@ function* joinCommunity(action: IJoinCommunityRequest) {
 }
 
 function acceptCommunityAPI(data: { communityId: number; userId: number }) {
-  return axios.post('/community/accept', data);
+  return axios.post(`/community/${data.communityId}/accept/${data.userId}`, data);
 }
 function* acceptCommunity(action: IAcceptCommunityRequest) {
   try {
@@ -173,7 +172,6 @@ function* leaveCommunity(action: ILeaveCommunityRequest) {
       leaveCommunityAPI,
       action.data
     );
-    console.log(result.data);
     yield put({
       type: actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS,
       data: result.data,

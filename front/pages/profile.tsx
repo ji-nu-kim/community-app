@@ -102,16 +102,18 @@ function Profile() {
               <h1>나의 카테고리 리스트</h1>
               <div className="cards-container">
                 {me?.Categories?.map(category => (
-                  <Link href={`/category/${category.id}`} key={category.name}>
-                    <a>
-                      <RoundStyleCard
-                        name={category.name}
-                        img={`http://localhost:3065/${category.profilePhoto}`}
-                        width="240"
-                        height="220"
-                      />
-                    </a>
-                  </Link>
+                  <div key={category.name}>
+                    <Link href={`/category/${category.id}`}>
+                      <a>
+                        <RoundStyleCard
+                          name={category.name}
+                          img={`http://localhost:3065/${category.profilePhoto}`}
+                          width="240"
+                          height="220"
+                        />
+                      </a>
+                    </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -119,20 +121,22 @@ function Profile() {
               <h1>나의 커뮤니티 리스트</h1>
               <div className="cards-container">
                 {me?.Communities?.map(community => (
-                  <Link href={`/category/${community.id}`} key={community.communityName}>
-                    <a>
-                      <RoundStyleCard
-                        name={community.communityName}
-                        img={
-                          community.profilePhoto
-                            ? `http://localhost:3065/${community.profilePhoto}`
-                            : null
-                        }
-                        width="240"
-                        height="220"
-                      />
-                    </a>
-                  </Link>
+                  <div key={community.communityName}>
+                    <Link href={`/community/${community.id}`}>
+                      <a>
+                        <RoundStyleCard
+                          name={community.communityName}
+                          img={
+                            community.profilePhoto
+                              ? `http://localhost:3065/${community.profilePhoto}`
+                              : null
+                          }
+                          width="240"
+                          height="220"
+                        />
+                      </a>
+                    </Link>
+                  </div>
                 ))}
               </div>
             </div>

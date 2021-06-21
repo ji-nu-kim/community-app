@@ -21,7 +21,7 @@ interface PostProps {
 
 function Post({ singleCommunity, communityUser }: PostProps) {
   const dispatch = useDispatch();
-  const { mainPosts, hasMorePost, loadPostsLoading } = useSelector(
+  const { mainPosts, hasMorePost, loadPostsLoading, updateCommentDone } = useSelector(
     (state: RootStateInterface) => state.post
   );
   const [editMode, setEditMode] = useState(false);
@@ -65,6 +65,12 @@ function Post({ singleCommunity, communityUser }: PostProps) {
       setShowCommentSettingButton(false);
     }
   }, [showPostSettingButton, showCommentSettingButton]);
+
+  useEffect(() => {
+    if (updateCommentDone) {
+      setEditMode(false);
+    }
+  }, [updateCommentDone]);
 
   useEffect(() => {
     const postContainer = postContainerRef.current;
@@ -148,6 +154,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                           communityId={singleCommunity.id}
                           postOwnerId={post.User.id}
                           communityUserId={communityUser.id}
+                          content={post.content}
                         />
                       )}
                     </div>
@@ -227,6 +234,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                                       commentId={comment.id}
                                       commentOwnerId={comment.User.id}
                                       communityUserId={communityUser.id}
+                                      content={comment.content}
                                     />
                                   )}
                               </div>

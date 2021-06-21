@@ -89,7 +89,7 @@ function MakeCommunity() {
       if (category === '') {
         return setcategoryError(true);
       }
-      dispatch(
+      return dispatch(
         addCommunityRequestAction({
           communityName: data.communityName,
           description: data.description,

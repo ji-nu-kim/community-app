@@ -36,21 +36,32 @@ router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
 });
 
-// 게시글 신고
-router.post('/report', isLoggedIn, async (req, res, next) => {
+// 컨텐츠 신고
+router.post('/:contentId/report', isLoggedIn, async (req, res, next) => {
   try {
-    const post = await Post.findOne({
-      where: { id: req.body.postId },
-    });
-    if (!post) {
-      return res.status(404).send('게시글을 찾을 수 없습니다');
+    if (req.body.variety === 'post') {
+      const post = await Post.findOne({
+        where: { id: parseInt(req.params.contentId, 10) },
+      });
+      if (!post) {
+        return res.status(404).send('게시글을 찾을 수 없습니다');
+      }
+    } else if (req.body.variety === 'comment') {
+      const comment = await Comment.findOne({
+        where: { id: parseInt(req.params.contentId, 10) },
+      });
+      if (!comment) {
+        return res.status(404).send('댓글을 찾을 수 없습니다');
+      }
     }
-    const report = await Report.create({
+    await Report.create({
       reason: req.body.reason,
-      reporter: req.body.reporter,
-      reportedPerson: req.body.reportedPerson,
+      reporter: parseInt(req.body.reporter, 10),
+      reportedPerson: parseInt(req.body.reportedPerson, 10),
+      variety: req.body.variety,
+      content: req.body.content,
+      contentId: parseInt(req.params.contentId, 10),
     });
-    await report.addPosts(req.body.postId);
     return res.status(200).send('게시글 신고가 완료되었습니다');
   } catch (error) {
     console.error(error);
@@ -173,34 +184,6 @@ router.patch(
     }
   }
 );
-
-// 댓글 신고
-router.post('/comment/report', isLoggedIn, async (req, res, next) => {
-  try {
-    const post = await Post.findOne({
-      where: { id: req.body.postId },
-    });
-    if (!post) {
-      return res.status(404).send('게시글을 찾을 수 없습니다');
-    }
-    const comment = await Comment.findOne({
-      where: { id: req.body.commentId },
-    });
-    if (!comment) {
-      return res.status(404).send('댓글을 찾을 수 없습니다');
-    }
-    const report = await Report.create({
-      reason: req.body.reason,
-      reporter: req.body.reporter,
-      reportedPerson: req.body.reportedPerson,
-    });
-    await report.addComments(req.body.commentId);
-    return res.status(200).send('게시글 신고가 완료되었습니다');
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
 
 // 댓글 생성
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {

@@ -39,9 +39,9 @@ function NavBar({
     setNotificationModal(prev => !prev);
 
     if (newNotification && newNotification > 0) {
-      dispatch(checkNotificationRequestAction());
+      return dispatch(checkNotificationRequestAction());
     }
-  }, [setNotificationModal, newNotification]);
+  }, [newNotification]);
 
   const userInfoModalTrigger = useCallback(() => {
     setUserInfoModal(prev => !prev);

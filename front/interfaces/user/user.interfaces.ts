@@ -29,9 +29,6 @@ export interface UserState {
   changeCountryLoading: boolean;
   changeCountryDone: boolean;
   changeCountryError: any;
-  sendNotificationLoading: boolean;
-  sendNotificationDone: boolean;
-  sendNotificationError: any;
   checkNotificationLoading: boolean;
   checkNotificationDone: boolean;
   checkNotificationError: any;

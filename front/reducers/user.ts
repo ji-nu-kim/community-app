@@ -32,9 +32,6 @@ export const initialState: UserState = {
   changeCountryLoading: false,
   changeCountryDone: false,
   changeCountryError: null,
-  sendNotificationLoading: false,
-  sendNotificationDone: false,
-  sendNotificationError: null,
   checkNotificationLoading: false,
   checkNotificationDone: false,
   checkNotificationError: null,
@@ -178,22 +175,6 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.changeCountryError = action.error;
         break;
 
-      case actionTypesUser.SEND_NOTIFICATION_REQUEST:
-        draft.sendNotificationLoading = true;
-        draft.sendNotificationDone = false;
-        draft.sendNotificationError = null;
-        break;
-      case actionTypesUser.SEND_NOTIFICATION_SUCCESS:
-        draft.sendNotificationLoading = false;
-        draft.sendNotificationDone = true;
-        if (draft.me && draft.me.id === action.data.userId) {
-          draft.me.Notices.unshift(action.data.notice);
-        }
-        break;
-      case actionTypesUser.SEND_NOTIFICATION_ERROR:
-        draft.sendNotificationLoading = false;
-        draft.sendNotificationError = action.error;
-        break;
       case actionTypesUser.CHECK_NOTIFICATION_REQUEST:
         draft.checkNotificationLoading = true;
         draft.checkNotificationDone = false;

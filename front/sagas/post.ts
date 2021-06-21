@@ -8,10 +8,8 @@ import {
   ILoadPostsRequest,
   IRemoveCommentRequest,
   IRemovePostRequest,
-  IReportCommentData,
-  IReportCommentRequest,
-  IReportPostData,
-  IReportPostRequest,
+  IReportData,
+  IReportRequest,
   IUpdateCommentRequest,
   IUpdatePostRequest,
   IUploadImagesRequest,
@@ -79,19 +77,19 @@ function* updatePost(action: IUpdatePostRequest) {
   }
 }
 
-function reportPostAPI(data: IReportPostData) {
-  return axios.post('/post/report', data);
+function reportPostAPI(data: IReportData) {
+  return axios.post(`/post/${data.contentId}/report`, data);
 }
 
-function* reportPost(action: IReportPostRequest) {
+function* reportPost(action: IReportRequest) {
   try {
     yield call(reportPostAPI, action.data);
     yield put({
-      type: actionTypesPost.REPORT_POST_SUCCESS,
+      type: actionTypesPost.REPORT_SUCCESS,
     });
   } catch (error) {
     yield put({
-      type: actionTypesPost.REPORT_POST_ERROR,
+      type: actionTypesPost.REPORT_ERROR,
       error: error.response.data,
     });
   }
@@ -175,24 +173,6 @@ function* removeComment(action: IRemoveCommentRequest) {
   }
 }
 
-function reportCommentAPI(data: IReportCommentData) {
-  return axios.post('/post/comment/report', data);
-}
-
-function* reportComment(action: IReportCommentRequest) {
-  try {
-    yield call(reportCommentAPI, action.data);
-    yield put({
-      type: actionTypesPost.REPORT_COMMENT_SUCCESS,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesPost.REPORT_COMMENT_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
 function uploadImagesAPI(data: FormData) {
   return axios.post('/post/images', data);
 }
@@ -222,7 +202,7 @@ function* watchRemovePost() {
   yield takeLatest(actionTypesPost.REMOVE_POST_REQUEST, removePost);
 }
 function* watchReportPost() {
-  yield takeLatest(actionTypesPost.REPORT_POST_REQUEST, reportPost);
+  yield takeLatest(actionTypesPost.REPORT_REQUEST, reportPost);
 }
 function* watchloadPosts() {
   yield takeLatest(actionTypesPost.LOAD_POSTS_REQUEST, loadPosts);
@@ -235,9 +215,6 @@ function* watchUpdateComment() {
 }
 function* watchRemoveComment() {
   yield takeLatest(actionTypesPost.REMOVE_COMMENT_REQUEST, removeComment);
-}
-function* watchReportComment() {
-  yield takeLatest(actionTypesPost.REPORT_COMMENT_REQUEST, reportComment);
 }
 function* watchUploadImages() {
   yield takeLatest(actionTypesPost.UPLOAD_IMAGES_REQUEST, uploadImages);
@@ -253,7 +230,6 @@ export default function* postSaga() {
     fork(watchAddComment),
     fork(watchUpdateComment),
     fork(watchRemoveComment),
-    fork(watchReportComment),
     fork(watchUploadImages),
   ]);
 }

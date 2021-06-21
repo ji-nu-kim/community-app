@@ -145,7 +145,7 @@ export interface IJoinCommunityError {
 }
 export interface IAcceptCommunityRequest {
   type: typeof actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST;
-  data: { communityId: number; userId: number };
+  data: { communityId: number; userId: number; title: string };
 }
 export interface IAcceptCommunitySuccess {
   type: typeof actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS;

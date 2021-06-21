@@ -1,4 +1,4 @@
-import { removePostRequestAction, reportPostRequestAction } from 'actions/actionPost';
+import { removePostRequestAction, reportRequestAction } from 'actions/actionPost';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
@@ -10,6 +10,7 @@ interface PostSettingModalProps {
   communityId: number;
   postOwnerId: number;
   communityUserId: number;
+  content: string;
 }
 
 function PostSettingModal({
@@ -19,6 +20,7 @@ function PostSettingModal({
   communityId,
   postOwnerId,
   communityUserId,
+  content,
 }: PostSettingModalProps) {
   const dispatch = useDispatch();
   const postOwner = postOwnerId === communityUserId;
@@ -39,15 +41,17 @@ function PostSettingModal({
 
     if (reason && communityUserId) {
       dispatch(
-        reportPostRequestAction({
-          postId,
+        reportRequestAction({
+          contentId: postId,
           reporter: communityUserId,
           reportedPerson: postOwnerId,
           reason,
+          variety: 'post',
+          content,
         })
       );
     }
-  }, [postOwnerId, communityUserId]);
+  }, [postOwnerId, communityUserId, postId, content]);
 
   return (
     <ModalContainer>

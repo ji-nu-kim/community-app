@@ -29,9 +29,6 @@ export const actionTypesUser = {
   CHANGE_COUNTRY_REQUEST: 'CHANGE_COUNTRY_REQUEST',
   CHANGE_COUNTRY_SUCCESS: 'CHANGE_COUNTRY_SUCCESS',
   CHANGE_COUNTRY_ERROR: 'CHANGE_COUNTRY_ERROR',
-  SEND_NOTIFICATION_REQUEST: 'SEND_NOTIFICATION_REQUEST',
-  SEND_NOTIFICATION_SUCCESS: 'SEND_NOTIFICATION_SUCCESS',
-  SEND_NOTIFICATION_ERROR: 'SEND_NOTIFICATION_ERROR',
   CHECK_NOTIFICATION_REQUEST: 'CHECK_NOTIFICATION_REQUEST',
   CHECK_NOTIFICATION_SUCCESS: 'CHECK_NOTIFICATION_SUCCESS',
   CHECK_NOTIFICATION_ERROR: 'CHECK_NOTIFICATION_ERROR',
@@ -127,6 +124,7 @@ export interface ISignUpError {
 }
 export interface ILeaveRequest {
   type: typeof actionTypesUser.LEAVE_REQUEST;
+  data: { userId: number };
 }
 export interface ILeaveSuccess {
   type: typeof actionTypesUser.LEAVE_SUCCESS;
@@ -162,22 +160,6 @@ export interface IChangeCountrySuccess {
 }
 export interface IChangeCountryError {
   type: typeof actionTypesUser.CHANGE_COUNTRY_ERROR;
-  error: Error;
-}
-export interface ISendNotificationRequest {
-  type: typeof actionTypesUser.SEND_NOTIFICATION_REQUEST;
-  data: { title: string; userId: number };
-}
-export interface ISendNotificationSuccessData {
-  notice: INotice;
-  userId: number;
-}
-export interface ISendNotificationSuccess {
-  type: typeof actionTypesUser.SEND_NOTIFICATION_SUCCESS;
-  data: ISendNotificationSuccessData;
-}
-export interface ISendNotificationError {
-  type: typeof actionTypesUser.SEND_NOTIFICATION_ERROR;
   error: Error;
 }
 export interface ICheckNotificationRequest {
@@ -257,9 +239,6 @@ export type ActionsUser =
   | IChangeCountryRequest
   | IChangeCountrySuccess
   | IChangeCountryError
-  | ISendNotificationRequest
-  | ISendNotificationSuccess
-  | ISendNotificationError
   | ICheckNotificationRequest
   | ICheckNotificationSuccess
   | ICheckNotificationError

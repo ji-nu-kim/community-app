@@ -53,7 +53,7 @@ router.get('/', async (req, res, next) => {
           {
             model: Category,
             through: 'CATEGORY_USER',
-            attributes: ['name', 'profilePhoto'],
+            attributes: ['id', 'name', 'profilePhoto'],
           },
           {
             model: Meet,
@@ -141,7 +141,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:userId/leave', async (req, res, next) => {
+// 유저탈퇴
+router.delete('/:userId', async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
     const user = await User.findOne({
@@ -171,16 +172,6 @@ router.delete('/:userId/leave', async (req, res, next) => {
     return res.status(200).json('ok');
   } catch (error) {
     await t.rollback();
-    console.error(error);
-    next(error);
-  }
-});
-
-// 유저 탈퇴
-router.delete('/leave', isLoggedIn, async (req, res, next) => {
-  try {
-    return res.status(200).send('탈퇴완료');
-  } catch (error) {
     console.error(error);
     next(error);
   }
@@ -246,26 +237,6 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
     });
 
     return res.status(200).json(profileChangeUser);
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
-
-// 알림 생성
-router.post('/notification', isLoggedIn, async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: { id: req.body.userId },
-    });
-    if (!user) {
-      return res.status(404).send('존재하지 않는 유저입니다');
-    }
-    const notice = await Notice.create({
-      title: req.body.title,
-      UserId: req.body.userId,
-    });
-    return res.status(200).json({ notice, userId: req.body.userId });
   } catch (error) {
     console.error(error);
     next(error);

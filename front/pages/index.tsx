@@ -68,16 +68,18 @@ function Home() {
           <h1>새로운 커뮤니티를 만나보세요!</h1>
           <div className="cards-container">
             {mainCommunities.map(community => (
-              <Link key={`new${community.id}`} href={`/community/${community.id}`}>
-                <a>
-                  <BoxStyleCard
-                    profilePhoto={community.profilePhoto}
-                    categoryName={community.Categories[0].name}
-                    country={community.country}
-                    communityName={community.communityName}
-                  />
-                </a>
-              </Link>
+              <div key={`new${community.id}`}>
+                <Link href={`/community/${community.id}`}>
+                  <a>
+                    <BoxStyleCard
+                      profilePhoto={community.profilePhoto}
+                      categoryName={community.Categories[0].name}
+                      country={community.country}
+                      communityName={community.communityName}
+                    />
+                  </a>
+                </Link>
+              </div>
             ))}
           </div>
         </section>
@@ -88,16 +90,18 @@ function Home() {
             <h1>우리동네 커뮤니티</h1>
             <div className="cards-container">
               {changableCommunities.map(community => (
-                <Link key={`country${community.id}`} href={`/community/${community.id}`}>
-                  <a>
-                    <BoxStyleCard
-                      profilePhoto={community.profilePhoto}
-                      categoryName={community.Categories[0].name}
-                      country={community.country}
-                      communityName={community.communityName}
-                    />
-                  </a>
-                </Link>
+                <div key={`country${community.id}`}>
+                  <Link href={`/community/${community.id}`}>
+                    <a>
+                      <BoxStyleCard
+                        profilePhoto={community.profilePhoto}
+                        categoryName={community.Categories[0].name}
+                        country={community.country}
+                        communityName={community.communityName}
+                      />
+                    </a>
+                  </Link>
+                </div>
               ))}
             </div>
           </section>

@@ -4,7 +4,6 @@ import {
   leaveCommunityRequestAction,
   removeCommunityRequestAction,
 } from 'actions/actionCommunity';
-import { sendNotificationRequestAction } from 'actions/actionUser';
 import CommunityModifyModal from 'components/Modals/CommunityModifyModal';
 import JoinUserModal from 'components/Modals/JoinUserModal';
 import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
@@ -37,45 +36,28 @@ function CommunityHeader({ singleCommunity, me, communityUser }: CommunityHeader
   }, [setShowCommunityModifyModal, communityOwner]);
 
   const onClickJoinButton = useCallback(() => {
-    if (!me) {
-      const confirmLogin = confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?');
-      if (confirmLogin) {
-        return Router.push('/login');
-      }
-    } else if (!communityUser) {
-      const confirmJoin = confirm('커뮤니티 가입신청을 하시겠습니까?');
-      if (confirmJoin) {
-        return dispatch(joinCommunityRequestAction({ communityId: singleCommunity.id }));
-      }
+    if (!me && confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?')) {
+      return Router.push('/login');
+    }
+
+    if (!communityUser && confirm('커뮤니티 가입신청을 하시겠습니까?')) {
+      return dispatch(joinCommunityRequestAction({ communityId: singleCommunity.id }));
     }
   }, [singleCommunity, me, communityUser]);
 
   const onClickLeaveButton = useCallback(async () => {
-    if (communityUser) {
-      const confirmLeave = confirm('커뮤니티를 탈퇴하시겠습니까?');
-
-      if (confirmLeave) {
-        await Promise.all([
-          dispatch(leaveCommunityRequestAction({ communityId: singleCommunity.id })),
-          alert('커뮤니티를 탈퇴했습니다'),
-          dispatch(
-            sendNotificationRequestAction({
-              title: `${singleCommunity.communityName} 커뮤니티를 탈퇴했습니다`,
-              userId: communityUser.id,
-            })
-          ),
-        ]);
-      }
+    if (communityUser && confirm('커뮤니티를 탈퇴하시겠습니까?')) {
+      return dispatch(
+        leaveCommunityRequestAction({
+          communityId: singleCommunity.id,
+        })
+      );
     }
   }, [singleCommunity, communityUser]);
 
   const onClickRemoveButton = useCallback(async () => {
-    if (communityOwner) {
-      if (confirm('커뮤니티를 삭제하시겠습니까?')) {
-        return dispatch(
-          removeCommunityRequestAction({ communityId: singleCommunity.id })
-        );
-      }
+    if (communityOwner && confirm('커뮤니티를 삭제하시겠습니까?')) {
+      return dispatch(removeCommunityRequestAction({ communityId: singleCommunity.id }));
     }
   }, [communityOwner, singleCommunity]);
 

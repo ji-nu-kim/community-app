@@ -1,7 +1,4 @@
-import {
-  removeCommentRequestAction,
-  reportCommentRequestAction,
-} from 'actions/actionPost';
+import { removeCommentRequestAction, reportRequestAction } from 'actions/actionPost';
 import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { ModalContainer } from './styles';
@@ -13,6 +10,7 @@ interface CommentSettingModalProps {
   commentId: number;
   commentOwnerId: number;
   communityUserId: number;
+  content: string;
 }
 
 function CommentSettingModal({
@@ -22,6 +20,7 @@ function CommentSettingModal({
   commentId,
   commentOwnerId,
   communityUserId,
+  content,
 }: CommentSettingModalProps) {
   const dispatch = useDispatch();
   const commentOwner = commentOwnerId === communityUserId;
@@ -42,16 +41,17 @@ function CommentSettingModal({
 
     if (reason && communityUserId) {
       dispatch(
-        reportCommentRequestAction({
-          postId,
-          commentId,
+        reportRequestAction({
+          contentId: commentId,
           reporter: communityUserId,
           reportedPerson: commentOwnerId,
           reason,
+          variety: 'comment',
+          content,
         })
       );
     }
-  }, [commentOwnerId, communityUserId]);
+  }, [commentOwnerId, communityUserId, commentId, content]);
 
   return (
     <ModalContainer>

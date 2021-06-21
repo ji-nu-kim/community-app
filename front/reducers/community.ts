@@ -164,6 +164,9 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
         draft.acceptCommunityDone = true;
         if (draft.singleCommunity) {
           draft.singleCommunity.Users = draft.singleCommunity.Users.concat(action.data);
+          draft.singleCommunity.JoinUsers = draft.singleCommunity.JoinUsers.filter(
+            user => user.id != action.data.id
+          );
         }
         break;
       case actionTypesCommunity.ACCEPT_COMMUNITY_ERROR:

@@ -18,9 +18,6 @@ export interface PostState {
   updatePostLoading: boolean;
   updatePostDone: boolean;
   updatePostError: any;
-  reportPostLoading: boolean;
-  reportPostDone: boolean;
-  reportPostError: any;
   loadPostsLoading: boolean;
   loadPostsDone: boolean;
   loadPostsError: any;
@@ -33,7 +30,7 @@ export interface PostState {
   updateCommentLoading: boolean;
   updateCommentDone: boolean;
   updateCommentError: any;
-  reportCommentLoading: boolean;
-  reportCommentDone: boolean;
-  reportCommentError: any;
+  reportLoading: boolean;
+  reportDone: boolean;
+  reportError: any;
 }

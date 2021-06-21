@@ -1,7 +1,8 @@
 import { leaveRequestAction, logOutRequestAction } from 'actions/actionUser';
+import { RootStateInterface } from 'interfaces/RootState';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ModalContainer, ModalExternal } from './styles';
 
 interface UserInfoModalProps {
@@ -10,22 +11,25 @@ interface UserInfoModalProps {
 
 function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
   const dispatch = useDispatch();
+  const { me } = useSelector((state: RootStateInterface) => state.user);
 
   const UserInfoModalTrigger = useCallback(() => {
     setUserInfoModal(false);
   }, [setUserInfoModal]);
 
   const onClickLogOutBtn = useCallback(() => {
-    dispatch(logOutRequestAction());
+    return dispatch(logOutRequestAction());
   }, []);
 
   const onClickDeleteAccountBtun = useCallback(() => {
+    if (!me) return;
+
     if (confirm('탈퇴하시겠습니까?')) {
-      dispatch(leaveRequestAction());
+      return dispatch(leaveRequestAction({ userId: me.id }));
     } else {
       return null;
     }
-  }, []);
+  }, [me]);
 
   return (
     <ModalExternal onClick={UserInfoModalTrigger}>

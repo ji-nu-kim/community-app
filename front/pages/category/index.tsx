@@ -42,16 +42,18 @@ function Category() {
           <h1>취미 찾아보기</h1>
           <div className="cards-container">
             {mainCategories.map(category => (
-              <Link href={`/category/${category.id}`} key={category.name}>
-                <a>
-                  <RoundStyleCard
-                    name={category.name}
-                    img={`http://localhost:3065/${category.profilePhoto}`}
-                    width="240"
-                    height="220"
-                  />
-                </a>
-              </Link>
+              <div key={category.name}>
+                <Link href={`/category/${category.id}`}>
+                  <a>
+                    <RoundStyleCard
+                      name={category.name}
+                      img={`http://localhost:3065/${category.profilePhoto}`}
+                      width="240"
+                      height="220"
+                    />
+                  </a>
+                </Link>
+              </div>
             ))}
           </div>
         </StyleContainer>

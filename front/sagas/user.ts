@@ -4,11 +4,10 @@ import {
   ChangeProfileData,
   IChangeCountryRequest,
   IChangeProfileRequest,
+  ILeaveRequest,
   ILoadUserInfoRequest,
   ILogInRequest,
   IRemoveNotificationRequest,
-  ISendNotificationRequest,
-  ISendNotificationSuccessData,
   ISignUpRequest,
   IUploadImageRequest,
   LoginData,
@@ -124,12 +123,12 @@ function* signUp(action: ISignUpRequest) {
   }
 }
 
-function leaveAPI() {
-  return axios.delete('/user/leave');
+function leaveAPI(data: { userId: number }) {
+  return axios.delete(`/user/${data.userId}`);
 }
-function* leave() {
+function* leave(action: ILeaveRequest) {
   try {
-    yield call(leaveAPI);
+    yield call(leaveAPI, action.data);
     yield put({
       type: actionTypesUser.LEAVE_SUCCESS,
     });
@@ -175,28 +174,6 @@ function* changeCountry(action: IChangeCountryRequest) {
   } catch (error) {
     yield put({
       type: actionTypesUser.CHANGE_COUNTRY_ERROR,
-      error: error.response.data,
-    });
-  }
-}
-
-function sendNotificationAPI(data: { title: string; userId: number }) {
-  return axios.post('/user/notification', data);
-}
-
-function* sendNotification(action: ISendNotificationRequest) {
-  try {
-    const result: { data: ISendNotificationSuccessData } = yield call(
-      sendNotificationAPI,
-      action.data
-    );
-    yield put({
-      type: actionTypesUser.SEND_NOTIFICATION_SUCCESS,
-      data: result.data,
-    });
-  } catch (error) {
-    yield put({
-      type: actionTypesUser.SEND_NOTIFICATION_ERROR,
       error: error.response.data,
     });
   }
@@ -270,9 +247,6 @@ function* watchChangeProfile() {
 function* watchChangeCountry() {
   yield takeLatest(actionTypesUser.CHANGE_COUNTRY_REQUEST, changeCountry);
 }
-function* watchSendNotification() {
-  yield takeLatest(actionTypesUser.SEND_NOTIFICATION_REQUEST, sendNotification);
-}
 function* watchCheckNotification() {
   yield takeLatest(actionTypesUser.CHECK_NOTIFICATION_REQUEST, checkNotification);
 }
@@ -291,7 +265,6 @@ export default function* userSaga() {
     fork(watchLeave),
     fork(watchChangeProfile),
     fork(watchChangeCountry),
-    fork(watchSendNotification),
     fork(watchCheckNotification),
     fork(watchRemoveNotification),
   ]);

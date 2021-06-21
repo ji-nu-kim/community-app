@@ -10,7 +10,6 @@ import {
   ILeaveRequest,
   IChangeProfileRequest,
   IChangeCountryRequest,
-  ISendNotificationRequest,
   ICheckNotificationRequest,
   IRemoveNotificationRequest,
   IAddMeetOfMe,
@@ -66,9 +65,10 @@ export const signUpRequestAction = (data: SignUpData): ISignUpRequest => {
     data,
   };
 };
-export const leaveRequestAction = (): ILeaveRequest => {
+export const leaveRequestAction = (data: { userId: number }): ILeaveRequest => {
   return {
     type: actionTypesUser.LEAVE_REQUEST,
+    data,
   };
 };
 export const changeProfileRequestAction = (
@@ -84,15 +84,6 @@ export const changeCountryRequestAction = (data: {
 }): IChangeCountryRequest => {
   return {
     type: actionTypesUser.CHANGE_COUNTRY_REQUEST,
-    data,
-  };
-};
-export const sendNotificationRequestAction = (data: {
-  title: string;
-  userId: number;
-}): ISendNotificationRequest => {
-  return {
-    type: actionTypesUser.SEND_NOTIFICATION_REQUEST,
     data,
   };
 };

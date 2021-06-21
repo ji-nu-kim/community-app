@@ -3,7 +3,6 @@ import {
   acceptCommunityRequestAction,
   refuseCommunityRequestAction,
 } from 'actions/actionCommunity';
-import { sendNotificationRequestAction } from 'actions/actionUser';
 import { ICommunity } from 'interfaces/db';
 import React, { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -24,46 +23,25 @@ function JoinUserModal({ setJoinUserModal, singleCommunity }: JoinUserModalProps
 
   const onClickAccept = useCallback(
     (userId: number) => async () => {
-      await Promise.all([
-        dispatch(
-          acceptCommunityRequestAction({
-            communityId: singleCommunity.id,
-            userId,
-          })
-        ),
-        dispatch(
-          refuseCommunityRequestAction({
-            communityId: singleCommunity.id,
-            userId,
-          })
-        ),
-        dispatch(
-          sendNotificationRequestAction({
-            title: `${singleCommunity.communityName} 커뮤니티 가입신청이 승인되었습니다`,
-            userId,
-          })
-        ),
-      ]);
+      return dispatch(
+        acceptCommunityRequestAction({
+          communityId: singleCommunity.id,
+          userId,
+          title: `${singleCommunity.communityName} 커뮤니티 가입신청이 승인되었습니다`,
+        })
+      );
     },
     [singleCommunity]
   );
 
   const onClickRefuse = useCallback(
     (userId: number) => async () => {
-      await Promise.all([
-        dispatch(
-          refuseCommunityRequestAction({
-            communityId: singleCommunity.id,
-            userId,
-          })
-        ),
-        dispatch(
-          sendNotificationRequestAction({
-            title: `${singleCommunity.communityName} 커뮤니티 가입신청이 거절되었습니다`,
-            userId,
-          })
-        ),
-      ]);
+      return dispatch(
+        refuseCommunityRequestAction({
+          communityId: singleCommunity.id,
+          userId,
+        })
+      );
     },
     [singleCommunity]
   );

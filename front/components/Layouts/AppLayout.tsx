@@ -6,6 +6,7 @@ import UserInfoModal from '../Modals/UserInfoModal';
 import NotificationModal from '../Modals/NotificationModal';
 import { useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
+import { useEffect } from 'react';
 
 const Global = createGlobalStyle`
   .ant-row {
@@ -25,15 +26,29 @@ interface AppLayoutProps {
 }
 
 function AppLayout({ children }: AppLayoutProps) {
-  const Notices = useSelector((state: RootStateInterface) => state.user.me?.Notices);
+  const { me, leaveDone, leaveError } = useSelector(
+    (state: RootStateInterface) => state.user
+  );
   const [userInfoModal, setUserInfoModal] = useState(false);
   const [notificationModal, setNotificationModal] = useState(false);
+
+  useEffect(() => {
+    if (leaveDone) {
+      alert('탈퇴처리가 완료되었습니다');
+    }
+  }, [leaveDone]);
+
+  useEffect(() => {
+    if (leaveError) {
+      alert(leaveError);
+    }
+  }, [leaveError]);
 
   return (
     <div>
       <Global />
       <NavBar
-        notices={Notices}
+        notices={me?.Notices}
         userInfoModal={userInfoModal}
         setUserInfoModal={setUserInfoModal}
         setNotificationModal={setNotificationModal}
@@ -47,7 +62,7 @@ function AppLayout({ children }: AppLayoutProps) {
       {notificationModal && (
         <NotificationModal
           setNotificationModal={setNotificationModal}
-          notices={Notices}
+          notices={me?.Notices}
         />
       )}
     </div>

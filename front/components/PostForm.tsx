@@ -63,12 +63,12 @@ function PostForm() {
     [].forEach.call(e.target.files, f => {
       imageFormData.append('image', f);
     });
-    dispatch(uploadImagesRequestAction(imageFormData));
+    return dispatch(uploadImagesRequestAction(imageFormData));
   }, []);
 
   const onRemoveImage = useCallback(
     (id: number) => () => {
-      dispatch(removeImage(id));
+      return dispatch(removeImage(id));
     },
     []
   );

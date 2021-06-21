@@ -74,6 +74,7 @@ export const joinCommunityRequestAction = (data: {
 export const acceptCommunityRequestAction = (data: {
   communityId: number;
   userId: number;
+  title: string;
 }): IAcceptCommunityRequest => {
   return {
     type: actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST,

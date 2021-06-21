@@ -31,9 +31,8 @@ function CommentEditModal({
   const onClickModify = useCallback(() => {
     if (confirm('댓글을 수정하시겠습니까?')) {
       dispatch(updateCommentRequestAction({ postId, commentId, content }));
-      setEditMode(false);
     }
-  }, [content]);
+  }, [postId, commentId, content]);
 
   return (
     <ModalContainer>

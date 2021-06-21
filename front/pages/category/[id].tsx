@@ -67,21 +67,27 @@ function Category() {
       <AppLayout>
         <CategoryLayout img={singleCategory.profilePhoto}>
           <CategoryHeader>
-            <h1>{singleCategory.name}</h1>
+            <h1>
+              {singleCategory.name}
+              <br />
+              커뮤니티 {changableCommunities.length}개
+            </h1>
           </CategoryHeader>
           <CategoryContent>
             <div className="cards-container">
               {changableCommunities.map(community => (
-                <Link key={community.id} href={`/community/${community.id}`}>
-                  <a>
-                    <BoxStyleCard
-                      profilePhoto={community.profilePhoto}
-                      categoryName={community.Categories[0].name}
-                      country={community.country}
-                      communityName={community.communityName}
-                    />
-                  </a>
-                </Link>
+                <div key={community.id}>
+                  <Link href={`/community/${community.id}`}>
+                    <a>
+                      <BoxStyleCard
+                        profilePhoto={community.profilePhoto}
+                        categoryName={community.Categories[0].name}
+                        country={community.country}
+                        communityName={community.communityName}
+                      />
+                    </a>
+                  </Link>
+                </div>
               ))}
             </div>
           </CategoryContent>

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 interface CategoryLayoutProps {
   children: ReactNode;
-  img: string;
+  img?: string;
 }
 
-interface IBackgroundImg {
-  img: string;
+interface IBackgroundProps {
+  img: string | null;
 }
 
 const CategoryContainer = styled.div`
@@ -16,7 +16,7 @@ const CategoryContainer = styled.div`
   width: 100%;
   height: 100%;
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${(props: IBackgroundImg) => props.img});
+    url(${(props: IBackgroundProps) => props.img && props.img});
   background-position: center;
   background-size: cover;
 `;
@@ -28,12 +28,13 @@ export const CategoryHeader = styled.div`
   position: relative;
 
   h1 {
+    white-space: pre-line;
     position: absolute;
     bottom: 50px;
     left: 50px;
     color: #fff;
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: 'Noto Sans KR', sans-serif;
     vertical-align: bottom;
   }
@@ -51,7 +52,9 @@ export const CategoryContent = styled.div`
 
 function CategoryLayout({ children, img }: CategoryLayoutProps) {
   return (
-    <CategoryContainer img={`http://localhost:3065/${img}`}>{children}</CategoryContainer>
+    <CategoryContainer img={img ? `http://localhost:3065/${img}` : null}>
+      {children}
+    </CategoryContainer>
   );
 }
 

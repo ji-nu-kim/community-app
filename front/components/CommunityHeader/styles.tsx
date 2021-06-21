@@ -111,7 +111,6 @@ export const HeaderContainer = styled.div`
     .leave-button {
       cursor: pointer;
       background: rgba(3, 155, 229, 0.7);
-      box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.4);
 
       :hover {
         filter: saturate(180%);
@@ -119,10 +118,10 @@ export const HeaderContainer = styled.div`
     }
 
     .remove-button {
-      background: rgba(217, 95, 162, 1);
+      background: radial-gradient(#fbd3e9, #bb377d);
     }
     .modify-button {
-      background: rgba(242, 92, 5, 1);
+      background: radial-gradient(#f7f8f8, #acbb78);
     }
 
     .wait-button {

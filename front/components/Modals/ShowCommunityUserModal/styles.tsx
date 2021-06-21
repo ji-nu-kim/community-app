@@ -60,15 +60,15 @@ export const ModalBody = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
+  overflow: auto;
 
   .user-container {
-    cursor: pointer;
     display: flex;
+    flex-direction: column;
     align-items: center;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    height: 40px;
-    padding: 0.75rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
     margin-right: 1rem;
 
@@ -77,26 +77,38 @@ export const ModalBody = styled.div`
       background: rgba(0, 0, 0, 0.1);
     }
 
-    img {
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .fake-image {
-      width: 24px;
-      height: 24px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
+    .user-name {
+      padding: 0.25rem;
       display: flex;
-      justify-content: center;
       align-items: center;
-      color: #fff;
+
+      img {
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .fake-image {
+        width: 24px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+      }
+
+      .user-nickname {
+        margin-left: 4px;
+        font-weight: bold;
+        color: #b3b3b3;
+      }
     }
 
-    .user-nickname {
-      margin-left: 4px;
-      font-weight: bold;
-      color: #b3b3b3;
+    .user-country {
+      padding: 0.25rem;
+      color: #039be5;
+      font-size: 0.75rem;
     }
   }
 `;

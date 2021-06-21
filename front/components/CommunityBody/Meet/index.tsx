@@ -33,7 +33,6 @@ function Meet({ singleCommunity, communityUser, me }: MeeetProps) {
   const joinedMeetList = singleCommunity.Meets.filter(meet =>
     joinedMeetIndex?.includes(meet.id)
   );
-  console.log(joinedMeetList);
   const notJoinedMeetList = singleCommunity.Meets.filter(
     meet => !joinedMeetIndex?.includes(meet.id)
   );

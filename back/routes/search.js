@@ -1,6 +1,5 @@
 const express = require('express');
 const { Community, Category } = require('../models');
-const { isLoggedIn } = require('./middlewares');
 const { Op } = require('sequelize');
 
 const router = express.Router();
@@ -12,6 +11,7 @@ router.get('/:keyword', async (req, res, next) => {
       where: {
         communityName: { [Op.like]: `%${decodeURIComponent(req.params.keyword)}%` },
       },
+      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
       include: {
         model: Category,
         through: 'COMMUNITY_CATEGORY',

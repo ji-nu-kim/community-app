@@ -41,7 +41,9 @@ class CustomDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Yeon+Sung&display=swap"
             rel="stylesheet"
           />
-          <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=62b3976eb30288d24fa52e7f88fec8a1&libraries=services"></script>
+          <script
+            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services`}
+          ></script>
         </Head>
         <body>
           <Main />

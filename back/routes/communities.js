@@ -9,6 +9,7 @@ router.get('/', async (req, res, next) => {
     const newCommunity = await Community.findAll({
       limit: 21,
       order: [['createdAt', 'DESC']],
+      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
       include: [
         {
           model: Category,
@@ -31,9 +32,10 @@ router.get('/country/:country', async (req, res, next) => {
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
     }
-    const villageCommunity = await Community.findAll({
-      limit: 12,
+    const countryCommunity = await Community.findAll({
+      limit: 21,
       order: [['createdAt', 'DESC']],
+      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
       where,
       include: [
         {
@@ -43,10 +45,10 @@ router.get('/country/:country', async (req, res, next) => {
         },
       ],
     });
-    if (!villageCommunity) {
+    if (!countryCommunity) {
       return res.status(404).send('해당 지역에 커뮤니티가 없습니다');
     }
-    return res.status(200).json(villageCommunity);
+    return res.status(200).json(countryCommunity);
   } catch (error) {
     console.error(error);
     next(error);
@@ -62,12 +64,14 @@ router.get('/category/:categoryId', async (req, res, next) => {
     }
     const categoryCommunity = await Community.findAll({
       where,
-      limit: 18,
+      limit: 21,
       order: [['createdAt', 'DESC']],
+      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
       include: {
         model: Category,
         through: 'COMMUNITY_CATEGORY',
         where: { id: req.params.categoryId },
+        attributes: ['name', 'profilePhoto'],
       },
     });
     if (!categoryCommunity) {

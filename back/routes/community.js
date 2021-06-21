@@ -123,7 +123,7 @@ router.post('/:communityId/accept/:userId', isLoggedIn, async (req, res, next) =
     });
     const acceptUser = await User.findOne({
       where: { id: user.id },
-      attributes: ['id', 'nickname', 'profilePhoto'],
+      attributes: ['id', 'nickname', 'profilePhoto', 'country'],
     });
     return res.status(200).json(acceptUser);
   } catch (error) {
@@ -134,14 +134,12 @@ router.post('/:communityId/accept/:userId', isLoggedIn, async (req, res, next) =
 
 // 커뮤니티 삭제
 router.delete('/:communityId', async (req, res, next) => {
-  const t = await sequelize.transaction();
   try {
     const community = await Community.findOne({
       where: { id: req.params.communityId },
       include: { model: User, through: 'COMMUNITY_USER' },
     });
     if (!community) {
-      await t.rollback();
       return res.status(404).send('존재하지 않는 커뮤니티입니다');
     }
     // 게시글 전부 삭제
@@ -150,29 +148,26 @@ router.delete('/:communityId', async (req, res, next) => {
     });
 
     if (communityPost.length) {
-      await communityPost.map(
-        async post => {
-          if (post.Comments.length) {
-            await post.Comments.map(async comment => {
-              await comment.destroy({
-                where: {
-                  UserId: comment.UserId,
-                  id: comment.id,
-                  PostId: comment.PostId,
-                },
-              });
+      await communityPost.map(async post => {
+        if (post.Comments.length) {
+          await post.Comments.map(async comment => {
+            await comment.destroy({
+              where: {
+                UserId: comment.UserId,
+                id: comment.id,
+                PostId: comment.PostId,
+              },
             });
-          }
-          await post.destroy({
-            where: {
-              id: post.id,
-              UserId: post.UserId,
-              CommunityId: post.CommunityId,
-            },
           });
-        },
-        { transaction: t }
-      );
+        }
+        await post.destroy({
+          where: {
+            id: post.id,
+            UserId: post.UserId,
+            CommunityId: post.CommunityId,
+          },
+        });
+      });
     }
 
     // 모임 전부 삭제(유저리스트 지우고 모임삭제)
@@ -182,7 +177,7 @@ router.delete('/:communityId', async (req, res, next) => {
         let users = await meet.getUsers();
         if (users) {
           await users.map(async user => {
-            await meet.removeUsers(user.id, { transaction: t });
+            await meet.removeUsers(user.id);
           });
         }
       });
@@ -193,23 +188,16 @@ router.delete('/:communityId', async (req, res, next) => {
 
     // 유저 전부 삭제
     const usersId = await community.Users.map(user => user.id);
-    await usersId.map(
-      async userId => await community.removeUsers(userId, { transaction: t })
-    );
+    await usersId.map(async userId => await community.removeUsers(userId));
 
     // 카테고리 삭제
     const category = await community.getCategories();
-    await category.map(
-      async c => await community.removeCategories(c.id, { transaction: t })
-    );
+    await category.map(async c => await community.removeCategories(c.id));
 
     // 커뮤니티 제거
-    await community.destroy({ transaction: t });
-
-    await t.commit();
+    await community.destroy();
     return res.status(200).json(communityMeet);
   } catch (error) {
-    await t.rollback();
     console.error(error);
     next(error);
   }
@@ -388,10 +376,12 @@ router.get('/:communityId', async (req, res, next) => {
           model: User,
           through: 'COMMUNITY_JOIN',
           as: 'JoinUsers',
+          attributes: ['id', 'nickname', 'country', 'profilePhoto'],
         },
         {
           model: User,
           through: 'COMMUNITY_USER',
+          attributes: ['id', 'nickname', 'country', 'profilePhoto'],
         },
         {
           model: Category,
@@ -400,7 +390,11 @@ router.get('/:communityId', async (req, res, next) => {
         },
         {
           model: Meet,
-          include: { model: User, through: 'MEET_USER' },
+          include: {
+            model: User,
+            through: 'MEET_USER',
+            attributes: ['id', 'nickname'],
+          },
         },
       ],
     });

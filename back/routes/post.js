@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { Post, User, Image, Comment, Report } = require('../models');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 

@@ -2,16 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-const {
-  User,
-  Post,
-  Community,
-  Category,
-  Notice,
-  Comment,
-  Meet,
-  sequelize,
-} = require('../models');
+const { User, Community, Category, Notice, Meet, sequelize } = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -57,7 +48,11 @@ router.get('/', async (req, res, next) => {
           },
           {
             model: Meet,
-            include: { model: User, through: 'MEET_USER' },
+            include: {
+              model: User,
+              through: 'MEET_USER',
+              attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
+            },
           },
           {
             model: Community,
@@ -66,6 +61,7 @@ router.get('/', async (req, res, next) => {
               {
                 model: User,
                 through: 'COMMUNITY_USER',
+                attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
               },
               {
                 model: Category,
@@ -213,7 +209,15 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
         {
           model: Category,
           through: 'CATEGORY_USER',
-          attributes: ['name', 'profilePhoto'],
+          attributes: ['id', 'name', 'profilePhoto'],
+        },
+        {
+          model: Meet,
+          include: {
+            model: User,
+            through: 'MEET_USER',
+            attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
+          },
         },
         {
           model: Community,
@@ -222,6 +226,7 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
             {
               model: User,
               through: 'COMMUNITY_USER',
+              attributes: ['id', 'nickname', 'email', 'country', 'profilePhoto'],
             },
             {
               model: Category,
@@ -235,7 +240,6 @@ router.post('/profile', upload.none(), isLoggedIn, async (req, res, next) => {
         },
       ],
     });
-
     return res.status(200).json(profileChangeUser);
   } catch (error) {
     console.error(error);
@@ -287,34 +291,6 @@ router.patch('/country', isLoggedIn, async (req, res, next) => {
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/image', upload.array('image'), (req, res, next) => {
   res.json(req.files.map(v => v.filename));
-});
-
-// 특정 유저 검색
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: { id: parseInt(req.params.userId, 10) },
-      attributes: ['id', 'nickname', 'email', 'country', 'categories', 'profilePhoto'],
-      include: [
-        {
-          model: Post,
-          attributes: ['id'],
-        },
-      ],
-    });
-    if (user) {
-      const data = user.toJSON();
-      data.Posts = data.Posts.length;
-      data.Followers = data.Followers.length;
-      data.Followings = data.Followings.length;
-      return res.status(200).json(data);
-    } else {
-      return res.status(404).json('존재하지 않는 사용자입니다');
-    }
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
 });
 
 module.exports = router;

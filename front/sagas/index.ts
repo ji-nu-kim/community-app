@@ -5,7 +5,7 @@ import userSaga from './user';
 import postSaga from './post';
 import communitySaga from './community';
 
-axios.defaults.baseURL = 'http://localhost:3065';
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {

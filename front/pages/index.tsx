@@ -1,9 +1,10 @@
+import axios from 'axios';
 import React, { memo, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { GetServerSideProps } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-import axios from 'axios';
+import dynamic from 'next/dynamic';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 import { RootStateInterface } from 'interfaces/RootState';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import {
@@ -11,7 +12,6 @@ import {
   loadCountryCommunitiesRequestAction,
 } from 'actions/actionCommunity';
 import wrapper from 'store/configureStore';
-import Link from 'next/link';
 
 const BoxStyleCard = dynamic(() => import('components/Cards/BoxStyleCard'));
 const HomeLayout = dynamic(() => import('components/Layouts/HomeLayout'));
@@ -65,7 +65,6 @@ function Home() {
   return (
     <AppLayout>
       <HomeLayout>
-        {/* 유저정보가 없어도 보여지는 카드 */}
         <section>
           <h1>새로운 커뮤니티를 만나보세요</h1>
           <div className="cards-container">
@@ -86,7 +85,6 @@ function Home() {
           </div>
         </section>
 
-        {/* 유저정보가 있을 때 보여지는 카드  */}
         {me && changableCommunities && (
           <section>
             <h1>우리동네 커뮤니티</h1>

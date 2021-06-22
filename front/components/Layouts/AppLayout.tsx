@@ -1,12 +1,13 @@
-import React, { memo, ReactNode, useState } from 'react';
+import React, { memo, ReactNode, useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { createGlobalStyle } from 'styled-components';
-import NavBar from '../NavBar';
-import SideBar from '../SideBar';
-import UserInfoModal from '../Modals/UserInfoModal';
-import NotificationModal from '../Modals/NotificationModal';
 import { useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
-import { useEffect } from 'react';
+
+const NavBar = dynamic(() => import('components/NavBar'));
+const SideBar = dynamic(() => import('components/SideBar'));
+const UserInfoModal = dynamic(() => import('components/Modals/UserInfoModal'));
+const NotificationModal = dynamic(() => import('components/Modals/NotificationModal'));
 
 const Global = createGlobalStyle`
   .ant-row {

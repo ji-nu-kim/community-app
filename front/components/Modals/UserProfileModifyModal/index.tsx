@@ -1,19 +1,15 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Button, Form } from 'antd';
-import ImageInsert from 'components/ImageInsert';
+import dynamic from 'next/dynamic';
 import { RootStateInterface } from 'interfaces/RootState';
-import React, {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-  useState,
-} from 'react';
+import React, { Dispatch, memo, SetStateAction, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ModalContainer, ModalHeader, ModalBody } from './styles';
 import useInput from 'hooks/useInput';
-import CategoryList from 'components/CategoryList';
 import { changeProfileRequestAction } from 'actions/actionUser';
+
+const ImageInsert = dynamic(() => import('components/ImageInsert'));
+const CategoryList = dynamic(() => import('components/CategoryList'));
 
 interface UserProfileModifyModalProps {
   setUserProfileModifyModal: Dispatch<SetStateAction<boolean>>;
@@ -23,12 +19,8 @@ function UserProfileModifyModal({
   setUserProfileModifyModal,
 }: UserProfileModifyModalProps) {
   const dispatch = useDispatch();
-  const { me, imagePath } = useSelector(
-    (state: RootStateInterface) => state.user
-  );
-  const [newNickname, onChangeNewNickname] = useInput<string>(
-    me?.nickname || ''
-  );
+  const { me, imagePath } = useSelector((state: RootStateInterface) => state.user);
+  const [newNickname, onChangeNewNickname] = useInput<string>(me?.nickname || '');
 
   const mainCategories = useSelector(
     (state: RootStateInterface) => state.community.mainCategories
@@ -65,10 +57,7 @@ function UserProfileModifyModal({
           <div className="form-profile">
             <div className="profile-img">
               <label>프로필사진</label>
-              <ImageInsert
-                imagePath={imagePath}
-                profilePhoto={me?.profilePhoto}
-              />
+              <ImageInsert imagePath={imagePath} profilePhoto={me?.profilePhoto} />
             </div>
             <div className="profile-nickname">
               <label htmlFor="nickname">닉네임</label>

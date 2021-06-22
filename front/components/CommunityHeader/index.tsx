@@ -4,15 +4,18 @@ import {
   leaveCommunityRequestAction,
   removeCommunityRequestAction,
 } from 'actions/actionCommunity';
-import CommunityModifyModal from 'components/Modals/CommunityModifyModal';
-import JoinUserModal from 'components/Modals/JoinUserModal';
 import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderContainer } from './styles';
 
+const JoinUserModal = dynamic(() => import('components/Modals/JoinUserModal'));
+const CommunityModifyModal = dynamic(
+  () => import('components/Modals/CommunityModifyModal')
+);
 interface CommunityHeaderProps {
   singleCommunity: ICommunity;
   me: IUser | null;

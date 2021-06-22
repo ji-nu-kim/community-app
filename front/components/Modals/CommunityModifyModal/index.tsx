@@ -1,4 +1,5 @@
 import React, { Dispatch, memo, SetStateAction, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import {
   ModalContainer,
   ModalHeader,
@@ -6,14 +7,13 @@ import {
   TextAreaContainer,
 } from './styles';
 import { CloseCircleOutlined } from '@ant-design/icons';
-import Form from 'antd/lib/form/Form';
-import { Button } from 'antd';
-import ImageInsert from 'components/ImageInsert';
+import { Button, Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 import useInput from 'hooks/useInput';
 import { changeCommunityInfoRequestAction } from 'actions/actionCommunity';
 
+const ImageInsert = dynamic(() => import('components/ImageInsert'));
 interface CommunityModalProps {
   setShowCommunityModifyModal: Dispatch<SetStateAction<boolean>>;
 }

@@ -1,10 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback, useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { MakeMeetButton, MeetContainer, CardContainer } from './styles';
-import CreateMeetModal from 'components/Modals/CreateMeetModal';
-import ModifyMeetModal from 'components/Modals/ModifyMeetModal';
-import Map from 'components/Map';
 import {
   joinMeetRequestAction,
   leaveMeetRequestAction,
@@ -12,7 +10,10 @@ import {
 } from 'actions/actionCommunity';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
-import { useEffect } from 'react';
+
+const ModifyMeetModal = dynamic(() => import('components/Modals/ModifyMeetModal'));
+const CreateMeetModal = dynamic(() => import('components/Modals/CreateMeetModal'));
+const Map = dynamic(() => import('components/Map'));
 
 interface MeeetProps {
   singleCommunity: ICommunity;

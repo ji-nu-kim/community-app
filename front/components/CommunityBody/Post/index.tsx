@@ -1,18 +1,21 @@
 import { MessageOutlined, MoreOutlined } from '@ant-design/icons';
 import { loadPostsRequestAction } from 'actions/actionPost';
-import CommentForm from 'components/CommentForm';
-import CommentEditModal from 'components/Modals/CommentEditModal';
-import CommentSettingModal from 'components/Modals/CommentSettingModal';
-import PostEditModal from 'components/Modals/PostEditModal';
-import PostSettingModal from 'components/Modals/PostSettingModal';
-import PostForm from 'components/PostForm';
 import { ICommunity, IUserInfo } from 'interfaces/db';
 import { RootStateInterface } from 'interfaces/RootState';
 import moment from 'moment';
-import React, { memo, useCallback, useEffect, useState } from 'react';
-import { useRef } from 'react';
+import React, { memo, useCallback, useEffect, useState, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
 import { PostContainer } from './styles';
+
+const PostSettingModal = dynamic(() => import('components/Modals/PostSettingModal'));
+const PostEditModal = dynamic(() => import('components/Modals/PostEditModal'));
+const CommentSettingModal = dynamic(
+  () => import('components/Modals/CommentSettingModal')
+);
+const CommentEditModal = dynamic(() => import('components/Modals/CommentEditModal'));
+const PostForm = dynamic(() => import('components/PostForm'));
+const CommentForm = dynamic(() => import('components/CommentForm'));
 
 interface PostProps {
   singleCommunity: ICommunity;

@@ -2,19 +2,18 @@ import { loadMyInfoRequestAction } from '../actions/actionUser';
 import { Form, Button } from 'antd';
 import Head from 'next/head';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 import { useForm, Controller } from 'react-hook-form';
 import { addCommunityValidation } from '../utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FormErrorMessage from 'components/Message/FormErrorMessage';
 import SignUpLayout, {
   InputContainer,
   TextAreaContainer,
   ButtonContainer,
 } from 'components/Layouts/FormLayout';
-import SearchAddressModal from 'components/Modals/SearchAddressModal';
 import {
   addCommunityRequestAction,
   loadCategoriesRequestAction,
@@ -23,6 +22,9 @@ import { END } from '@redux-saga/core';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import wrapper from 'store/configureStore';
+
+const FormErrorMessage = dynamic(() => import('components/Message/FormErrorMessage'));
+const SearchAddressModal = dynamic(() => import('components/Modals/SearchAddressModal'));
 
 type SignUpType = {
   communityName: string;

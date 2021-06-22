@@ -1,18 +1,19 @@
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Form } from 'antd';
-import FormErrorMessage from 'components/Message/FormErrorMessage';
 import React, { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Controller, useForm } from 'react-hook-form';
 import { createMeetValidation } from 'utils/yup';
 import { ModalContainer, ModalHeader, ModalBody, InputContainer } from './styles';
-import SearchAddressModal from 'components/Modals/SearchAddressModal';
 import { fromMomentToDate } from 'utils/day';
-
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { IMeet } from 'interfaces/db';
 import { modifyMeetRequestAction } from 'actions/actionCommunity';
+
+const SearchAddressModal = dynamic(() => import('components/Modals/SearchAddressModal'));
+const FormErrorMessage = dynamic(() => import('components/Message/FormErrorMessage'));
 
 type CreateMeetType = {
   title: string;

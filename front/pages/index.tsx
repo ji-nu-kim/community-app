@@ -1,19 +1,21 @@
-import AppLayout from '../components/Layouts/AppLayout';
 import React, { memo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { GetServerSideProps } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import axios from 'axios';
-import { RootStateInterface } from '../interfaces/RootState';
+import { RootStateInterface } from 'interfaces/RootState';
 import { loadMyInfoRequestAction } from 'actions/actionUser';
 import {
   loadCommunitiesRequestAction,
   loadCountryCommunitiesRequestAction,
 } from 'actions/actionCommunity';
 import wrapper from 'store/configureStore';
-import { GetServerSideProps } from 'next';
-import BoxStyleCard from 'components/Cards/BoxStyleCard';
-import HomeLayout from 'components/Layouts/HomeLayout';
 import Link from 'next/link';
+
+const BoxStyleCard = dynamic(() => import('components/Cards/BoxStyleCard'));
+const HomeLayout = dynamic(() => import('components/Layouts/HomeLayout'));
+const AppLayout = dynamic(() => import('components/Layouts/AppLayout'));
 
 function Home() {
   const dispatch = useDispatch();
@@ -39,14 +41,11 @@ function Home() {
   useEffect(() => {
     function onScroll() {
       if (me?.country && changableCommunities.length) {
-        console.log(1);
         if (
           window.scrollY + document.documentElement.clientHeight >=
           document.documentElement.scrollHeight - 200
         ) {
-          console.log(2);
           if (hasMoreCommunity && !loadCommunitiesLoading) {
-            console.log(3);
             const lastId = changableCommunities[changableCommunities.length - 1].id;
             dispatch(
               loadCountryCommunitiesRequestAction({

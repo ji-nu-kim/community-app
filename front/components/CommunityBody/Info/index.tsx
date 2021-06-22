@@ -1,8 +1,11 @@
-import ShowCommunityUserModal from 'components/Modals/ShowCommunityUserModal';
 import { ICommunity } from 'interfaces/db';
 import React, { useCallback, useState } from 'react';
 import { InfoContainer } from './styles';
+import dynamic from 'next/dynamic';
 
+const ShowCommunityUserModal = dynamic(
+  () => import('components/Modals/ShowCommunityUserModal')
+);
 interface InfoProps {
   singleCommunity: ICommunity;
 }

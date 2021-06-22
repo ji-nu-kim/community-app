@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { BodyContainer } from './styles';
 import { ICommunity, IUser, IUserInfo } from 'interfaces/db';
-import Info from './Info';
-import Post from './Post';
-import Meet from './Meet';
+
+const Info = dynamic(() => import('./Info'));
+const Post = dynamic(() => import('./Post'));
+const Meet = dynamic(() => import('./Meet'));
 
 interface CommunityBodyProps {
   singleCommunity: ICommunity;

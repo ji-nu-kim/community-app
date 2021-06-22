@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ColorAni } from '../../../utils/stylesUtil';
+import { ColorAni } from 'utils/stylesUtil';
 
 export const ModalContainer = styled.div`
   position: absolute;

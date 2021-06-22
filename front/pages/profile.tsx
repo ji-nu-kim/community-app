@@ -1,7 +1,9 @@
 import AppLayout from '../components/Layouts/AppLayout';
 import { RootStateInterface } from '../interfaces/RootState';
+import Link from 'next/link';
 import Head from 'next/head';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCountryRequestAction, loadMyInfoRequestAction } from 'actions/actionUser';
@@ -14,11 +16,13 @@ import ProfileLayout, {
   ProfileContent,
   ProfileHeader,
 } from 'components/Layouts/ProfileLayout';
-import UserProfileModifyModal from 'components/Modals/UserProfileModifyModal';
 import { loadCategoriesRequestAction } from 'actions/actionCommunity';
 import RoundStyleCard from 'components/Cards/RoundStyleCard';
-import SearchAddressModal from 'components/Modals/SearchAddressModal';
-import Link from 'next/link';
+
+const UserProfileModifyModal = dynamic(
+  () => import('components/Modals/UserProfileModifyModal')
+);
+const SearchAddressModal = dynamic(() => import('components/Modals/SearchAddressModal'));
 
 function Profile() {
   const dispatch = useDispatch();

@@ -2,18 +2,20 @@ import { signUpRequestAction } from '../actions/actionUser';
 import { Form, Checkbox, Button } from 'antd';
 import Head from 'next/head';
 import Router from 'next/router';
+import dynamic from 'next/dynamic';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStateInterface } from 'interfaces/RootState';
 import { useForm, Controller } from 'react-hook-form';
 import { signUpValidation } from '../utils/yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import FormErrorMessage from 'components/Message/FormErrorMessage';
 import SignUpLayout, {
   InputContainer,
   ButtonContainer,
 } from 'components/Layouts/FormLayout';
-import SearchAddressModal from 'components/Modals/SearchAddressModal';
+
+const FormErrorMessage = dynamic(() => import('components/Message/FormErrorMessage'));
+const SearchAddressModal = dynamic(() => import('components/Modals/SearchAddressModal'));
 
 type SignUpType = {
   email: string;

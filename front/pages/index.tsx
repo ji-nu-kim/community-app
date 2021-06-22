@@ -68,7 +68,7 @@ function Home() {
       <HomeLayout>
         {/* 유저정보가 없어도 보여지는 카드 */}
         <section>
-          <h1>새로운 커뮤니티를 만나보세요!</h1>
+          <h1>새로운 커뮤니티를 만나보세요</h1>
           <div className="cards-container">
             {mainCommunities.map(community => (
               <div key={`new${community.id}`}>

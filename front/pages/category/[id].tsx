@@ -71,7 +71,7 @@ function Category() {
             <h1>
               {singleCategory.name}
               <br />
-              커뮤니티 {communityLength}개
+              {communityLength}개의 커뮤니티
             </h1>
           </CategoryHeader>
           <CategoryContent>

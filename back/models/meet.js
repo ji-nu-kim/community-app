@@ -28,7 +28,7 @@ module.exports = class Meet extends Model {
       },
       {
         modelName: 'Meet',
-        tableName: 'Meets',
+        tableName: 'meets',
         charset: 'utf8',
         collate: 'utf8_general_ci',
         sequelize,

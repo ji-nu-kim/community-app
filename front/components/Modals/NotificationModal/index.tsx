@@ -10,10 +10,7 @@ interface NotificationModalProps {
   notices: INotice[] | undefined;
 }
 
-function NotificationModal({
-  setNotificationModal,
-  notices,
-}: NotificationModalProps) {
+function NotificationModal({ setNotificationModal, notices }: NotificationModalProps) {
   const dispatch = useDispatch();
   const [showDeleteButton, setShowDeleteButton] = useState(false);
 
@@ -27,7 +24,6 @@ function NotificationModal({
 
   const onClickDelete = useCallback(
     (notificationId: number) => () => {
-      // 알림 삭제
       return dispatch(removeNotificationRequestAction({ notificationId }));
     },
     []
@@ -50,12 +46,9 @@ function NotificationModal({
                   onMouseEnter={onMouseEnterListElem}
                   onMouseLeave={onMouseLeaveListElem}
                 >
-                  {notice.title} {moment(notice.createdAt).format('lll')}
+                  {notice.title} {moment(notice.createdAt).locale('ko').format('LLL')}
                   {showDeleteButton && (
-                    <button
-                      className="delete-button"
-                      onClick={onClickDelete(notice.id)}
-                    >
+                    <button className="delete-button" onClick={onClickDelete(notice.id)}>
                       삭제
                     </button>
                   )}

@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
-      origin: 'http://portfolio-community.com',
+      origin: ['http://portfolio-community.com', 'http://52.78.160.142'],
       credentials: true,
     })
   );
@@ -73,6 +73,10 @@ app.use('/user', userRouter);
 app.use('/community', communityRouter);
 app.use('/communities', communitiesRouter);
 app.use('/search', searchRouter);
+
+app.get('/', (req, res) => {
+  res.send('커뮤니티 서버입니다');
+});
 
 app.listen(80, () => {
   console.log('서버 실행 중');

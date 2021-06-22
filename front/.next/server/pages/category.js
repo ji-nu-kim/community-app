@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"e20eafc861c238c766c1","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"e40b3d94ab9970d967c4","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -217,7 +217,7 @@ function Category() {
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(components_Cards_RoundStyleCard__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"], {
                   name: category.name,
-                  img: `${"http://localhost:3065"}/${category.profilePhoto}`,
+                  img: `${"http://52.78.160.142"}/${category.profilePhoto}`,
                   width: "240",
                   height: "220"
                 })
@@ -5502,7 +5502,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = 'http://localhost:3065';
+external_axios_default.a.defaults.baseURL = "http://52.78.160.142";
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3","2":"103a6cc842fd2498f1a0","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"e20eafc861c238c766c1","21":"511749d32ab2e703b3d2","22":"043ce6010dd2c89fb8b5","23":"75794595e76f5b95471b","24":"4906f56ca0466f8543d6","25":"e5133fd9961be3f6d06c","27":"545ec2f97ddf8ebbfdeb","28":"66d6e128ad5ffbd61e02","29":"ceadee35cfb058f0e721","30":"96817a6183ccc1b8b7ef","33":"a9af42f040d83730b60d","34":"8b528b1703bf50e11ff1","37":"741f15591bbbf040abc9","38":"a99d21cd9ecc54e92c77","39":"257dc8bb3f6ae4918fdf","40":"ebe80546776b7788e610","41":"fca4060ed520d07c68e2"}[chunkId] + ".js");
+/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3","2":"93e10d6fa3921b35e42d","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"e40b3d94ab9970d967c4","21":"511749d32ab2e703b3d2","22":"043ce6010dd2c89fb8b5","23":"75794595e76f5b95471b","24":"4906f56ca0466f8543d6","25":"e5133fd9961be3f6d06c","27":"545ec2f97ddf8ebbfdeb","28":"66d6e128ad5ffbd61e02","29":"3c3745040b4ebaebf5b0","30":"73bc4b2401500464062a","33":"a9af42f040d83730b60d","34":"52602d1233ee9d7d107c","37":"741f15591bbbf040abc9","38":"a99d21cd9ecc54e92c77","39":"257dc8bb3f6ae4918fdf","40":"ebe80546776b7788e610","41":"2a7553860d402a10f122"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -1213,7 +1213,7 @@ function CommunityHeader({
       children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
         className: "header-image",
         children: singleCommunity.profilePhoto ? /*#__PURE__*/Object(jsx_runtime_["jsx"])("img", {
-          src: `${"http://localhost:3065"}/${singleCommunity.profilePhoto}`,
+          src: `${"http://52.78.160.142"}/${singleCommunity.profilePhoto}`,
           width: "150",
           height: "150",
           alt: "profile-image"
@@ -1341,7 +1341,7 @@ function Community() {
       })
     }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(AppLayout["default"], {
       children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(CommunityContainer, {
-        backgroundImage: singleCommunity.profilePhoto ? `${"http://localhost:3065"}/${singleCommunity.profilePhoto}` : null,
+        backgroundImage: singleCommunity.profilePhoto ? `${"http://52.78.160.142"}/${singleCommunity.profilePhoto}` : null,
         children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(components_CommunityHeader, {
           singleCommunity: singleCommunity,
           me: me,
@@ -3345,7 +3345,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = 'http://localhost:3065';
+external_axios_default.a.defaults.baseURL = "http://52.78.160.142";
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

@@ -47,7 +47,7 @@ function Category() {
                   <a>
                     <RoundStyleCard
                       name={category.name}
-                      img={`http://localhost:3065/${category.profilePhoto}`}
+                      img={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${category.profilePhoto}`}
                       width="240"
                       height="220"
                     />

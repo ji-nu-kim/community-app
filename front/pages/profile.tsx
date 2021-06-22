@@ -76,7 +76,7 @@ function Profile() {
               <div className="header-image">
                 {me?.profilePhoto ? (
                   <img
-                    src={`http://localhost:3065/${me?.profilePhoto}`}
+                    src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${me?.profilePhoto}`}
                     width="150"
                     height="150"
                     alt="profile-image"
@@ -107,7 +107,7 @@ function Profile() {
                       <a>
                         <RoundStyleCard
                           name={category.name}
-                          img={`http://localhost:3065/${category.profilePhoto}`}
+                          img={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${category.profilePhoto}`}
                           width="240"
                           height="220"
                         />
@@ -128,7 +128,7 @@ function Profile() {
                           name={community.communityName}
                           img={
                             community.profilePhoto
-                              ? `http://localhost:3065/${community.profilePhoto}`
+                              ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${community.profilePhoto}`
                               : null
                           }
                           width="240"

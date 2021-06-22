@@ -33,7 +33,7 @@ function ShowCommunityUserModal({
                   <img
                     width="24px"
                     height="24px"
-                    src={`http://localhost:3065/${user.profilePhoto}`}
+                    src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${user.profilePhoto}`}
                     alt="user-image"
                   />
                 ) : (

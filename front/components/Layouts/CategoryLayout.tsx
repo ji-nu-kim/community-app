@@ -53,7 +53,9 @@ export const CategoryContent = styled.div`
 
 function CategoryLayout({ children, img }: CategoryLayoutProps) {
   return (
-    <CategoryContainer img={img ? `http://localhost:3065/${img}` : null}>
+    <CategoryContainer
+      img={img ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${img}` : null}
+    >
       {children}
     </CategoryContainer>
   );

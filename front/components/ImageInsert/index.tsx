@@ -20,9 +20,7 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
   const router = useRouter();
   const dispatch = useDispatch();
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const { uploadImageDone } = useSelector(
-    (state: RootStateInterface) => state.user
-  );
+  const { uploadImageDone } = useSelector((state: RootStateInterface) => state.user);
   const { uploadCommunityImageDone } = useSelector(
     (state: RootStateInterface) => state.community
   );
@@ -72,17 +70,13 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
           ref={imageInputRef}
           onChange={onChangeImages}
         />
-        <Button
-          onClick={onClickImageUpload}
-          shape="circle"
-          className="img-input-btn"
-        >
+        <Button onClick={onClickImageUpload} shape="circle" className="img-input-btn">
           {imagePath.length ? (
             <>
               <img
                 width="100"
                 height="100"
-                src={`http://localhost:3065/${imagePath[0]}`}
+                src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${imagePath[0]}`}
                 alt="profileimage"
               />
               <div onClick={onRemoveImage} className="img-delete-btn">
@@ -93,7 +87,7 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
             <img
               width="100"
               height="100"
-              src={`http://localhost:3065/${profilePhoto}`}
+              src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${profilePhoto}`}
               alt="profileimage"
             />
           ) : (

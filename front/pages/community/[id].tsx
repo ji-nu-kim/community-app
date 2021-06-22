@@ -61,7 +61,7 @@ function Community() {
         <CommunityContainer
           backgroundImage={
             singleCommunity.profilePhoto
-              ? `http://localhost:3065/${singleCommunity.profilePhoto}`
+              ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${singleCommunity.profilePhoto}`
               : null
           }
         >

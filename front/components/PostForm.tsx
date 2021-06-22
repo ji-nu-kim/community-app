@@ -94,7 +94,7 @@ function PostForm() {
           {imagePaths.map((v, i) => (
             <div key={v} style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}>
               <img
-                src={`http://localhost:3065/${v}`}
+                src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${v}`}
                 style={{ width: '100px' }}
                 alt={v}
               />

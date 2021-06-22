@@ -61,7 +61,7 @@ function JoinUserModal({ setJoinUserModal, singleCommunity }: JoinUserModalProps
               <div className="card-image">
                 {user.profilePhoto ? (
                   <img
-                    src={`http://localhost:3065/${user.profilePhoto}`}
+                    src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${user.profilePhoto}`}
                     alt="profile-photo"
                   />
                 ) : (

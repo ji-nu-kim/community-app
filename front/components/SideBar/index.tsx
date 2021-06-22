@@ -83,7 +83,7 @@ function SideBar() {
                           <img
                             width="24px"
                             height="24px"
-                            src={`http://localhost:3065/${v.profilePhoto}`}
+                            src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${v.profilePhoto}`}
                             alt="profile image"
                           />
                         ) : (

@@ -20,7 +20,7 @@ function BoxStyleCard({
         <img
           width="240"
           height="166"
-          src={`http://localhost:3065/${profilePhoto}`}
+          src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${profilePhoto}`}
           alt="사진"
         />
       ) : (

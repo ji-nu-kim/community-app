@@ -372,7 +372,7 @@ router.post('/:communityId/info', upload.none(), isLoggedIn, async (req, res, ne
 
 // 커뮤니티 이미지
 router.post('/image', upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.location.replace(/\/original\//, 'resize')));
+  res.json(req.files.map(v => v.location.replace(/\/original\//, '/resize/')));
 });
 
 // 단일 커뮤니티 정보 불러오기

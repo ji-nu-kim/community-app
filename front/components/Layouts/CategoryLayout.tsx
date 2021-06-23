@@ -52,7 +52,13 @@ export const CategoryContent = styled.div`
 `;
 
 function CategoryLayout({ children, img }: CategoryLayoutProps) {
-  return <CategoryContainer img={img ? img : null}>{children}</CategoryContainer>;
+  return (
+    <CategoryContainer
+      img={img ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${img}` : null}
+    >
+      {children}
+    </CategoryContainer>
+  );
 }
 
 export default CategoryLayout;

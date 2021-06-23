@@ -253,7 +253,7 @@ router.patch('/country', isLoggedIn, async (req, res, next) => {
 
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/image', upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.location.replace(/\/original\//, 'resize')));
+  res.json(req.files.map(v => v.location.replace(/\/original\//, '/resize/')));
 });
 
 module.exports = router;

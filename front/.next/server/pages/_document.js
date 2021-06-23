@@ -1357,6 +1357,7 @@ class CustomDocument extends next_document__WEBPACK_IMPORTED_MODULE_2___default.
           href: "https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Yeon+Sung&display=swap",
           rel: "stylesheet"
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("script", {
+          type: "text/javascript",
           src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${"62b3976eb30288d24fa52e7f88fec8a1"}&libraries=services`
         })]
       }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("body", {

@@ -73,7 +73,12 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
         <Button onClick={onClickImageUpload} shape="circle" className="img-input-btn">
           {imagePath.length ? (
             <>
-              <img width="100" height="100" src={imagePath[0]} alt="profileimage" />
+              <img
+                width="100"
+                height="100"
+                src={imagePath[0].replace(/\/resize\//, 'original')}
+                alt="profileimage"
+              />
               <div onClick={onRemoveImage} className="img-delete-btn">
                 지우기
               </div>

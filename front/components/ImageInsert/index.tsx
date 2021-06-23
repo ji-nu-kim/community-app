@@ -76,7 +76,7 @@ function ImageInsert({ imagePath, profilePhoto }: ImageInsertProps) {
               <img
                 width="100"
                 height="100"
-                src={imagePath[0].replace(/\/resize\//, 'original')}
+                src={imagePath[0].replace(/\/resize\//, '/original/')}
                 alt="profileimage"
               />
               <div onClick={onRemoveImage} className="img-delete-btn">

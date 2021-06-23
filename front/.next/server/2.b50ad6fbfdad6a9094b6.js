@@ -125,7 +125,7 @@ function ImageInsert({
           children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("img", {
             width: "100",
             height: "100",
-            src: imagePath[0].replace(/\/resize\//, 'original'),
+            src: imagePath[0].replace(/\/resize\//, '/original/'),
             alt: "profileimage"
           }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
             onClick: onRemoveImage,

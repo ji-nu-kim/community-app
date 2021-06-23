@@ -3584,7 +3584,7 @@ function CategoryLayout({
   img
 }) {
   return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(CategoryContainer, {
-    img: img ? img : null,
+    img: img ? `${"http://api.jinu-community.site"}/${img}` : null,
     children: children
   });
 }

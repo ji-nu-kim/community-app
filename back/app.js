@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
-      origin: ['http://jinu-community.site', 'http://dapi.kakao.com'],
+      origin: 'http://jinu-community.site',
       credentials: true,
     })
   );

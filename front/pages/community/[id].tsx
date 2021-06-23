@@ -60,9 +60,7 @@ function Community() {
       <AppLayout>
         <CommunityContainer
           backgroundImage={
-            singleCommunity.profilePhoto
-              ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${singleCommunity.profilePhoto}`
-              : null
+            singleCommunity.profilePhoto ? singleCommunity.profilePhoto : null
           }
         >
           <CommunityHeader

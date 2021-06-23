@@ -27,6 +27,7 @@ type SignUpType = {
 
 function Signup() {
   const dispatch = useDispatch();
+
   const { signUpLoading, signUpDone, signUpError, me } = useSelector(
     (state: RootStateInterface) => state.user
   );

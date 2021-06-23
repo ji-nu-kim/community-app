@@ -130,7 +130,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                         {post.User.profilePhoto ? (
                           <img
                             className="left-profile-image"
-                            src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${post.User.profilePhoto}`}
+                            src={post.User.profilePhoto}
                             alt="profile image"
                           />
                         ) : (
@@ -163,11 +163,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                     </div>
                   </div>
                   {post.Images.length ? (
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${post.Images[0].src}`}
-                      alt="image"
-                      className="post-image"
-                    />
+                    <img src={post.Images[0].src} alt="image" className="post-image" />
                   ) : null}
                   <div className="post-text">{post.content}</div>
                   <div className="post-comment-info">
@@ -204,7 +200,7 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                                     {comment.User.profilePhoto ? (
                                       <img
                                         className="left-profile-image"
-                                        src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${comment.User.profilePhoto}`}
+                                        src={comment.User.profilePhoto}
                                         alt="profile image"
                                       />
                                     ) : (

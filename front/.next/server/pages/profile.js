@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","2":"12ecfcce95a143d49346","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"8b20334c583b11230eef","26":"03a805d1aebf9ef17f50","32":"b085038c804d0d2b9a58","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","2":"3544baf062261e459e36","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"f9dcbc8465ba97d2f8f4","26":"03a805d1aebf9ef17f50","32":"b085038c804d0d2b9a58","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -1813,7 +1813,7 @@ function Profile() {
             children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
               className: "header-image",
               children: me !== null && me !== void 0 && me.profilePhoto ? /*#__PURE__*/Object(jsx_runtime_["jsx"])("img", {
-                src: `${"http://api.jinu-community.site"}/${me === null || me === void 0 ? void 0 : me.profilePhoto}`,
+                src: me === null || me === void 0 ? void 0 : me.profilePhoto,
                 width: "150",
                 height: "150",
                 alt: "profile-image"
@@ -1870,7 +1870,7 @@ function Profile() {
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
                     children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(RoundStyleCard["a" /* default */], {
                       name: community.communityName,
-                      img: community.profilePhoto ? `${"http://api.jinu-community.site"}/${community.profilePhoto}` : null,
+                      img: community.profilePhoto ? community.profilePhoto : null,
                       width: "240",
                       height: "220"
                     })

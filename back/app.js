@@ -78,6 +78,6 @@ app.get('/', (req, res) => {
   res.send('커뮤니티 서버입니다');
 });
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.log('서버 실행 중');
 });

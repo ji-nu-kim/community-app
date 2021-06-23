@@ -17,12 +17,7 @@ function BoxStyleCard({
   return (
     <CardContainer>
       {profilePhoto ? (
-        <img
-          width="240"
-          height="166"
-          src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${profilePhoto}`}
-          alt="사진"
-        />
+        <img width="240" height="166" src={profilePhoto} alt="사진" />
       ) : (
         <div className="fake-image"></div>
       )}

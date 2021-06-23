@@ -1,5 +1,7 @@
 const express = require('express');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 const path = require('path');
 const {
   User,
@@ -14,15 +16,17 @@ const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
 const upload = multer({
-  storage: multer.diskStorage({
-    destination(req, file, done) {
-      done(null, 'uploads');
-    },
-    filename(req, file, done) {
-      const ext = path.extname(file.originalname);
-      const basename = path.basename(file.originalname, ext);
-      done(null, basename + '_' + new Date().getTime() + ext);
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'jinu-community-aws',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
     },
   }),
   limits: { fileSize: 20 * 1024 * 1024 },
@@ -368,7 +372,7 @@ router.post('/:communityId/info', upload.none(), isLoggedIn, async (req, res, ne
 
 // 커뮤니티 이미지
 router.post('/image', upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.filename));
+  res.json(req.files.map(v => v.location.replace(/\/original\//, 'resize')));
 });
 
 // 단일 커뮤니티 정보 불러오기

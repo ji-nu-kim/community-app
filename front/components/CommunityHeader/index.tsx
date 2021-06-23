@@ -92,7 +92,7 @@ function CommunityHeader({ singleCommunity, me, communityUser }: CommunityHeader
         <div className="header-image">
           {singleCommunity.profilePhoto ? (
             <img
-              src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${singleCommunity.profilePhoto}`}
+              src={singleCommunity.profilePhoto}
               width="150"
               height="150"
               alt="profile-image"

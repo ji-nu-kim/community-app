@@ -60,10 +60,7 @@ function JoinUserModal({ setJoinUserModal, singleCommunity }: JoinUserModalProps
             <div key={user.id} className="card-container">
               <div className="card-image">
                 {user.profilePhoto ? (
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${user.profilePhoto}`}
-                    alt="profile-photo"
-                  />
+                  <img src={user.profilePhoto} alt="profile-photo" />
                 ) : (
                   '이미지'
                 )}

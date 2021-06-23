@@ -80,7 +80,7 @@ function Profile() {
               <div className="header-image">
                 {me?.profilePhoto ? (
                   <img
-                    src={`${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${me?.profilePhoto}`}
+                    src={me?.profilePhoto}
                     width="150"
                     height="150"
                     alt="profile-image"
@@ -130,11 +130,7 @@ function Profile() {
                       <a>
                         <RoundStyleCard
                           name={community.communityName}
-                          img={
-                            community.profilePhoto
-                              ? `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${community.profilePhoto}`
-                              : null
-                          }
+                          img={community.profilePhoto ? community.profilePhoto : null}
                           width="240"
                           height="220"
                         />

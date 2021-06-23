@@ -1,5 +1,7 @@
 const express = require('express');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 const path = require('path');
 const fs = require('fs');
 const { Post, User, Image, Comment, Report } = require('../models');
@@ -14,18 +16,17 @@ try {
   fs.mkdirSync('uploads');
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: 'ap-northeast-2',
+});
 const upload = multer({
-  // 저장위치(현재: 서버 hdd, 미래: 인터넷 스토리지 서비스)
-  storage: multer.diskStorage({
-    // 저장될 폴더
-    destination(req, file, done) {
-      done(null, 'uploads');
-    },
-    // 저장될 파일명
-    filename(req, file, done) {
-      const ext = path.extname(file.originalname);
-      const basename = path.basename(file.originalname, ext);
-      done(null, basename + '_' + new Date().getTime() + ext);
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'jinu-community-aws',
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
     },
   }),
   limits: { fileSize: 20 * 1024 * 1024 },
@@ -33,7 +34,8 @@ const upload = multer({
 
 // 프론트 input name="image"에서 올린 사진들이 upload.array('image')로 전달됨
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
-  res.json(req.files.map(v => v.filename));
+  // 미리보기 이미지
+  res.json(req.files.map(v => v.location.replace(/\/original\//, 'resize')));
 });
 
 // 컨텐츠 신고

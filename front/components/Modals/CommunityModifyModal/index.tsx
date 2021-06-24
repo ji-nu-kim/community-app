@@ -36,16 +36,18 @@ function CommunityModal({ setShowCommunityModifyModal }: CommunityModalProps) {
   }, [setShowCommunityModifyModal]);
 
   const onSubmit = useCallback(() => {
-    if (singleCommunity) {
-      dispatch(
-        changeCommunityInfoRequestAction({
-          communityId: singleCommunity.id,
-          caution,
-          requirement,
-          description,
-          profilePhoto: imagePath,
-        })
-      );
+    if (confirm('정보를 수정하시겠습니까?') && singleCommunity) {
+      setTimeout(() => {
+        return dispatch(
+          changeCommunityInfoRequestAction({
+            communityId: singleCommunity.id,
+            caution,
+            requirement,
+            description,
+            profilePhoto: imagePath,
+          })
+        );
+      }, 3000);
     }
   }, [description, requirement, caution, imagePath, singleCommunity]);
 

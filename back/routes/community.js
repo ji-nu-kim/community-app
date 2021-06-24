@@ -363,7 +363,7 @@ router.post('/:communityId/info', upload.none(), isLoggedIn, async (req, res, ne
       caution: updatedCommunity.caution,
       requirement: updatedCommunity.requirement,
       profilePhoto: updatedCommunity.profilePhoto,
-      communityId: parseInt(pre.params.commnityId, 10),
+      communityId: updatedCommunity.id,
     });
   } catch (error) {
     console.error(error);

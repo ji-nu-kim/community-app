@@ -60,7 +60,9 @@ function Community() {
       <AppLayout>
         <CommunityContainer
           backgroundImage={
-            singleCommunity.profilePhoto ? singleCommunity.profilePhoto : null
+            singleCommunity.profilePhoto
+              ? singleCommunity.profilePhoto.replace(/\/resize\//, '/original/')
+              : null
           }
         >
           <CommunityHeader

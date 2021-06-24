@@ -93,7 +93,11 @@ function PostForm() {
         >
           {imagePaths.map((v, i) => (
             <div key={v} style={{ marginRight: '1rem', background: 'rgba(0,0,0,.7)' }}>
-              <img src={v} style={{ width: '100px' }} alt={v} />
+              <img
+                src={v.replace(/\/resize\//, '/original/')}
+                style={{ width: '100px' }}
+                alt={v}
+              />
               <StyleButton onClick={onRemoveImage(i)}>
                 <CloseCircleOutlined />
               </StyleButton>

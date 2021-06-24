@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3","2":"b50ad6fbfdad6a9094b6","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"f9dcbc8465ba97d2f8f4","21":"511749d32ab2e703b3d2","22":"043ce6010dd2c89fb8b5","23":"75794595e76f5b95471b","24":"4906f56ca0466f8543d6","25":"e5133fd9961be3f6d06c","27":"545ec2f97ddf8ebbfdeb","28":"66d6e128ad5ffbd61e02","29":"307be6c5a5837e1986e0","30":"f36a82faca042f45e6d7","33":"a9af42f040d83730b60d","34":"cf5aaec7a9ff9f954642","37":"c83843a9f0a647d94731","38":"a99d21cd9ecc54e92c77","39":"257dc8bb3f6ae4918fdf","40":"ebe80546776b7788e610","41":"567c46893b9799c7d4e9"}[chunkId] + ".js");
+/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3","2":"b50ad6fbfdad6a9094b6","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"f9dcbc8465ba97d2f8f4","21":"511749d32ab2e703b3d2","22":"043ce6010dd2c89fb8b5","23":"75794595e76f5b95471b","24":"4906f56ca0466f8543d6","25":"e5133fd9961be3f6d06c","27":"545ec2f97ddf8ebbfdeb","28":"66d6e128ad5ffbd61e02","29":"307be6c5a5837e1986e0","30":"1ec5e05a5a38190d3b88","33":"a9af42f040d83730b60d","34":"cf5aaec7a9ff9f954642","37":"c83843a9f0a647d94731","38":"a99d21cd9ecc54e92c77","39":"257dc8bb3f6ae4918fdf","40":"ebe80546776b7788e610","41":"567c46893b9799c7d4e9"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -1341,7 +1341,7 @@ function Community() {
       })
     }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(AppLayout["default"], {
       children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(CommunityContainer, {
-        backgroundImage: singleCommunity.profilePhoto ? singleCommunity.profilePhoto : null,
+        backgroundImage: singleCommunity.profilePhoto ? singleCommunity.profilePhoto.replace(/\/resize\//, '/original/') : null,
         children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(components_CommunityHeader, {
           singleCommunity: singleCommunity,
           me: me,

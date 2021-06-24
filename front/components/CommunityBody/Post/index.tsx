@@ -163,7 +163,11 @@ function Post({ singleCommunity, communityUser }: PostProps) {
                     </div>
                   </div>
                   {post.Images.length ? (
-                    <img src={post.Images[0].src} alt="image" className="post-image" />
+                    <img
+                      src={post.Images[0].src.replace(/\/resize\//, '/original/')}
+                      alt="image"
+                      className="post-image"
+                    />
                   ) : null}
                   <div className="post-text">{post.content}</div>
                   <div className="post-comment-info">

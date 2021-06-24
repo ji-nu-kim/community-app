@@ -136,6 +136,7 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         draft.changeProfileLoading = false;
         draft.changeProfileDone = true;
         draft.me = action.data;
+        draft.imagePath = [];
         break;
       case actionTypesUser.CHANGE_PROFILE_ERROR:
         draft.changeProfileLoading = false;

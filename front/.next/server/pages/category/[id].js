@@ -3830,6 +3830,7 @@ const reducer = (state = initialState, action) => {
         draft.changeProfileLoading = false;
         draft.changeProfileDone = true;
         draft.me = action.data;
+        draft.imagePath = [];
         break;
 
       case interfaces["actionTypesUser"].CHANGE_PROFILE_ERROR:
@@ -4279,6 +4280,7 @@ const community_reducer = (state = community_initialState, action) => {
       case interfaces["actionTypesCommunity"].CHANGE_COMMUNITY_INFO_SUCCESS:
         draft.changeCommunityInfoLoading = false;
         draft.changeCommunityInfoDone = true;
+        draft.imagePath = [];
 
         if (draft.singleCommunity) {
           draft.singleCommunity.caution = action.data.caution;

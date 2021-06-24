@@ -100,6 +100,7 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
       case actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS:
         draft.changeCommunityInfoLoading = false;
         draft.changeCommunityInfoDone = true;
+        draft.imagePath = [];
         if (draft.singleCommunity) {
           draft.singleCommunity.caution = action.data.caution;
           draft.singleCommunity.requirement = action.data.requirement;

@@ -15,7 +15,8 @@ export function fromMomentToDate(momentDate: string) {
   const month = d[1].length === 2 ? `0${d[1][0]}` : d[1].slice(0, 2);
   const date = d[2].length === 2 ? `0${d[2][0]}` : d[2].slice(0, 2);
   const d2 = d[4].split(':');
-  const hour = d[3] === '오후' ? +d2[0] + 12 : d2[0];
+  const hour = d2[0].length === 1 ? `0${d2[0]}` : d2[0];
+  const apHour = d[3] === '오후' ? +hour + 12 : hour;
   const minute = d2[1].length === 1 ? `0${d2[1][0]}` : d2[1];
-  return `${year}-${month}-${date}T${hour}:${minute}`;
+  return `${year}-${month}-${date}T${apHour}:${minute}`;
 }

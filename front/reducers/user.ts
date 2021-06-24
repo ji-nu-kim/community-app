@@ -224,7 +224,7 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
             community => community.id === action.data.communityId
           );
           if (community) {
-            community.profilePhoto = action.data.profilePhoto[0];
+            community.profilePhoto = action.data.profilePhoto;
           }
         }
         break;

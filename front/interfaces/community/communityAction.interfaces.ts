@@ -90,9 +90,16 @@ export interface IChangeCommunityInfoRequest {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_REQUEST;
   data: IChangeCommunityInfoData;
 }
+export interface IChangeCommunityInfoReturnData {
+  communityId: number;
+  profilePhoto: string;
+  description: string;
+  caution: string;
+  requirement: string;
+}
 export interface IChangeCommunityInfoSuccess {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS;
-  data: IChangeCommunityInfoData;
+  data: IChangeCommunityInfoReturnData;
 }
 export interface IChangeCommunityInfoError {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR;

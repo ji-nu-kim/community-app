@@ -1,4 +1,4 @@
-import { IChangeCommunityInfoData } from 'interfaces';
+import { IChangeCommunityInfoReturnData } from 'interfaces';
 import { IMeet } from 'interfaces/db';
 import {
   actionTypesUser,
@@ -136,7 +136,7 @@ export const leaveCommunityOfMe = (data: {
   };
 };
 export const changeCommunityOfMe = (
-  data: IChangeCommunityInfoData
+  data: IChangeCommunityInfoReturnData
 ): IChangeCommunityOfMe => {
   return {
     type: actionTypesUser.CHANGE_COMMUNITY_OF_ME,

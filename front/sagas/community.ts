@@ -23,6 +23,7 @@ import {
   IModifyMeetData,
   ISearchCommunitiesRequest,
   IRemoveCommunityRequest,
+  IChangeCommunityInfoReturnData,
 } from '../interfaces/community/communityAction.interfaces';
 import axios from 'axios';
 import { ICategory, ICommunity, IMeet, IUser } from 'interfaces/db';
@@ -52,7 +53,7 @@ function changeCommunityInfoAPI(data: IChangeCommunityInfoData) {
 function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
   try {
     const result: {
-      data: IChangeCommunityInfoData;
+      data: IChangeCommunityInfoReturnData;
     } = yield call(changeCommunityInfoAPI, action.data);
     yield put({
       type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS,

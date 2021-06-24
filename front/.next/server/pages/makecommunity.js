@@ -1393,7 +1393,7 @@ const reducer = (state = initialState, action) => {
           const community = draft.me.Communities.find(community => community.id === action.data.communityId);
 
           if (community) {
-            community.profilePhoto = action.data.profilePhoto[0];
+            community.profilePhoto = action.data.profilePhoto;
           }
         }
 
@@ -1752,7 +1752,7 @@ const community_reducer = (state = community_initialState, action) => {
           draft.singleCommunity.caution = action.data.caution;
           draft.singleCommunity.requirement = action.data.requirement;
           draft.singleCommunity.description = action.data.description;
-          draft.singleCommunity.profilePhoto = action.data.profilePhoto[0];
+          draft.singleCommunity.profilePhoto = action.data.profilePhoto;
         }
 
         break;

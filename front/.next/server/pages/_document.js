@@ -1358,7 +1358,7 @@ class CustomDocument extends next_document__WEBPACK_IMPORTED_MODULE_2___default.
           rel: "stylesheet"
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("script", {
           type: "text/javascript",
-          src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${"62b3976eb30288d24fa52e7f88fec8a1"}&libraries=services`
+          src: `//dapi.kakao.com/v2/maps/sdk.js?appkey=${"dc63b71d37f03732475135d20dd12ba2"}&libraries=services`
         })]
       }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("body", {
         children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_document__WEBPACK_IMPORTED_MODULE_2__["Main"], {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("script", {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_document__WEBPACK_IMPORTED_MODULE_2__["NextScript"], {})]

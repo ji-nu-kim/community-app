@@ -1390,11 +1390,8 @@ const reducer = (state = initialState, action) => {
 
       case interfaces["actionTypesUser"].CHANGE_COMMUNITY_OF_ME:
         if (draft.me) {
-          const community = draft.me.Communities.find(community => community.id === action.data.communityId);
-
-          if (community) {
-            community.profilePhoto = action.data.profilePhoto;
-          }
+          const communityIndex = draft.me.Communities.findIndex(community => community.id === action.data.communityId);
+          draft.me.Communities[communityIndex].profilePhoto = action.data.profilePhoto;
         }
 
         break;

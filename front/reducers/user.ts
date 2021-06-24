@@ -220,12 +220,10 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         break;
       case actionTypesUser.CHANGE_COMMUNITY_OF_ME:
         if (draft.me) {
-          const community = draft.me.Communities.find(
+          const communityIndex = draft.me.Communities.findIndex(
             community => community.id === action.data.communityId
           );
-          if (community) {
-            community.profilePhoto = action.data.profilePhoto;
-          }
+          draft.me.Communities[communityIndex].profilePhoto = action.data.profilePhoto;
         }
         break;
       default:

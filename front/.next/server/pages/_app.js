@@ -441,7 +441,8 @@ const actionTypesUser = {
   MODIFY_MEET_OF_ME: 'MODIFY_MEET_OF_ME',
   JOIN_MEET_OF_ME: 'JOIN_MEET_OF_ME',
   LEAVE_MEET_OF_ME: 'LEAVE_MEET_OF_ME',
-  LEAVE_COMMUNITY_OF_ME: 'LEAVE_COMMUNITY_OF_ME'
+  LEAVE_COMMUNITY_OF_ME: 'LEAVE_COMMUNITY_OF_ME',
+  CHANGE_COMMUNITY_OF_ME: 'CHANGE_COMMUNITY_OF_ME'
 };
 
 /***/ }),
@@ -733,8 +734,18 @@ const reducer = (state = initialState, action) => {
 
       case interfaces["actionTypesUser"].LEAVE_COMMUNITY_OF_ME:
         if (draft.me && draft.me.id === action.data.userId) {
-          console.log(action.data.communityId);
           draft.me.Communities = draft.me.Communities.filter(community => community.id !== action.data.communityId);
+        }
+
+        break;
+
+      case interfaces["actionTypesUser"].CHANGE_COMMUNITY_OF_ME:
+        if (draft.me) {
+          const community = draft.me.Communities.find(community => community.id === action.data.communityId);
+
+          if (community) {
+            community.profilePhoto = action.data.profilePhoto[0];
+          }
         }
 
         break;
@@ -1092,7 +1103,7 @@ const community_reducer = (state = community_initialState, action) => {
           draft.singleCommunity.caution = action.data.caution;
           draft.singleCommunity.requirement = action.data.requirement;
           draft.singleCommunity.description = action.data.description;
-          draft.singleCommunity.profilePhoto = action.data.profilePhoto;
+          draft.singleCommunity.profilePhoto = action.data.profilePhoto[0];
         }
 
         break;
@@ -1950,6 +1961,10 @@ function* changeCommunityInfo(action) {
     const result = yield Object(effects_["call"])(changeCommunityInfoAPI, action.data);
     yield Object(effects_["put"])({
       type: communityAction_interfaces["a" /* actionTypesCommunity */].CHANGE_COMMUNITY_INFO_SUCCESS,
+      data: result.data
+    });
+    yield Object(effects_["put"])({
+      type: interfaces["actionTypesUser"].CHANGE_COMMUNITY_OF_ME,
       data: result.data
     });
   } catch (error) {

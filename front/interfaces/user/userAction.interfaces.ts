@@ -1,3 +1,4 @@
+import { IChangeCommunityInfoData } from 'interfaces/community/communityAction.interfaces';
 import { IMeet, INotice, IUser } from '../db';
 
 export const actionTypesUser = {
@@ -38,6 +39,7 @@ export const actionTypesUser = {
   JOIN_MEET_OF_ME: 'JOIN_MEET_OF_ME',
   LEAVE_MEET_OF_ME: 'LEAVE_MEET_OF_ME',
   LEAVE_COMMUNITY_OF_ME: 'LEAVE_COMMUNITY_OF_ME',
+  CHANGE_COMMUNITY_OF_ME: 'CHANGE_COMMUNITY_OF_ME',
 } as const;
 export interface LoginData {
   email: string;
@@ -195,6 +197,11 @@ export interface ILeaveCommunityOfMe {
   data: { communityId: number; userId: number };
 }
 
+export interface IChangeCommunityOfMe {
+  type: typeof actionTypesUser.CHANGE_COMMUNITY_OF_ME;
+  data: IChangeCommunityInfoData;
+}
+
 export type ActionsUser =
   | ILogInRequest
   | ILogInSuccess
@@ -232,4 +239,5 @@ export type ActionsUser =
   | IModifyMeetOfMe
   | IJoinMeeetOfMe
   | ILeaveMeetOfMe
-  | ILeaveCommunityOfMe;
+  | ILeaveCommunityOfMe
+  | IChangeCommunityOfMe;

@@ -362,7 +362,8 @@ router.post('/:communityId/info', upload.none(), isLoggedIn, async (req, res, ne
       description: updatedCommunity.description,
       caution: updatedCommunity.caution,
       requirement: updatedCommunity.requirement,
-      profilePhoto: updatedCommunity.profilePhoto,
+      profilePhoto: [updatedCommunity.profilePhoto],
+      communityId: parseInt(pre.params.commnityId, 10),
     });
   } catch (error) {
     console.error(error);

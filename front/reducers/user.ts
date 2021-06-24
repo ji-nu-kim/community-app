@@ -213,10 +213,19 @@ const reducer = (state = initialState, action: ActionsUser): UserState => {
         break;
       case actionTypesUser.LEAVE_COMMUNITY_OF_ME:
         if (draft.me && draft.me.id === action.data.userId) {
-          console.log(action.data.communityId);
           draft.me.Communities = draft.me.Communities.filter(
             community => community.id !== action.data.communityId
           );
+        }
+        break;
+      case actionTypesUser.CHANGE_COMMUNITY_OF_ME:
+        if (draft.me) {
+          const community = draft.me.Communities.find(
+            community => community.id === action.data.communityId
+          );
+          if (community) {
+            community.profilePhoto = action.data.profilePhoto[0];
+          }
         }
         break;
       default:

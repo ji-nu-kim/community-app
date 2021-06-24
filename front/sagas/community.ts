@@ -52,15 +52,14 @@ function changeCommunityInfoAPI(data: IChangeCommunityInfoData) {
 function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
   try {
     const result: {
-      data: {
-        description: string;
-        caution: string;
-        requirement: string;
-        profilePhoto: string;
-      };
+      data: IChangeCommunityInfoData;
     } = yield call(changeCommunityInfoAPI, action.data);
     yield put({
       type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS,
+      data: result.data,
+    });
+    yield put({
+      type: actionTypesUser.CHANGE_COMMUNITY_OF_ME,
       data: result.data,
     });
   } catch (error) {

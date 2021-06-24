@@ -92,12 +92,7 @@ export interface IChangeCommunityInfoRequest {
 }
 export interface IChangeCommunityInfoSuccess {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_SUCCESS;
-  data: {
-    description: string;
-    caution: string;
-    requirement: string;
-    profilePhoto: string;
-  };
+  data: IChangeCommunityInfoData;
 }
 export interface IChangeCommunityInfoError {
   type: typeof actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR;

@@ -105,7 +105,7 @@ const reducer = (state = initialState, action: ActionsCommunity): CommunityState
           draft.singleCommunity.caution = action.data.caution;
           draft.singleCommunity.requirement = action.data.requirement;
           draft.singleCommunity.description = action.data.description;
-          draft.singleCommunity.profilePhoto = action.data.profilePhoto;
+          draft.singleCommunity.profilePhoto = action.data.profilePhoto[0];
         }
         break;
       case actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR:

@@ -35,13 +35,17 @@ function UserProfileModifyModal({
   }, []);
 
   const onSubmit = useCallback(() => {
-    dispatch(
-      changeProfileRequestAction({
-        nickname: newNickname,
-        profilePhoto: imagePath,
-        category: categories,
-      })
-    );
+    if (confirm('정보를 수정하시겠습니까?')) {
+      setTimeout(() => {
+        return dispatch(
+          changeProfileRequestAction({
+            nickname: newNickname,
+            profilePhoto: imagePath,
+            category: categories,
+          })
+        );
+      }, 3000);
+    }
   }, [imagePath, newNickname, categories]);
 
   return (

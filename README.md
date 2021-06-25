@@ -1,8 +1,20 @@
-# 커뮤니티
+# community
 
-- 취미를 공유하고 함께 성장하기
+> 취미를 공유하고 함께 성장하기
 
-## 로그인 기능 구현
+### 사용한 기능
+
+#### 백엔드
+
+node.js, express, sequelize
+
+#### 프론트엔드
+
+react.js, next.js, typescript, redux, redux-saga, styled-component
+
+### 프론트 엔드 구조
+
+### 로그인 기능
 
 - react-hook-form으로 state을 관리하고 yup으로 검증
 - react-daum-postcode로 주소 찾기
@@ -13,10 +25,6 @@
 - li태그 안에는 icon이 들어있는 span태그가 있다(아이콘 부분을 클릭하면 svg가 잡혔다)
 - css에서 span태그에 pointer-events: none으로 설정해 클릭되는 것을 막았다
 
-## 커뮤니티 이름에 ?,& 같은 기호 불가능하게 막기
-
-- 라우팅할 때 문제생김, 아니면 해쉬로 바꿔서 사용할수도
-
 ## 선택한 카테고리 체크표시 하기
 
 - DB에서 받아온 카테고리들로 체크박스를 만들고 선택한 카테고리에 해당하는 체크박스를 checked한다
@@ -25,8 +33,3 @@
 - !에러발생
 - A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component
 - 비제어 컴포넌트의 경우 defaultChecked를 사용
-
-## 회원탈퇴 기능 구현
-
-- 회원탈퇴 여부를 확인하고 비밀번호를 입력받는다
-- 유저의 비밀번호와 입력한 비밀번호를 비교해 맞다면 연관테이블 카테고리, 커뮤니티를 제거하고 유저를 제거한다

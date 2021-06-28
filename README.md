@@ -12,24 +12,59 @@ node.js, express, sequelize
 
 react.js, next.js, typescript, redux, redux-saga, styled-component
 
-### 프론트 엔드 구조
+### 구현한 기능
 
-### 로그인 기능
+1. 유저
+   > 회원가입, 로그인, 회원탈퇴, 정보수정, 알림
+2. 커뮤니티
+   > 커뮤니티 생성, 수정, 삭제, 가입신청, 가입승인, 가입거절, 탈퇴
+3. 게시글 및 댓글
+   > 생성, 수정, 삭제, 신고
+4. 모임
+   > 생성, 수정, 삭제, 가입, 탈퇴
 
-- react-hook-form으로 state을 관리하고 yup으로 검증
-- react-daum-postcode로 주소 찾기
+### 설명
 
-## 자식태그가 click되는 것을 방지
+#### 페이지 구조
 
-- ul태그를 클릭하면 각 li태그의 클래스명을 알아내 활성화 시키도록 했다
-- li태그 안에는 icon이 들어있는 span태그가 있다(아이콘 부분을 클릭하면 svg가 잡혔다)
-- css에서 span태그에 pointer-events: none으로 설정해 클릭되는 것을 막았다
+1. 홈
+   웹사이트의 디폴트 페이지입니다.
+   최신 커뮤니티 목록을 보여주고 로그인 할 시 설정된 동네의 커뮤니티 목록을 보여줍니다.
+2. 카테고리
+   농구, 게임, 영화 등의 카테고리 별로 커뮤니티를 찾아볼 수 있습니다.
+3. 검색
+   키워드를 사용해 커뮤니티를 검색할 수 있습니다.
+4. 로그인
+   로그인 페이지입니다(로그인하지 않은 사용자만 접근 할 수 있습니다)
+5. 회원가입
+   회원가입 페이지입니다(로그인하지 않은 사용자만 접근 할 수 있습니다)
+6. 커뮤니티 만들기
+   커뮤니티를 생성하는 페이지입니다(로그인한 사용자에게만 나타납니다)
+7. 커뮤니티
+   커뮤니티에 대한 정보, 게시글, 모임을 확인할 수 있는 페이지입니다.
+   1. 정보
+      커뮤니티의 소개, 주의사항, 가입조건, 회원리스트 등의 정보를 확인할 수 있습니다
+   2. 게시글 및 댓글
+      게시글에는 이미지를 삽입할 수 있습니다(커뮤니티 회원만 접근 및 사용 가능)
+   3. 모임
+      주말모임, 정기모임 등 모임에 대한 정보를 확인할 수 있습니다(커뮤니티 회원만 접근 및 사용 가능)
 
-## 선택한 카테고리 체크표시 하기
+#### 사용방법
 
-- DB에서 받아온 카테고리들로 체크박스를 만들고 선택한 카테고리에 해당하는 체크박스를 checked한다
-- 선택한 카테고리들을 useState의 기본 값으로 저장해두었다([선택한 카테고리] : []);
-- [선택한 카테고리].includes(카테고리)로 ture인 input에 checked옵션을 넣었다
-- !에러발생
-- A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component
-- 비제어 컴포넌트의 경우 defaultChecked를 사용
+샘플 데이터를 만들어놓았습니다
+회원가입을 하신다면 지역을 경기도 구리시 사노동으로 설정해주세요
+아이디: aaa@naver.com 비밀번호: 123123123으로 확인할 수 있습니다
+
+### 어플리케이션을 만들면서 해결한 문제
+
+#### 1. sidebar의 메인메뉴를 클릭하면 클릭한 부분을 활성화
+
+> 구현방법: sidebar의 메인메뉴를 클릭하면 li태그의 클래스명을 알아내 일치하는 항목을 활성화한다
+> 문제점: 아이콘 부분을 클릭하면 하위 태그가 클릭돼서 클래스명을 알아낼 수 없었다
+> 해결방법: span태그에 css옵션인 pointer-events를 none으로 설정해서 클릭되는 것을 막았다
+
+#### 2.선택한 카테고리 체크표시해놓기
+
+> 구현방법: DB에서 받아온 정보와 일치한 항목은 기본옵션에 checked한다
+> 문제점: A component is changing a controlled input of type text to be uncontrolled. Input elements should not switch from controlled to uncontrolled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component
+> 해결방법: defaultChecked를 사용

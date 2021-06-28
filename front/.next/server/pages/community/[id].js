@@ -1175,9 +1175,7 @@ function CommunityHeader({
   const onClickJoinButton = Object(external_react_["useCallback"])(() => {
     if (!me && confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?')) {
       return router_default.a.push('/login');
-    }
-
-    if (!communityUser && confirm('커뮤니티 가입신청을 하시겠습니까?')) {
+    } else if (!communityUser && confirm('커뮤니티 가입신청을 하시겠습니까?')) {
       return dispatch(Object(actionCommunity["e" /* joinCommunityRequestAction */])({
         communityId: singleCommunity.id
       }));

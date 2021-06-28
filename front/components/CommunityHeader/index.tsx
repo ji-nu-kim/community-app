@@ -39,8 +39,10 @@ function CommunityHeader({ singleCommunity, me, communityUser }: CommunityHeader
   }, [setShowCommunityModifyModal, communityOwner]);
 
   const onClickJoinButton = useCallback(() => {
-    if (!me && confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?')) {
-      return Router.push('/login');
+    if (!me) {
+      if (confirm('로그인한 유저만 가능합니다. 로그인하시겠습니까?')) {
+        return Router.push('/login');
+      }
     } else if (!communityUser && confirm('커뮤니티 가입신청을 하시겠습니까?')) {
       return dispatch(joinCommunityRequestAction({ communityId: singleCommunity.id }));
     }

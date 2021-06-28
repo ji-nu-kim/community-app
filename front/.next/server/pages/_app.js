@@ -2425,7 +2425,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
+external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

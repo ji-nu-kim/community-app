@@ -217,7 +217,7 @@ function Category() {
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(components_Cards_RoundStyleCard__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"], {
                   name: category.name,
-                  img: `${process.env.NEXT_PUBLIC_BACK_URL_KEY}/${category.profilePhoto}`,
+                  img: `${"https://api.jinu-community.site"}/${category.profilePhoto}`,
                   width: "240",
                   height: "220"
                 })
@@ -5523,7 +5523,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
+external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

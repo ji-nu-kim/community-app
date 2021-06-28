@@ -43,7 +43,7 @@ function Category() {
           <div className="cards-container">
             {mainCategories.map(category => (
               <div key={category.name}>
-                <Link href={`/category/${category.id}`} prefetch={false}>
+                <Link href={`/category/${category.id}`}>
                   <a>
                     <RoundStyleCard
                       name={category.name}

@@ -126,7 +126,7 @@ function Profile() {
               <div className="cards-container">
                 {me?.Communities?.map(community => (
                   <div key={community.communityName}>
-                    <Link href={`/community/${community.id}`} prefetch={false}>
+                    <Link href={`/community/${community.id}`}>
                       <a>
                         <RoundStyleCard
                           name={community.communityName}

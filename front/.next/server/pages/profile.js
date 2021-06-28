@@ -1875,7 +1875,6 @@ function Profile() {
               children: me === null || me === void 0 ? void 0 : (_me$Communities = me.Communities) === null || _me$Communities === void 0 ? void 0 : _me$Communities.map(community => /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                   href: `/community/${community.id}`,
-                  prefetch: false,
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
                     children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(RoundStyleCard["a" /* default */], {
                       name: community.communityName,

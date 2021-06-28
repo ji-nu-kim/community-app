@@ -214,7 +214,6 @@ function Category() {
           children: mainCategories.map(category => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
             children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_7___default.a, {
               href: `/category/${category.id}`,
-              prefetch: false,
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(components_Cards_RoundStyleCard__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"], {
                   name: category.name,

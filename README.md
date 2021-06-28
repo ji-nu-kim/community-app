@@ -3,11 +3,13 @@
 > 취미를 공유하고 함께 성장하기
 > https://jinu-community.site/
 
+### 데스크탑용으로 만들었습니다. 태블릿 사이즈 지원(모바일x)
+
 ### 사용한 기능
 
 #### 백엔드
 
-node.js, express, sequelize
+node.js, express, sequelize, aws
 
 #### 프론트엔드
 

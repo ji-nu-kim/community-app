@@ -6,8 +6,8 @@ module.exports =
 /******/ 	// object to store loaded chunks
 /******/ 	// "0" means "already loaded"
 /******/ 	var installedChunks = {
-/******/ 		8: 0,
-/******/ 		33: 0
+/******/ 		10: 0,
+/******/ 		35: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + ".js");
+/******/ 			var chunk = require("../../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3","2":"b50ad6fbfdad6a9094b6","18":"e55db9aa934ff5ab09ca","19":"62034fcdc360a128a0b1","20":"a1a111d4357a508f3e56","21":"1946ef1a7abf7208bc7c","22":"3f9561ba70706d3378cb","23":"75794595e76f5b95471b","24":"0c5c5facf117beedfb1a","25":"e5133fd9961be3f6d06c","27":"545ec2f97ddf8ebbfdeb","28":"66d6e128ad5ffbd61e02","29":"307be6c5a5837e1986e0","30":"1ec5e05a5a38190d3b88","33":"a9af42f040d83730b60d","34":"9f97ab4b8a88c3bb4f99","37":"c83843a9f0a647d94731","38":"a99d21cd9ecc54e92c77","39":"257dc8bb3f6ae4918fdf","40":"ebe80546776b7788e610","41":"567c46893b9799c7d4e9"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -777,28 +777,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const NavBar = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 16).then(__webpack_require__.bind(null, "4EMY")), {
+const NavBar = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 18).then(__webpack_require__.bind(null, "4EMY")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("4EMY")],
-    modules: ["..\\components\\Layouts\\AppLayout.tsx -> " + 'components/NavBar']
+    modules: ['components/NavBar']
   }
 });
-const SideBar = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 18).then(__webpack_require__.bind(null, "fnIl")), {
+const SideBar = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 20).then(__webpack_require__.bind(null, "fnIl")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("fnIl")],
-    modules: ["..\\components\\Layouts\\AppLayout.tsx -> " + 'components/SideBar']
+    modules: ['components/SideBar']
   }
 });
-const UserInfoModal = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 17).then(__webpack_require__.bind(null, "yi+a")), {
+const UserInfoModal = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 19).then(__webpack_require__.bind(null, "yi+a")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("yi+a")],
-    modules: ["..\\components\\Layouts\\AppLayout.tsx -> " + 'components/Modals/UserInfoModal']
+    modules: ['components/Modals/UserInfoModal']
   }
 });
-const NotificationModal = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 37).then(__webpack_require__.bind(null, "fT4A")), {
+const NotificationModal = next_dynamic__WEBPACK_IMPORTED_MODULE_2___default()(() => __webpack_require__.e(/* import() */ 39).then(__webpack_require__.bind(null, "fT4A")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("fT4A")],
-    modules: ["..\\components\\Layouts\\AppLayout.tsx -> " + 'components/Modals/NotificationModal']
+    modules: ['components/Modals/NotificationModal']
   }
 });
 const Global = /*#__PURE__*/styled_components__WEBPACK_IMPORTED_MODULE_3__["createGlobalStyle"]`
@@ -1037,22 +1037,22 @@ const BodyContainer = /*#__PURE__*/external_styled_components_default.a.div.with
 
 
 
-const Info = dynamic_default()(() => __webpack_require__.e(/* import() */ 26).then(__webpack_require__.bind(null, "1fyQ")), {
+const Info = dynamic_default()(() => __webpack_require__.e(/* import() */ 28).then(__webpack_require__.bind(null, "1fyQ")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("1fyQ")],
-    modules: ["..\\components\\CommunityBody\\index.tsx -> " + './Info']
+    modules: ['./Info']
   }
 });
-const Post = dynamic_default()(() => __webpack_require__.e(/* import() */ 32).then(__webpack_require__.bind(null, "p2OE")), {
+const Post = dynamic_default()(() => __webpack_require__.e(/* import() */ 34).then(__webpack_require__.bind(null, "p2OE")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("p2OE")],
-    modules: ["..\\components\\CommunityBody\\index.tsx -> " + './Post']
+    modules: ['./Post']
   }
 });
-const Meet = dynamic_default()(() => __webpack_require__.e(/* import() */ 31).then(__webpack_require__.bind(null, "k0i2")), {
+const Meet = dynamic_default()(() => __webpack_require__.e(/* import() */ 33).then(__webpack_require__.bind(null, "k0i2")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("k0i2")],
-    modules: ["..\\components\\CommunityBody\\index.tsx -> " + './Meet']
+    modules: ['./Meet']
   }
 });
 
@@ -1133,16 +1133,16 @@ const HeaderContainer = /*#__PURE__*/external_styled_components_default.a.div.wi
 
 
 
-const JoinUserModal = dynamic_default()(() => __webpack_require__.e(/* import() */ 27).then(__webpack_require__.bind(null, "m1Q/")), {
+const JoinUserModal = dynamic_default()(() => __webpack_require__.e(/* import() */ 29).then(__webpack_require__.bind(null, "m1Q/")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("m1Q/")],
-    modules: ["..\\components\\CommunityHeader\\index.tsx -> " + 'components/Modals/JoinUserModal']
+    modules: ['components/Modals/JoinUserModal']
   }
 });
-const CommunityModifyModal = dynamic_default()(() => __webpack_require__.e(/* import() */ 22).then(__webpack_require__.bind(null, "CS4g")), {
+const CommunityModifyModal = dynamic_default()(() => __webpack_require__.e(/* import() */ 24).then(__webpack_require__.bind(null, "CS4g")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("CS4g")],
-    modules: ["..\\components\\CommunityHeader\\index.tsx -> " + 'components/Modals/CommunityModifyModal']
+    modules: ['components/Modals/CommunityModifyModal']
   }
 });
 
@@ -3366,7 +3366,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
+external_axios_default.a.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

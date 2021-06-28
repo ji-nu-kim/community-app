@@ -6,7 +6,7 @@ module.exports =
 /******/ 	// object to store loaded chunks
 /******/ 	// "0" means "already loaded"
 /******/ 	var installedChunks = {
-/******/ 		9: 0
+/******/ 		11: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -49,7 +49,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"18":"e55db9aa934ff5ab09ca","19":"62034fcdc360a128a0b1","20":"a1a111d4357a508f3e56","31":"ebcda1f6ed50945694a0","35":"fb8266ae80c85e668160","36":"b329f4de86aa01611ffb","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -156,7 +156,7 @@ function isDynamicRoute(route) {
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__("AroE");
+var _interopRequireDefault = __webpack_require__("TqRt");
 
 exports.__esModule = true;
 exports.default = withRouter;
@@ -255,22 +255,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const BoxStyleCard = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 29).then(__webpack_require__.bind(null, "3/Tn")), {
+const BoxStyleCard = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 31).then(__webpack_require__.bind(null, "3/Tn")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("3/Tn")],
-    modules: ["index.tsx -> " + 'components/Cards/BoxStyleCard']
+    modules: ['components/Cards/BoxStyleCard']
   }
 });
-const HomeLayout = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 34).then(__webpack_require__.bind(null, "skWo")), {
+const HomeLayout = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 36).then(__webpack_require__.bind(null, "skWo")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("skWo")],
-    modules: ["index.tsx -> " + 'components/Layouts/HomeLayout']
+    modules: ['components/Layouts/HomeLayout']
   }
 });
-const AppLayout = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 33).then(__webpack_require__.bind(null, "awaa")), {
+const AppLayout = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 35).then(__webpack_require__.bind(null, "awaa")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("awaa")],
-    modules: ["index.tsx -> " + 'components/Layouts/AppLayout']
+    modules: ['components/Layouts/AppLayout']
   }
 });
 
@@ -372,6 +372,67 @@ const getServerSideProps = store_configureStore__WEBPACK_IMPORTED_MODULE_9__[/* 
   await context.store.sagaTask.toPromise();
 });
 /* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["memo"])(Home));
+
+/***/ }),
+
+/***/ "284h":
+/***/ (function(module, exports, __webpack_require__) {
+
+var _typeof = __webpack_require__("cDf5");
+
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
+
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
+
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      "default": obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj["default"] = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+module.exports = _interopRequireWildcard;
 
 /***/ }),
 
@@ -700,107 +761,10 @@ function formatUrl(urlObj) {
 
 /***/ }),
 
-/***/ "7KCV":
-/***/ (function(module, exports, __webpack_require__) {
-
-var _typeof = __webpack_require__("C+bE");
-
-function _getRequireWildcardCache() {
-  if (typeof WeakMap !== "function") return null;
-  var cache = new WeakMap();
-
-  _getRequireWildcardCache = function _getRequireWildcardCache() {
-    return cache;
-  };
-
-  return cache;
-}
-
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  }
-
-  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
-    return {
-      "default": obj
-    };
-  }
-
-  var cache = _getRequireWildcardCache();
-
-  if (cache && cache.has(obj)) {
-    return cache.get(obj);
-  }
-
-  var newObj = {};
-  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-
-      if (desc && (desc.get || desc.set)) {
-        Object.defineProperty(newObj, key, desc);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-
-  newObj["default"] = obj;
-
-  if (cache) {
-    cache.set(obj, newObj);
-  }
-
-  return newObj;
-}
-
-module.exports = _interopRequireWildcard;
-
-/***/ }),
-
 /***/ "7ubT":
 /***/ (function(module, exports) {
 
 
-
-/***/ }),
-
-/***/ "AroE":
-/***/ (function(module, exports) {
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-module.exports = _interopRequireDefault;
-
-/***/ }),
-
-/***/ "C+bE":
-/***/ (function(module, exports) {
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
 
 /***/ }),
 
@@ -1022,7 +986,7 @@ const changeCommunityOfMe = data => {
 "use strict";
 
 
-var _interopRequireDefault = __webpack_require__("AroE");
+var _interopRequireDefault = __webpack_require__("TqRt");
 
 exports.__esModule = true;
 exports.markAssetError = markAssetError;
@@ -1244,36 +1208,24 @@ function createRouteLoader(assetPrefix) {
       });
     },
 
-    loadRoute(route, prefetch) {
-      return withFuture(route, routes, () => {
-        return resolvePromiseWithTimeout(getFilesForRoute(assetPrefix, route).then(({
-          scripts,
-          css
-        }) => {
-          return Promise.all([entrypoints.has(route) ? [] : Promise.all(scripts.map(maybeExecuteScript)), Promise.all(css.map(fetchStyleSheet))]);
-        }).then(res => {
-          return this.whenEntrypoint(route).then(entrypoint => ({
-            entrypoint,
-            styles: res[1]
-          }));
-        }), MS_MAX_IDLE_DELAY, markAssetError(new Error(`Route did not complete loading: ${route}`))).then(({
-          entrypoint,
-          styles
-        }) => {
+    loadRoute(route) {
+      return withFuture(route, routes, async () => {
+        try {
+          const {
+            scripts,
+            css
+          } = await getFilesForRoute(assetPrefix, route);
+          const [, styles] = await Promise.all([entrypoints.has(route) ? [] : Promise.all(scripts.map(maybeExecuteScript)), Promise.all(css.map(fetchStyleSheet))]);
+          const entrypoint = await resolvePromiseWithTimeout(this.whenEntrypoint(route), MS_MAX_IDLE_DELAY, markAssetError(new Error(`Route did not complete loading: ${route}`)));
           const res = Object.assign({
-            styles: styles
+            styles
           }, entrypoint);
           return 'error' in entrypoint ? entrypoint : res;
-        }).catch(err => {
-          if (prefetch) {
-            // we don't want to cache errors during prefetch
-            throw err;
-          }
-
+        } catch (err) {
           return {
             error: err
           };
-        });
+        }
       });
     },
 
@@ -1288,7 +1240,7 @@ function createRouteLoader(assetPrefix) {
       }
 
       return getFilesForRoute(assetPrefix, route).then(output => Promise.all(canPrefetch ? output.scripts.map(script => prefetchViaDom(script, 'script')) : [])).then(() => {
-        (0, _requestIdleCallback.requestIdleCallback)(() => this.loadRoute(route, true).catch(() => {}));
+        (0, _requestIdleCallback.requestIdleCallback)(() => this.loadRoute(route));
       }).catch( // swallow prefetch errors
       () => {});
     }
@@ -1319,6 +1271,19 @@ module.exports = require("redux-saga/effects");
 /***/ (function(module, exports) {
 
 module.exports = require("immer");
+
+/***/ }),
+
+/***/ "TqRt":
+/***/ (function(module, exports) {
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
+module.exports = _interopRequireDefault;
 
 /***/ }),
 
@@ -1656,13 +1621,36 @@ module.exports = require("react");
 
 /***/ }),
 
+/***/ "cDf5":
+/***/ (function(module, exports) {
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+
+/***/ }),
+
 /***/ "cTJO":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _interopRequireWildcard = __webpack_require__("7KCV");
+var _interopRequireWildcard = __webpack_require__("284h");
 
 exports.__esModule = true;
 exports.default = void 0;
@@ -1721,6 +1709,13 @@ function linkClicked(e, router, href, as, replace, shallow, scroll, locale) {
     shallow,
     locale,
     scroll
+  }).then(success => {
+    if (!success) return;
+
+    if (scroll) {
+      // FIXME: proper route announcing at Router level, not Link:
+      document.body.focus();
+    }
   });
 }
 
@@ -1729,7 +1724,7 @@ function Link(props) {
 
   const p = props.prefetch !== false;
   const router = (0, _router2.useRouter)();
-  const pathname = router && router.asPath || '/';
+  const pathname = router && router.pathname || '/';
 
   const {
     href,
@@ -1918,7 +1913,9 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : {
     default: obj
   };
-} // tslint:disable:no-console
+}
+/* global __NEXT_DATA__ */
+// tslint:disable:no-console
 
 
 let detectDomainLocale;
@@ -2061,15 +2058,7 @@ function omitParmsFromQuery(query, params) {
 
 function resolveHref(currentPath, href, resolveAs) {
   // we use a dummy base url for relative urls
-  let base;
-
-  try {
-    base = new URL(currentPath, 'http://n');
-  } catch (_) {
-    // fallback to / for invalid asPath values e.g. //
-    base = new URL('/', 'http://n');
-  }
-
+  const base = new URL(currentPath, 'http://n');
   const urlAsString = typeof href === 'string' ? href : (0, _utils.formatWithValidation)(href); // Return because it cannot be routed by the Next.js router
 
   if (!isLocalURL(urlAsString)) {
@@ -2113,25 +2102,28 @@ function stripOrigin(url) {
 function prepareUrlAs(router, url, as) {
   // If url and as provided as an object representation,
   // we'll format them into the string version here.
-  let [resolvedHref, resolvedAs] = resolveHref(router.asPath, url, true);
+  let [resolvedHref, resolvedAs] = resolveHref(router.pathname, url, true);
   const origin = (0, _utils.getLocationOrigin)();
   const hrefHadOrigin = resolvedHref.startsWith(origin);
   const asHadOrigin = resolvedAs && resolvedAs.startsWith(origin);
   resolvedHref = stripOrigin(resolvedHref);
   resolvedAs = resolvedAs ? stripOrigin(resolvedAs) : resolvedAs;
   const preparedUrl = hrefHadOrigin ? resolvedHref : addBasePath(resolvedHref);
-  const preparedAs = as ? stripOrigin(resolveHref(router.asPath, as)) : resolvedAs || resolvedHref;
+  const preparedAs = as ? stripOrigin(resolveHref(router.pathname, as)) : resolvedAs || resolvedHref;
   return {
     url: preparedUrl,
     as: asHadOrigin ? preparedAs : addBasePath(preparedAs)
   };
 }
 
-function resolveDynamicRoute(pathname, pages) {
-  const cleanPathname = (0, _normalizeTrailingSlash.removePathTrailingSlash)((0, _denormalizePagePath.denormalizePagePath)(pathname));
+function resolveDynamicRoute(parsedHref, pages, applyBasePath = true) {
+  const {
+    pathname
+  } = parsedHref;
+  const cleanPathname = (0, _normalizeTrailingSlash.removePathTrailingSlash)((0, _denormalizePagePath.denormalizePagePath)(applyBasePath ? delBasePath(pathname) : pathname));
 
   if (cleanPathname === '/404' || cleanPathname === '/_error') {
-    return pathname;
+    return parsedHref;
   } // handle resolving href for dynamic routes
 
 
@@ -2139,13 +2131,14 @@ function resolveDynamicRoute(pathname, pages) {
     // eslint-disable-next-line array-callback-return
     pages.some(page => {
       if ((0, _isDynamic.isDynamicRoute)(page) && (0, _routeRegex.getRouteRegex)(page).re.test(cleanPathname)) {
-        pathname = page;
+        parsedHref.pathname = applyBasePath ? addBasePath(page) : page;
         return true;
       }
     });
   }
 
-  return (0, _normalizeTrailingSlash.removePathTrailingSlash)(pathname);
+  parsedHref.pathname = (0, _normalizeTrailingSlash.removePathTrailingSlash)(parsedHref.pathname);
+  return parsedHref;
 }
 
 const manualScrollRestoration =  false && false;
@@ -2354,7 +2347,7 @@ class Router {
 
     this.isSsr = true;
     this.isFallback = isFallback;
-    this.isReady = !!(self.__NEXT_DATA__.gssp || self.__NEXT_DATA__.gip || !autoExportDynamic && !self.location.search && !false);
+    this.isReady = !!(self.__NEXT_DATA__.gssp || self.__NEXT_DATA__.gip || !autoExportDynamic && !self.location.search);
     this.isPreview = !!isPreview;
     this.isLocaleDomain = false;
 
@@ -2415,10 +2408,9 @@ class Router {
     if (!isLocalURL(url)) {
       window.location.href = url;
       return false;
-    }
-
-    const shouldResolveHref = url === as || options._h; // for static pages with query params in the URL we delay
+    } // for static pages with query params in the URL we delay
     // marking the router ready until after the query is updated
+
 
     if (options._h) {
       this.isReady = true;
@@ -2491,37 +2483,34 @@ class Router {
       // do a server-side transition:
       window.location.href = as;
       return false;
-    } // If asked to change the current URL we should reload the current page
+    }
+
+    parsed = resolveDynamicRoute(parsed, pages);
+
+    if (parsed.pathname !== pathname) {
+      pathname = parsed.pathname;
+      url = (0, _utils.formatWithValidation)(parsed);
+    } // url and as should always be prefixed with basePath by this
+    // point by either next/link or router.push/replace so strip the
+    // basePath from the pathname to match the pages dir 1-to-1
+
+
+    pathname = pathname ? (0, _normalizeTrailingSlash.removePathTrailingSlash)(delBasePath(pathname)) : pathname; // If asked to change the current URL we should reload the current page
     // (not location.reload() but reload getInitialProps and other Next.js stuffs)
     // We also need to set the method = replaceState always
     // as this should not go into the history (That's how browsers work)
     // We should compare the new asPath to the current asPath, not the url
 
-
     if (!this.urlIsNew(cleanedAs) && !localeChange) {
       method = 'replaceState';
-    } // we need to resolve the as value using rewrites for dynamic SSG
-    // pages to allow building the data URL correctly
-
-
-    let resolvedAs = as; // url and as should always be prefixed with basePath by this
-    // point by either next/link or router.push/replace so strip the
-    // basePath from the pathname to match the pages dir 1-to-1
-
-    pathname = pathname ? (0, _normalizeTrailingSlash.removePathTrailingSlash)(delBasePath(pathname)) : pathname;
-
-    if (shouldResolveHref && pathname !== '/_error') {
-      if (false) {} else {
-        parsed.pathname = resolveDynamicRoute(pathname, pages);
-
-        if (parsed.pathname !== pathname) {
-          pathname = parsed.pathname;
-          url = (0, _utils.formatWithValidation)(parsed);
-        }
-      }
     }
 
-    const route = (0, _normalizeTrailingSlash.removePathTrailingSlash)(pathname);
+    let route = (0, _normalizeTrailingSlash.removePathTrailingSlash)(pathname); // we need to resolve the as value using rewrites for dynamic SSG
+    // pages to allow building the data URL correctly
+
+    let resolvedAs = as;
+
+    if (false) {}
 
     if (!isLocalURL(as)) {
       if (false) {}
@@ -2546,7 +2535,7 @@ class Router {
         if (missingParams.length > 0) {
           if (false) {}
 
-          throw new Error((shouldInterpolate ? `The provided \`href\` (${url}) value is missing query values (${missingParams.join(', ')}) to be interpolated properly. ` : `The provided \`as\` value (${asPathname}) is incompatible with the \`href\` value (${route}). `) + `Read more: https://nextjs.org/docs/messages/${shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'}`);
+          throw new Error((shouldInterpolate ? `The provided \`href\` (${url}) value is missing query values (${missingParams.join(', ')}) to be interpolated properly. ` : `The provided \`as\` value (${asPathname}) is incompatible with the \`href\` value (${route}). `) + `Read more: https://err.sh/vercel/next.js/${shouldInterpolate ? 'href-interpolation-failed' : 'incompatible-href-as'}`);
         }
       } else if (shouldInterpolate) {
         as = (0, _utils.formatWithValidation)(Object.assign({}, parsedAs, {
@@ -2580,7 +2569,7 @@ class Router {
 
           if (destination.startsWith('/')) {
             const parsedHref = (0, _parseRelativeUrl.parseRelativeUrl)(destination);
-            parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
+            resolveDynamicRoute(parsedHref, pages, false);
 
             if (pages.includes(parsedHref.pathname)) {
               const {
@@ -2765,10 +2754,7 @@ class Router {
       {
         pathname,
         query,
-        asPath: as,
-        locale: this.locale,
-        locales: this.locales,
-        defaultLocale: this.defaultLocale
+        asPath: as
       }));
       routeInfo.props = props;
       this.components[route] = routeInfo;
@@ -2863,22 +2849,22 @@ class Router {
     if (false) {}
 
     const pages = await this.pageLoader.getPageList();
-    let resolvedAs = asPath;
+    parsed = resolveDynamicRoute(parsed, pages, false);
 
-    if (false) {} else {
-      parsed.pathname = resolveDynamicRoute(parsed.pathname, pages);
-
-      if (parsed.pathname !== pathname) {
-        pathname = parsed.pathname;
-        url = (0, _utils.formatWithValidation)(parsed);
-      }
+    if (parsed.pathname !== pathname) {
+      pathname = parsed.pathname;
+      url = (0, _utils.formatWithValidation)(parsed);
     }
 
-    const route = (0, _normalizeTrailingSlash.removePathTrailingSlash)(pathname); // Prefetch is not supported in development mode because it would trigger on-demand-entries
+    let route = (0, _normalizeTrailingSlash.removePathTrailingSlash)(pathname);
+    let resolvedAs = asPath;
+
+    if (false) {} // Prefetch is not supported in development mode because it would trigger on-demand-entries
+
 
     if (false) {}
 
-    await Promise.all([this.pageLoader._isSsg(route).then(isSsg => {
+    await Promise.all([this.pageLoader._isSsg(url).then(isSsg => {
       return isSsg ? this._getStaticData(this.pageLoader.getDataHref(url, resolvedAs, true, typeof options.locale !== 'undefined' ? options.locale : this.locale)) : false;
     }), this.pageLoader[options.priority ? 'loadPage' : 'prefetch'](route)]);
   }
@@ -3249,9 +3235,9 @@ const actionTypesPost = {
 "use strict";
 
 
-var _interopRequireWildcard = __webpack_require__("7KCV");
+var _interopRequireWildcard = __webpack_require__("284h");
 
-var _interopRequireDefault = __webpack_require__("AroE");
+var _interopRequireDefault = __webpack_require__("TqRt");
 
 exports.__esModule = true;
 exports.useRouter = useRouter;
@@ -5428,7 +5414,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
+external_axios_default.a.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

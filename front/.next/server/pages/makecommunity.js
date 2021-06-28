@@ -6,7 +6,7 @@ module.exports =
 /******/ 	// object to store loaded chunks
 /******/ 	// "0" means "already loaded"
 /******/ 	var installedChunks = {
-/******/ 		11: 0
+/******/ 		13: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -49,7 +49,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","1":"db89c297d8652b89b8b3"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -906,13 +906,13 @@ __webpack_require__.r(__webpack_exports__);
 const FormErrorMessage = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 1).then(__webpack_require__.bind(null, "yKf2")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("yKf2")],
-    modules: ["makecommunity.tsx -> " + 'components/Message/FormErrorMessage']
+    modules: ['components/Message/FormErrorMessage']
   }
 });
 const SearchAddressModal = next_dynamic__WEBPACK_IMPORTED_MODULE_5___default()(() => __webpack_require__.e(/* import() */ 0).then(__webpack_require__.bind(null, "yNRX")), {
   loadableGenerated: {
     webpack: () => [/*require.resolve*/("yNRX")],
-    modules: ["makecommunity.tsx -> " + 'components/Modals/SearchAddressModal']
+    modules: ['components/Modals/SearchAddressModal']
   }
 });
 
@@ -3074,7 +3074,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
+external_axios_default.a.defaults.baseURL = process.env.NEXT_PUBLIC_BACK_URL_KEY;
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

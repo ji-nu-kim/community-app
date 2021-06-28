@@ -74,16 +74,10 @@ var head_default = /*#__PURE__*/__webpack_require__.n(head_);
 
 function Search() {
   return /*#__PURE__*/(0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
-    children: [/*#__PURE__*/(0,jsx_runtime_.jsxs)((head_default()), {
-      children: [/*#__PURE__*/jsx_runtime_.jsx("title", {
+    children: [/*#__PURE__*/jsx_runtime_.jsx((head_default()), {
+      children: /*#__PURE__*/jsx_runtime_.jsx("title", {
         children: "community - \uAC80\uC0C9"
-      }), /*#__PURE__*/jsx_runtime_.jsx("link", {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com"
-      }), /*#__PURE__*/jsx_runtime_.jsx("link", {
-        href: "https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap",
-        rel: "stylesheet"
-      })]
+      })
     }), /*#__PURE__*/jsx_runtime_.jsx(AppLayout.default, {
       children: /*#__PURE__*/jsx_runtime_.jsx(components_Message, {
         text: "\uCEE4\uBBA4\uB2C8\uD2F0\uB97C \uAC80\uC0C9\uD558\uC138\uC694!"

@@ -25,13 +25,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_dynamic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9639);
 /* harmony import */ var next_dynamic__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_dynamic__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(1664);
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(701);
-/* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var actions_actionUser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5902);
-/* harmony import */ var actions_actionCommunity__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(247);
-/* harmony import */ var store_configureStore__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(3177);
-
-
+/* harmony import */ var actions_actionUser__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(5902);
+/* harmony import */ var actions_actionCommunity__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(247);
+/* harmony import */ var store_configureStore__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(3177);
 
 
 
@@ -75,7 +71,7 @@ function Home() {
   } = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.useSelector)(state => state.community);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (me !== null && me !== void 0 && me.country) {
-      dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_9__/* .loadCountryCommunitiesRequestAction */ .X0)({
+      dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_8__/* .loadCountryCommunitiesRequestAction */ .X0)({
         country: me.country,
         communityId: 0
       }));
@@ -87,7 +83,7 @@ function Home() {
         if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 200) {
           if (hasMoreCommunity && !loadCommunitiesLoading) {
             const lastId = changableCommunities[changableCommunities.length - 1].id;
-            dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_9__/* .loadCountryCommunitiesRequestAction */ .X0)({
+            dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_8__/* .loadCountryCommunitiesRequestAction */ .X0)({
               country: me.country,
               communityId: lastId
             }));
@@ -99,64 +95,54 @@ function Home() {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, [hasMoreCommunity, loadCommunitiesLoading, changableCommunities, me]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)((next_head__WEBPACK_IMPORTED_MODULE_7___default()), {
-      children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("link", {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com"
-      }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("link", {
-        href: "https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap",
-        rel: "stylesheet"
-      })]
-    }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AppLayout, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(HomeLayout, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
-          children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h1", {
-            children: "\uC0C8\uB85C\uC6B4 \uCEE4\uBBA4\uB2C8\uD2F0\uB97C \uB9CC\uB098\uBCF4\uC138\uC694"
-          }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-            className: "cards-container",
-            children: mainCommunities.map(community => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-              children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(next_link__WEBPACK_IMPORTED_MODULE_6__.default, {
-                href: `/community/${community.id}`,
-                prefetch: false,
-                children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
-                  children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(BoxStyleCard, {
-                    profilePhoto: community.profilePhoto,
-                    categoryName: community.Categories[0].name,
-                    country: community.country,
-                    communityName: community.communityName
-                  })
+  return /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(AppLayout, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(HomeLayout, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+        children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h1", {
+          children: "\uC0C8\uB85C\uC6B4 \uCEE4\uBBA4\uB2C8\uD2F0\uB97C \uB9CC\uB098\uBCF4\uC138\uC694"
+        }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+          className: "cards-container",
+          children: mainCommunities.map(community => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+            children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(next_link__WEBPACK_IMPORTED_MODULE_6__.default, {
+              href: `/community/${community.id}`,
+              prefetch: false,
+              children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
+                children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(BoxStyleCard, {
+                  profilePhoto: community.profilePhoto,
+                  categoryName: community.Categories[0].name,
+                  country: community.country,
+                  communityName: community.communityName
                 })
               })
-            }, `new${community.id}`))
-          })]
-        }), me && changableCommunities && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
-          children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h1", {
-            children: "\uC6B0\uB9AC\uB3D9\uB124 \uCEE4\uBBA4\uB2C8\uD2F0"
-          }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-            className: "cards-container",
-            children: changableCommunities.map(community => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-              children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(next_link__WEBPACK_IMPORTED_MODULE_6__.default, {
-                href: `/community/${community.id}`,
-                prefetch: false,
-                children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
-                  children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(BoxStyleCard, {
-                    profilePhoto: community.profilePhoto,
-                    categoryName: community.Categories[0].name,
-                    country: community.country,
-                    communityName: community.communityName
-                  })
-                })
-              })
-            }, `country${community.id}`))
-          })]
+            })
+          }, `new${community.id}`))
         })]
-      })
-    })]
+      }), me && changableCommunities && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("section", {
+        children: [/*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("h1", {
+          children: "\uC6B0\uB9AC\uB3D9\uB124 \uCEE4\uBBA4\uB2C8\uD2F0"
+        }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+          className: "cards-container",
+          children: changableCommunities.map(community => /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
+            children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(next_link__WEBPACK_IMPORTED_MODULE_6__.default, {
+              href: `/community/${community.id}`,
+              prefetch: false,
+              children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("a", {
+                children: /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(BoxStyleCard, {
+                  profilePhoto: community.profilePhoto,
+                  categoryName: community.Categories[0].name,
+                  country: community.country,
+                  communityName: community.communityName
+                })
+              })
+            })
+          }, `country${community.id}`))
+        })]
+      })]
+    })
   });
 }
 
-const getServerSideProps = store_configureStore__WEBPACK_IMPORTED_MODULE_10__/* .default.getServerSideProps */ .Z.getServerSideProps(async context => {
+const getServerSideProps = store_configureStore__WEBPACK_IMPORTED_MODULE_9__/* .default.getServerSideProps */ .Z.getServerSideProps(async context => {
   const cookie = context.req ? context.req.headers.cookie : '';
   (axios__WEBPACK_IMPORTED_MODULE_1___default().defaults.headers.Cookie) = '';
 
@@ -164,8 +150,8 @@ const getServerSideProps = store_configureStore__WEBPACK_IMPORTED_MODULE_10__/* 
     (axios__WEBPACK_IMPORTED_MODULE_1___default().defaults.headers.Cookie) = cookie;
   }
 
-  context.store.dispatch((0,actions_actionUser__WEBPACK_IMPORTED_MODULE_8__/* .loadMyInfoRequestAction */ .J5)());
-  context.store.dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_9__/* .loadCommunitiesRequestAction */ .Cj)());
+  context.store.dispatch((0,actions_actionUser__WEBPACK_IMPORTED_MODULE_7__/* .loadMyInfoRequestAction */ .J5)());
+  context.store.dispatch((0,actions_actionCommunity__WEBPACK_IMPORTED_MODULE_8__/* .loadCommunitiesRequestAction */ .Cj)());
   context.store.dispatch(redux_saga__WEBPACK_IMPORTED_MODULE_4__.END);
   await context.store.sagaTask.toPromise();
 });
@@ -234,14 +220,6 @@ module.exports = require("next/dist/next-server/lib/router/utils/get-asset-path-
 
 "use strict";
 module.exports = require("next/dynamic");;
-
-/***/ }),
-
-/***/ 701:
-/***/ (function(module) {
-
-"use strict";
-module.exports = require("next/head");;
 
 /***/ }),
 

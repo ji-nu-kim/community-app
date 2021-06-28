@@ -61,7 +61,7 @@ class CustomDocument extends next_document__WEBPACK_IMPORTED_MODULE_2__.default 
           rel: "preconnect",
           href: "https://fonts.gstatic.com"
         }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("link", {
-          href: "https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&display=swap",
+          href: "https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Yeon+Sung&display=swap",
           rel: "stylesheet"
         }), /*#__PURE__*/react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("script", {
           type: "text/javascript",

@@ -13,11 +13,6 @@ function Search() {
     <>
       <Head>
         <title>community - 검색</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap"
-          rel="stylesheet"
-        />
       </Head>
       <AppLayout>
         <Message text="커뮤니티를 검색하세요!" />

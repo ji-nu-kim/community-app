@@ -1858,7 +1858,7 @@ function Profile() {
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
                     children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(RoundStyleCard["a" /* default */], {
                       name: category.name,
-                      img: `${"http://api.jinu-community.site"}/${category.profilePhoto}`,
+                      img: `${"https://api.jinu-community.site"}/${category.profilePhoto}`,
                       width: "240",
                       height: "220"
                     })
@@ -5722,7 +5722,7 @@ function* communitySaga() {
 
 
 
-external_axios_default.a.defaults.baseURL = "http://api.jinu-community.site";
+external_axios_default.a.defaults.baseURL = "https://api.jinu-community.site";
 external_axios_default.a.defaults.withCredentials = true;
 function* rootSaga() {
   yield Object(effects_["all"])([Object(effects_["fork"])(userSaga), Object(effects_["fork"])(postSaga), Object(effects_["fork"])(communitySaga)]);

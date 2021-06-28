@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
-      origin: 'http://jinu-community.site',
+      origin: 'https://jinu-community.site',
       credentials: true,
     })
   );
@@ -78,6 +78,6 @@ app.get('/', (req, res) => {
   res.send('커뮤니티 서버입니다');
 });
 
-app.listen(80, () => {
+app.listen(3065, () => {
   console.log('서버 실행 중');
 });

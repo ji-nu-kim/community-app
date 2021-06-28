@@ -78,7 +78,7 @@ function login() {
             <Button type="primary" size="large" htmlType="submit" loading={logInLoading}>
               로그인
             </Button>
-            <Link href="/signup">
+            <Link href="/signup" prefetch={false}>
               <a>
                 <Button size="large" htmlType="submit">
                   회원가입

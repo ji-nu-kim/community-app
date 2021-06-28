@@ -91,12 +91,12 @@ function NavBar({
           </UserButtons>
         ) : (
           <VisitorButtons>
-            <Link href="/signup">
+            <Link href="/signup" prefetch={false}>
               <a>
                 <div className="button-style">가입하기</div>
               </a>
             </Link>
-            <Link href="/login">
+            <Link href="/login" prefetch={false}>
               <a>
                 <div className="glass-style-button button-style">로그인하기</div>
               </a>

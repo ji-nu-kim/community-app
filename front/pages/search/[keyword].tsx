@@ -40,7 +40,7 @@ function keyword() {
             <div className="cards-container">
               {changableCommunities.map(community => (
                 <div key={community.id}>
-                  <Link href={`/community/${community.id}`}>
+                  <Link href={`/community/${community.id}`} prefetch={false}>
                     <a>
                       <BoxStyleCard
                         profilePhoto={community.profilePhoto}

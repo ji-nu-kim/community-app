@@ -107,7 +107,7 @@ function Profile() {
               <div className="cards-container">
                 {me?.Categories?.map(category => (
                   <div key={category.name}>
-                    <Link href={`/category/${category.id}`}>
+                    <Link href={`/category/${category.id}`} prefetch={false}>
                       <a>
                         <RoundStyleCard
                           name={category.name}
@@ -126,7 +126,7 @@ function Profile() {
               <div className="cards-container">
                 {me?.Communities?.map(community => (
                   <div key={community.communityName}>
-                    <Link href={`/community/${community.id}`}>
+                    <Link href={`/community/${community.id}`} prefetch={false}>
                       <a>
                         <RoundStyleCard
                           name={community.communityName}

@@ -50,7 +50,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","2":"b50ad6fbfdad6a9094b6","18":"e55db9aa934ff5ab09ca","19":"62034fcdc360a128a0b1","20":"a1a111d4357a508f3e56","26":"05c155093656d6b6f4aa","32":"b085038c804d0d2b9a58","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"0":"9ab663dcbde0cd1065fc","2":"b50ad6fbfdad6a9094b6","18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"f9dcbc8465ba97d2f8f4","26":"05c155093656d6b6f4aa","32":"b085038c804d0d2b9a58","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -1855,7 +1855,6 @@ function Profile() {
               children: me === null || me === void 0 ? void 0 : (_me$Categories = me.Categories) === null || _me$Categories === void 0 ? void 0 : _me$Categories.map(category => /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
                   href: `/category/${category.id}`,
-                  prefetch: false,
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
                     children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(RoundStyleCard["a" /* default */], {
                       name: category.name,

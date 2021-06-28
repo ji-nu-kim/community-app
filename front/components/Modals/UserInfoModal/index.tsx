@@ -36,7 +36,7 @@ function UserInfoModal({ setUserInfoModal }: UserInfoModalProps) {
       <ModalContainer onClick={UserInfoModalTrigger}>
         <ul>
           <li>
-            <Link href="/profile" prefetch={false}>
+            <Link href="/profile">
               <a>프로필</a>
             </Link>
           </li>

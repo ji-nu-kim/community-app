@@ -49,7 +49,7 @@ module.exports =
 /******/
 /******/ 		// "0" is the signal for "already loaded"
 /******/ 		if(installedChunks[chunkId] !== 0) {
-/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"18":"e55db9aa934ff5ab09ca","19":"62034fcdc360a128a0b1","20":"a1a111d4357a508f3e56","31":"ebcda1f6ed50945694a0","35":"fb8266ae80c85e668160","36":"b329f4de86aa01611ffb","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
+/******/ 			var chunk = require("../" + ({}[chunkId]||chunkId) + "." + {"18":"034a93c2ce7f67f83789","19":"de998cf9f9c3a0437fa6","20":"f9dcbc8465ba97d2f8f4","31":"ebcda1f6ed50945694a0","35":"fb8266ae80c85e668160","36":"b329f4de86aa01611ffb","39":"257dc8bb3f6ae4918fdf"}[chunkId] + ".js");
 /******/ 			var moreModules = chunk.modules, chunkIds = chunk.ids;
 /******/ 			for(var moduleId in moreModules) {
 /******/ 				modules[moduleId] = moreModules[moduleId];
@@ -321,7 +321,6 @@ function Home() {
           children: mainCommunities.map(community => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
             children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_6___default.a, {
               href: `/community/${community.id}`,
-              prefetch: false,
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(BoxStyleCard, {
                   profilePhoto: community.profilePhoto,
@@ -341,7 +340,6 @@ function Home() {
           children: changableCommunities.map(community => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
             children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_6___default.a, {
               href: `/community/${community.id}`,
-              prefetch: false,
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(BoxStyleCard, {
                   profilePhoto: community.profilePhoto,

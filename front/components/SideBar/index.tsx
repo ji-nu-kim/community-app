@@ -23,7 +23,7 @@ function SideBar() {
           <h2>메인메뉴</h2>
           <ul>
             <li>
-              <Link href="/" prefetch={false}>
+              <Link href="/">
                 <a className={path[1] === '' ? 'active' : 'null'}>
                   <span>
                     <HomeOutlined />
@@ -33,7 +33,7 @@ function SideBar() {
               </Link>
             </li>
             <li>
-              <Link href="/category" prefetch={false}>
+              <Link href="/category">
                 <a className={path[1] === 'category' ? 'active' : 'null'}>
                   <span>
                     <AppstoreOutlined />
@@ -43,7 +43,7 @@ function SideBar() {
               </Link>
             </li>
             <li>
-              <Link href="/search" prefetch={false}>
+              <Link href="/search">
                 <a className={path[1] === 'search' ? 'active' : 'null'}>
                   <span>
                     <SearchOutlined />
@@ -57,7 +57,7 @@ function SideBar() {
         <div className="community-section">
           <h2>커뮤니티메뉴</h2>
           {me && (
-            <Link href="/makecommunity" prefetch={false}>
+            <Link href="/makecommunity">
               <a className="make-community">
                 <span>
                   <PlusSquareOutlined />
@@ -70,7 +70,7 @@ function SideBar() {
             {me?.Communities &&
               me.Communities.map(v => (
                 <li key={v.communityName}>
-                  <Link href={`/community/${v.id}`} prefetch={false}>
+                  <Link href={`/community/${v.id}`}>
                     <a
                       className={
                         path[1] === 'community' && Number(path[2]) === v.id

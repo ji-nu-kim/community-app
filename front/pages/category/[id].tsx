@@ -78,7 +78,7 @@ function Category() {
             <div className="cards-container">
               {changableCommunities.map(community => (
                 <div key={community.id}>
-                  <Link href={`/community/${community.id}`} prefetch={false}>
+                  <Link href={`/community/${community.id}`}>
                     <a>
                       <BoxStyleCard
                         profilePhoto={community.profilePhoto}

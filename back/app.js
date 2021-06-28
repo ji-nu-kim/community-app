@@ -27,6 +27,7 @@ db.sequelize
 passportConfig();
 
 if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
   app.use(morgan('combined'));
   app.use(hpp());
   app.use(helmet({ contentSecurityPolicy: false }));
@@ -57,9 +58,10 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    proxy: true,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       domain: process.env.NODE_ENV === 'production' && '.jinu-community.site',
     },
   })

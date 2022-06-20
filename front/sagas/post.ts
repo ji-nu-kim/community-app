@@ -28,7 +28,7 @@ function* addPost(action: IAddPostRequest) {
       type: actionTypesPost.ADD_POST_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.ADD_POST_ERROR,
       error: error.response.data,
@@ -37,17 +37,22 @@ function* addPost(action: IAddPostRequest) {
 }
 
 function removePostAPI(data: { communityId: number; postId: number }) {
-  return axios.delete(`/post/community/${data.communityId}/post/${data.postId}`);
+  return axios.delete(
+    `/post/community/${data.communityId}/post/${data.postId}`
+  );
 }
 
 function* removePost(action: IRemovePostRequest) {
   try {
-    const result: { data: { postId: number } } = yield call(removePostAPI, action.data);
+    const result: { data: { postId: number } } = yield call(
+      removePostAPI,
+      action.data
+    );
     yield put({
       type: actionTypesPost.REMOVE_POST_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.REMOVE_POST_ERROR,
       error: error.response.data,
@@ -55,8 +60,15 @@ function* removePost(action: IRemovePostRequest) {
   }
 }
 
-function updatePostAPI(data: { postId: number; communityId: number; content: string }) {
-  return axios.patch(`/post/community/${data.communityId}/post/${data.postId}`, data);
+function updatePostAPI(data: {
+  postId: number;
+  communityId: number;
+  content: string;
+}) {
+  return axios.patch(
+    `/post/community/${data.communityId}/post/${data.postId}`,
+    data
+  );
 }
 
 function* updatePost(action: IUpdatePostRequest) {
@@ -69,7 +81,7 @@ function* updatePost(action: IUpdatePostRequest) {
       type: actionTypesPost.UPDATE_POST_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.UPDATE_POST_ERROR,
       error: error.response.data,
@@ -87,7 +99,7 @@ function* reportPost(action: IReportRequest) {
     yield put({
       type: actionTypesPost.REPORT_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.REPORT_ERROR,
       error: error.response.data,
@@ -96,7 +108,9 @@ function* reportPost(action: IReportRequest) {
 }
 
 function loadPostsAPI(data: { communityId: number; postId: number }) {
-  return axios.get(`/posts/community/${data.communityId}/post?lastId=${data.postId}`);
+  return axios.get(
+    `/posts/community/${data.communityId}/post?lastId=${data.postId}`
+  );
 }
 
 function* loadPosts(action: ILoadPostsRequest) {
@@ -106,7 +120,7 @@ function* loadPosts(action: ILoadPostsRequest) {
       type: actionTypesPost.LOAD_POSTS_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.LOAD_POSTS_ERROR,
       error: error.response.data,
@@ -125,7 +139,7 @@ function* addComment(action: IAddCommentRequest) {
       type: actionTypesPost.ADD_COMMENT_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.ADD_COMMENT_ERROR,
       error: error.response.data,
@@ -133,19 +147,24 @@ function* addComment(action: IAddCommentRequest) {
   }
 }
 
-function updateCommentAPI(data: { postId: number; commentId: number; content: string }) {
+function updateCommentAPI(data: {
+  postId: number;
+  commentId: number;
+  content: string;
+}) {
   return axios.patch(`/post/${data.postId}/comment/${data.commentId}`, data);
 }
 
 function* updateComment(action: IUpdateCommentRequest) {
   try {
-    const result: { data: { postId: number; commentId: number; content: string } } =
-      yield call(updateCommentAPI, action.data);
+    const result: {
+      data: { postId: number; commentId: number; content: string };
+    } = yield call(updateCommentAPI, action.data);
     yield put({
       type: actionTypesPost.UPDATE_COMMENT_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.UPDATE_COMMENT_ERROR,
       error: error.response.data,
@@ -159,13 +178,14 @@ function removeCommentAPI(data: { postId: number; commentId: number }) {
 
 function* removeComment(action: IRemoveCommentRequest) {
   try {
-    const result: { data: { postId: number; commentId: number; content: string } } =
-      yield call(removeCommentAPI, action.data);
+    const result: {
+      data: { postId: number; commentId: number; content: string };
+    } = yield call(removeCommentAPI, action.data);
     yield put({
       type: actionTypesPost.REMOVE_COMMENT_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.REMOVE_COMMENT_ERROR,
       error: error.response.data,
@@ -184,7 +204,7 @@ function* uploadImages(action: IUploadImagesRequest) {
       type: actionTypesPost.UPLOAD_IMAGES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesPost.UPLOAD_IMAGES_ERROR,
       error: error.response.data,

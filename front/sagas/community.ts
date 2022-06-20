@@ -34,12 +34,15 @@ function uploadCommunityImageAPI(data: FormData) {
 }
 function* uploadCommunityImage(action: IUploadCommunityImageRequest) {
   try {
-    const result: { data: string[] } = yield call(uploadCommunityImageAPI, action.data);
+    const result: { data: string[] } = yield call(
+      uploadCommunityImageAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.UPLOAD_COMMUNITY_IMAGE_ERROR,
       error: error.response.data,
@@ -63,7 +66,7 @@ function* changeCommunityInfo(action: IChangeCommunityInfoRequest) {
       type: actionTypesUser.CHANGE_COMMUNITY_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.CHANGE_COMMUNITY_INFO_ERROR,
       error: error.response.data,
@@ -80,7 +83,7 @@ function* removeCommunity(action: IRemoveCommunityRequest) {
     yield put({
       type: actionTypesCommunity.REMOVE_COMMUNITY_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.REMOVE_COMMUNITY_ERROR,
       error: error.response.data,
@@ -97,7 +100,7 @@ function* addCommunity(action: IAddCommunityRequest) {
     yield put({
       type: actionTypesCommunity.ADD_COMMUNITY_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.ADD_COMMUNITY_ERROR,
       error: error.response.data,
@@ -115,7 +118,7 @@ function* joinCommunity(action: IJoinCommunityRequest) {
       type: actionTypesCommunity.JOIN_COMMUNITY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.JOIN_COMMUNITY_ERROR,
       error: error.response.data,
@@ -124,7 +127,10 @@ function* joinCommunity(action: IJoinCommunityRequest) {
 }
 
 function acceptCommunityAPI(data: { communityId: number; userId: number }) {
-  return axios.post(`/community/${data.communityId}/accept/${data.userId}`, data);
+  return axios.post(
+    `/community/${data.communityId}/accept/${data.userId}`,
+    data
+  );
 }
 function* acceptCommunity(action: IAcceptCommunityRequest) {
   try {
@@ -133,7 +139,7 @@ function* acceptCommunity(action: IAcceptCommunityRequest) {
       type: actionTypesCommunity.ACCEPT_COMMUNITY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.ACCEPT_COMMUNITY_ERROR,
       error: error.response.data,
@@ -154,7 +160,7 @@ function* refuseCommunity(action: IRefuseCommunityRequest) {
       type: actionTypesCommunity.REFUSE_COMMUNITY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.REFUSE_COMMUNITY_ERROR,
       error: error.response.data,
@@ -168,10 +174,8 @@ function leaveCommunityAPI(data: { communityId: number }) {
 
 function* leaveCommunity(action: ILeaveCommunityRequest) {
   try {
-    const result: { data: { userId: number; communityId: number } } = yield call(
-      leaveCommunityAPI,
-      action.data
-    );
+    const result: { data: { userId: number; communityId: number } } =
+      yield call(leaveCommunityAPI, action.data);
     yield put({
       type: actionTypesCommunity.LEAVE_COMMUNITY_SUCCESS,
       data: result.data,
@@ -180,7 +184,7 @@ function* leaveCommunity(action: ILeaveCommunityRequest) {
       type: actionTypesUser.LEAVE_COMMUNITY_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LEAVE_COMMUNITY_ERROR,
       error: error.response.data,
@@ -193,12 +197,15 @@ function loadCommunityAPI(data: { communityId: number }) {
 }
 function* loadCommunity(action: ILoadCommunityRequest) {
   try {
-    const result: { data: ICommunity } = yield call(loadCommunityAPI, action.data);
+    const result: { data: ICommunity } = yield call(
+      loadCommunityAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITY_ERROR,
       error: error.response.data,
@@ -216,7 +223,7 @@ function* loadCommunities() {
       type: actionTypesCommunity.LOAD_COMMUNITIES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_COMMUNITIES_ERROR,
       error: error.response.data,
@@ -229,12 +236,15 @@ function searchCommunitiesAPI(data: { keyword: string }) {
 }
 function* searchCommunities(action: ISearchCommunitiesRequest) {
   try {
-    const result: { data: ICommunity[] } = yield call(searchCommunitiesAPI, action.data);
+    const result: { data: ICommunity[] } = yield call(
+      searchCommunitiesAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.SEARCH_COMMUNITIES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.SEARCH_COMMUNITIES_ERROR,
       error: error.response.data,
@@ -242,8 +252,13 @@ function* searchCommunities(action: ISearchCommunitiesRequest) {
   }
 }
 
-function loadCountryCommunitiesAPI(data: { country: string; communityId: number }) {
-  return axios.get(`/communities/country/${data.country}?lastId=${data.communityId}`);
+function loadCountryCommunitiesAPI(data: {
+  country: string;
+  communityId: number;
+}) {
+  return axios.get(
+    `/communities/country/${data.country}?lastId=${data.communityId}`
+  );
 }
 function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
   try {
@@ -255,7 +270,7 @@ function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
       type: actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_COUNTRY_COMMUNITIES_ERROR,
       error: error.response.data,
@@ -263,8 +278,13 @@ function* loadCountryCommunities(action: ILoadCountryCommunitiesRequest) {
   }
 }
 
-function loadCategoryCommunitiesAPI(data: { categoryId: number; communityId: number }) {
-  return axios.get(`/communities/category/${data.categoryId}?lastId=${data.communityId}`);
+function loadCategoryCommunitiesAPI(data: {
+  categoryId: number;
+  communityId: number;
+}) {
+  return axios.get(
+    `/communities/category/${data.categoryId}?lastId=${data.communityId}`
+  );
 }
 function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
   try {
@@ -276,7 +296,7 @@ function* loadCategoryCommunities(action: ILoadCategoryCommunitiesRequest) {
       type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_COMMUNITIES_ERROR,
       error: error.response.data,
@@ -289,15 +309,13 @@ function loadCategoryAPI(data: { categoryId: number }) {
 }
 function* loadCategory(action: ILoadCategoryRequest) {
   try {
-    const result: { data: { category: ICategory; communityLength: number } } = yield call(
-      loadCategoryAPI,
-      action.data
-    );
+    const result: { data: { category: ICategory; communityLength: number } } =
+      yield call(loadCategoryAPI, action.data);
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORY_ERROR,
       error: error.response.data,
@@ -315,7 +333,7 @@ function* loadCategories() {
       type: actionTypesCommunity.LOAD_CATEGORIES_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LOAD_CATEGORIES_ERROR,
       error: error.response.data,
@@ -337,7 +355,7 @@ function* addMeet(action: IAddMeetRequest) {
       type: actionTypesUser.ADD_MEET_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.ADD_MEET_ERROR,
       error: error.response.data,
@@ -350,7 +368,10 @@ function removeMeetAPI(data: { meetId: number; communityId: number }) {
 }
 function* removeMeet(action: IRemoveMeetRequest) {
   try {
-    const result: { data: { meetId: number } } = yield call(removeMeetAPI, action.data);
+    const result: { data: { meetId: number } } = yield call(
+      removeMeetAPI,
+      action.data
+    );
     yield put({
       type: actionTypesCommunity.REMOVE_MEET_SUCCESS,
       data: result.data,
@@ -359,7 +380,7 @@ function* removeMeet(action: IRemoveMeetRequest) {
       type: actionTypesUser.REMOVE_MEET_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.REMOVE_MEET_ERROR,
       error: error.response.data,
@@ -381,7 +402,7 @@ function* joinMeet(action: IJoinMeetRequest) {
       type: actionTypesUser.JOIN_MEET_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.JOIN_MEET_ERROR,
       error: error.response.data,
@@ -390,7 +411,9 @@ function* joinMeet(action: IJoinMeetRequest) {
 }
 
 function leaveMeetAPI(data: { meetId: number; communityId: number }) {
-  return axios.delete(`/community/${data.communityId}/meet/${data.meetId}/leave`);
+  return axios.delete(
+    `/community/${data.communityId}/meet/${data.meetId}/leave`
+  );
 }
 function* leaveMeet(action: ILeaveMeetRequest) {
   try {
@@ -406,7 +429,7 @@ function* leaveMeet(action: ILeaveMeetRequest) {
       type: actionTypesUser.LEAVE_MEET_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.LEAVE_MEET_ERROR,
       error: error.response.data,
@@ -415,7 +438,10 @@ function* leaveMeet(action: ILeaveMeetRequest) {
 }
 
 function modifyMeetAPI(data: IModifyMeetData) {
-  return axios.patch(`/community/${data.communityId}/meet/${data.meetId}`, data);
+  return axios.patch(
+    `/community/${data.communityId}/meet/${data.meetId}`,
+    data
+  );
 }
 function* modifyMeet(action: IModifyMeetRequest) {
   try {
@@ -428,7 +454,7 @@ function* modifyMeet(action: IModifyMeetRequest) {
       type: actionTypesUser.MODIFY_MEET_OF_ME,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesCommunity.MODIFY_MEET_ERROR,
       error: error.response.data,
@@ -449,7 +475,10 @@ function* watchChangeCommunityInfo() {
   );
 }
 function* watchRemoveCommunity() {
-  yield takeLatest(actionTypesCommunity.REMOVE_COMMUNITY_REQUEST, removeCommunity);
+  yield takeLatest(
+    actionTypesCommunity.REMOVE_COMMUNITY_REQUEST,
+    removeCommunity
+  );
 }
 function* watchAddCommunity() {
   yield takeLatest(actionTypesCommunity.ADD_COMMUNITY_REQUEST, addCommunity);
@@ -458,22 +487,37 @@ function* watchJoinCommunity() {
   yield takeLatest(actionTypesCommunity.JOIN_COMMUNITY_REQUEST, joinCommunity);
 }
 function* watchAcceptCommunity() {
-  yield takeLatest(actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST, acceptCommunity);
+  yield takeLatest(
+    actionTypesCommunity.ACCEPT_COMMUNITY_REQUEST,
+    acceptCommunity
+  );
 }
 function* watchRefuseCommunity() {
-  yield takeLatest(actionTypesCommunity.REFUSE_COMMUNITY_REQUEST, refuseCommunity);
+  yield takeLatest(
+    actionTypesCommunity.REFUSE_COMMUNITY_REQUEST,
+    refuseCommunity
+  );
 }
 function* watchLeaveCommunity() {
-  yield takeLatest(actionTypesCommunity.LEAVE_COMMUNITY_REQUEST, leaveCommunity);
+  yield takeLatest(
+    actionTypesCommunity.LEAVE_COMMUNITY_REQUEST,
+    leaveCommunity
+  );
 }
 function* watchLoadCommunity() {
   yield takeLatest(actionTypesCommunity.LOAD_COMMUNITY_REQUEST, loadCommunity);
 }
 function* watchLoadCommunities() {
-  yield takeLatest(actionTypesCommunity.LOAD_COMMUNITIES_REQUEST, loadCommunities);
+  yield takeLatest(
+    actionTypesCommunity.LOAD_COMMUNITIES_REQUEST,
+    loadCommunities
+  );
 }
 function* watchsearchCommunities() {
-  yield takeLatest(actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST, searchCommunities);
+  yield takeLatest(
+    actionTypesCommunity.SEARCH_COMMUNITIES_REQUEST,
+    searchCommunities
+  );
 }
 function* watchLoadCountryCommunities() {
   yield takeLatest(
@@ -491,7 +535,10 @@ function* watchLoadCategory() {
   yield takeLatest(actionTypesCommunity.LOAD_CATEGORY_REQUEST, loadCategory);
 }
 function* watchLoadCategories() {
-  yield takeLatest(actionTypesCommunity.LOAD_CATEGORIES_REQUEST, loadCategories);
+  yield takeLatest(
+    actionTypesCommunity.LOAD_CATEGORIES_REQUEST,
+    loadCategories
+  );
 }
 function* watchAddMeet() {
   yield takeLatest(actionTypesCommunity.ADD_MEET_REQUEST, addMeet);

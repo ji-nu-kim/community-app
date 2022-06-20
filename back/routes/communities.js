@@ -9,7 +9,13 @@ router.get('/', async (req, res, next) => {
     const newCommunity = await Community.findAll({
       limit: 21,
       order: [['createdAt', 'DESC']],
-      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
+      attributes: [
+        'id',
+        'country',
+        'communityName',
+        'profilePhoto',
+        'createdAt',
+      ],
       include: [
         {
           model: Category,
@@ -35,7 +41,13 @@ router.get('/country/:country', async (req, res, next) => {
     const countryCommunity = await Community.findAll({
       limit: 21,
       order: [['createdAt', 'DESC']],
-      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
+      attributes: [
+        'id',
+        'country',
+        'communityName',
+        'profilePhoto',
+        'createdAt',
+      ],
       where,
       include: [
         {
@@ -58,6 +70,7 @@ router.get('/country/:country', async (req, res, next) => {
 // 카테고리별 커뮤니티 불러오기
 router.get('/category/:categoryId', async (req, res, next) => {
   try {
+    console.log('asdfasdf');
     const where = {};
     if (parseInt(req.query.lastId, 10)) {
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
@@ -66,7 +79,13 @@ router.get('/category/:categoryId', async (req, res, next) => {
       where,
       limit: 21,
       order: [['createdAt', 'DESC']],
-      attributes: ['id', 'country', 'communityName', 'profilePhoto', 'createdAt'],
+      attributes: [
+        'id',
+        'country',
+        'communityName',
+        'profilePhoto',
+        'createdAt',
+      ],
       include: {
         model: Category,
         through: 'COMMUNITY_CATEGORY',

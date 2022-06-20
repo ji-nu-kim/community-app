@@ -24,7 +24,7 @@ function* logIn(action: ILogInRequest) {
     yield put({
       type: actionTypesUser.LOG_IN_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.LOG_IN_ERROR,
       error: error.response.data,
@@ -41,7 +41,7 @@ function* logOut() {
     yield put({
       type: actionTypesUser.LOG_OUT_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.LOG_OUT_ERROR,
       error: error.response.data,
@@ -59,7 +59,7 @@ function* loadMyInfo() {
       type: actionTypesUser.LOAD_MY_INFO_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.LOAD_MY_INFO_ERROR,
       error: error.response.data,
@@ -77,7 +77,7 @@ function* uploadImage(action: IUploadImageRequest) {
       type: actionTypesUser.UPLOAD_IMAGE_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.UPLOAD_IMAGE_ERROR,
       error: error.response.data,
@@ -94,7 +94,7 @@ function* signUp(action: ISignUpRequest) {
     yield put({
       type: actionTypesUser.SIGN_UP_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.SIGN_UP_ERROR,
       error: error.response.data,
@@ -111,7 +111,7 @@ function* leave(action: ILeaveRequest) {
     yield put({
       type: actionTypesUser.LEAVE_SUCCESS,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.LEAVE_ERROR,
       error: error.response.data,
@@ -129,7 +129,7 @@ function* changeProfile(action: IChangeProfileRequest) {
       type: actionTypesUser.CHANGE_PROFILE_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.CHANGE_PROFILE_ERROR,
       error: error.response.data,
@@ -150,7 +150,7 @@ function* changeCountry(action: IChangeCountryRequest) {
       type: actionTypesUser.CHANGE_COUNTRY_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.CHANGE_COUNTRY_ERROR,
       error: error.response.data,
@@ -169,7 +169,7 @@ function* checkNotification() {
       type: actionTypesUser.CHECK_NOTIFICATION_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.CHECK_NOTIFICATION_ERROR,
       error: error.response.data,
@@ -191,7 +191,7 @@ function* removeNotification(action: IRemoveNotificationRequest) {
       type: actionTypesUser.REMOVE_NOTIFICATION_SUCCESS,
       data: result.data,
     });
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: actionTypesUser.REMOVE_NOTIFICATION_ERROR,
       error: error.response.data,
@@ -224,10 +224,16 @@ function* watchChangeCountry() {
   yield takeLatest(actionTypesUser.CHANGE_COUNTRY_REQUEST, changeCountry);
 }
 function* watchCheckNotification() {
-  yield takeLatest(actionTypesUser.CHECK_NOTIFICATION_REQUEST, checkNotification);
+  yield takeLatest(
+    actionTypesUser.CHECK_NOTIFICATION_REQUEST,
+    checkNotification
+  );
 }
 function* watchRemoveNotification() {
-  yield takeLatest(actionTypesUser.REMOVE_NOTIFICATION_REQUEST, removeNotification);
+  yield takeLatest(
+    actionTypesUser.REMOVE_NOTIFICATION_REQUEST,
+    removeNotification
+  );
 }
 
 export default function* userSaga() {

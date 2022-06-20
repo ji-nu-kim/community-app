@@ -4,7 +4,14 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
 const path = require('path');
-const { User, Community, Category, Notice, Meet, sequelize } = require('../models');
+const {
+  User,
+  Community,
+  Category,
+  Notice,
+  Meet,
+  sequelize,
+} = require('../models');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
@@ -104,9 +111,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
         email: req.body.email,
       },
     });
-    if (exUser) {
-      return res.status(403).send('이미 사용중인 아이디입니다');
-    }
+    if (exUser) return res.status(403).send('이미 사용중인 아이디입니다');
+
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     await User.create({
       email: req.body.email,
@@ -127,7 +133,10 @@ router.delete('/:userId', async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { id: req.params.userId },
-      include: [{ model: Community, through: 'COMMUNITY_USER' }, { model: Notice }],
+      include: [
+        { model: Community, through: 'COMMUNITY_USER' },
+        { model: Notice },
+      ],
     });
     if (!user) {
       await t.rollback();
@@ -135,17 +144,22 @@ router.delete('/:userId', async (req, res, next) => {
     }
     const userCommunity = user.Communities;
     if (userCommunity.length) {
-      return res.status(404).send('커뮤니티에 가입된 상태에서는 탈퇴가 불가능합니다');
+      return res
+        .status(404)
+        .send('커뮤니티에 가입된 상태에서는 탈퇴가 불가능합니다');
     }
     const categories = await user.getCategories();
     if (categories.length) {
       categories.map(
-        async category => await user.removeCategories(category.id, { transaction: t })
+        async category =>
+          await user.removeCategories(category.id, { transaction: t })
       );
     }
     const notices = user.Notices;
     if (notices.length) {
-      notices.map(async notice => await notice.destroy(notice.id, { transaction: t }));
+      notices.map(
+        async notice => await notice.destroy(notice.id, { transaction: t })
+      );
     }
     await user.destroy({ transaction: t });
     await t.commit();
@@ -228,22 +242,29 @@ router.patch('/notification', isLoggedIn, async (req, res, next) => {
 });
 
 // 알림 삭제
-router.delete('/notification/:notificationId', isLoggedIn, async (req, res, next) => {
-  try {
-    await Notice.destroy({ where: { id: req.params.notificationId } });
-    return res
-      .status(200)
-      .json({ notificationId: parseInt(req.params.notificationId, 10) });
-  } catch (error) {
-    console.error(error);
-    next(error);
+router.delete(
+  '/notification/:notificationId',
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      await Notice.destroy({ where: { id: req.params.notificationId } });
+      return res
+        .status(200)
+        .json({ notificationId: parseInt(req.params.notificationId, 10) });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 // 주소 변경
 router.patch('/country', isLoggedIn, async (req, res, next) => {
   try {
-    await User.update({ country: req.body.country }, { where: { id: req.user.id } });
+    await User.update(
+      { country: req.body.country },
+      { where: { id: req.user.id } }
+    );
     return res.status(200).json({ country: req.body.country });
   } catch (error) {
     console.error(error);

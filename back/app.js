@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
-      origin: 'https://jinu-community.site',
+      origin: 'https://jinujinukim.site',
       credentials: true,
     })
   );
@@ -62,7 +62,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: true,
-      domain: process.env.NODE_ENV === 'production' && '.jinu-community.site',
+      domain: process.env.NODE_ENV === 'production' && '.jinujinukim.site',
     },
   })
 );
